@@ -1,4 +1,4 @@
-import { artifactMetadata, resolveArtifact, staticRouteParams } from "@nubbin/next";
+import { artifactMetadata, resolveArtifact } from "@nubbin/next";
 import { Renderer } from "@nubbin/react";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
@@ -8,19 +8,29 @@ import { demoStore } from "@/nubbin/demoStore";
 import { resolveDemoHole } from "@/nubbin/resolveDemoHole";
 
 /**
- * `[[...slug]]`, the optional form: a pointer at `/` yields `{ slug: [] }` from
- * `staticRouteParams`, which only the optional form accepts — the required `[...slug]` cannot
- * match `/` at all, so the adapter's root case (`routeFromSlug` maps an absent slug to `/`)
- * would be unreachable in its own reference consumer. The coded originals live under
+ * Every route this catch-all serves renders on demand.
+ *
+ * `[[...slug]]` is the optional form: only it matches `/`, which the required `[...slug]`
+ * cannot, so the adapter's root case (`routeFromSlug` maps an absent slug to `/`) would
+ * otherwise be unreachable in its own reference consumer. The coded originals live under
  * `/reference/*`, so no literal route competes with this one for `/`.
  *
- * A route published after this build is absent from `generateStaticParams` and still resolves
- * here rather than 404ing, because `dynamicParams` defaults to true and nothing turns it off.
- * That default is the whole publish-without-deploy claim, and #55 measures it.
+ * The demo resolves holes against its own `/api/now` — the only data source it has — so a page
+ * carrying a hole cannot be rendered by a build, where nothing is listening: `/pricing` died
+ * with ECONNREFUSED. Leaving those routes out of `generateStaticParams` did not help either,
+ * because a route absent from it is still *statically generated on demand*, and a `"request"`
+ * hole maps to `cache: "no-store"`, which that render refuses with `DYNAMIC_SERVER_USAGE`.
+ * `connection()` in the page body was not enough to reopen it.
+ *
+ * So the whole route is dynamic. This costs the demo prerendering, which it was never actually
+ * doing — with `.nubbin/` gitignored, a clean checkout published nothing before `next build`
+ * and prerendered zero pages, which is why none of this surfaced. It costs the *product*
+ * nothing: a consumer whose CMS is up during CI prerenders these pages normally.
+ *
+ * Publishing without a deploy is unaffected, and in fact simpler to see: every request reads
+ * the pointer, so a route published a second ago serves immediately.
  */
-export async function generateStaticParams(): Promise<{ slug: string[] }[]> {
-  return staticRouteParams(demoStore);
-}
+export const dynamic = "force-dynamic";
 
 /**
  * `cache` because Next calls `generateMetadata` and the page for one request, and both need the
