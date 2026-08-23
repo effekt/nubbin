@@ -6,7 +6,6 @@ export const SUMMER: Artifact = {
   route: "/promotions/summer",
   documentId: "d1",
   documentVersion: 1,
-  registryFingerprint: "f",
   blockVersions: {},
   tree: [],
   meta: { title: "t" },

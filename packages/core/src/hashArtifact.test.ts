@@ -7,7 +7,6 @@ describe("hashArtifact", () => {
       route: "/x",
       documentId: "d",
       documentVersion: 1,
-      registryFingerprint: "f",
       blockVersions: { Hero: 1, Card: 1 },
       tree: [],
       meta: { title: "t" },
@@ -18,7 +17,6 @@ describe("hashArtifact", () => {
       meta: { title: "t" },
       tree: [],
       blockVersions: { Card: 1, Hero: 1 },
-      registryFingerprint: "f",
       documentVersion: 1,
       documentId: "d",
       route: "/x",
@@ -31,13 +29,12 @@ describe("hashArtifact", () => {
       route: "/x",
       documentId: "d",
       documentVersion: 1,
-      registryFingerprint: "f",
       blockVersions: { Hero: 1 },
       tree: [],
       meta: { title: "t" },
       compiledWith: "0.0.0",
     };
     expect(hashArtifact({ ...base, documentVersion: 2 })).not.toBe(hashArtifact(base));
-    expect(hashArtifact({ ...base, registryFingerprint: "g" })).not.toBe(hashArtifact(base));
+    expect(hashArtifact({ ...base, route: "/elsewhere" })).not.toBe(hashArtifact(base));
   });
 });

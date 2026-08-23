@@ -35,7 +35,7 @@ describe("renderNode", () => {
     };
     const html = renderToStaticMarkup(
       await renderNode(
-        { id: "p1", block: "Price", props: {}, holes: { amount: "request" } },
+        { id: "p1", block: "Price", props: {}, holes: { amount: { revalidate: 60 } } },
         { route: "/x", blocks: { Price }, resolveHole: async () => 42 },
       ),
     );

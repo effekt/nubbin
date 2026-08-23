@@ -19,7 +19,6 @@ const artifact: Artifact = {
   route: "/",
   documentId: "home",
   documentVersion: 1,
-  registryFingerprint: "f",
   blockVersions: { Hero: 1, LogoWall: 2 },
   tree: [],
   meta: { title: "Home" },

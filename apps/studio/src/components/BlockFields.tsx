@@ -12,7 +12,6 @@ export function BlockFields({ name, entry }: BlockFieldsProps) {
   return (
     <article className="rounded-md border border-marine/15 bg-white p-4">
       <h3 className="font-semibold text-lg text-marine">{name}</h3>
-      {entry.docs?.summary === undefined ? null : <p className="mt-1">{entry.docs.summary}</p>}
       <table className="mt-3 w-full text-left text-sm">
         <thead>
           <tr className="border-marine/20 border-b">

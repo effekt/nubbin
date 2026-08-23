@@ -10,7 +10,6 @@ export type {
 export type { Block, InferProps, SlotConstraint, UnknownProps } from "./block.types";
 export { CompileError } from "./CompileError";
 export type {
-  BlockDocs,
   BlockUi,
   Catalog,
   CatalogEntry,

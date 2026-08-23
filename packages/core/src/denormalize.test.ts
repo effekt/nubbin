@@ -41,9 +41,9 @@ describe("denormalize", () => {
   test("records a hole where the resolver reports one", () => {
     const [node] = denormalize(
       doc({ n1: { id: "n1", block: "Card", props: { label: "L", price: 1 } } }),
-      (node) => ({ props: { label: node.props.label }, holes: { price: "request" } }),
+      (node) => ({ props: { label: node.props.label }, holes: { price: { revalidate: 60 } } }),
     );
-    expect(node?.holes).toEqual({ price: "request" });
+    expect(node?.holes).toEqual({ price: { revalidate: 60 } });
     expect(node?.props).toEqual({ label: "L" });
   });
 

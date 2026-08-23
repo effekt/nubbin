@@ -5,7 +5,7 @@ export interface HoleContext {
   nodeId: string;
   block: string;
   path: string;
-  /** `"request"` or `{ revalidate: n }` — exactly what compile wrote into the artifact. */
+  /** `{ revalidate: n }` — exactly what compile wrote into the artifact. */
   spec: FieldHintData;
 }
 
