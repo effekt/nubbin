@@ -10,6 +10,10 @@ import { type DemoServer, startDemoServer } from "./startDemoServer";
 const PORT = 3123;
 /** `/about` rather than `/`: a leaf route, and one no other assertion in this file republishes. */
 const ROUTE = "/about";
+/** A fixture the publish script deliberately leaves unpublished, so the build never saw it. */
+const FRESH_ROUTE = "/promotions/flash";
+/** The one fixture carrying holes of both kinds. */
+const HOLE_ROUTE = "/live/pulse";
 
 /**
  * The whole loop, asserted on served bytes at every step: compile a document, write it to the
@@ -54,6 +58,16 @@ describe("the publish loop, end to end", () => {
     });
     expect(response.ok).toBe(true);
     return artifact.hash;
+  };
+
+  /** Removes the pointer through the server, for the same reason publishing goes through it. */
+  const unpublishThroughServer = async (route: string) => {
+    const response = await fetch(`${server.origin}/api/nubbin/unpublish`, {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({ route }),
+    });
+    expect(response.ok).toBe(true);
   };
 
   test("a compiled artifact reaches the browser through resolveArtifact", async () => {
@@ -116,5 +130,51 @@ describe("the publish loop, end to end", () => {
   test("a route with no pointer is a server 404, not an empty page", async () => {
     const missing = await get("/no-document-was-ever-published-here");
     expect(missing.status).toBe(404);
+  });
+
+  // The publish-without-deploy claim in the one direction that proves it: a route this build
+  // never knew about, answering 404, reachable after a publish and no deploy in between.
+  test("publishing a route the build never saw makes it reachable", async () => {
+    // Arranged, not assumed. A previous run — or a previous failure — can leave this route
+    // published, and a test whose precondition depends on that is a test that reports the last
+    // run rather than this one.
+    await unpublishThroughServer(FRESH_ROUTE);
+    const before = await get(FRESH_ROUTE);
+    expect(before.status).toBe(404);
+
+    await publishThroughServer(FRESH_ROUTE);
+
+    const after = await get(FRESH_ROUTE);
+    expect(after.status).toBe(200);
+    expect(after.body).toMatch(/data-nubbin-node="/);
+  });
+
+  // The other direction, and the one a stale cache hides: a live route has to stop being live.
+  // A 200 serving an empty page would satisfy "unpublished" to a reader and to nobody else.
+  test("unpublishing a live route makes it a server 404 again", async () => {
+    await publishThroughServer(FRESH_ROUTE);
+    expect((await get(FRESH_ROUTE)).status).toBe(200);
+
+    await unpublishThroughServer(FRESH_ROUTE);
+
+    expect((await get(FRESH_ROUTE)).status).toBe(404);
+  });
+
+  // `/promotions/flash` is the fixture the publish script leaves alone, and two tests above
+  // borrow it. Handing it back unpublished keeps them independent of each other's order and of
+  // the last run's outcome.
+  afterAll(async () => {
+    await unpublishThroughServer(FRESH_ROUTE).catch(() => undefined);
+  });
+
+  // Every other test here uses a frozen page, so nothing yet proves a hole is filled at render
+  // rather than left as the compile-time absence it is in the artifact.
+  test("a hole is resolved into the served page, not left empty", async () => {
+    await publishThroughServer(HOLE_ROUTE);
+    const page = await get(HOLE_ROUTE);
+    expect(page.status).toBe(200);
+    // `demoHoleValue` shapes `StatBand.stats` into rows whose label is this sentence, and the
+    // artifact carries no value for it — so seeing it served means the resolver ran.
+    expect(page.body).toContain("times /api/now has answered");
   });
 });
