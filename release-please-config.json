@@ -1,33 +1,26 @@
 {
   "$schema": "https://raw.githubusercontent.com/googleapis/release-please/main/schemas/config.json",
   "release-type": "node",
-  "versioning": "prerelease",
-  "prerelease": true,
   "bump-minor-pre-major": true,
   "separate-pull-requests": false,
   "group-pull-request-title-pattern": "chore(repo): release ${branch}",
   "last-release-sha": "8de65eff7d12ab4ee4a1e2179654aaf04d734245",
   "packages": {
     "packages/cli": {
-      "component": "cli",
-      "prerelease-type": "rc"
+      "component": "cli"
     },
     "packages/core": {
       "component": "core",
-      "prerelease-type": "rc",
       "extra-files": ["src/version.constants.ts"]
     },
     "packages/next": {
-      "component": "next",
-      "prerelease-type": "rc"
+      "component": "next"
     },
     "packages/react": {
-      "component": "react",
-      "prerelease-type": "rc"
+      "component": "react"
     },
     "packages/store-fs": {
-      "component": "store-fs",
-      "prerelease-type": "rc"
+      "component": "store-fs"
     }
   },
   "plugins": [
