@@ -30,6 +30,7 @@ import { fileURLToPath } from "node:url";
  * landing page, whose readers are not agents looking for a unit.
  */
 export const CATALOGS = [
+  { dir: "packages/cli", kind: "package" },
   { dir: "packages/core", kind: "package" },
   { dir: "packages/next", kind: "package" },
   { dir: "packages/react", kind: "package" },
