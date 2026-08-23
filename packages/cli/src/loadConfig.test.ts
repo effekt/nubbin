@@ -25,7 +25,32 @@ const writeProject = async (config: string, extension = "ts"): Promise<string> =
   return join(root, `nubbin.config.${extension}`);
 };
 
+// A block definition carries its component beside its schema, so reaching a consumer's registry
+// means parsing JSX. Nothing here imports React and nothing needs to: the transform emits a call
+// that is only reached by rendering, which the CLI never does.
+const COMPONENT = `
+export const Hero = () => <section data-block="Hero">live</section>;
+export const version = 1;
+`;
+
+const CONFIG_WITH_COMPONENT = `
+import { Hero, version } from "./Hero";
+
+export default {
+  catalog: {}, registry: { get: () => ({ component: Hero, version }) }, store: {},
+  document: (route) => ({ route }),
+};
+`;
+
 describe("loadConfig", () => {
+  test("loads a config that reaches a block's component, JSX and all", async () => {
+    const root = await mkdtemp(join(tmpdir(), "nubbin-cli-jsx-"));
+    await writeFile(join(root, "Hero.tsx"), COMPONENT);
+    const path = join(root, "nubbin.config.ts");
+    await writeFile(path, CONFIG_WITH_COMPONENT);
+    expect(await loadConfig(path)).toHaveProperty("registry");
+  });
+
   test("loads a TypeScript config whose imports are extensionless", async () => {
     const config = await loadConfig(await writeProject(CONFIG));
     expect(config.document("/pricing")).toEqual({ route: "/pricing" });

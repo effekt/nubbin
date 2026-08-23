@@ -51,6 +51,11 @@ The file is imported through [jiti](https://github.com/unjs/jiti). A config that
 application imports the way that application does — extensionless specifiers, path aliases,
 TypeScript throughout — and none of that resolves under bare Node.
 
+A block definition carries its component beside its schema, so reaching a registry means loading
+`.tsx` files. JSX is parsed, and nothing more: the call it compiles to is reached by rendering,
+which no command does. **React need not be installed** for any of these commands to run, which is
+what keeps `check` runnable in a CI job that installs nothing but the CLI.
+
 ## The commands
 
 | Command | Effect |
