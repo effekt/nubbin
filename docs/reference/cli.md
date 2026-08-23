@@ -7,9 +7,9 @@ status: reference
 # The command line
 
 This page describes the shipped surface of `@nubbin/cli`: the config a consumer writes, the six
-commands that read it, and the codes the process exits with. It drives the same functions an
-editor would call, which is what makes a terminal, a CI job and a studio three callers of one
-contract rather than three implementations of one behaviour.
+commands that read it, and the codes the process exits with. Why the publish path ships as a
+command line at all, and what this package is not allowed to decide, is
+[its own decision](../decisions/publishing-has-a-driver-that-is-not-an-editor.md).
 
 The package installs a `nubbin` executable and exports `defineConfig`. Nothing else in the
 repository imports it.
