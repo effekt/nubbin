@@ -62,6 +62,9 @@ TypeScript throughout — and none of that resolves under bare Node.
 | `status [route]` | what is live, everywhere or at one route |
 | `check` | every live route against the registry as it is now |
 
+A command refuses a positional it does not read. `check` takes none, and answering
+`check /pricing` by checking everything would be a lie told quietly.
+
 ### `publish`
 
 Write, then point. A pointer at a hash nothing has written is a live 404; an artifact nothing

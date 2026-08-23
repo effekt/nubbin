@@ -29,6 +29,12 @@ describe("runCli", () => {
     expect(outcome.code).toBe(2);
   });
 
+  test("refuses an argument the command does not read, rather than ignoring it", async () => {
+    const outcome = await runCli(["check", "/pricing"], await nowhere());
+    expect(outcome.lines.join("\n")).toMatch(/check reads 0 argument/);
+    expect(outcome.code).toBe(2);
+  });
+
   test("an unknown flag stops the run before any config is loaded", async () => {
     const outcome = await runCli(["publish", "/pricing", "--orgin", "x"], await nowhere());
     expect(outcome.code).toBe(2);

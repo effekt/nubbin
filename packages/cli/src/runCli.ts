@@ -4,6 +4,7 @@ import { exitCodeFor } from "./exitCodeFor";
 import { formatRefusal } from "./formatRefusal";
 import { parseCliArgs } from "./parseCliArgs";
 import { resolveConfig } from "./resolveConfig";
+import { UsageError } from "./UsageError";
 import { usageOutcome } from "./usageOutcome";
 
 /**
@@ -17,9 +18,12 @@ import { usageOutcome } from "./usageOutcome";
 export async function runCli(argv: readonly string[], cwd: string): Promise<CommandOutcome> {
   try {
     const { command, configPath, args } = parseCliArgs(argv);
-    const run = command === undefined ? undefined : COMMANDS[command];
-    if (run === undefined) return usageOutcome(command);
-    return await run(await resolveConfig(cwd, configPath), args);
+    const entry = command === undefined ? undefined : COMMANDS[command];
+    if (entry === undefined) return usageOutcome(command);
+    if (args.positionals.length > entry.takes) {
+      throw new UsageError(`${command} reads ${entry.takes} argument(s), and was given more`);
+    }
+    return await entry.run(await resolveConfig(cwd, configPath), args);
   } catch (error) {
     return { lines: formatRefusal(error), code: exitCodeFor(error) };
   }

@@ -17,3 +17,9 @@ export interface CommandOutcome {
 }
 
 export type Command = (config: NubbinConfig, args: CommandArgs) => Promise<CommandOutcome>;
+
+/** One command as the bin holds it: what to run, and how many positionals it reads. */
+export interface CommandEntry {
+  run: Command;
+  takes: number;
+}
