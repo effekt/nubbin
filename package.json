@@ -45,6 +45,7 @@
     "knip": "knip",
     "boundaries": "node -e \"const{existsSync}=require('node:fs');const d=['packages','apps','examples'].filter(existsSync);if(!d.length){console.log('no source directories yet');process.exit(0)}require('node:child_process').execFileSync('pnpm',['exec','depcruise',...d,'--config','.dependency-cruiser.cjs'],{stdio:'inherit'})\"",
     "guardrail": "turbo run build --filter=demo^... && pnpm --filter demo run guardrail",
+    "e2e": "turbo run build --filter=demo^... && pnpm --filter demo run e2e",
     "type-coverage": "type-coverage --project tsconfig.type-coverage.json --at-least 99 --strict --ignore-files \"**/*.test.ts?(x)\" --detail",
     "core-version": "vitest run tests/coreVersionStamp.test.mjs",
     "publint": "pnpm --filter \"./packages/*\" exec publint",

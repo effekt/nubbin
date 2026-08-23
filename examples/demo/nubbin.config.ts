@@ -1,3 +1,4 @@
+import { defineConfig } from "@nubbin/cli";
 import { fixtureRoutes } from "./fixtures/fixtureRoutes";
 import { stampedVersion } from "./scripts/stampedVersion";
 import { catalog } from "./src/nubbin/catalog";
@@ -15,7 +16,7 @@ import { registry } from "./src/nubbin/registry";
  * document is content-addressed to the same hash, so the pointer would not move and no
  * assertion could tell an invalidated page from an untouched one.
  */
-export default {
+export default defineConfig({
   catalog,
   registry,
   store: demoStore,
@@ -23,4 +24,4 @@ export default {
     const version = fixtureRoutes[route];
     return version === undefined ? null : stampedVersion(version, process.env.STAMP);
   },
-};
+});

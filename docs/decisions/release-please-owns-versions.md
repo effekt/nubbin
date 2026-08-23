@@ -41,5 +41,5 @@ the choice to sit on a prerelease tag — a choice this project is exercising.
 Rejected, within release-please: the `node-workspace` plugin, which rewrites internal dependency
 ranges. Internal dependencies here are written `workspace:*` and pnpm resolves them when it packs,
 so there is nothing for it to do and a version range where the protocol belongs is the failure it
-would produce. `linked-versions` moves the four packages as one and leaves dependency ranges
+would produce. `linked-versions` moves the packages as one and leaves dependency ranges
 alone, which is what a workspace protocol needs from it.

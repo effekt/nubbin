@@ -28,10 +28,8 @@
       "entry": ["src/app/**/{page,layout,not-found,error,loading,route}.{ts,tsx}"],
       "project": ["src/**/*.{ts,tsx}"]
     },
-    // `nubbin.config.ts` is an entry the way a route file is: nothing here imports it, and the
-    // CLI loads it from outside. `@nubbin/cli` is ignored for the mirror-image reason — the demo
-    // depends on it as a command its e2e suite spawns, which is the one thing that leaves no
-    // import for knip to follow.
+    // `nubbin.config.ts` is an entry the way a route file is: nothing in the demo imports it,
+    // and the CLI loads it from outside.
     "examples/*": {
       "entry": [
         "src/app/**/{page,layout,not-found,error,loading,route}.{ts,tsx}",
@@ -43,8 +41,7 @@
         "fixtures/**/*.ts",
         "guardrail/**/*.ts",
         "nubbin.config.ts"
-      ],
-      "ignoreDependencies": ["@nubbin/cli"]
+      ]
     },
     "packages/*": {
       "entry": ["src/index.ts"],
