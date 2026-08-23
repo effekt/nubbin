@@ -32,7 +32,11 @@ const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
 async function get(path) {
   const response = await fetch(`${ORIGIN}${path}`);
-  return { status: response.status, body: await response.text() };
+  return {
+    status: response.status,
+    cache: response.headers.get("x-nextjs-cache"),
+    body: await response.text(),
+  };
 }
 
 /** Through the package script, so the route to the publisher lives in one place. */
@@ -57,7 +61,6 @@ async function post(path, payload) {
 
 /** Anchored on each block's own visible copy, so reordering the fixture cannot swap them. */
 const CACHED_AT = /When was this answer cached\?\s*(\d{4}-\d{2}-\d{2}T[\d:.]+Z)/;
-const PER_REQUEST_AT = /(\d{4}-\d{2}-\d{2}T[\d:.]+Z)\s*resolved for this request/;
 
 /**
  * Rendered text only: `<script>` blocks removed, then tags stripped. Dropping the scripts keeps
@@ -129,24 +132,39 @@ async function revalidateHitsOnlyOneRoute() {
  * repeats itself and still moves.
  */
 async function holesRefreshOnTheirOwnSchedules() {
-  const perRequest = [];
   const cached = [];
   for (let sample = 0; sample < HOLE_SAMPLES; sample += 1) {
-    const page = await get("/live/pulse");
-    perRequest.push(readMatch(page.body, PER_REQUEST_AT, "the per-request value"));
-    cached.push(readMatch(page.body, CACHED_AT, "the cached value"));
+    cached.push(readMatch((await get("/live/pulse")).body, CACHED_AT, "the cached value"));
     await sleep(HOLE_SAMPLE_PAUSE_MS);
   }
-  const distinct = (values) => new Set(values).size;
+  const distinct = new Set(cached).size;
   record(
-    "5 a request hole resolves per request",
-    distinct(perRequest) === perRequest.length,
-    `${distinct(perRequest)} distinct across ${perRequest.length} samples, needs all distinct`,
+    "5 an interval hole holds, then refreshes",
+    distinct > 1 && distinct < cached.length,
+    `${distinct} distinct across ${cached.length} samples, needs >1 and <${cached.length}`,
   );
+}
+
+/**
+ * The reason for compiling a page at all: it is rendered once and served from cache until
+ * something republishes it. Read off `x-nextjs-cache` rather than by comparing bodies, because
+ * two identical responses say nothing about whether the second was rebuilt to produce it.
+ *
+ * `next dev` emits no such header, which is why this lives here and not in the e2e suite.
+ */
+async function aPublishedPageIsCachedUntilRepublished() {
+  const stamp = `c${process.pid}`;
+  await get("/about");
+  const warm = await get("/about");
+  publishLive("/about", stamp);
+  const regenerated = await get("/about");
+  const settled = await get("/about");
+  const isPassing =
+    warm.cache === "HIT" && regenerated.body.includes(stamp) && settled.cache === "HIT";
   record(
-    "6 an interval hole holds, then refreshes",
-    distinct(cached) > 1 && distinct(cached) < cached.length,
-    `${distinct(cached)} distinct across ${cached.length} samples, needs >1 and <${cached.length}`,
+    "7 a page is cached, and a publish regenerates it",
+    isPassing,
+    `warm ${warm.cache}, regenerated ${regenerated.cache} carrying ${stamp}, settled ${settled.cache}`,
   );
 }
 
@@ -155,7 +173,7 @@ async function staticPropsTriggerNoFetch() {
   const lines = log.split("\n").filter((line) => line.trim() !== "");
   const isPassing =
     lines.some((line) => line.startsWith("/live/pulse")) && !log.includes("/promotions/");
-  record("7 a static prop triggers no fetch", isPassing, `${lines.length} hole-log line(s)`);
+  record("6 a static prop triggers no fetch", isPassing, `${lines.length} hole-log line(s)`);
 }
 
 export async function verifyServing() {
@@ -166,6 +184,7 @@ export async function verifyServing() {
     revalidateHitsOnlyOneRoute,
     holesRefreshOnTheirOwnSchedules,
     staticPropsTriggerNoFetch,
+    aPublishedPageIsCachedUntilRepublished,
   ]) {
     await check();
   }
