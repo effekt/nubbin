@@ -1,0 +1,54 @@
+{
+  "name": "@nubbin/cli",
+  "version": "0.1.0-rc.7",
+  "description": "The terminal driver for Nubbin's publish path: compile a document, publish an artifact, roll a route back, and check what is live against the blocks in code.",
+  "keywords": [
+    "nubbin",
+    "cli",
+    "page-builder",
+    "cms",
+    "publishing"
+  ],
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/effekt/nubbin.git",
+    "directory": "packages/cli"
+  },
+  "homepage": "https://effekt.github.io/nubbin/",
+  "bugs": "https://github.com/effekt/nubbin/issues",
+  "type": "module",
+  "sideEffects": false,
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "bin": {
+    "nubbin": "./dist/bin.js"
+  },
+  "files": [
+    "dist"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "build": "tsup",
+    "test": "vitest run",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@nubbin/core": "workspace:*",
+    "jiti": "catalog:"
+  },
+  "devDependencies": {
+    "@nubbin/store-fs": "workspace:*",
+    "@types/node": "catalog:",
+    "tsup": "catalog:",
+    "typescript": "catalog:",
+    "vitest": "catalog:",
+    "zod": "catalog:"
+  }
+}

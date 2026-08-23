@@ -243,6 +243,7 @@ describe("generate", () => {
       [
         ".claude/CATALOG.md",
         "apps/studio/CATALOG.md",
+        "packages/cli/CATALOG.md",
         "packages/core/CATALOG.md",
         "packages/next/CATALOG.md",
         "packages/react/CATALOG.md",

@@ -45,6 +45,9 @@ catalogs:
     happy-dom:
       specifier: 20.11.2
       version: 20.11.2
+    jiti:
+      specifier: 2.7.0
+      version: 2.7.0
     jscpd:
       specifier: 5.0.15
       version: 5.0.15
@@ -257,6 +260,9 @@ importers:
         specifier: 'catalog:'
         version: 4.4.3
     devDependencies:
+      '@nubbin/cli':
+        specifier: workspace:*
+        version: link:../../packages/cli
       '@tailwindcss/postcss':
         specifier: 'catalog:'
         version: 4.3.3
@@ -291,6 +297,34 @@ importers:
         specifier: 'catalog:'
         version: 4.1.10(@types/node@25.9.2)(happy-dom@20.11.2)(vite@8.2.1(@types/node@25.9.2)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.50.0)(tsx@4.23.12)(yaml@2.9.0))
 
+  packages/cli:
+    dependencies:
+      '@nubbin/core':
+        specifier: workspace:*
+        version: link:../core
+      jiti:
+        specifier: 'catalog:'
+        version: 2.7.0
+    devDependencies:
+      '@nubbin/store-fs':
+        specifier: workspace:*
+        version: link:../store-fs
+      '@types/node':
+        specifier: 'catalog:'
+        version: 25.9.2
+      tsup:
+        specifier: 'catalog:'
+        version: 8.5.1(jiti@2.7.0)(postcss@8.5.26)(supports-color@8.1.1)(tsx@4.23.12)(typescript@6.0.3)(yaml@2.9.0)
+      typescript:
+        specifier: 'catalog:'
+        version: 6.0.3
+      vitest:
+        specifier: 'catalog:'
+        version: 4.1.10(@types/node@25.9.2)(happy-dom@20.11.2)(vite@8.2.1(@types/node@25.9.2)(esbuild@0.27.7)(jiti@2.7.0)(terser@5.50.0)(tsx@4.23.12)(yaml@2.9.0))
+      zod:
+        specifier: 'catalog:'
+        version: 4.4.3
+
   packages/core:
     dependencies:
       '@standard-schema/spec':
@@ -305,7 +339,7 @@ importers:
         version: 6.0.3
       vitest:
         specifier: 'catalog:'
-        version: 4.1.10(@types/node@25.9.2)(happy-dom@20.11.2)(vite@8.2.1(@types/node@25.9.2)(esbuild@0.27.7)(jiti@2.7.0)(terser@5.50.0)(tsx@4.23.12)(yaml@2.9.0))
+        version: 4.1.10(@types/node@25.9.2)(happy-dom@20.11.2)(vite@8.2.1(@types/node@25.9.2)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.50.0)(tsx@4.23.12)(yaml@2.9.0))
       zod:
         specifier: 'catalog:'
         version: 4.4.3

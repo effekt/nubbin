@@ -85,6 +85,24 @@ module.exports = {
       to: { path: "(^|/)node_modules/(react|react-dom|next)(/|$)|^(react|react-dom|next)(/|$)" },
     },
     {
+      name: "cli-imports-no-framework",
+      severity: "error",
+      comment:
+        "The CLI publishes with no framework loaded — which is what lets it run in a CI job " +
+        "that installs no React. See .claude/rules/package-boundaries.md.",
+      from: { path: "^packages/cli/src" },
+      to: { path: "(^|/)node_modules/(react|react-dom|next)(/|$)|^(react|react-dom|next)(/|$)" },
+    },
+    {
+      name: "cli-composes-through-core",
+      severity: "error",
+      comment:
+        "The CLI drives the publish path through core and whatever store a consumer configured. " +
+        "A binding import would tie a terminal command to one framework.",
+      from: { path: "^packages/cli/src" },
+      to: { path: "^packages/(react|next)/" },
+    },
+    {
       name: "no-deep-package-imports",
       severity: "error",
       comment:

@@ -22,6 +22,7 @@ packages/
   react/      @nubbin/react      — render an artifact tree with a block registry
   next/       @nubbin/next       — catch-all route, preview route, draft resolution
   store-fs/   @nubbin/store-fs   — reference storage adapter
+  cli/        @nubbin/cli        — compile, publish, roll back and check, from a terminal
 apps/
   studio/     the editor — pulled and run alongside your app, never a hosted service
 ```
