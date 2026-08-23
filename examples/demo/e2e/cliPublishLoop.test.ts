@@ -9,6 +9,8 @@ const run = promisify(execFile);
 const PORT = 3124;
 const ROUTE = "/security";
 const DEMO_ROOT = new URL("..", import.meta.url).pathname;
+/** The built executable itself: the `.bin` symlink only exists once a build has already run. */
+const NUBBIN = new URL("../../../packages/cli/dist/bin.js", import.meta.url).pathname;
 
 /**
  * The publish loop again, driven by the binary a consumer installs rather than by this process
@@ -38,7 +40,7 @@ describe("the publish loop, driven by the CLI", () => {
   const nubbin = async (args: readonly string[], stamp?: string) => {
     const env = stamp === undefined ? process.env : { ...process.env, STAMP: stamp };
     try {
-      const { stdout } = await run("pnpm", ["exec", "nubbin", ...args], { cwd: DEMO_ROOT, env });
+      const { stdout } = await run(process.execPath, [NUBBIN, ...args], { cwd: DEMO_ROOT, env });
       return { out: stdout.trim(), code: 0 };
     } catch (error) {
       const failure = error as { stdout?: string; code?: number };

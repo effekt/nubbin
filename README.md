@@ -14,7 +14,7 @@ does not write code publish pages from components your application already owns?
 npm install @nubbin/core@rc
 ```
 
-Four packages are published as release candidates; the studio is not built yet — see
+The packages are published as release candidates; the studio is not built yet — see
 [Status](#status). A block declares its schema once, and each field decides for itself whether
 it freezes at publish or stays live:
 
@@ -89,7 +89,7 @@ reference back to it. Nubbin is needed to change a page, not to serve one.
 
 ## Status
 
-**Four packages are complete and the studio is not started.**
+**The packages are complete and the studio is not started.**
 
 | Package | State |
 |---|---|
@@ -97,8 +97,9 @@ reference back to it. Nubbin is needed to change a page, not to serve one.
 | `@nubbin/store-fs` | A pointer-per-route store, passing a contract suite a third-party adapter can run |
 | `@nubbin/next` | Read and write paths — resolve, prebuild params, publish and unpublish |
 | `@nubbin/react` | The renderer, the block registry, and hole resolution |
+| `@nubbin/cli` | The publish path from a terminal — compile, publish, unpublish, rollback, status, check |
 
-All four are on npm under the `rc` tag; `npm view @nubbin/core dist-tags` is the current answer. Everything is tested against real
+Each is on npm under the `rc` tag; `npm view @nubbin/core dist-tags` is the current answer. Everything is tested against real
 schemas rather than mocks, and a build gate fails on any `node:` or framework import inside
 `core`, so the claim that it runs anywhere is checked rather than asserted.
 

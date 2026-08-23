@@ -6,8 +6,8 @@ status: stable
 
 # Releasing
 
-Four packages publish from this repository: `@nubbin/core`, `@nubbin/react`, `@nubbin/next` and
-`@nubbin/store-fs`. They share a version.
+The packages that publish from this repository — `@nubbin/core`, `@nubbin/react`,
+`@nubbin/next`, `@nubbin/store-fs` and `@nubbin/cli` — share a version.
 
 ## Versions are derived, never edited
 
@@ -47,9 +47,10 @@ what puts the repository back on that line if it ever leaves it.
 bump rather than resetting it, so without this the version after a `feat!:` keeps the release
 candidate number it already had and only the major digit moves.
 
-**The `linked-versions` plugin**, naming all four components, so the packages move as one. Its
-`components` are the component names — the npm scope is stripped, so they are `core`, `react`,
-`next` and `store-fs`. Each package sets `component` explicitly rather than relying on that.
+**The `linked-versions` plugin**, naming every component, so the packages move as one. Its
+`components` are the component names — the npm scope is stripped, so they read as `core`,
+`react` and their siblings. Each package sets `component` explicitly rather than relying on
+that.
 
 **`"last-release-sha"`** — the commit that actually published the version in the manifest, so the
 first release pull request's changelog begins after it rather than at the beginning of the

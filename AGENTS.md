@@ -14,7 +14,7 @@ Guidance for working in this repo. Loaded automatically by coding agents.
 blocks in code; non-developers compose pages from them. The composition is data, the
 contract is code, and publishing compiles a document into an immutable artifact.
 
-The four packages are built; the studio is growing slice by slice. See `## Status`.
+The packages are built; the studio is growing slice by slice. See `## Status`.
 
 ```
 packages/
@@ -96,7 +96,7 @@ section, and the caller decides what each finding becomes.
 
 ## Status
 
-Four packages are published under the `rc` tag — `npm view @nubbin/core dist-tags` for the
+Every package is published under the `rc` tag — `npm view @nubbin/core dist-tags` for the
 version, which in prose would be a copy of the registry. [`docs/reference/`](docs/README.md)
 documents `core`'s authoring and compile surfaces, the artifact contracts, and the `react`
 and `next` bindings as shipped. **The studio** grows slice by slice against the demo:
