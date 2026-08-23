@@ -1,5 +1,7 @@
-import type { DocumentVersion, Node } from "./document.types";
+import type { DocumentVersion } from "./document.types";
+import { requireNode } from "./requireNode";
 import { setAtPath } from "./setAtPath";
+import { withElements } from "./withElements";
 
 /**
  * The first document operation: a new `DocumentVersion` with one prop set on one node,
@@ -17,10 +19,6 @@ export function setNodeProp(
   path: string,
   value: unknown,
 ): DocumentVersion {
-  const node = version.elements[nodeId];
-  if (node === undefined) {
-    throw new Error(`no node "${nodeId}" in document "${version.documentId}"`);
-  }
-  const edited: Node = { ...node, props: setAtPath(node.props, path, value) };
-  return { ...version, elements: { ...version.elements, [nodeId]: edited } };
+  const node = requireNode(version, nodeId);
+  return withElements(version, { ...node, props: setAtPath(node.props, path, value) });
 }

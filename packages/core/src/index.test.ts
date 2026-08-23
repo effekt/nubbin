@@ -4,6 +4,7 @@ test("the published surface exports exactly the documented API", async () => {
   const surface = Object.keys(await import("./index")).sort();
   expect(surface).toEqual([
     "CompileError",
+    "addNode",
     "checkCompatibility",
     "checkRollback",
     "compile",
@@ -11,7 +12,9 @@ test("the published surface exports exactly the documented API", async () => {
     "defineBlock",
     "defineCatalog",
     "formatCompatibilityReport",
+    "moveNode",
     "parseMatchKind",
+    "removeNode",
     "richText",
     "setAtPath",
     "setNodeProp",
