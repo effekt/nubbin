@@ -87,7 +87,7 @@ ships to the browser, so there is nothing on the client to patch
 | Invalid value against the block's schema | Validated on commit against the field's own sub-schema, and on blur against the whole node — three tiers ([API sketch](api.md#validation-happens-at-three-tiers-not-one)). A draft may still hold invalid values indefinitely: blocking a save mid-edit is hostile, so publish is the gate, not save. |
 | A field hidden by a discriminated union keeps a stale value | The value must be dropped at compile, not merely hidden in the editor — so a draft can look wider than what actually publishes. |
 | Repeater rows keyed by index | Reordering an array without a stable per-row key re-mounts every row and drops focus. |
-| Fields with `data: "request"` | Editing props only edits the block's declared parameters — the live-fetched half of its output can't be previewed without a real request round trip. |
+| Fields with a `data` hint | Editing props only edits the block's declared parameters — the live-fetched half of its output can't be previewed without a real request round trip. |
 
 ## 4. Preview
 
@@ -109,7 +109,7 @@ an already-validated artifact.
 
 | Mode | Consequence |
 |---|---|
-| A node with a `data: "request"` field previewed at extremes | Only the static-declared props vary; the fetched half renders real, unrelated live data next to a synthetic extreme — no static-only preview mode exists. |
+| A node with a `data`-hinted field previewed at extremes | Only the static-declared props vary; the fetched half renders real, unrelated live data next to a synthetic extreme — no static-only preview mode exists. |
 | Schema shapes the JSON Schema projection can't represent | bigint, `Date`, branded types, discriminated unions (which emit `oneOf`, not `if/then/else`) — extreme-value generation for these needs the same explicit-control escape hatch editing needs, and it isn't designed for stress-content generation specifically. |
 | Consumer doesn't expose its breakpoint config discoverably | Viewport presets have no defined fallback — falls back to inventing sizes, the exact thing this design was meant to avoid. |
 | Preview environment unreachable | No client-only degraded mode — the live postMessage path was removed entirely, so preview fails outright rather than degrading. |

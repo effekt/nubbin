@@ -154,7 +154,7 @@ ui: {
     "cta.label":        { label: "Button text" },
     "bullets":          { rowLabel: "heading" },
     "bullets[].icon":   { control: "image" },
-    "price":            { data: "request" },
+    "price":            { data: { revalidate: 60 } },
   },
 }
 ```
@@ -185,7 +185,7 @@ states.
 ui: {
   fields: {
     headline: {},                            // omitted — static, frozen at compile. The default.
-    price:    { data: "request" },           // resolved fresh at every render
+    price:    { data: { revalidate: 60 } },  // your resolver fills it, cached that long
     stock:    { data: { revalidate: 60 } },  // stale-while-revalidate
   },
 }
@@ -329,7 +329,7 @@ typed `BlockRegistry` — the render-side map of `() => Promise<BlockComponent<n
 `defineRegistry`, where `never` is what admits real components: a block typed against its own
 props cannot substitute for one required to take anything, so a wider stored type would turn
 every one away ([#88](https://github.com/effekt/nubbin/issues/88)). The compile-side `Registry`
-from `createRegistry` is a different type with `get`, `names` and `fingerprint`, and it is what
+from `createRegistry` is a different type with `get` and `names`, and it is what
 `compile` validates against. Passing it here, or
 passing the render-side map to `compile`, is the same mistake in two directions, and it has
 reached four separate tickets — see

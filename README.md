@@ -31,10 +31,19 @@ export const heroBlock = defineBlock({
   name: "Hero",
   schema: heroSchema,
   component: Hero,        // props are InferProps<typeof heroSchema> — no second definition
-  ui: {
-    fields: {
-      title: { label: "Headline" },  // no `data` — static, frozen at compile. The default.
-      price: { data: "request" },    // resolved fresh at every render. Per field, not per block.
+  version: 1,
+  slots: {},
+});
+
+// Editing hints live on the catalog, the serializable half that carries no components.
+export const catalog = defineCatalog({
+  Hero: {
+    schema: heroSchema,
+    ui: {
+      fields: {
+        // `title` carries no `data` hint — static, frozen at compile. The default.
+        price: { data: { revalidate: 60 } },  // your resolver fills it. Per field, not per block.
+      },
     },
   },
 });
@@ -49,7 +58,7 @@ artifact never carries the schema, only the outcome of validating against it:
   id: "n1",
   block: "Hero",
   props: { title: "Sale ends Friday", cta: { label: "Shop now", href: "/sale" } },
-  holes: { price: "request" },
+  holes: { price: { revalidate: 60 } },
 }
 ```
 
@@ -84,7 +93,7 @@ reference back to it. Nubbin is needed to change a page, not to serve one.
 
 | Package | State |
 |---|---|
-| `@nubbin/core` | `defineBlock`, `defineCatalog`, `createRegistry`, `compile`, `checkCompatibility`, `checkRollback` |
+| `@nubbin/core` | `defineBlock`, `defineCatalog`, `createRegistry`, `compile`, the document operations (`addNode`, `removeNode`, `moveNode`, `setNodeProp`), `checkCompatibility`, `checkRollback` |
 | `@nubbin/store-fs` | A pointer-per-route store, passing a contract suite a third-party adapter can run |
 | `@nubbin/next` | Read and write paths — resolve, prebuild params, publish and unpublish |
 | `@nubbin/react` | The renderer, the block registry, and hole resolution |

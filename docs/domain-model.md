@@ -33,11 +33,9 @@ erDiagram
     BLOCK {
         string name PK "referenced by every Node"
         int version
-        string status "active or deprecated"
         json schema
     }
     REGISTRY {
-        string fingerprint "hash of names and versions"
     }
     DOCUMENT {
         string id PK
@@ -61,7 +59,6 @@ erDiagram
         string hash PK "content address"
         string route
         int documentVersion
-        string registryFingerprint
     }
     ROUTE_POINTER {
         string route PK
@@ -120,19 +117,17 @@ concern (invariant 5).
 
 ### Registry
 
-The curated set for one application. Resolves a `Node.block` string to a `Block`, and
-produces a fingerprint stamped into every artifact.
+The curated set for one application. Resolves a `Node.block` string to a `Block`.
 
 ```ts
 interface Registry {
   get(name: string): Block | undefined;
   names(): string[];
-  fingerprint(): string;     // hash of every block name + version
 }
 ```
 
-The fingerprint feeds the CI guardrail — see
-[Versioning and the guardrail](architecture.md#versioning-and-the-guardrail).
+What an artifact records about the registry, and what the guardrail compares, is on the
+[blocks reference](reference/blocks.md#registry).
 
 Deletion is two steps: `status: "deprecated"` keeps a block resolvable (`registry.get()`
 still returns it, so existing `Node`s keep rendering) while hiding it from the studio's
@@ -290,7 +285,6 @@ interface Artifact {
   route: string;                           // literal, param pattern, or prefix — see Route pointer
   documentId: string;
   documentVersion: number;
-  registryFingerprint: string;
   blockVersions: Record<string, number>;   // what this was compiled against
   tree: ArtifactNode[];                    // resolved, validated — static fields frozen, request/revalidate fields left as holes
   meta: DocumentMeta;
@@ -396,8 +390,7 @@ both pointer moves; rollback additionally runs the compatibility check below fir
 `rollback` is `publish(route, oldHash)` — the same pointer move, reusing a hash instead of one
 just compiled. A bare pointer move risks resurrecting props frozen against a schema that has
 since changed shape underneath them. `checkRollback` reads what the target artifact recorded —
-`registryFingerprint`, `blockVersions` — and compares it to the registry live now, before the
-pointer moves.
+`blockVersions` — and compares it to the registry live now, before the pointer moves.
 
 ```ts
 function checkRollback(artifact: Artifact, registry: Registry): RollbackCheck;

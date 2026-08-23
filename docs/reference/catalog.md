@@ -7,7 +7,7 @@ status: reference
 # The catalog
 
 This page describes the shipped behaviour of `defineCatalog` and the types around it:
-`Catalog`, `CatalogEntry`, `BlockUi`, `FieldHint`, `FieldHintData`, `BlockDocs`, and the
+`Catalog`, `CatalogEntry`, `BlockUi`, `FieldHint`, `FieldHintData`, and the
 introspection contract `SchemaAdapter` — `FieldNode`, `FieldKind`, and the shipped
 `zodAdapter`. Why the catalog
 exists apart from the registry is
@@ -39,7 +39,7 @@ export const catalog = defineCatalog({
   StatBand: {
     schema: statBandSchema,
     defaults: { heading: "By the numbers", stats: [] },
-    ui: { fields: { stats: { data: "request" } } },
+    ui: { fields: { stats: { data: { revalidate: 60 } } } },
   },
 });
 ```
@@ -77,7 +77,6 @@ interface CatalogEntry {
   schema: unknown;
   ui?: BlockUi;
   defaults?: UnknownProps;
-  docs?: BlockDocs;
 }
 ```
 
@@ -112,26 +111,14 @@ chosen from a hint, are argued in [`api.md`](../api.md).
 ## `FieldHintData`
 
 ```ts
-type FieldHintData = "request" | { revalidate: number };
+type FieldHintData = { revalidate: number };
 ```
 
 How a field's value resolves at render. An absent `data` hint means static: the value freezes
-into the artifact's props at compile. `"request"` resolves fresh on every render;
-`{ revalidate: n }` is stale-while-revalidate. The three states and the reasoning are
+into the artifact's props at compile. A hint means the value is left out and resolved by the
+consumer's resolver instead, cached for `revalidate` seconds. The two states and the reasoning are
 [Data lifecycle is per field](../architecture.md#data-lifecycle-is-per-field); what the
 compiler does with the hint is on the [compile page](compile.md#holes-what-a-data-hint-compiles-to).
-
-## `BlockDocs`
-
-```ts
-interface BlockDocs {
-  summary?: string;
-  usage?: string;
-}
-```
-
-Prose for an editing surface's palette and inspector. The package stores it and reads none of
-it.
 
 ## `SchemaAdapter`, `FieldNode` and `FieldKind`
 

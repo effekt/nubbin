@@ -22,7 +22,6 @@ interface Artifact {
   route: string;
   documentId: string;
   documentVersion: number;
-  registryFingerprint: string;
   blockVersions: Record<string, number>;
   tree: ArtifactNode[];
   meta: DocumentMeta;
@@ -35,7 +34,6 @@ interface Artifact {
 | `hash` | The content address, and the identity. Computed over every other field with object keys sorted first, so the same content always produces the same address. |
 | `route` | The route this compile targeted, as passed to [`compile`](compile.md#compile). |
 | `documentId`, `documentVersion` | Which document version this is the compilation of. |
-| `registryFingerprint` | The [registry fingerprint](blocks.md#registry) at compile time — every registered block's name and version. |
 | `blockVersions` | Name → version for only the blocks the document uses; a route loads what its artifact lists, so naming unused blocks would load them too. [`checkRollback`](#checkrollback) reads this field. |
 | `tree` | The document's `roots`, denormalized — one tree per entry element, in the order `roots` names them. |
 | `meta` | The document's `DocumentMeta`, carried through unchanged. |
@@ -96,7 +94,6 @@ const artifact: Artifact = {
   route: "/promotions/summer",
   documentId: "promotions-summer",
   documentVersion: 1,
-  registryFingerprint: "f",
   blockVersions: { Hero: 1 },
   tree: [],
   meta: { title: "Summer promotion" },
