@@ -1,7 +1,7 @@
 import type { Command } from "./command.types";
 import { compiledRoute } from "./compiledRoute";
+import { movePointer } from "./movePointer";
 import { outcomeOf } from "./outcomeOf";
-import { publishThroughOrigin } from "./publishThroughOrigin";
 
 /**
  * Write the artifact, then move the pointer — in that order, because a pointer at a hash nothing
@@ -10,7 +10,6 @@ import { publishThroughOrigin } from "./publishThroughOrigin";
 export const publishCommand: Command = async (config, args) => {
   const { route, artifact, issues } = await compiledRoute(config, args);
   await config.store.write(artifact);
-  if (args.origin === undefined) await config.store.publish(route, artifact.hash);
-  else await publishThroughOrigin(args.origin, "publish", { route, hash: artifact.hash });
+  await movePointer(config, args, route, artifact.hash);
   return outcomeOf(`published ${route} -> ${artifact.hash}`, issues);
 };

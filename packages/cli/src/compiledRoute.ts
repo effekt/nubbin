@@ -1,7 +1,7 @@
 import { type CompileResult, compile } from "@nubbin/core";
 import type { CommandArgs } from "./command.types";
 import type { NubbinConfig } from "./config.types";
-import { requiredArgument } from "./requiredArgument";
+import { routeArgument } from "./routeArgument";
 import { UsageError } from "./UsageError";
 
 /**
@@ -13,7 +13,7 @@ export async function compiledRoute(
   config: NubbinConfig,
   args: CommandArgs,
 ): Promise<CompileResult & { route: string }> {
-  const route = requiredArgument(args, 0, "route");
+  const route = routeArgument(args);
   const version = await config.document(route);
   if (version === null) throw new UsageError(`no document for ${route}`);
   return { route, ...compile(version, config.catalog, config.registry, route) };
