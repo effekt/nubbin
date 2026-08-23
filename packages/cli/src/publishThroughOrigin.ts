@@ -18,6 +18,10 @@ export async function publishThroughOrigin(
     method: "POST",
     headers: { "content-type": "application/json" },
     body: JSON.stringify(body),
+  }).catch(() => {
+    // An origin nothing answers on is the same mistake as one that answers 404 — a wrong URL, or
+    // a server that is not up — so it exits the same way rather than as a raw network error.
+    throw new UsageError(`${endpoint} could not be reached — is the application running?`);
   });
   if (!response.ok) {
     throw new UsageError(`${endpoint} answered ${response.status} — is the application running?`);

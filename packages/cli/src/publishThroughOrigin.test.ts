@@ -2,6 +2,7 @@ import { createServer, type Server } from "node:http";
 import type { AddressInfo } from "node:net";
 import { afterEach, describe, expect, test } from "vitest";
 import { publishThroughOrigin } from "./publishThroughOrigin";
+import { UsageError } from "./UsageError";
 
 interface Received {
   url: string;
@@ -42,6 +43,12 @@ describe("publishThroughOrigin", () => {
     const origin = await listen(200, received);
     await publishThroughOrigin(origin, "unpublish", { route: "/pricing" });
     expect(received[0]?.url).toBe("/api/nubbin/unpublish");
+  });
+
+  test("an origin nothing answers on refuses as usage, not as a network error", async () => {
+    await expect(
+      publishThroughOrigin("http://127.0.0.1:1", "publish", { route: "/x", hash: "abc" }),
+    ).rejects.toThrow(UsageError);
   });
 
   test("says what answered and asks the obvious question when it refuses", async () => {

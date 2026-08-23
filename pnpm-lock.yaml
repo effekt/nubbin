@@ -260,6 +260,9 @@ importers:
         specifier: 'catalog:'
         version: 4.4.3
     devDependencies:
+      '@nubbin/cli':
+        specifier: workspace:*
+        version: link:../../packages/cli
       '@tailwindcss/postcss':
         specifier: 'catalog:'
         version: 4.3.3
