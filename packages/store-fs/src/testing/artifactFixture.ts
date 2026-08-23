@@ -7,7 +7,6 @@ export function artifactFixture(hash: string, route: string): Artifact {
     route,
     documentId: "d1",
     documentVersion: 1,
-    registryFingerprint: "f",
     blockVersions: { Hero: 1 },
     tree: [],
     meta: { title: "t" },

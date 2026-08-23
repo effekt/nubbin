@@ -25,7 +25,6 @@ export interface Artifact {
   route: string;
   documentId: string;
   documentVersion: number;
-  registryFingerprint: string;
   /** What this was compiled against — only the blocks the document uses. */
   blockVersions: Record<string, number>;
   tree: ArtifactNode[];

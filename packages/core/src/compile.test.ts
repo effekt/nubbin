@@ -27,7 +27,7 @@ const card = defineBlock({
 });
 const registry = createRegistry([hero, card]);
 const catalog = defineCatalog({
-  Hero: { schema: heroSchema, ui: { fields: { price: { data: "request" } } } },
+  Hero: { schema: heroSchema, ui: { fields: { price: { data: { revalidate: 60 } } } } },
   Card: { schema: cardSchema },
 });
 
@@ -62,7 +62,6 @@ describe("compile", () => {
   test("compiles a valid document into an artifact with a stable hash", () => {
     const artifact = compile(validDoc, catalog, registry, "/promotions/summer");
     expect(artifact.route).toBe("/promotions/summer");
-    expect(artifact.registryFingerprint).toBe(registry.fingerprint());
     expect(artifact.blockVersions).toEqual({ Hero: 1, Card: 1 });
     expect(artifact.compiledWith).toBe(NUBBIN_VERSION);
     expect(compile(validDoc, catalog, registry, "/promotions/summer").hash).toBe(artifact.hash);
@@ -71,7 +70,7 @@ describe("compile", () => {
   test("freezes static fields into props and leaves request fields as holes", () => {
     const artifact = compile(validDoc, catalog, registry, "/x");
     expect(artifact.tree[0]?.props).toEqual({ title: "T" });
-    expect(artifact.tree[0]?.holes).toEqual({ price: "request" });
+    expect(artifact.tree[0]?.holes).toEqual({ price: { revalidate: 60 } });
   });
 
   test("takes a nested data hint's leaf as a hole and leaves the rest of its parent frozen", () => {
@@ -83,7 +82,10 @@ describe("compile", () => {
       defineBlock({ name: "Banner", schema: bannerSchema, component: null, version: 1, slots: {} }),
     ]);
     const bannerCatalog = defineCatalog({
-      Banner: { schema: bannerSchema, ui: { fields: { "cta.label": { data: "request" } } } },
+      Banner: {
+        schema: bannerSchema,
+        ui: { fields: { "cta.label": { data: { revalidate: 60 } } } },
+      },
     });
     const bannerDoc = doc({
       n1: {
@@ -95,7 +97,7 @@ describe("compile", () => {
 
     const artifact = compile(bannerDoc, bannerCatalog, bannerRegistry, "/x");
     expect(artifact.tree[0]?.props).toEqual({ title: "T", cta: { href: "/x" } });
-    expect(artifact.tree[0]?.holes).toEqual({ "cta.label": "request" });
+    expect(artifact.tree[0]?.holes).toEqual({ "cta.label": { revalidate: 60 } });
   });
 
   test("throws one CompileError carrying every issue, not the first", () => {

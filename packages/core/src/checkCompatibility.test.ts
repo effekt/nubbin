@@ -31,7 +31,6 @@ const artifact = (
   route,
   documentId: route,
   documentVersion: 1,
-  registryFingerprint: "f",
   blockVersions,
   tree: [],
   meta: { title: route },

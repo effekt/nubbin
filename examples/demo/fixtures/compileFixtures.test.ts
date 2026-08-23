@@ -15,7 +15,7 @@ describe("fixtures", () => {
     expect(compile(version, catalog, registry, route).hash).toBe(artifact.hash);
   });
 
-  // Both holes are intervals. A `"request"` hint is still a supported kind, but no fixture uses
+  // Both holes are intervals. A `{ revalidate: 5 }` hint is still a supported kind, but no fixture uses
   // one: it maps to `cache: "no-store"`, which a cached page refuses, and the static-or-dynamic
   // choice is per route — so a single per-request field takes every page's cache with it.
   test("live fields compile to holes, not frozen props", () => {

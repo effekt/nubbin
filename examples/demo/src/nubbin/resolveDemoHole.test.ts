@@ -17,7 +17,7 @@ const context = {
   nodeId: "stats",
   block: "StatBand",
   path: "stats",
-  spec: "request",
+  spec: { revalidate: 5 },
 } as const;
 
 beforeEach(() => {
@@ -40,7 +40,7 @@ describe("resolveDemoHole", () => {
 
   test("hands the declared spec to the fetch rather than choosing a lifecycle itself", async () => {
     await resolveDemoHole(context);
-    expect(vi.mocked(fetchNowPayload)).toHaveBeenCalledWith("request");
+    expect(vi.mocked(fetchNowPayload)).toHaveBeenCalledWith({ revalidate: 5 });
   });
 
   test("shapes the payload for the field it was asked about", async () => {

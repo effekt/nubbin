@@ -27,7 +27,5 @@ export interface Block<Schema extends StandardSchemaV1 = StandardSchemaV1, Compo
   component: Component;
   /** Bumped when the schema changes incompatibly. */
   version: number;
-  /** A deprecated block still resolves; the studio hides it from the palette. */
-  status?: "active" | "deprecated";
   slots: Record<string, SlotConstraint>;
 }

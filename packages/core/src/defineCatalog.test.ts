@@ -26,7 +26,10 @@ describe("defineCatalog", () => {
   test("fails registration when a data hint addresses an array-member path", () => {
     expect(() =>
       defineCatalog({
-        List: { schema: listSchema, ui: { fields: { "items[].heading": { data: "request" } } } },
+        List: {
+          schema: listSchema,
+          ui: { fields: { "items[].heading": { data: { revalidate: 60 } } } },
+        },
       }),
     ).toThrow(/List.*items\[\]\.heading/s);
   });
@@ -34,7 +37,7 @@ describe("defineCatalog", () => {
   test("keeps label and control hints legal on an array-member path", () => {
     expect(() =>
       defineCatalog({
-        List: { schema: listSchema, ui: { fields: { "items[].heading": { label: "Heading" } } } },
+        List: { schema: listSchema, ui: { fields: { "items[].heading": {} } } },
       }),
     ).not.toThrow();
   });

@@ -13,7 +13,6 @@ const artifactAtV1: Artifact = {
   route: "/x",
   documentId: "d",
   documentVersion: 1,
-  registryFingerprint: "f",
   blockVersions: { Hero: 1 },
   tree: [],
   meta: { title: "t" },

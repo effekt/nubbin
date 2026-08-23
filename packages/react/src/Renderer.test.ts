@@ -15,14 +15,15 @@ const artifact: Artifact = {
   route: "/promotions/summer",
   documentId: "d1",
   documentVersion: 1,
-  registryFingerprint: "f",
   blockVersions: { Stack: 1, Price: 1 },
   tree: [
     {
       id: "stack",
       block: "Stack",
       props: {},
-      slots: { sections: [{ id: "p1", block: "Price", props: {}, holes: { amount: "request" } }] },
+      slots: {
+        sections: [{ id: "p1", block: "Price", props: {}, holes: { amount: { revalidate: 60 } } }],
+      },
     },
   ],
   meta: { title: "t" },

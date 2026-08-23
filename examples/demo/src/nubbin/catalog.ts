@@ -38,11 +38,7 @@ export const catalog = defineCatalog({
   LogoWall: { schema: logoWallSchema, defaults: logoWallDefaults },
   FeatureGrid: { schema: featureGridSchema, defaults: featureGridDefaults },
   PlanTiers: { schema: planTiersSchema, defaults: planTiersDefaults },
-  Prose: {
-    schema: proseSchema,
-    defaults: proseDefaults,
-    ui: { fields: { body: { label: "Body", control: "richText" } } },
-  },
+  Prose: { schema: proseSchema, defaults: proseDefaults },
   ProfileGrid: { schema: profileGridSchema, defaults: profileGridDefaults },
   StatBand: {
     schema: statBandSchema,

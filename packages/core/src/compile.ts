@@ -39,7 +39,6 @@ export function compile(
     route,
     documentId: version.documentId,
     documentVersion: version.version,
-    registryFingerprint: registry.fingerprint(),
     blockVersions: usedBlockVersions(version, registry),
     tree,
     meta: version.meta,

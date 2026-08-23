@@ -52,31 +52,4 @@ describe("createRegistry", () => {
     ]);
     expect(registry.names().sort()).toEqual(["Page", "Testimonial"]);
   });
-
-  test("fingerprint is stable across registration order", () => {
-    const heroFirst = createRegistry([block("Hero"), block("FAQ")]).fingerprint();
-    const faqFirst = createRegistry([block("FAQ"), block("Hero")]).fingerprint();
-    expect(heroFirst).toBe(faqFirst);
-  });
-
-  test("fingerprint changes when a version changes", () => {
-    const before = createRegistry([block("Hero", 1)]).fingerprint();
-    const after = createRegistry([block("Hero", 2)]).fingerprint();
-    expect(after).not.toBe(before);
-  });
-
-  test("fingerprint ignores everything except name and version", () => {
-    const plain = createRegistry([block("Hero")]).fingerprint();
-    const withSlots = createRegistry([
-      defineBlock({
-        name: "Hero",
-        schema: z.object({ t: z.string() }),
-        component: null,
-        version: 1,
-        slots: { items: { max: 3 } },
-        status: "deprecated",
-      }),
-    ]).fingerprint();
-    expect(withSlots).toBe(plain);
-  });
 });

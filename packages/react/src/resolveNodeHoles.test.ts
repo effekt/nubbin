@@ -9,7 +9,7 @@ const liveNode: ArtifactNode = {
   id: "n2",
   block: "StatBand",
   props: { tone: "dark" },
-  holes: { stats: "request", note: { revalidate: 60 } },
+  holes: { stats: { revalidate: 60 }, note: { revalidate: 60 } },
 };
 
 describe("resolveNodeHoles", () => {
@@ -39,7 +39,7 @@ describe("resolveNodeHoles", () => {
       nodeId: "n2",
       block: "StatBand",
       path: "stats",
-      spec: "request",
+      spec: { revalidate: 60 },
     });
     expect(seen).toContainEqual({
       route: "/live/pulse",

@@ -8,7 +8,7 @@ test("a StatBand stats hole resolves to a value the block's real schema accepts"
     nodeId: "stats",
     block: "StatBand",
     path: "stats",
-    spec: "request",
+    spec: { revalidate: 60 },
   });
   const parsed = statBandSchema.safeParse({ tone: "light", stats });
   expect(parsed.success).toBe(true);
@@ -21,7 +21,7 @@ test("a hole no resolver covers is a loud failure, not a silent blank", async ()
       nodeId: "x",
       block: "Hero",
       path: "headline",
-      spec: "request",
+      spec: { revalidate: 60 },
     }),
   ).rejects.toThrow("no demo resolver");
 });

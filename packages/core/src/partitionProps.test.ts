@@ -5,10 +5,10 @@ describe("partitionProps", () => {
   test("every field lands in exactly one of props or holes", () => {
     const { props, holes } = partitionProps(
       { title: "T", price: 10, stock: 3 },
-      { fields: { price: { data: "request" }, stock: { data: { revalidate: 60 } } } },
+      { fields: { price: { data: { revalidate: 60 } }, stock: { data: { revalidate: 60 } } } },
     );
     expect(props).toEqual({ title: "T" });
-    expect(holes).toEqual({ price: "request", stock: { revalidate: 60 } });
+    expect(holes).toEqual({ price: { revalidate: 60 }, stock: { revalidate: 60 } });
     const everyKey = [...Object.keys(props), ...Object.keys(holes)].sort();
     expect(everyKey).toEqual(["price", "stock", "title"]);
   });
@@ -22,27 +22,24 @@ describe("partitionProps", () => {
   test("a data hint on a nested path takes that leaf and leaves the rest of its parent frozen", () => {
     const { props, holes } = partitionProps(
       { title: "T", cta: { label: "Go", href: "/x" } },
-      { fields: { "cta.label": { data: "request" } } },
+      { fields: { "cta.label": { data: { revalidate: 60 } } } },
     );
     expect(props).toEqual({ title: "T", cta: { href: "/x" } });
-    expect(holes).toEqual({ "cta.label": "request" });
+    expect(holes).toEqual({ "cta.label": { revalidate: 60 } });
   });
 
   test("a data hint naming a path the value does not carry records no hole", () => {
     const { props, holes } = partitionProps(
       { title: "T" },
-      { fields: { "cta.label": { data: "request" } } },
+      { fields: { "cta.label": { data: { revalidate: 60 } } } },
     );
     expect(props).toEqual({ title: "T" });
     expect(holes).toEqual({});
   });
 
   test("label and control hints alone leave the value whole", () => {
-    const { props, holes } = partitionProps(
-      { cta: { label: "Go" } },
-      { fields: { "cta.label": { label: "Call to action", control: "text" } } },
-    );
-    expect(props).toEqual({ cta: { label: "Go" } });
+    const { props, holes } = partitionProps({ cta: {} }, { fields: { "cta.label": {} } });
+    expect(props).toEqual({ cta: {} });
     expect(holes).toEqual({});
   });
 });
