@@ -1,7 +1,7 @@
 import { mkdtempSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
-import { CompileError } from "@nubbin/core";
+import { NubbinError } from "@nubbin/core";
 import { about } from "demo/fixtures/about";
 import { beforeEach, expect, test } from "vitest";
 import { commitDraftEdit } from "./commitDraftEdit";
@@ -29,7 +29,7 @@ test("edits accumulate: a second commit keeps the first", () => {
 });
 
 test("an edit that fails validation throws and keeps nothing", () => {
-  expect(() => commitDraftEdit("/about", "hero", "cta.href", 7)).toThrow(CompileError);
+  expect(() => commitDraftEdit("/about", "hero", "cta.href", 7)).toThrow(NubbinError);
   expect(readDraft("/about")).toBe(about);
 });
 

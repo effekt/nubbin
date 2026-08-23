@@ -269,7 +269,7 @@ describe("generate", () => {
     expect(paths).toEqual(
       [...paths].sort((a, b) => a.localeCompare(b, "en", { sensitivity: "base" })),
     );
-    expect(paths.indexOf("src/CompileError.ts")).toBeGreaterThan(
+    expect(paths.indexOf("src/NubbinError.ts")).toBeGreaterThan(
       paths.indexOf("src/catalog.types.ts"),
     );
   });

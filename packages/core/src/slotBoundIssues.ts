@@ -1,5 +1,6 @@
 import type { SlotConstraint } from "./block.types";
-import type { CompileIssue } from "./compileError.types";
+import { NubbinIssueCode } from "./NubbinIssueCode";
+import type { NubbinIssue } from "./nubbinIssue.types";
 
 /** Checks a slot's occupancy against its declared bounds, driven by data so min and max share one shape. */
 export function slotBoundIssues(
@@ -7,17 +8,17 @@ export function slotBoundIssues(
   path: string,
   count: number,
   constraint: SlotConstraint,
-): CompileIssue[] {
+): NubbinIssue[] {
   const { min, max } = constraint;
   const bounds = [
     {
-      code: "slot-min" as const,
+      code: NubbinIssueCode.SlotMin,
       limit: min,
       breached: min !== undefined && count < min,
       sense: "at least",
     },
     {
-      code: "slot-max" as const,
+      code: NubbinIssueCode.SlotMax,
       limit: max,
       breached: max !== undefined && count > max,
       sense: "at most",
@@ -26,7 +27,7 @@ export function slotBoundIssues(
   return bounds
     .filter((bound) => bound.breached)
     .map((bound) => ({
-      nodeId: parentId,
+      at: parentId,
       path,
       code: bound.code,
       message: `${path} holds ${count} of ${bound.sense} ${bound.limit}`,

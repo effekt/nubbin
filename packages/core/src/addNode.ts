@@ -1,4 +1,6 @@
 import type { DocumentVersion, Node } from "./document.types";
+import { NubbinIssueCode } from "./NubbinIssueCode";
+import { refuse } from "./refuse";
 import { requireNode } from "./requireNode";
 import { withElements } from "./withElements";
 import { withSlotChild } from "./withSlotChild";
@@ -27,7 +29,11 @@ export function addNode(
 ): DocumentVersion {
   const parent = requireNode(version, parentId);
   if (version.elements[node.id] !== undefined) {
-    throw new Error(`document "${version.documentId}" already holds a node "${node.id}"`);
+    refuse(
+      NubbinIssueCode.DuplicateNodeId,
+      `document "${version.documentId}" already holds a node "${node.id}"`,
+      node.id,
+    );
   }
   return withElements(version, withSlotChild(parent, slot, node.id, index), node);
 }

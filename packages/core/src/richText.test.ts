@@ -1,11 +1,11 @@
 import { describe, expect, test } from "vitest";
 import { zodAdapter } from "./adapters/zodAdapter";
-import { CompileError } from "./CompileError";
 import { compile } from "./compile";
 import { createRegistry } from "./createRegistry";
 import { defineBlock } from "./defineBlock";
 import { defineCatalog } from "./defineCatalog";
 import type { DocumentVersion } from "./document.types";
+import { NubbinError } from "./NubbinError";
 import { richText } from "./richText";
 import { standardValidate } from "./standardValidate";
 
@@ -153,15 +153,17 @@ describe("rich text through compile", () => {
   });
 
   test("freezes a nested rich-text value into the artifact unchanged", () => {
-    const artifact = compile(documentWith(paragraph), catalog, registry, "/about");
+    const { artifact } = compile(documentWith(paragraph), catalog, registry, "/about");
 
     expect(artifact.tree[0]?.props).toEqual({ body: paragraph });
-    expect(compile(documentWith(paragraph), catalog, registry, "/about").hash).toBe(artifact.hash);
+    expect(compile(documentWith(paragraph), catalog, registry, "/about").artifact.hash).toBe(
+      artifact.hash,
+    );
   });
 
   test("refuses to compile a document whose rich text carries an unknown mark", () => {
     const bad = [{ kind: "paragraph", spans: [{ text: "x", marks: ["blink"] }] }];
 
-    expect(() => compile(documentWith(bad), catalog, registry, "/about")).toThrow(CompileError);
+    expect(() => compile(documentWith(bad), catalog, registry, "/about")).toThrow(NubbinError);
   });
 });

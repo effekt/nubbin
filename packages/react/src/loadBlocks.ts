@@ -1,3 +1,4 @@
+import { NubbinIssueCode, refuse } from "@nubbin/core";
 import type { BlockComponent, BlockRegistry } from "./registry.types";
 
 /**
@@ -14,7 +15,7 @@ export async function loadBlocks(
 ): Promise<Record<string, BlockComponent>> {
   const missing = names.filter((name) => registry[name] === undefined);
   if (missing.length > 0) {
-    throw new Error(`registry has no importer for: ${missing.join(", ")}`);
+    refuse(NubbinIssueCode.BlockNotLoaded, `registry has no importer for: ${missing.join(", ")}`);
   }
   const wanted = new Set(names);
   const loaded = await Promise.all(

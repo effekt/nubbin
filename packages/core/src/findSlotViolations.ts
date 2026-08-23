@@ -1,5 +1,5 @@
-import type { CompileIssue } from "./compileError.types";
 import type { DocumentVersion } from "./document.types";
+import type { NubbinIssue } from "./nubbinIssue.types";
 import type { Registry } from "./registry.types";
 import { slotIssuesAt } from "./slotIssuesAt";
 
@@ -8,7 +8,7 @@ import { slotIssuesAt } from "./slotIssuesAt";
  * entirely is caught as surely as one filled below min. Unknown blocks are skipped — that
  * is another check's finding.
  */
-export function findSlotViolations(version: DocumentVersion, registry: Registry): CompileIssue[] {
+export function findSlotViolations(version: DocumentVersion, registry: Registry): NubbinIssue[] {
   return Object.values(version.elements).flatMap((node) => {
     const block = registry.get(node.block);
     if (block === undefined) return [];

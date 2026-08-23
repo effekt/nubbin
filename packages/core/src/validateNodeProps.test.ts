@@ -26,7 +26,7 @@ describe("validateNodeProps", () => {
     const node = { id: "n9", block: "B", props: { title: 5, cta: {} } };
     const { value, issues } = validateNodeProps(node, schema);
     expect(value).toBeUndefined();
-    expect(issues.map((issue) => `${issue.code}:${issue.nodeId}:${issue.path}`)).toEqual([
+    expect(issues.map((issue) => `${issue.code}:${issue.at}:${issue.path}`)).toEqual([
       "invalid-props:n9:title",
       "invalid-props:n9:cta.label",
     ]);

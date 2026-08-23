@@ -1,7 +1,8 @@
 import type { SlotConstraint } from "./block.types";
-import type { CompileIssue } from "./compileError.types";
 import { disallowedChildren } from "./disallowedChildren";
 import type { DocumentVersion, Node } from "./document.types";
+import { NubbinIssueCode } from "./NubbinIssueCode";
+import type { NubbinIssue } from "./nubbinIssue.types";
 import { slotBoundIssues } from "./slotBoundIssues";
 
 /** Checks one filled slot against its declared constraint: existence, bounds, and allow list. */
@@ -11,14 +12,14 @@ export function slotIssuesAt(
   childIds: readonly string[],
   constraint: SlotConstraint | undefined,
   version: DocumentVersion,
-): CompileIssue[] {
+): NubbinIssue[] {
   const path = `slots.${slotName}`;
   if (constraint === undefined) {
     return [
       {
-        nodeId: parent.id,
+        at: parent.id,
         path,
-        code: "slot-not-allowed",
+        code: NubbinIssueCode.SlotNotAllowed,
         message: `"${parent.block}" declares no slot "${slotName}"`,
       },
     ];

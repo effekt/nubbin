@@ -1,4 +1,6 @@
 import type { FieldHint } from "./catalog.types";
+import { NubbinIssueCode } from "./NubbinIssueCode";
+import { refuse } from "./refuse";
 
 /**
  * A `data` hint turns its field into a hole resolved at render, and a hole addresses one
@@ -18,18 +20,22 @@ export function assertDataHintAddressable(
   for (const [path, hint] of Object.entries(fields)) {
     if (hint.data === undefined) continue;
     if (path.includes("[]")) {
-      throw new Error(
-        `${blockName}: ui.fields["${path}"] sets \`data\`, but a hole cannot address ` +
+      refuse(
+        NubbinIssueCode.HintNotAddressable,
+        `ui.fields["${path}"] sets \`data\`, but a hole cannot address ` +
           `an array member — "[]" has no single target`,
+        blockName,
       );
     }
     const nested = seen.find(
       (other) => path.startsWith(`${other}.`) || other.startsWith(`${path}.`),
     );
     if (nested !== undefined) {
-      throw new Error(
-        `${blockName}: ui.fields["${nested}"] and ui.fields["${path}"] both set \`data\`, but ` +
+      refuse(
+        NubbinIssueCode.HintNotAddressable,
+        `ui.fields["${nested}"] and ui.fields["${path}"] both set \`data\`, but ` +
           `their paths overlap — two holes over one value have no defined order of application`,
+        blockName,
       );
     }
     seen.push(path);

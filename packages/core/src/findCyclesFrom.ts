@@ -1,7 +1,9 @@
-import type { CompileIssue } from "./compileError.types";
 import type { DocumentVersion } from "./document.types";
 import type { CycleFrame, CycleState } from "./graph.types";
+import { NubbinIssueCode } from "./NubbinIssueCode";
+import type { NubbinIssue } from "./nubbinIssue.types";
 import { pushCycleFrame } from "./pushCycleFrame";
+import { toIssue } from "./toIssue";
 
 /**
  * Iterative depth-first walk from one root carrying a visiting set — recursion risks a stack
@@ -12,9 +14,9 @@ export function findCyclesFrom(
   version: DocumentVersion,
   root: string,
   state: Map<string, CycleState>,
-): CompileIssue[] {
+): NubbinIssue[] {
   const stack: CycleFrame[] = [];
-  const issues: CompileIssue[] = [];
+  const issues: NubbinIssue[] = [];
   pushCycleFrame(stack, state, version, root);
   while (stack.length > 0) {
     const frame = stack.at(-1);
@@ -27,12 +29,14 @@ export function findCyclesFrom(
     }
     frame.next += 1;
     if (state.get(edge.childId) === "visiting") {
-      issues.push({
-        nodeId: frame.id,
-        path: `slots.${edge.slot}`,
-        code: "cycle",
-        message: `"${frame.id}" reaches back to "${edge.childId}", so the graph cannot flatten into a tree`,
-      });
+      issues.push(
+        toIssue(
+          NubbinIssueCode.Cycle,
+          `"${frame.id}" reaches back to "${edge.childId}", so the graph cannot flatten into a tree`,
+          frame.id,
+          `slots.${edge.slot}`,
+        ),
+      );
     } else if (!state.has(edge.childId)) {
       pushCycleFrame(stack, state, version, edge.childId);
     }

@@ -10,9 +10,9 @@ describe("fixtures", () => {
     if (!version) {
       throw new Error(route);
     }
-    const artifact = compile(version, catalog, registry, route);
+    const { artifact } = compile(version, catalog, registry, route);
     expect(artifact.route).toBe(route);
-    expect(compile(version, catalog, registry, route).hash).toBe(artifact.hash);
+    expect(compile(version, catalog, registry, route).artifact.hash).toBe(artifact.hash);
   });
 
   // Both holes are intervals. A `{ revalidate: 5 }` hint is still a supported kind, but no fixture uses
@@ -23,7 +23,7 @@ describe("fixtures", () => {
     if (!version) {
       throw new Error("missing fixture");
     }
-    const artifact = compile(version, catalog, registry, "/live/pulse");
+    const { artifact } = compile(version, catalog, registry, "/live/pulse");
     const sections = artifact.tree[0]?.slots?.sections ?? [];
     const statBand = sections.find((node) => node.block === "StatBand");
     const faq = sections.find((node) => node.block === "FaqAccordion");
@@ -37,7 +37,7 @@ describe("fixtures", () => {
     if (!version) {
       throw new Error("missing fixture");
     }
-    const artifact = compile(version, catalog, registry, "/changelog");
+    const { artifact } = compile(version, catalog, registry, "/changelog");
     const nodes = [artifact.tree[0], ...(artifact.tree[0]?.slots?.sections ?? [])];
     expect(nodes.every((node) => node?.holes === undefined)).toBe(true);
   });
@@ -48,7 +48,7 @@ describe("fixtures", () => {
       if (!version) {
         throw new Error(route);
       }
-      const artifact = compile(version, catalog, registry, route);
+      const { artifact } = compile(version, catalog, registry, route);
       const nodes = [artifact.tree[0], ...(artifact.tree[0]?.slots?.sections ?? [])];
       expect(nodes.every((node) => node?.holes === undefined)).toBe(true);
     }

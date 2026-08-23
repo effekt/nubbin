@@ -1,3 +1,5 @@
+import { NubbinIssueCode } from "../NubbinIssueCode";
+import { refuse } from "../refuse";
 import { zodAdapter } from "./zodAdapter";
 
 /**
@@ -13,9 +15,11 @@ export function resolveHintPaths(
   const known = new Set(zodAdapter.describe(schema).map((field) => field.path));
   const unresolved = Object.keys(fields).filter((path) => !known.has(path));
   if (unresolved.length > 0) {
-    throw new Error(
-      `${blockName}: ui.fields references ${unresolved.map((p) => `"${p}"`).join(", ")}, ` +
+    refuse(
+      NubbinIssueCode.HintPathUnresolvable,
+      `ui.fields references ${unresolved.map((p) => `"${p}"`).join(", ")}, ` +
         `which the schema does not define. Known paths: ${[...known].join(", ")}`,
+      blockName,
     );
   }
 }

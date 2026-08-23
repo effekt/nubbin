@@ -12,7 +12,7 @@ export type DraftEditRejection = { missing: "draft" | "node" };
 /**
  * The commit half of editing: apply one field edit, compile the result, and keep it only if
  * it compiled — the preview always renders, and a bad value surfaces as the thrown
- * `CompileError` instead of a broken page. The node is checked before `setNodeProp` because
+ * `NubbinError` instead of a broken page. The node is checked before `setNodeProp` because
  * this is the first caller holding both the document and the untrusted id — core's throw is
  * for callers that composed the id in code. A kept edit is written to the route's draft
  * file, so it outlives this process.

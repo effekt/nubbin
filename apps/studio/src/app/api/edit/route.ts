@@ -1,4 +1,4 @@
-import { CompileError } from "@nubbin/core";
+import { NubbinError } from "@nubbin/core";
 import { commitDraftEdit } from "../../../nubbin/commitDraftEdit";
 import { parseDraftEdit } from "../../../nubbin/parseDraftEdit";
 
@@ -31,7 +31,7 @@ export async function POST(request: Request) {
     }
     return Response.json({ hash: outcome.hash });
   } catch (error) {
-    if (error instanceof CompileError) {
+    if (error instanceof NubbinError) {
       return new Response(error.message, { status: UNPROCESSABLE });
     }
     throw error;

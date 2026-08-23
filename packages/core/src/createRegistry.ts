@@ -1,5 +1,7 @@
 import { assertSlotAllows } from "./assertSlotAllows";
 import type { Block } from "./block.types";
+import { NubbinIssueCode } from "./NubbinIssueCode";
+import { refuse } from "./refuse";
 import type { Registry } from "./registry.types";
 
 /**
@@ -10,8 +12,10 @@ export function createRegistry(blocks: readonly Block[]): Registry {
   const byName = new Map<string, Block>();
   for (const block of blocks) {
     if (byName.has(block.name)) {
-      throw new Error(
+      refuse(
+        NubbinIssueCode.DuplicateBlockName,
         `Duplicate block name "${block.name}" — names are the identity nodes resolve through`,
+        block.name,
       );
     }
     byName.set(block.name, block);

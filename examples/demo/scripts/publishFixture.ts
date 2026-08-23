@@ -12,7 +12,7 @@ export async function publishFixture(route: string, store: ArtifactStore): Promi
   if (version === undefined) {
     throw new Error(`no fixture for ${route}`);
   }
-  const artifact = compile(version, catalog, registry, route);
+  const { artifact } = compile(version, catalog, registry, route);
   await store.write(artifact);
   await store.publish(route, artifact.hash);
   return artifact.hash;
