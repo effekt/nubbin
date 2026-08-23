@@ -15,6 +15,9 @@ describe("fixtures", () => {
     expect(compile(version, catalog, registry, route).hash).toBe(artifact.hash);
   });
 
+  // Both holes are intervals. A `"request"` hint is still a supported kind, but no fixture uses
+  // one: it maps to `cache: "no-store"`, which a cached page refuses, and the static-or-dynamic
+  // choice is per route — so a single per-request field takes every page's cache with it.
   test("live fields compile to holes, not frozen props", () => {
     const version = fixtureRoutes["/live/pulse"];
     if (!version) {
@@ -24,7 +27,7 @@ describe("fixtures", () => {
     const sections = artifact.tree[0]?.slots?.sections ?? [];
     const statBand = sections.find((node) => node.block === "StatBand");
     const faq = sections.find((node) => node.block === "FaqAccordion");
-    expect(statBand?.holes).toEqual({ stats: "request" });
+    expect(statBand?.holes).toEqual({ stats: { revalidate: 5 } });
     expect(statBand?.props).not.toHaveProperty("stats");
     expect(faq?.holes).toEqual({ items: { revalidate: 5 } });
   });

@@ -47,7 +47,7 @@ export const catalog = defineCatalog({
   StatBand: {
     schema: statBandSchema,
     defaults: statBandDefaults,
-    ui: { fields: { stats: { data: "request" } } },
+    ui: { fields: { stats: { data: { revalidate: 5 } } } },
   },
   TestimonialQuote: { schema: testimonialQuoteSchema, defaults: testimonialQuoteDefaults },
   FaqAccordion: {
