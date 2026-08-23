@@ -32,6 +32,12 @@
       "entry": ["src/app/**/{page,layout,not-found,error,loading,route}.{ts,tsx}"],
       "project": ["src/**/*.{ts,tsx}", "scripts/**/*.ts", "fixtures/**/*.ts", "guardrail/**/*.ts"]
     },
+    // The CLI has a second entry its siblings do not: the executable the `bin` field names,
+    // which nothing imports and which knip would otherwise report as an unused file.
+    "packages/cli": {
+      "entry": ["src/index.ts", "src/bin.ts"],
+      "project": ["src/**/*.ts"]
+    },
     "packages/*": {
       "entry": ["src/index.ts"],
       "project": ["src/**/*.ts", "src/**/*.tsx"]
