@@ -254,7 +254,7 @@ describe("generate", () => {
 
   it("quotes a summary from the source rather than inventing one", async () => {
     const core = (await generate(ROOT)).get("packages/core/CATALOG.md");
-    expect(core).toContain("| [`fnv1a`](src/fnv1a.ts) | fn | FNV-1a, 32-bit.");
+    expect(core).toContain("| [`fnv1a`](src/fnv1a.ts) | fn | FNV-1a, 64-bit.");
     expect(core).not.toMatch(/TODO|No description/);
   });
 

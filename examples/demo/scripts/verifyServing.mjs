@@ -113,7 +113,12 @@ async function revalidateHitsOnlyOneRoute() {
   publishLive("/promotions/winter", stamp);
   const winter = await get("/promotions/winter");
   const otherAfter = await get("/promotions/summer");
-  const isPassing = winter.body.includes(stamp) && otherAfter.body === otherBefore.body;
+  // Rendered text on the untouched route, not raw bytes. Every route renders on demand, and two
+  // renders of one unchanged page stream their RSC payload in different `self.__next_f.push`
+  // chunks — same length, same content, different split points. Comparing bodies measured
+  // whether the page was cached; comparing what it rendered measures what this claims to.
+  const isPassing =
+    winter.body.includes(stamp) && renderedText(otherAfter.body) === renderedText(otherBefore.body);
   record("4 revalidate hits exactly the published route", isPassing, `${stamp} in winter only`);
 }
 

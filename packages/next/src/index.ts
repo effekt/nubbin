@@ -1,3 +1,4 @@
+export { artifactMetadata } from "./artifactMetadata";
 export { holeFetchOptions } from "./holeFetchOptions";
 export { publishRoute } from "./publishRoute";
 export { resolveArtifact } from "./resolveArtifact";
