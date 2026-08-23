@@ -1,5 +1,28 @@
 # @nubbin/next
 
+## [0.1.0-rc.7](https://github.com/effekt/nubbin/compare/next-v0.1.0-rc.6...next-v0.1.0-rc.7) (2026-08-23)
+
+
+### ⚠ BREAKING CHANGES
+
+* **core:** `CompileError`, `CompileIssue` and `CompileIssueCode` are replaced by `NubbinError`, `NubbinIssue` and `NubbinIssueCode`. `issue.nodeId` is now `issue.at`. `compile` returns `{ artifact, issues }` rather than an artifact.
+* **core:** `Artifact.registryFingerprint`, `Registry.fingerprint()`, `BlockDocs`, `CatalogEntry.docs`, `Block.status`, `FieldHint.label`, `FieldHint.control` and the `"request"` member of `FieldHintData` are removed. Every artifact re-addresses, so a store written before this must be republished.
+* `hashArtifact` and `Registry.fingerprint()` return sixteen hex characters where they returned eight. Every stored artifact re-addresses, so a store written before this must be republished from its documents.
+
+### Features
+
+* **core:** one error surface, every refusal keyed by a code ([#497](https://github.com/effekt/nubbin/issues/497)) ([c9d74c7](https://github.com/effekt/nubbin/commit/c9d74c7816fb35f6607b8e57bdd4c25fd03aa2ca))
+
+
+### Bug Fixes
+
+* widen the content address, and make the demo build and serve ([#487](https://github.com/effekt/nubbin/issues/487)) ([c47993d](https://github.com/effekt/nubbin/commit/c47993d15bb09ddfb4baf5bc26a0a25293463244))
+
+
+### Code Refactoring
+
+* **core:** remove the published surface nothing reads ([#493](https://github.com/effekt/nubbin/issues/493)) ([8777c70](https://github.com/effekt/nubbin/commit/8777c70acdc6a9e837a7972d577e4b860031195e))
+
 ## [0.1.0-rc.6](https://github.com/effekt/nubbin/compare/next-v0.1.0-rc.5...next-v0.1.0-rc.6) (2026-08-19)
 
 
