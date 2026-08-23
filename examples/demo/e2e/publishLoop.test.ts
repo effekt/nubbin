@@ -1,4 +1,5 @@
-import { compile, setNodeProp } from "@nubbin/core";
+import type { DocumentVersion } from "@nubbin/core";
+import { addNode, compile, moveNode, removeNode, setNodeProp } from "@nubbin/core";
 import { afterAll, beforeAll, describe, expect, test } from "vitest";
 import { fixtureRoutes } from "../fixtures/fixtureRoutes";
 import { catalog } from "../src/nubbin/catalog";
@@ -16,6 +17,19 @@ const FRESH_ROUTE = "/promotions/flash";
 const HOLE_ROUTE = "/live/pulse";
 /** The fixture carrying `FaqAccordion`, the one block with a client component inside it. */
 const INTERACTIVE_ROUTE = "/";
+/** No fixture backs this one: its document is composed here, from the operations alone. */
+const COMPOSED_ROUTE = "/promotions/flash";
+
+/** An empty page — the state an author starts from, before a single block is placed. */
+const emptyPage = (): DocumentVersion => ({
+  documentId: "composed-in-a-test",
+  version: 1,
+  roots: ["stack"],
+  elements: { stack: { id: "stack", block: "SectionStack", props: {}, slots: { sections: [] } } },
+  meta: { title: "Composed by the operations" },
+  createdAt: "2026-01-01T00:00:00Z",
+  createdBy: "e2e",
+});
 
 /**
  * The whole loop, asserted on served bytes at every step: compile a document, write it to the
@@ -180,6 +194,48 @@ describe("the publish loop, end to end", () => {
     expect(page.status).toBe(200);
     expect(page.body).toContain('data-nubbin-faq-control="expand-all"');
     expect(page.body).toMatch(/data-nubbin-node="[^"]*"/);
+  });
+
+  // Every other test here publishes a document someone wrote in TypeScript. This one builds a
+  // page out of nothing but `addNode`, `moveNode`, `setNodeProp` and `removeNode` — the path a
+  // CLI or an editor takes — and asks the server what it serves. Unit tests prove the operations
+  // rewrite a `DocumentVersion`; only this proves what they produce can be compiled, stored and
+  // rendered.
+  test("a document composed from the operations alone compiles, publishes and serves", async () => {
+    const heroId = crypto.randomUUID();
+    const footerId = crypto.randomUUID();
+    const doomed = crypto.randomUUID();
+
+    let page = addNode(emptyPage(), "stack", "sections", {
+      id: heroId,
+      block: "PageHeader",
+      props: { ...(catalog.PageHeader?.defaults ?? {}) },
+    });
+    page = addNode(page, "stack", "sections", {
+      id: doomed,
+      block: "CtaBanner",
+      props: { ...(catalog.CtaBanner?.defaults ?? {}) },
+    });
+    page = addNode(page, "stack", "sections", {
+      id: footerId,
+      block: "SiteFooter",
+      props: { ...(catalog.SiteFooter?.defaults ?? {}) },
+    });
+    page = setNodeProp(page, heroId, "headline", "Written by an operation");
+    page = moveNode(page, footerId, "stack", "sections", 0);
+    page = removeNode(page, doomed);
+
+    await publishThroughServer(COMPOSED_ROUTE, page);
+    const served = await get(COMPOSED_ROUTE);
+
+    expect(served.status).toBe(200);
+    expect(served.body).toContain("Written by an operation");
+    // The move put the footer first and the removal took the banner out — both readable in the
+    // order the renderer stamped the nodes it walked.
+    const stamps = [...served.body.matchAll(/data-nubbin-node="([^"]+)"/g)].map((hit) => hit[1]);
+    expect(stamps).toContain(footerId);
+    expect(stamps.indexOf(footerId)).toBeLessThan(stamps.indexOf(heroId));
+    expect(stamps).not.toContain(doomed);
   });
 
   // `/promotions/flash` is the fixture the publish script leaves alone, and two tests above
