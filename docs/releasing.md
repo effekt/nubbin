@@ -33,19 +33,17 @@ on the run that created them, and therefore true once per version.
 | `release-please-config.json` | how versions are computed, and for which packages |
 | `.release-please-manifest.json` | the version each package is at, which release-please rewrites |
 
-Five settings there are load-bearing, and each fails quietly if it is wrong:
+The settings there are load-bearing, and each fails quietly if it is wrong:
 
-**`"versioning": "prerelease"`** — the key is `versioning`. `versioning-strategy` is the name of
-the action input and the CLI flag, and in manifest mode the input is not read at all; the config
-schema rejects the key outright.
-
-**`"prerelease": true`** — without it the strategy strips the prerelease part rather than
-incrementing it, so the next version off an `rc` line is a stable one. `"prerelease-type": "rc"` is
-what puts the repository back on that line if it ever leaves it.
+**No `versioning`, `prerelease` or `prerelease-type`.** Their absence is what makes a version
+stable. `"versioning": "prerelease"` with `"prerelease": true` increments a candidate suffix
+instead of stripping it, and `"prerelease-type"` names the suffix — together they produce
+`rc.8` after `rc.7` and never leave that line. They were deleted to cut `0.1.0`, and the suite
+fails if one comes back. Going back on a candidate line is adding all three again, deliberately.
 
 **`"bump-minor-pre-major": true`** — a breaking change carries the prerelease part through a major
-bump rather than resetting it, so without this the version after a `feat!:` keeps the release
-candidate number it already had and only the major digit moves.
+bump rather than resetting it, so a `feat!:` before `1.0.0` moves the minor digit rather than
+the major one.
 
 **The `linked-versions` plugin**, naming every component, so the packages move as one. Its
 `components` are the component names — the npm scope is stripped, so they read as `core`,
