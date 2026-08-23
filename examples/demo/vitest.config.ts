@@ -22,9 +22,10 @@ import { defineConfig } from "vitest/config";
  * `release` project is at the root for the same reason.
  *
  * `e2e` starts a real server and asserts on served bytes, so its verdict depends on a port, a
- * build and a store rather than on the files it reads. It is invoked by `pnpm e2e` and is no
- * turbo task, for the same reason as `guardrail`: a cache that replayed it would be reporting a
- * pass about a server that never ran.
+ * build and a store rather than on the files it reads. It is no turbo task, for the same reason
+ * as `guardrail`: a cache that replayed it would be reporting a pass about a server that never
+ * ran. `pnpm e2e` at the workspace root is what invokes it, and it builds the demo's
+ * dependencies first — one of them is the CLI whose built executable this suite spawns.
  */
 export default defineConfig({
   oxc: { jsx: { runtime: "automatic" } },
