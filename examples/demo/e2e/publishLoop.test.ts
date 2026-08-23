@@ -14,6 +14,8 @@ const ROUTE = "/about";
 const FRESH_ROUTE = "/promotions/flash";
 /** The one fixture carrying holes of both kinds. */
 const HOLE_ROUTE = "/live/pulse";
+/** The fixture carrying `FaqAccordion`, the one block with a client component inside it. */
+const INTERACTIVE_ROUTE = "/";
 
 /**
  * The whole loop, asserted on served bytes at every step: compile a document, write it to the
@@ -158,6 +160,26 @@ describe("the publish loop, end to end", () => {
     await unpublishThroughServer(FRESH_ROUTE);
 
     expect((await get(FRESH_ROUTE)).status).toBe(404);
+  });
+
+  // A block is a server component and cannot be a client one — invoking a client reference on
+  // the server returns no host element, so `invokeBlock` rejects it. The supported shape is a
+  // server block whose host root contains client children, and nothing had ever run it. This is
+  // that shape, served: the control has to arrive rendered, and the stamp has to survive a root
+  // that now has a client component inside it.
+  //
+  // What this cannot see is a silent downgrade. Drop the `"use client"` from
+  // `FaqDisclosureGroup` and it renders identical markup as a server component, passing here
+  // while no longer being interactive. Catching that needs the build output or a browser, and
+  // neither is in reach of a fetch — `pnpm --filter demo build` puts the component in a chunk
+  // under `.next/static`, which is where that question is answered today.
+  test("a client component inside a block is served, and the block is still stamped", async () => {
+    await publishThroughServer(INTERACTIVE_ROUTE);
+    const page = await get(INTERACTIVE_ROUTE);
+
+    expect(page.status).toBe(200);
+    expect(page.body).toContain('data-nubbin-faq-control="expand-all"');
+    expect(page.body).toMatch(/data-nubbin-node="[^"]*"/);
   });
 
   // `/promotions/flash` is the fixture the publish script leaves alone, and two tests above
