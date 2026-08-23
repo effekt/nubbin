@@ -22,10 +22,15 @@ export function parseCliArgs(argv: readonly string[]): ParsedCli {
       allowPositionals: true,
     });
     const [command, ...rest] = positionals;
+    // Spread rather than assigned: with exactOptionalPropertyTypes an absent flag has to be an
+    // absent property, not a property holding undefined.
     return {
-      command,
-      configPath: values.config,
-      args: { positionals: rest, origin: values.origin },
+      ...(command === undefined ? {} : { command }),
+      ...(values.config === undefined ? {} : { configPath: values.config }),
+      args: {
+        positionals: rest,
+        ...(values.origin === undefined ? {} : { origin: values.origin }),
+      },
     };
   } catch (error) {
     throw new UsageError(error instanceof Error ? error.message : String(error));

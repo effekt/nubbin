@@ -153,7 +153,14 @@
       }
     },
     {
-      "includes": ["**/*.config.*", "**/*.d.ts", "packages/*/src/index.ts"],
+      "includes": [
+        "**/*.config.*",
+        "**/*.d.ts",
+        "packages/*/src/index.ts",
+        // An executable exports nothing — its name is the command a consumer types, which the
+        // package's bin field points at.
+        "packages/cli/src/bin.ts"
+      ],
       "linter": {
         "rules": {
           "style": {
