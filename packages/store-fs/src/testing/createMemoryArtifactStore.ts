@@ -1,5 +1,5 @@
 import type { Artifact, ArtifactStore, RoutePointer } from "@nubbin/core";
-import { parseMatchKind } from "@nubbin/core";
+import { NubbinIssueCode, parseMatchKind, refuse } from "@nubbin/core";
 
 /** The reference implementation the contract suite defines equivalence against. Test-only. */
 export function createMemoryArtifactStore(): ArtifactStore {
@@ -15,7 +15,11 @@ export function createMemoryArtifactStore(): ArtifactStore {
     pointer: async (route) => pointers.get(route) ?? null,
     publish: async (route, hash) => {
       if (!artifacts.has(hash)) {
-        throw new Error(`cannot publish ${route}: artifact ${hash} is not in the store`);
+        refuse(
+          NubbinIssueCode.ArtifactNotStored,
+          `cannot publish ${route}: artifact ${hash} is not in the store`,
+          route,
+        );
       }
       pointers.set(route, {
         route,

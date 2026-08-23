@@ -1,5 +1,5 @@
 import type { ArtifactNode, UnknownProps } from "@nubbin/core";
-import { setAtPath } from "@nubbin/core";
+import { NubbinIssueCode, refuse, setAtPath } from "@nubbin/core";
 import type { HoleResolver } from "./holes.types";
 
 /**
@@ -19,7 +19,11 @@ export async function resolveNodeHoles(
     return node.props;
   }
   if (!resolveHole) {
-    throw new Error(`node ${node.id} (${node.block}) declares holes but no resolveHole was given`);
+    refuse(
+      NubbinIssueCode.NoHoleResolver,
+      `node ${node.id} (${node.block}) declares holes but no resolveHole was given`,
+      node.id,
+    );
   }
   let props: Record<string, unknown> = { ...node.props };
   for (const [path, spec] of holes) {

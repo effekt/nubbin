@@ -35,7 +35,7 @@ const doc = (
 });
 
 const codes = (version: DocumentVersion) =>
-  validateStructure(version, registry).map((issue) => `${issue.code}:${issue.nodeId}`);
+  validateStructure(version, registry).map((issue) => `${issue.code}:${issue.at}`);
 
 describe("validateStructure", () => {
   test("accepts a well-formed document", () => {
@@ -142,7 +142,7 @@ describe("validateStructure", () => {
       registry,
     );
     const dangling = issues.find((issue) => issue.code === "dangling-child");
-    expect(dangling?.nodeId).toBe("ghost");
+    expect(dangling?.at).toBe("ghost");
     expect(dangling?.message).toContain('"ghost"');
   });
 

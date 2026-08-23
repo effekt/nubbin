@@ -1,11 +1,11 @@
 import { describe, expect, test } from "vitest";
 import { z } from "zod";
-import { CompileError } from "./CompileError";
 import { compile } from "./compile";
 import { createRegistry } from "./createRegistry";
 import { defineBlock } from "./defineBlock";
 import { defineCatalog } from "./defineCatalog";
 import type { DocumentVersion } from "./document.types";
+import { NubbinError } from "./NubbinError";
 import { NUBBIN_VERSION } from "./version.constants";
 
 const heroSchema = z.object({ title: z.string(), price: z.number() });
@@ -60,15 +60,17 @@ const docWithTwoBadNodes = doc({
 
 describe("compile", () => {
   test("compiles a valid document into an artifact with a stable hash", () => {
-    const artifact = compile(validDoc, catalog, registry, "/promotions/summer");
+    const { artifact } = compile(validDoc, catalog, registry, "/promotions/summer");
     expect(artifact.route).toBe("/promotions/summer");
     expect(artifact.blockVersions).toEqual({ Hero: 1, Card: 1 });
     expect(artifact.compiledWith).toBe(NUBBIN_VERSION);
-    expect(compile(validDoc, catalog, registry, "/promotions/summer").hash).toBe(artifact.hash);
+    expect(compile(validDoc, catalog, registry, "/promotions/summer").artifact.hash).toBe(
+      artifact.hash,
+    );
   });
 
   test("freezes static fields into props and leaves request fields as holes", () => {
-    const artifact = compile(validDoc, catalog, registry, "/x");
+    const { artifact } = compile(validDoc, catalog, registry, "/x");
     expect(artifact.tree[0]?.props).toEqual({ title: "T" });
     expect(artifact.tree[0]?.holes).toEqual({ price: { revalidate: 60 } });
   });
@@ -95,25 +97,25 @@ describe("compile", () => {
       },
     });
 
-    const artifact = compile(bannerDoc, bannerCatalog, bannerRegistry, "/x");
+    const { artifact } = compile(bannerDoc, bannerCatalog, bannerRegistry, "/x");
     expect(artifact.tree[0]?.props).toEqual({ title: "T", cta: { href: "/x" } });
     expect(artifact.tree[0]?.holes).toEqual({ "cta.label": { revalidate: 60 } });
   });
 
-  test("throws one CompileError carrying every issue, not the first", () => {
+  test("throws one NubbinError carrying every issue, not the first", () => {
     try {
       compile(docWithTwoBadNodes, catalog, registry, "/x");
       expect.unreachable("compile should have thrown");
     } catch (error) {
-      expect(error).toBeInstanceOf(CompileError);
-      expect((error as CompileError).issues.length).toBeGreaterThan(1);
-      expect((error as CompileError).issues[0]).toHaveProperty("nodeId");
-      expect((error as CompileError).issues[0]).toHaveProperty("path");
+      expect(error).toBeInstanceOf(NubbinError);
+      expect((error as NubbinError).issues.length).toBeGreaterThan(1);
+      expect((error as NubbinError).issues[0]).toHaveProperty("at");
+      expect((error as NubbinError).issues[0]).toHaveProperty("path");
     }
   });
 
   test("records only the block versions the document actually uses", () => {
-    const artifact = compile(heroOnlyDoc, catalog, registry, "/x");
+    const { artifact } = compile(heroOnlyDoc, catalog, registry, "/x");
     expect(artifact.blockVersions).toEqual({ Hero: 1 });
   });
 });

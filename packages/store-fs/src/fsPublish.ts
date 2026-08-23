@@ -1,5 +1,5 @@
 import type { RoutePointer } from "@nubbin/core";
-import { parseMatchKind } from "@nubbin/core";
+import { NubbinIssueCode, parseMatchKind, refuse } from "@nubbin/core";
 import { artifactPath } from "./artifactPath";
 import { pointerPath } from "./pointerPath";
 import { readJsonOrNull } from "./readJsonOrNull";
@@ -11,7 +11,11 @@ import { writeJsonAtomic } from "./writeJsonAtomic";
  */
 export async function fsPublish(root: string, route: string, hash: string): Promise<void> {
   if (!(await readJsonOrNull(artifactPath(root, hash)))) {
-    throw new Error(`cannot publish ${route}: artifact ${hash} is not in the store`);
+    refuse(
+      NubbinIssueCode.ArtifactNotStored,
+      `cannot publish ${route}: artifact ${hash} is not in the store`,
+      route,
+    );
   }
   const pointer: RoutePointer = {
     route,

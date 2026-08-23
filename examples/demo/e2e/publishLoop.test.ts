@@ -65,7 +65,7 @@ describe("the publish loop, end to end", () => {
     if (version === undefined) {
       throw new Error(`no fixture for ${route}`);
     }
-    const artifact = compile(version, catalog, registry, route);
+    const { artifact } = compile(version, catalog, registry, route);
     await demoStore.write(artifact);
     const response = await fetch(`${server.origin}/api/nubbin/publish`, {
       method: "POST",
@@ -140,7 +140,7 @@ describe("the publish loop, end to end", () => {
     expect(page.body).not.toContain("Edited by the e2e suite");
     // The same document compiles to the same address however many edits happened in between —
     // which is what makes a rollback a pointer move rather than a rebuild.
-    expect(restored).toBe(compile(original, catalog, registry, ROUTE).hash);
+    expect(restored).toBe(compile(original, catalog, registry, ROUTE).artifact.hash);
   });
 
   test("a route with no pointer is a server 404, not an empty page", async () => {

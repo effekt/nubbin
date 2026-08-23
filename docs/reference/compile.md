@@ -1,14 +1,14 @@
 ---
 title: Compiling a Document
-summary: compile and the document operations as shipped — the document shape, the two validation passes, and every issue code CompileError can carry
+summary: compile and the document operations as shipped — the document shape, the two validation passes, and every issue code Nubbin can raise
 status: reference
 ---
 
 # Compiling a document
 
-This page describes the shipped behaviour of `compile` and `CompileError`, and the types they
-take and raise: `DocumentVersion`, `Node`, `DocumentMeta`, `CompileIssue` and
-`CompileIssueCode`. Why compiling happens at publish, and why it is validation rather than a
+This page describes the shipped behaviour of `compile` and `NubbinError`, and the types they
+take and raise: `DocumentVersion`, `Node`, `DocumentMeta`, `NubbinIssue` and
+`NubbinIssueCode`. Why compiling happens at publish, and why it is validation rather than a
 build, is [Why compile at publish](../architecture.md#why-compile-at-publish).
 
 ## `compile`
@@ -23,7 +23,7 @@ function compile(
 ```
 
 Validates one document version and serializes it into an [`Artifact`](artifacts.md#artifact).
-It throws `CompileError` on any failure and performs no IO — reading the document and writing
+It throws `NubbinError` on any failure and performs no IO — reading the document and writing
 the artifact belong to adapters.
 
 Validation runs in two passes, and the second runs only if the first found nothing —
@@ -222,58 +222,126 @@ cannot compile until an author deletes each orphan by hand.
 
 Each throws on a `nodeId` or `parentId` the document does not hold.
 
-## `CompileError`
+## `NubbinError`, `NubbinIssue` and `NubbinIssueCode`
 
 ```ts
-class CompileError extends Error {
-  readonly issues: readonly CompileIssue[];
-  constructor(issues: readonly CompileIssue[]);
+class NubbinError extends Error {
+  readonly code: NubbinIssueCode;
+  readonly issues: readonly NubbinIssue[];
+}
+
+interface NubbinIssue {
+  code: NubbinIssueCode;
+  message: string;
+  at?: string;    // a node id, a block name, or a route
+  path?: string;  // where within it: a dotted prop path, `slots.items`, or `block`
 }
 ```
 
-Carries every issue found in one pass, so an author fixing six problems sees six rather than
-six sequential failures. `name` is set to `"CompileError"` explicitly, so a caught error is
-identifiable without `instanceof`. The message summarizes one line per issue with a leading
-count. Derived from `packages/core/src/compile.test.ts`:
+One class for every refusal the packages raise, so a consumer writes one `catch` and ships one
+shape to whatever tooling they keep. Nubbin never logs and never decides what a refusal means —
+it hands back the code and the prose, and the caller chooses.
+
+`code` is on the error directly because every surface but `compile` raises exactly one issue;
+`compile` collects, so an author fixing six problems sees six, and its `code` is the first.
 
 ```ts
-import { CompileError } from "@nubbin/core";
+import { NubbinError, NubbinIssueCode } from "@nubbin/core";
 
 try {
-  compile(version, catalog, registry, "/promotions/summer");
+  const { artifact, issues } = compile(version, catalog, registry, "/promotions/summer");
+  for (const issue of issues) {
+    // Not fatal — an artifact exists. Log it, ship it, or ignore it.
+    logger.warn({ code: issue.code, at: issue.at, path: issue.path, message: issue.message });
+  }
 } catch (error) {
-  if (error instanceof CompileError) {
-    for (const issue of error.issues) {
-      console.error(issue.nodeId, issue.path, issue.code, issue.message);
-    }
+  if (error instanceof NubbinError && error.code === NubbinIssueCode.InvalidProps) {
+    // …
   }
 }
 ```
 
-## `CompileIssue` and `CompileIssueCode`
+`at` and `path` are two coordinates rather than one string so an editing surface can select the
+node and highlight the field without parsing a message.
 
-```ts
-interface CompileIssue {
-  nodeId: string;
-  path: string;
-  code: CompileIssueCode;
-  message: string;
-}
-```
+### Every code
 
-`path` locates the problem inside the node: `block`, `roots`, `slots.<name>`, a dotted prop
-path from the schema's own issue, or `""` when the issue concerns the node as a whole. A
-document-level issue carries an empty `nodeId`, since no node is at fault: `no-roots` is the
-only one.
+`NubbinIssueCode` is a closed set. A member's value is its own name in kebab-case, so a
+serialized issue reads the same in a log as in code.
 
-| Code | Raised when | Pass |
+**Registration** — raised by `defineBlock`, `defineCatalog` and `createRegistry`, at the point a
+developer's own code registers something unusable.
+
+| Member | Value | Raised when |
 |---|---|---|
-| `no-roots` | The document names no entry element at all | structure |
-| `unknown-block` | A node names a block the registry lacks, or one with no catalog entry | structure / props |
-| `dangling-child` | A slot references an id with no element, or a `roots` entry does | structure |
-| `cycle` | A node reaches back to an ancestor, so the graph cannot flatten into a tree | structure |
-| `unreachable` | No slot reaches the node from any root | structure |
-| `slot-not-allowed` | A filled slot the block never declared, or a child whose block the slot's `allow` list rejects | structure |
-| `slot-min` | A declared slot holds fewer children than its `min` — an omitted slot counts as holding zero | structure |
-| `slot-max` | A slot holds more children than its `max` | structure |
-| `invalid-props` | The schema's `validate()` returned issues, or parsed to something other than an object | props |
+| `BlockVersion` | `block-version` | A block's `version` is not an integer of 1 or more |
+| `SlotBounds` | `slot-bounds` | A slot's `min` exceeds its `max`, which no composition satisfies |
+| `SlotAllowUnknown` | `slot-allow-unknown` | An `allow` entry names no registered block |
+| `DuplicateBlockName` | `duplicate-block-name` | Two blocks claim one name, which nodes resolve through |
+| `InvalidDefaults` | `invalid-defaults` | `defaults` do not satisfy the entry's own schema |
+| `HintPathUnresolvable` | `hint-path-unresolvable` | `ui.fields` names a path the schema does not define |
+| `HintNotAddressable` | `hint-not-addressable` | A `data` hint names an array member, or two hints overlap |
+
+**Schema** — the validator a consumer brought does not answer the door `core` reads through.
+
+| Member | Value | Raised when |
+|---|---|---|
+| `NotStandardSchema` | `not-standard-schema` | No `~standard.validate`, or it validates asynchronously |
+| `NoJsonSchema` | `no-json-schema` | No Standard JSON Schema converter, which introspection needs |
+
+**Structure** — `compile`'s first pass, over the document's graph. Every one is collected.
+
+| Member | Value | Raised when |
+|---|---|---|
+| `NoRoots` | `no-roots` | The document names no entry element |
+| `UnknownBlock` | `unknown-block` | A node names a block the registry or catalog lacks |
+| `DanglingChild` | `dangling-child` | A slot or `roots` entry references an id with no element |
+| `Cycle` | `cycle` | A node reaches back to an ancestor, so the graph cannot flatten |
+| `Unreachable` | `unreachable` | No slot reaches the node from any root |
+| `SlotNotAllowed` | `slot-not-allowed` | A slot the block never declared, or a child its `allow` rejects |
+| `SlotMin` | `slot-min` | A slot holds fewer children than its `min`; an omitted slot holds zero |
+| `SlotMax` | `slot-max` | A slot holds more children than its `max` |
+
+**Props** — `compile`'s second pass, over each node's values.
+
+| Member | Value | Raised when |
+|---|---|---|
+| `InvalidProps` | `invalid-props` | `validate()` returned issues, or parsed to something other than an object |
+| `UnknownProp` | `unknown-prop` | **Returned, never thrown.** A key the schema did not keep — see below |
+
+**Document operations** — the caller named something the document does not hold.
+
+| Member | Value | Raised when |
+|---|---|---|
+| `NoSuchNode` | `no-such-node` | A node id no element backs |
+| `DuplicateNodeId` | `duplicate-node-id` | `addNode` was given an id the document already uses |
+| `PathNotAddressable` | `path-not-addressable` | An empty segment, an `[]`, or a descent into an array |
+| `InvalidRoute` | `invalid-route` | A route no request could match |
+
+**Render** — `@nubbin/react`, where the artifact and the registry serving it disagree.
+
+| Member | Value | Raised when |
+|---|---|---|
+| `BlockNotLoaded` | `block-not-loaded` | The registry has no importer for a block the artifact names |
+| `NoHoleResolver` | `no-hole-resolver` | A node declares holes and no `resolveHole` was given |
+| `NotOneHostElement` | `not-one-host-element` | A block returned a Fragment, a composite, or several roots |
+
+**Store** — a write the store cannot honour.
+
+| Member | Value | Raised when |
+|---|---|---|
+| `ArtifactNotStored` | `artifact-not-stored` | A publish names a hash the store does not hold |
+
+### The one that does not throw
+
+`unknown-prop` is returned in `CompileResult.issues` rather than thrown, because the split is
+not severity — it is whether an artifact exists. A key the schema did not declare still yields a
+valid, publishable artifact, so refusing one would reject a page that renders perfectly.
+
+A schema reshapes as well as validates: a `.default()` adds a key, a coercion or a transform
+changes a value, and neither is a loss. What is a loss is a key that went in and did not come
+out, which is almost always a typo — `heading` where the schema says `headline`. Before this was
+reported it vanished in silence, the artifact compiled, and the page served with the default.
+
+It does not change the content address. Two documents differing only by a key the schema never
+kept compile to the same artifact, because they render identically.

@@ -1,3 +1,5 @@
+import { NubbinIssueCode } from "../NubbinIssueCode";
+import { refuse } from "../refuse";
 import { isStandardJsonSchemaCapable } from "./isStandardJsonSchemaCapable";
 import type { JsonSchemaNode } from "./jsonSchema.types";
 
@@ -14,7 +16,10 @@ const OPTIONS = {
  */
 export function projectJsonSchema(schema: unknown): JsonSchemaNode {
   if (!isStandardJsonSchemaCapable(schema)) {
-    throw new Error("Schema does not expose the Standard JSON Schema converter (spec >= 1.1)");
+    refuse(
+      NubbinIssueCode.NoJsonSchema,
+      "Schema does not expose the Standard JSON Schema converter (spec >= 1.1)",
+    );
   }
   return schema["~standard"].jsonSchema.input(OPTIONS);
 }

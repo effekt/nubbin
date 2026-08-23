@@ -9,7 +9,6 @@ export type {
   RoutePointer,
 } from "./artifact.types";
 export type { Block, InferProps, SlotConstraint, UnknownProps } from "./block.types";
-export { CompileError } from "./CompileError";
 export type {
   BlockUi,
   Catalog,
@@ -26,7 +25,7 @@ export type {
   RouteIncompatibility,
 } from "./compatibility.types";
 export { compile } from "./compile";
-export type { CompileIssue, CompileIssueCode } from "./compileError.types";
+export type { CompileResult } from "./compileResult.types";
 export { createRegistry } from "./createRegistry";
 export { defineBlock } from "./defineBlock";
 export { defineCatalog } from "./defineCatalog";
@@ -34,7 +33,11 @@ export type { DocumentMeta, DocumentVersion, Node } from "./document.types";
 export type { FieldKind, FieldNode, SchemaAdapter } from "./field.types";
 export { formatCompatibilityReport } from "./formatCompatibilityReport";
 export { moveNode } from "./moveNode";
+export { NubbinError } from "./NubbinError";
+export { NubbinIssueCode } from "./NubbinIssueCode";
+export type { NubbinIssue } from "./nubbinIssue.types";
 export { parseMatchKind } from "./parseMatchKind";
+export { refuse } from "./refuse";
 export type { Registry } from "./registry.types";
 export { removeNode } from "./removeNode";
 export { richText } from "./richText";

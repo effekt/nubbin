@@ -1,5 +1,7 @@
 import type { UnknownProps } from "./block.types";
 import { formatIssuePath } from "./formatIssuePath";
+import { NubbinIssueCode } from "./NubbinIssueCode";
+import { refuse } from "./refuse";
 import { standardValidate } from "./standardValidate";
 
 /**
@@ -16,5 +18,9 @@ export function assertValidDefaults(
   const detail = result.issues
     .map((issue) => `${formatIssuePath(issue.path)}: ${issue.message}`)
     .join("; ");
-  throw new Error(`${blockName}: defaults do not satisfy the schema — ${detail}`);
+  refuse(
+    NubbinIssueCode.InvalidDefaults,
+    `defaults do not satisfy the schema — ${detail}`,
+    blockName,
+  );
 }

@@ -301,7 +301,7 @@ it, so only the fraction of a design system meant to be author-placeable is expo
 // Compile reads the catalog for schemas and hints, and the registry for structure. Neither
 // carries a component, so compile needs none.
 const artifact = compile(documentVersion, catalog, registry, route);
-// throws CompileError { issues: [{ nodeId, path, code, message }] }
+// throws NubbinError { code, issues: [{ code, message, at, path }] }
 ```
 
 Issue paths point at the offending node, so the studio can select it rather than showing a

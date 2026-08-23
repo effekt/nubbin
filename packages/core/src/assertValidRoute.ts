@@ -1,3 +1,5 @@
+import { NubbinIssueCode } from "./NubbinIssueCode";
+import { refuse } from "./refuse";
 import { routeSegmentIssue } from "./routeSegmentIssue";
 
 /**
@@ -11,23 +13,22 @@ import { routeSegmentIssue } from "./routeSegmentIssue";
  * accident.
  */
 export function assertValidRoute(route: string): void {
-  const refuse = (why: string): never => {
-    throw new Error(`route "${route}" is not addressable: ${why}`);
-  };
+  const unaddressable = (why: string): never =>
+    refuse(NubbinIssueCode.InvalidRoute, `route "${route}" is not addressable: ${why}`, route);
   if (!route.startsWith("/")) {
-    refuse("a route starts at the root, with a slash");
+    unaddressable("a route starts at the root, with a slash");
   }
   if (route === "/") {
     return;
   }
   if (route.endsWith("/")) {
-    refuse("a trailing slash would key a second pointer to one page");
+    unaddressable("a trailing slash would key a second pointer to one page");
   }
   const segments = route.slice(1).split("/");
   for (const [index, segment] of segments.entries()) {
     const issue = routeSegmentIssue(segment, index === segments.length - 1);
     if (issue !== undefined) {
-      refuse(issue);
+      unaddressable(issue);
     }
   }
 }

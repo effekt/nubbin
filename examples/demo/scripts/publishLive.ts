@@ -23,7 +23,7 @@ export async function publishLive(route: string, stamp?: string): Promise<string
   if (version === undefined) {
     throw new Error(`no fixture for ${route}`);
   }
-  const artifact = compile(stampedVersion(version, stamp), catalog, registry, route);
+  const { artifact } = compile(stampedVersion(version, stamp), catalog, registry, route);
   await demoStore.write(artifact);
   const origin = process.env.DEMO_ORIGIN ?? DEFAULT_ORIGIN;
   const response = await fetch(`${origin}/api/nubbin/publish`, {

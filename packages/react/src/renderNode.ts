@@ -1,4 +1,5 @@
 import type { ArtifactNode } from "@nubbin/core";
+import { NubbinIssueCode, refuse } from "@nubbin/core";
 import type { ReactElement } from "react";
 import { invokeBlock } from "./invokeBlock";
 import type { RenderContext } from "./renderer.types";
@@ -16,7 +17,11 @@ export async function renderNode(
 ): Promise<ReactElement> {
   const component = context.blocks[node.block];
   if (component === undefined) {
-    throw new Error(`artifact for ${context.route} names "${node.block}" but it was not loaded`);
+    refuse(
+      NubbinIssueCode.BlockNotLoaded,
+      `artifact for ${context.route} names "${node.block}" but it was not loaded`,
+      node.id,
+    );
   }
   const props = await resolveNodeHoles(node, context.route, context.resolveHole);
   const slotProps = await renderSlots(node.slots, (child) => renderNode(child, context));

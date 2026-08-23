@@ -1,17 +1,18 @@
-import type { CompileIssue } from "./compileError.types";
 import type { DocumentVersion } from "./document.types";
+import { NubbinIssueCode } from "./NubbinIssueCode";
+import type { NubbinIssue } from "./nubbinIssue.types";
 
 /**
  * The entry points, checked before the graph they open. A document with no roots compiles to
  * an empty tree, and a root naming no element loses its whole subtree — both silently.
  */
-export function findRootIssues(version: DocumentVersion): CompileIssue[] {
+export function findRootIssues(version: DocumentVersion): NubbinIssue[] {
   if (version.roots.length === 0) {
     return [
       {
-        nodeId: "",
+        at: "",
         path: "roots",
-        code: "no-roots",
+        code: NubbinIssueCode.NoRoots,
         message: "a document needs at least one root, and this one names none",
       },
     ];
@@ -20,9 +21,9 @@ export function findRootIssues(version: DocumentVersion): CompileIssue[] {
     version.elements[root] === undefined
       ? [
           {
-            nodeId: root,
+            at: root,
             path: "roots",
-            code: "dangling-child" as const,
+            code: NubbinIssueCode.DanglingChild,
             message: `root "${root}" has no matching element`,
           },
         ]

@@ -61,7 +61,7 @@ declaration greys out an invalid drop target during drag
 
 | Mode | Consequence |
 |---|---|
-| `slot.min` violated by a delete | The current design does not block it in the editor. Surfaces at publish as a `CompileError` with a node path. |
+| `slot.min` violated by a delete | The current design does not block it in the editor. Surfaces at publish as a `NubbinError` with a node and a path. |
 | `allow` names a typo'd or renamed block | `createRegistry()` throws, naming every unresolvable entry with its block and slot, so the slot never reaches an author. |
 | A pasted/cloned subtree creates a cycle | Not reachable through normal drag; possible via direct API writes. The flat shape makes it detectable — a cycle can't flatten into a tree, so compile fails rather than looping. |
 | Cross-document composition (copy a node from one open page into another) | Undesigned. The canvas is one iframe over one document at a time ([`studio.md`](studio.md)). |
@@ -134,7 +134,7 @@ set, so firing cannot fail on a surprise validation error.
 
 | Mode | Consequence |
 |---|---|
-| Compile fails | `CompileError { issues: [{ nodeId, path, code, message }] }`; the document stays on its previous artifact. |
+| Compile fails | `NubbinError { code, issues: [{ code, message, at, path }] }`; the document stays on its previous artifact. |
 | Rollback target no longer validates against the current registry | Rollback is a pointer move with no recompile, so frozen props from an older block version could feed a changed component. `checkRollback` compares the artifact's `blockVersions` against the registry live now and returns the verdict, so the caller decides whether drift blocks the swap. A rollback caller that consults it is [#21](https://github.com/effekt/nubbin/issues/21). |
 | A live artifact's block is deleted from the registry | A static block is inert — its data is frozen into the resolved tree, no lookup at render. A request-mode field is not: it needs the registry at request time, so deletion breaks the live page with no republish involved. **Resolved:** `checkCompatibility` runs over every live pointer as the `pnpm guardrail` step of CI and fails it, treating a deleted block as an incompatible version bump. Branch protection is what makes a failing check unmergeable, and is set in repository settings ([#22](https://github.com/effekt/nubbin/issues/22)). |
 | Route ownership | Unpublish a route, let another `Document` claim it, republish the first — the second is silently evicted. Nothing enforces uniqueness of route → documentId, so the eviction is silent ([#12](https://github.com/effekt/nubbin/issues/12)). |

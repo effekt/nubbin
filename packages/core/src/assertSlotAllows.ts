@@ -1,4 +1,6 @@
 import type { Block } from "./block.types";
+import { NubbinIssueCode } from "./NubbinIssueCode";
+import { refuse } from "./refuse";
 import { unknownAllowEntries } from "./unknownAllowEntries";
 
 /**
@@ -10,7 +12,8 @@ export function assertSlotAllows(blocks: readonly Block[]): void {
   const known = new Set(blocks.map((block) => block.name));
   const unresolved = blocks.flatMap((block) => unknownAllowEntries(block, known));
   if (unresolved.length > 0) {
-    throw new Error(
+    refuse(
+      NubbinIssueCode.SlotAllowUnknown,
       `Slot allow lists name ${unresolved.join(", ")}, which no registered block defines. ` +
         `Registered blocks: ${[...known].sort().join(", ")}`,
     );

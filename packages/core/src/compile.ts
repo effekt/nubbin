@@ -1,10 +1,11 @@
 import type { Artifact } from "./artifact.types";
 import { assertValidRoute } from "./assertValidRoute";
-import { CompileError } from "./CompileError";
 import type { Catalog } from "./catalog.types";
+import type { CompileResult } from "./compileResult.types";
 import { denormalize } from "./denormalize";
 import type { DocumentVersion } from "./document.types";
 import { hashArtifact } from "./hashArtifact";
+import { NubbinError } from "./NubbinError";
 import type { Registry } from "./registry.types";
 import { resolveAllProps } from "./resolveAllProps";
 import { usedBlockVersions } from "./usedBlockVersions";
@@ -24,13 +25,13 @@ export function compile(
   catalog: Catalog,
   registry: Registry,
   route: string,
-): Artifact {
+): CompileResult {
   assertValidRoute(route);
   const structural = validateStructure(version, registry);
-  if (structural.length > 0) throw new CompileError(structural);
+  if (structural.length > 0) throw new NubbinError(structural);
 
-  const { resolved, issues } = resolveAllProps(version, catalog);
-  if (issues.length > 0) throw new CompileError(issues);
+  const { resolved, issues, reported } = resolveAllProps(version, catalog);
+  if (issues.length > 0) throw new NubbinError(issues);
 
   // Every element resolved or an issue was thrown above; the fallback is unreachable.
   const tree = denormalize(version, (node) => resolved.get(node.id) ?? { props: {}, holes: {} });
@@ -44,5 +45,5 @@ export function compile(
     meta: version.meta,
     compiledWith: NUBBIN_VERSION,
   };
-  return { ...content, hash: hashArtifact(content) };
+  return { artifact: { ...content, hash: hashArtifact(content) }, issues: reported };
 }

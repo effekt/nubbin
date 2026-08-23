@@ -1,3 +1,5 @@
+import { NubbinIssueCode } from "./NubbinIssueCode";
+import { refuse } from "./refuse";
 /**
  * Splits one dotted path into its first segment and the segments below it, refusing what no
  * path can address: an empty segment, and `[]`, which names every member of an array rather
@@ -7,7 +9,7 @@
 export function splitPath(path: string): { head: string; tail: string[] } {
   const [head, ...tail] = path.split(".");
   if (head === undefined || head === "" || head.includes("[]")) {
-    throw new Error(`path "${path}" is not addressable`);
+    refuse(NubbinIssueCode.PathNotAddressable, `path "${path}" is not addressable`, path);
   }
   return { head, tail };
 }

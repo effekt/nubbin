@@ -3,7 +3,8 @@ import { expect, test } from "vitest";
 test("the published surface exports exactly the documented API", async () => {
   const surface = Object.keys(await import("./index")).sort();
   expect(surface).toEqual([
-    "CompileError",
+    "NubbinError",
+    "NubbinIssueCode",
     "addNode",
     "checkCompatibility",
     "checkRollback",
@@ -14,6 +15,7 @@ test("the published surface exports exactly the documented API", async () => {
     "formatCompatibilityReport",
     "moveNode",
     "parseMatchKind",
+    "refuse",
     "removeNode",
     "richText",
     "setAtPath",

@@ -1,3 +1,5 @@
+import { NubbinIssueCode } from "./NubbinIssueCode";
+import { refuse } from "./refuse";
 import { splitPath } from "./splitPath";
 
 /** Copy-on-write down one dotted path. Paths address object fields only; `[]` has no single target. */
@@ -17,7 +19,11 @@ export function setAtPath(
   // at this same step; the two walk in opposite directions over one vocabulary, so they refuse
   // the same shapes.
   if (Array.isArray(child)) {
-    throw new Error(`path "${path}" descends into an array at "${head}", which addresses no field`);
+    refuse(
+      NubbinIssueCode.PathNotAddressable,
+      `path "${path}" descends into an array at "${head}", which addresses no field`,
+      path,
+    );
   }
   const base =
     typeof child === "object" && child !== null ? (child as Record<string, unknown>) : {};

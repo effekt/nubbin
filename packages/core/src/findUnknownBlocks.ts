@@ -1,15 +1,16 @@
-import type { CompileIssue } from "./compileError.types";
 import type { DocumentVersion } from "./document.types";
+import { NubbinIssueCode } from "./NubbinIssueCode";
+import type { NubbinIssue } from "./nubbinIssue.types";
 import type { Registry } from "./registry.types";
 
 /** A node naming a block the registry lacks can never resolve to a component. */
-export function findUnknownBlocks(version: DocumentVersion, registry: Registry): CompileIssue[] {
+export function findUnknownBlocks(version: DocumentVersion, registry: Registry): NubbinIssue[] {
   return Object.values(version.elements)
     .filter((node) => registry.get(node.block) === undefined)
     .map((node) => ({
-      nodeId: node.id,
+      at: node.id,
       path: "block",
-      code: "unknown-block" as const,
+      code: NubbinIssueCode.UnknownBlock,
       message: `"${node.block}" is not a registered block`,
     }));
 }

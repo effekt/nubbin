@@ -1,5 +1,6 @@
-import type { CompileIssue } from "./compileError.types";
 import type { DocumentVersion, Node } from "./document.types";
+import { NubbinIssueCode } from "./NubbinIssueCode";
+import type { NubbinIssue } from "./nubbinIssue.types";
 
 /** Flags each child whose block the slot's allow list rejects. Dangling ids are another check's job. */
 export function disallowedChildren(
@@ -8,16 +9,16 @@ export function disallowedChildren(
   childIds: readonly string[],
   allow: readonly string[] | undefined,
   version: DocumentVersion,
-): CompileIssue[] {
+): NubbinIssue[] {
   if (allow === undefined) return [];
-  const issues: CompileIssue[] = [];
+  const issues: NubbinIssue[] = [];
   for (const childId of childIds) {
     const child = version.elements[childId];
     if (child === undefined || allow.includes(child.block)) continue;
     issues.push({
-      nodeId: childId,
+      at: childId,
       path,
-      code: "slot-not-allowed",
+      code: NubbinIssueCode.SlotNotAllowed,
       message: `"${child.block}" is not allowed in ${path} of "${parent.block}"; allowed: ${allow.join(", ")}`,
     });
   }
