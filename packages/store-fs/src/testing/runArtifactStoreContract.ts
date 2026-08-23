@@ -1,6 +1,7 @@
 import type { ArtifactStore } from "@nubbin/core";
 import { describe, expect, test } from "vitest";
 import { artifactFixture } from "./artifactFixture";
+import { runPointerRaceContract } from "./runPointerRaceContract";
 
 /**
  * One suite, every implementation. An adapter passing by eye instead of by execution is the
@@ -65,5 +66,7 @@ export function runArtifactStoreContract(
       const { routes } = await store.manifest();
       expect(routes.map((pointer) => pointer.route).sort()).toEqual(["/x", "/y"]);
     });
+
+    runPointerRaceContract(makeStore);
   });
 }

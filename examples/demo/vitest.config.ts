@@ -15,11 +15,16 @@ import { defineConfig } from "vitest/config";
  * `globals` is what registers Testing Library's `afterEach(cleanup)`. Without it a second
  * `render` in one file leaves the first tree mounted and every `getByRole` finds two.
  *
- * Two projects, because they answer about different things. `unit` reads only files in this
+ * Three projects, because they answer about different things. `unit` reads only files in this
  * package and is what `pnpm test` runs. `guardrail` reads the committed artifact store — state
  * whose contents no task hash has any reason to see — so it is invoked directly by
  * `pnpm guardrail` at the workspace root and is registered as no turbo task, exactly as the
  * `release` project is at the root for the same reason.
+ *
+ * `e2e` starts a real server and asserts on served bytes, so its verdict depends on a port, a
+ * build and a store rather than on the files it reads. It is invoked by `pnpm e2e` and is no
+ * turbo task, for the same reason as `guardrail`: a cache that replayed it would be reporting a
+ * pass about a server that never ran.
  */
 export default defineConfig({
   oxc: { jsx: { runtime: "automatic" } },
@@ -40,6 +45,19 @@ export default defineConfig({
           name: "guardrail",
           environment: "node",
           include: ["guardrail/*.test.ts"],
+        },
+      },
+      {
+        extends: true,
+        test: {
+          name: "e2e",
+          environment: "node",
+          include: ["e2e/*.test.ts"],
+          // One server, one store, one set of pointers: two files publishing the same route
+          // concurrently would each see the other's page.
+          fileParallelism: false,
+          testTimeout: 60_000,
+          hookTimeout: 180_000,
         },
       },
     ],

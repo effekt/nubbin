@@ -10,6 +10,7 @@
     "start": "next start",
     "test": "vitest run --project unit",
     "guardrail": "vitest run --project guardrail",
+    "e2e": "vitest run --project e2e",
     "typecheck": "tsc --noEmit",
     "fixtures:publish": "tsx scripts/publishFixtures.ts",
     "serve:verify": "node scripts/verifyServing.mjs",
