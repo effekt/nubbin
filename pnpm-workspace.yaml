@@ -37,6 +37,11 @@ catalog:
   "@standard-schema/spec": 1.1.0
   zod: 4.4.3
 
+  # Config loading — the CLI imports a consumer's TypeScript config, which lives beside their
+  # application and imports the way application code does: extensionless, aliased, and past
+  # what bare Node ESM resolves
+  jiti: 2.7.0
+
   # Styling — the demo and the studio share one Tailwind, so the preview renders the
   # demo's blocks with the classes they were written against
   tailwindcss: 4.3.3
