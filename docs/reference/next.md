@@ -56,10 +56,9 @@ function holeFetchOptions(
 ```
 
 Maps a hole's declared lifecycle onto Next's fetch cache, so the mapping is owned by the binding
-rather than re-decided inside every consumer's resolver. `"request"` becomes
-`{ cache: "no-store" }`, which also makes a page carrying a request hole dynamic — per-request
-resolution is what that hole declared. A `{ revalidate: n }` spec becomes
-`{ next: { revalidate: n } }`.
+rather than re-decided inside every consumer's resolver. A `{ revalidate: n }` spec becomes
+`{ next: { revalidate: n } }`, which leaves the page cacheable and refreshes the value on that
+interval.
 
 It takes core's `FieldHintData` directly rather than deriving a local spec type from
 `ArtifactNode["holes"]`: core exports the type by name, so both packages import it from core.

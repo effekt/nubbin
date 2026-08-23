@@ -1,6 +1,6 @@
 ---
 title: Blocks and the Registry
-summary: defineBlock and createRegistry as shipped — signatures, what registration rejects, and what the fingerprint covers
+summary: defineBlock and createRegistry as shipped — signatures, and what registration rejects
 status: reference
 ---
 
@@ -66,7 +66,6 @@ interface Block<Schema extends StandardSchemaV1 = StandardSchemaV1, Component = 
   schema: Schema;
   component: Component;
   version: number;
-  status?: "active" | "deprecated";
   slots: Record<string, SlotConstraint>;
 }
 ```
@@ -216,17 +215,10 @@ that appears later in the array — its order carries no meaning.
 interface Registry {
   get(name: string): Block | undefined;
   names(): string[];
-  fingerprint(): string;
 }
 ```
 
-The fingerprint hashes every block's `name` and `version` and nothing else. Its observed
-properties, each pinned by a test in `packages/core/src/createRegistry.test.ts`:
-
-- registration order does not change it — the pairs are sorted before hashing;
-- changing any block's `version` changes it;
-- a slot constraint, a `status`, or any other field changes nothing, so unrelated edits do
-  not invalidate artifacts compiled before them.
-
-`compile` stamps the fingerprint into each artifact as `registryFingerprint` — see
-[`Artifact`](artifacts.md#artifact).
+A registry answers two questions and holds no identity of its own. What an artifact records
+about the registry it compiled against is `blockVersions` — the name and version of each
+block the document actually uses — which is what
+[the guardrail](artifacts.md#artifact) compares.

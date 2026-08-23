@@ -1,6 +1,6 @@
 ---
 title: Compiling a Document
-summary: compile and setNodeProp as shipped — the document shape, the two validation passes, and every issue code CompileError can carry
+summary: compile and the document operations as shipped — the document shape, the two validation passes, and every issue code CompileError can carry
 status: reference
 ---
 
@@ -65,7 +65,7 @@ const card = defineBlock({
 
 const registry = createRegistry([hero, card]);
 const catalog = defineCatalog({
-  Hero: { schema: heroSchema, ui: { fields: { price: { data: "request" } } } },
+  Hero: { schema: heroSchema, ui: { fields: { price: { data: { revalidate: 60 } } } } },
   Card: { schema: cardSchema },
 });
 
@@ -85,7 +85,7 @@ const version: DocumentVersion = {
 const artifact = compile(version, catalog, registry, "/promotions/summer");
 
 artifact.tree[0]?.props; // { title: "T" }  — static fields, frozen
-artifact.tree[0]?.holes; // { price: "request" }  — resolved at render instead
+artifact.tree[0]?.holes; // { price: { revalidate: 60 } }  — resolved at render instead
 artifact.blockVersions; // { Hero: 1, Card: 1 }
 ```
 
@@ -97,7 +97,7 @@ cannot change the address.
 
 After validation, each node's parsed props are split by the catalog's
 [`data` hints](catalog.md#fieldhintdata). A field with no hint freezes into
-`ArtifactNode.props`; a field hinted `"request"` or `{ revalidate }` is dropped from props and
+`ArtifactNode.props`; a field carrying a `{ revalidate }` hint is dropped from props and
 recorded in `ArtifactNode.holes` under the path its hint names, carrying the hint as the
 instruction for render time. The split is by that whole dotted path: a hint on `cta.label`
 takes that leaf alone and the rest of `cta` stays frozen, which is why a hole's key is a path
@@ -143,7 +143,8 @@ each — see [A document has many roots](../decisions/a-document-has-many-roots.
 How a `DocumentVersion` is stored is the authoring store, an open design question of its own
 ([#11](https://github.com/effekt/nubbin/issues/11)) — so the examples here construct one as a
 literal, the way the package's own tests do. Editing one is
-[`setNodeProp`](#setnodeprop-and-setatpath).
+[`setNodeProp`](#setnodeprop-and-setatpath); composing one is
+[`addNode`, `removeNode` and `moveNode`](#addnode-removenode-and-movenode).
 
 ## `setNodeProp` and `setAtPath`
 
@@ -175,6 +176,51 @@ unknown `nodeId` and on an `items[]` path, which names every array member rather
 
 `setAtPath` is the copy-on-write descent it writes with — the same one the renderer uses to
 fill a resolved hole value into props at render time.
+
+## `addNode`, `removeNode` and `moveNode`
+
+```ts
+function addNode(
+  version: DocumentVersion,
+  parentId: string,
+  slot: string,
+  node: Node,
+  index?: number,
+): DocumentVersion;
+
+function removeNode(version: DocumentVersion, nodeId: string): DocumentVersion;
+
+function moveNode(
+  version: DocumentVersion,
+  nodeId: string,
+  toParentId: string,
+  toSlot: string,
+  index?: number,
+): DocumentVersion;
+```
+
+Structure, on the same terms as `setNodeProp`: a new `DocumentVersion`, copy-on-write, every
+untouched node kept by reference, and no bump to `version`. `index` inserts and its absence
+appends; for `moveNode` it names a position in the target slot *after* the node is taken out,
+which is the reading under which moving something to the end is the slot's length.
+
+**The caller supplies `node.id`.** `core` runs in a browser, a worker and a build step, so it
+reaches no `node:` builtin — and a generator inside these functions would make the same
+composition produce a different document each time, which
+[content addressing](artifacts.md) cannot tolerate. `crypto.randomUUID()` belongs in the
+caller. `addNode` refuses an id the document already holds, because reusing one would replace
+a node and silently redirect every slot that named it.
+
+**They do not judge legality.** A block a slot's `allow` forbids, a slot pushed past `max` or
+emptied below `min`, a move into the node's own subtree — `compile` refuses each by name, so
+judging it here would be a second opinion on one question. It also lets a document be illegal
+between two edits that end legal, which any editing session needs.
+
+**`removeNode` cascades.** Removing a section removes what was in it. Children left behind
+are unreachable, which `compile` already refuses, so the alternative is a document that
+cannot compile until an author deletes each orphan by hand.
+
+Each throws on a `nodeId` or `parentId` the document does not hold.
 
 ## `CompileError`
 

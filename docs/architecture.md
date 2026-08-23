@@ -35,7 +35,7 @@ caching tier to survive the round trip.
  (compose)             │  validate every node against its block schema
    │                   │  resolve the flat graph into a tree, freeze static values
    │                   ▼
-   │             Artifact { hash, tree, holes, blockVersions, registryFingerprint }
+   │             Artifact { hash, tree, holes, blockVersions }
    │                   │
    ▼                   ▼
  draft versions   store.write(artifact) → store.publish(route, hash)
@@ -122,7 +122,7 @@ See [`studio.md`](studio.md) for the canvas and its delivery surfaces.
 
 ## Versioning and the guardrail
 
-Every artifact records the block versions and registry fingerprint it was compiled against.
+Every artifact records the version of each block it was compiled against.
 
 That makes the guardrail possible, and it is a **failing check** rather than a report: if a
 registry change would invalidate any artifact a live route pointer references, CI fails.

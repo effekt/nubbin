@@ -100,4 +100,4 @@ decides what it is. It receives the spec and never a value — the stored placeh
 at compile, and mapping a declared lifecycle onto a caching layer belongs to the framework
 binding. `@nubbin/next`'s [`holeFetchOptions`](next.md) is that mapping for Next.
 
-`spec` is `"request"` or `{ revalidate: n }`, exactly what compile wrote into the artifact.
+`spec` is `{ revalidate: n }`, exactly what compile wrote into the artifact.
