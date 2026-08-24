@@ -1,4 +1,5 @@
 import type { DocumentVersion, Node } from "@nubbin/core";
+import { assertNoPuckZones } from "./assertNoPuckZones";
 import { fromPuckComponent } from "./fromPuckComponent";
 import type { PuckData } from "./puckData.types";
 import { toDocumentMeta } from "./toDocumentMeta";
@@ -8,14 +9,18 @@ import { toDocumentMeta } from "./toDocumentMeta";
  * arrays. Identity fields carry over from `prior` — this is the same edit `setNodeProp` or
  * `addNode` would have made, so it bumps nothing. `mintId` names ids for nodes Puck created;
  * the default mints the way `addNode`'s callers do, since `core` deliberately ships no
- * generator of its own. */
+ * generator of its own. `blockSlots` — each block's declared slot names, from
+ * `toSlotNamesByBlock` — makes slot detection schema-driven; without it the structural
+ * reading stands. A `Data` whose legacy `zones` holds content is refused outright. */
 export function fromPuckData(
   data: PuckData,
   prior: DocumentVersion,
   mintId: () => string = () => crypto.randomUUID(),
+  blockSlots?: Record<string, readonly string[]>,
 ): DocumentVersion {
+  assertNoPuckZones(data);
   const elements: Record<string, Node> = {};
-  const ctx = { prior, elements, mintId };
+  const ctx = { prior, elements, mintId, blockSlots };
   return {
     documentId: prior.documentId,
     version: prior.version,

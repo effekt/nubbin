@@ -18,7 +18,7 @@ export default function Page() {
             <li key={route} className="py-0.5">
               <a
                 className="text-teal underline underline-offset-4"
-                href={prefixedRoute("/preview", route)}
+                href={prefixedRoute("/edit", route)}
               >
                 {route}
               </a>
