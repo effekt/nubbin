@@ -1,4 +1,8 @@
 node_modules/
+
+# pnpm's content-addressable store, when it lands here rather than in its usual home. Nothing
+# in this repository asks for that, which is the reason to ignore it rather than to explain it.
+.pnpm-store/
 dist/
 .next/
 .turbo/
