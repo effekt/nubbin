@@ -146,6 +146,24 @@ Publishing then waits on the `npm` environment, which restricts deployments to `
 required reviewer. Merging the release pull request proposes a release; approving that deployment
 performs one.
 
+**A package published for the first time cannot be published by CI.** Trusted publishing is
+configured per package, on a page that exists only once the package does — so the token exchange
+for a name npm has never seen returns a 404, pnpm falls back to no credentials, and the registry
+answers the unauthenticated `PUT` with another 404 rather than disclosing whether the name exists.
+Cutting a release that introduces a package publishes the rest and stops there.
+
+The bootstrap is one authenticated publish by a person:
+
+```bash
+npm login
+pnpm --filter @nubbin/<name> publish --access public --no-git-checks
+```
+
+**`pnpm`, never `npm`.** The manifest's dependencies are written `workspace:*` and `catalog:`, and
+pnpm resolves both as it packs; `npm publish` ships the literal specifiers and the package cannot
+be installed. Configure the trusted publisher immediately afterwards, and CI owns every release
+that follows.
+
 No npm token is stored. `id-token: write` lets npm exchange an OIDC claim for a short-lived
 credential scoped to that one workflow, which cannot be extracted or reused, and is what signs the
 provenance attestation.
