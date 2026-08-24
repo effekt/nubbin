@@ -1,7 +1,9 @@
+import { NubbinError } from "@nubbin/core";
 import { routeFromSlug } from "@nubbin/next";
 import { Renderer } from "@nubbin/react";
 import { blockRegistry } from "demo/src/nubbin/blockRegistry";
 import { notFound } from "next/navigation";
+import { PreviewRefusal } from "../../../components/PreviewRefusal";
 import { PreviewToolbar } from "../../../components/PreviewToolbar";
 import { compileVersion } from "../../../nubbin/compileVersion";
 import { readDraft } from "../../../nubbin/readDraft";
@@ -13,7 +15,9 @@ import { studioStore } from "../../../nubbin/studioStore";
  * given the current draft instead of a stored artifact. A pure publish-parity render:
  * editing lives at `/edit`, this page shows exactly what publish would freeze.
  * Awaiting `searchParams` keeps the page dynamic, so every request recompiles and re-reads
- * the pointer — which is what makes a saved edit appear on refresh.
+ * the pointer — which is what makes a saved edit appear on refresh. A draft the compiler
+ * refuses — a page created empty, most commonly — previews as the refusal itself rather
+ * than a crash, because the refusal is exactly what publish would say.
  */
 export default async function Page({
   params,
@@ -29,7 +33,15 @@ export default async function Page({
   if (draft === undefined) {
     notFound();
   }
-  const artifact = compileVersion(draft, route);
+  let artifact: ReturnType<typeof compileVersion>;
+  try {
+    artifact = compileVersion(draft, route);
+  } catch (error) {
+    if (error instanceof NubbinError) {
+      return <PreviewRefusal route={route} issues={error.issues} />;
+    }
+    throw error;
+  }
   const pointer = await studioStore().pointer(route);
   return (
     <>

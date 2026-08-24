@@ -23,6 +23,7 @@ function renderEditor() {
   return render(
     <PuckEditor
       route="/"
+      routes={["/"]}
       initialData={{
         content: [{ type: "Hero", props: { id: "hero", headline: "The water tells you first" } }],
         root: { props: { title: "home" } },

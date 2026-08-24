@@ -26,6 +26,7 @@ const SAVE_DELAY_MS = 500;
 
 interface PuckEditorProps {
   route: string;
+  routes: readonly string[];
   initialData: PuckData;
   initialVersion: DocumentVersion;
 }
@@ -36,7 +37,7 @@ interface PuckEditorProps {
  * shows above the canvas in author words, one clickable line per issue, and clicking one
  * selects the failing block; a publish that lands confirms with the route and links the
  * live page at the URL the endpoint built. */
-export function PuckEditor({ route, initialData, initialVersion }: PuckEditorProps) {
+export function PuckEditor({ route, routes, initialData, initialVersion }: PuckEditorProps) {
   const config = useMemo(() => toPuckConfig(catalog, registry), []);
   const blockSlots = useMemo(() => toSlotNamesByBlock(registry), []);
   const prior = useRef(initialVersion);
@@ -60,7 +61,10 @@ export function PuckEditor({ route, initialData, initialVersion }: PuckEditorPro
   const onPublish = useCallback(() => {
     void postPublish(route).then(setOutcome);
   }, [route]);
-  const overrides = useMemo(() => toBridgedOverrides(puckApi, onPublish), [onPublish]);
+  const overrides = useMemo(
+    () => toBridgedOverrides(puckApi, onPublish, { route, routes }),
+    [onPublish, route, routes],
+  );
   const onSelect = (nodeId: string) => {
     const api = puckApi.current;
     if (api !== undefined) {

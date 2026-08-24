@@ -1,0 +1,149 @@
+/* The Pages switcher's look, in the same voice as puckTheme.css and drawing the same
+ * --nb-* tokens — the switcher renders inside `.nubbin-studio`, so the tokens cascade to
+ * it. Split from puckTheme.css only for the file-length gate; the design language is one. */
+
+/* The Pages switcher: header hardware in the panel voice. The popup floats like a notice;
+ * the current route is marked by weight, tint and the aria-current bar, never hue alone. */
+.nubbin-pages {
+  position: relative;
+  margin-right: 10px;
+}
+
+.nubbin-pages > button {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 7px;
+  padding: 6px 10px;
+  background: var(--nb-panel);
+  border: 1px solid var(--nb-line);
+  border-radius: var(--nb-r);
+  color: var(--nb-ink);
+  font-size: 12.5px;
+  cursor: pointer;
+}
+
+.nubbin-pages > button:hover {
+  background: var(--nb-well);
+}
+
+.nubbin-pages-eyebrow {
+  color: var(--nb-dim);
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.nubbin-pages-current {
+  font-weight: 600;
+}
+
+.nubbin-pages-caret {
+  color: var(--nb-dim);
+}
+
+.nubbin-pages-popup {
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0;
+  z-index: 40;
+  min-width: 240px;
+  padding: 6px;
+  background: var(--nb-panel);
+  border: 1px solid var(--nb-line);
+  border-radius: var(--nb-r);
+  box-shadow:
+    0 2px 6px rgba(11, 43, 51, 0.14),
+    0 18px 48px rgba(11, 43, 51, 0.18);
+}
+
+.nubbin-pages-popup ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.nubbin-pages-popup a {
+  display: block;
+  padding: 5px 10px;
+  border-left: 2px solid transparent;
+  color: var(--nb-ink);
+  font-size: 12.5px;
+  text-decoration: none;
+}
+
+.nubbin-pages-popup a:hover {
+  background: var(--nb-teal-tint);
+  border-left-color: var(--nb-teal);
+}
+
+.nubbin-pages-popup a[aria-current="page"] {
+  background: var(--nb-teal-tint);
+  border-left-color: var(--nb-teal);
+  font-weight: 600;
+}
+
+.nubbin-pages-popup > button {
+  width: 100%;
+  margin-top: 6px;
+  padding: 5px 10px;
+  background: transparent;
+  border: 0;
+  border-top: 1px solid var(--nb-line-soft);
+  border-radius: 0;
+  color: var(--nb-teal);
+  font-size: 12.5px;
+  font-weight: 600;
+  text-align: left;
+  cursor: pointer;
+}
+
+.nubbin-pages-popup > button:hover {
+  background: var(--nb-well);
+}
+
+.nubbin-pages-form {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-top: 6px;
+  padding: 8px 10px 10px;
+  border-top: 1px solid var(--nb-line-soft);
+}
+
+.nubbin-pages-form label {
+  color: var(--nb-dim);
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.nubbin-pages-form input {
+  padding: 5px 8px;
+  background: var(--nb-well);
+  border: 1px solid var(--nb-line);
+  border-radius: 6px;
+  color: var(--nb-ink);
+  font-size: 12.5px;
+}
+
+.nubbin-pages-form p[role="alert"] {
+  margin: 0;
+  color: var(--nb-ink);
+  font-size: 12px;
+  border-left: 2px solid var(--nb-teal);
+  padding-left: 8px;
+}
+
+.nubbin-pages-form button[type="submit"] {
+  align-self: flex-start;
+  padding: 5px 12px;
+  background: var(--nb-teal);
+  border: 1px solid var(--nb-teal);
+  border-radius: 6px;
+  color: #ffffff;
+  font-size: 12.5px;
+  font-weight: 600;
+  cursor: pointer;
+}
