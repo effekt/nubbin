@@ -111,7 +111,10 @@ is the hardest technical problem in the studio, and the one no page builder gets
 **Pragmatic (`@atlaskit/pragmatic-drag-and-drop`) cannot bridge a same-origin iframe with
 pointer events** — see [Why not the alternatives](#why-not-the-alternatives).
 
-**dnd-kit's same-origin frame traversal handles it, and this is the library.**
+**dnd-kit's same-origin frame traversal handles it, and this is the library for that
+canvas.** Before the iframe canvas exists, the authoring loop ships on Puck's own shell —
+scope and boundary in
+[Puck is the iteration-one editor](../decisions/puck-is-the-iteration-one-editor.md).
 `@dnd-kit/dom`'s `getDocuments()` recursively walks `iframe`/`frame` elements, catching the
 `SecurityError` on cross-origin access to skip them, and `PointerSensor` binds pointer events
 on every discovered same-origin document — shipped and changelogged (PR #1517, "Support
@@ -143,7 +146,7 @@ coordinates are relative to the document the method runs on, not the parent.
 | Candidate | Why not |
 |---|---|
 | Pragmatic (`@atlaskit/pragmatic-drag-and-drop`) | Binds the global `document`; can't bridge a same-origin iframe without falling back to native HTML5 `DataTransfer`. |
-| Puck | The maintainer has stated it does not support editing an external site — its iframe mode wraps Puck's own render, not an external app. |
+| Puck | For this canvas only: the maintainer has stated it does not support editing an external site — its iframe mode wraps Puck's own render, not an external app. It is the [iteration-one editor](../decisions/puck-is-the-iteration-one-editor.md), where the studio renders its own components anyway. |
 | Craft.js | Long gap without commits and a rewrite promised for some time; community reports of broken drop-indicator coordinates inside iframes. |
 | GrapesJS | Has rendered its canvas in an iframe since inception and still has an open issue confirming drag-from-outside-into-iframe doesn't work. |
 | react-dnd | Gets cross-frame drag for free via the native HTML5 backend, but no recent releases and no keyboard sensor. |
