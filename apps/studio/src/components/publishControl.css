@@ -1,0 +1,207 @@
+/* The publish split control and its history panel, in the same voice as puckTheme.css and
+ * drawing the same --nb-* tokens — the control renders inside `.nubbin-studio`, so the
+ * tokens cascade to it. Split from puckTheme.css only for the file-length gate; the design
+ * language is one. The button pair reads as one piece of hardware: the primary keeps its
+ * left corners, the chevron takes the right, and a translucent rule joins them. */
+
+.nubbin-publish {
+  position: relative;
+  display: inline-flex;
+  align-items: stretch;
+}
+
+.nubbin-publish > button:first-child {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.nubbin-publish-toggle {
+  display: inline-flex;
+  align-items: center;
+  padding: 0 9px;
+  background: #bf411d;
+  border: 1px solid #bf411d;
+  border-left: 1px solid rgba(255, 255, 255, 0.4);
+  border-radius: 0 6px 6px 0;
+  color: #ffffff;
+  cursor: pointer;
+}
+
+.nubbin-publish-toggle:focus {
+  outline: none;
+}
+
+.nubbin-publish-toggle:focus-visible {
+  outline: 2px solid var(--nb-teal);
+  outline-offset: 2px;
+}
+
+.nubbin-history {
+  position: absolute;
+  top: calc(100% + 6px);
+  right: 0;
+  z-index: 40;
+  min-width: 380px;
+  padding: 10px;
+  background: var(--nb-panel);
+  border: 1px solid var(--nb-line);
+  border-radius: var(--nb-r);
+  box-shadow:
+    0 2px 6px rgba(11, 43, 51, 0.14),
+    0 18px 48px rgba(11, 43, 51, 0.18);
+  color: var(--nb-ink);
+  font-size: 12.5px;
+}
+
+.nubbin-history h2 {
+  margin: 0 0 6px;
+  color: var(--nb-dim);
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.nubbin-history ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+/* One move, one line: nothing in a row wraps — the panel widens instead, since a hash or a
+ * timestamp broken across lines reads as two entries. */
+.nubbin-history-row {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  padding: 5px 4px;
+  border-top: 1px solid var(--nb-line-soft);
+  white-space: nowrap;
+}
+
+.nubbin-history-row > * {
+  white-space: nowrap;
+}
+
+.nubbin-history-row code {
+  font-size: 12px;
+}
+
+.nubbin-history-row time {
+  color: var(--nb-dim);
+  font-size: 11.5px;
+}
+
+.nubbin-history-current {
+  padding: 1px 6px;
+  background: var(--nb-teal-tint);
+  border: 1px solid var(--nb-teal);
+  border-radius: 999px;
+  color: var(--nb-teal);
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.nubbin-history-row button {
+  margin-left: auto;
+  padding: 3px 10px;
+  background: var(--nb-well);
+  border: 1px solid var(--nb-line);
+  border-radius: 6px;
+  color: var(--nb-teal);
+  font-size: 11.5px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.nubbin-history-row button:hover:enabled {
+  background: var(--nb-teal-tint);
+  border-color: var(--nb-teal);
+}
+
+.nubbin-history-row button:disabled {
+  color: var(--nb-dim);
+  cursor: default;
+}
+
+.nubbin-history-row button[aria-pressed="true"] {
+  background: var(--nb-teal);
+  border-color: var(--nb-teal);
+  color: #ffffff;
+}
+
+.nubbin-history-capped,
+.nubbin-history p {
+  margin: 4px 0 0;
+  color: var(--nb-dim);
+}
+
+/* The publish report: three steps, a check and the server's duration each. Nothing here
+ * animates, so there is no motion to gate. */
+.nubbin-publish-steps {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.nubbin-publish-steps li {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  padding: 4px 2px;
+  white-space: nowrap;
+}
+
+.nubbin-publish-steps li > span[aria-hidden] {
+  color: var(--nb-teal);
+  font-weight: 700;
+}
+
+.nubbin-publish-step-time {
+  margin-left: auto;
+  color: var(--nb-dim);
+  font-size: 11.5px;
+}
+
+/* The landed word: the panel's confirmation voice is the teal accent — the studio palette
+ * carries no green token, and inventing one here would be a second palette. */
+.nubbin-live-strip {
+  margin-top: 8px;
+  border-top: 1px solid var(--nb-line-soft);
+  padding-top: 8px;
+}
+
+.nubbin-live-strip p[role="status"] {
+  margin: 0;
+  padding: 8px 10px;
+  background: var(--nb-teal-tint);
+  border: 1px solid var(--nb-teal);
+  border-radius: 6px;
+  color: var(--nb-ink);
+}
+
+.nubbin-live-strip a {
+  color: var(--nb-teal);
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.nubbin-live-strip > button {
+  margin-top: 8px;
+  padding: 4px 10px;
+  background: var(--nb-well);
+  border: 1px solid var(--nb-line);
+  border-radius: 6px;
+  color: var(--nb-teal);
+  font-size: 11.5px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.nubbin-live-strip > button:hover {
+  background: var(--nb-teal-tint);
+  border-color: var(--nb-teal);
+}

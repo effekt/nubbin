@@ -64,10 +64,16 @@ test("a caller asking for JSON gets the hash and the live page's URL, built serv
   writeDraftFile(draftFilePath("/"), home);
   const response = await post("/", "application/json");
   expect(response.status).toBe(200);
-  const payload = (await response.json()) as { ok: boolean; hash: string; url: string };
+  const payload = (await response.json()) as {
+    ok: boolean;
+    hash: string;
+    url: string;
+    timings: Record<string, number>;
+  };
   expect(payload.ok).toBe(true);
   expect(payload.url).toBe("http://localhost:3000/");
   expect(existsSync(join(storeRoot, "artifacts", `${payload.hash}.json`))).toBe(true);
+  expect(Object.keys(payload.timings).sort()).toEqual(["compileMs", "moveMs", "writeMs"]);
 });
 
 test("a draft the compiler refuses answers the issues as JSON, no artifact written", async () => {
