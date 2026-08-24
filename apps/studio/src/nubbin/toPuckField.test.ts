@@ -8,21 +8,21 @@ const node = (kind: FieldNode["kind"], members?: readonly string[]): FieldNode =
     : { path: "field", kind, optional: false, members };
 
 test("string becomes a text field", () => {
-  expect(toPuckField(node("string"))).toEqual({ type: "text", label: "field" });
+  expect(toPuckField(node("string"), [])).toEqual({ type: "text", label: "field" });
 });
 
 test("a string the schema bounds becomes the bounded custom control", () => {
-  const field = toPuckField({ path: "field", kind: "string", optional: false, maxLength: 60 });
+  const field = toPuckField({ path: "field", kind: "string", optional: false, maxLength: 60 }, []);
   expect(field.type).toBe("custom");
   expect(field.label).toBe("field");
 });
 
 test("number becomes a number field", () => {
-  expect(toPuckField(node("number"))).toEqual({ type: "number", label: "field" });
+  expect(toPuckField(node("number"), [])).toEqual({ type: "number", label: "field" });
 });
 
 test("boolean becomes a radio over true and false", () => {
-  expect(toPuckField(node("boolean"))).toEqual({
+  expect(toPuckField(node("boolean"), [])).toEqual({
     type: "radio",
     label: "field",
     options: [
@@ -37,14 +37,14 @@ test("an enum of up to three members becomes the segmented custom control", () =
     ["light", "dark"],
     ["left", "center", "right"],
   ] as const) {
-    const field = toPuckField(node("enum", members));
+    const field = toPuckField(node("enum", members), []);
     expect(field.type).toBe("custom");
     expect(field.label).toBe("field");
   }
 });
 
 test("an enum past three members stays a select over them", () => {
-  expect(toPuckField(node("enum", ["a", "b", "c", "d"]))).toEqual({
+  expect(toPuckField(node("enum", ["a", "b", "c", "d"]), [])).toEqual({
     type: "select",
     label: "field",
     options: [
@@ -57,11 +57,44 @@ test("an enum past three members stays a select over them", () => {
 });
 
 test("an enum with no members stays a select rather than an empty segment row", () => {
-  expect(toPuckField(node("enum", []))).toEqual({ type: "select", label: "field", options: [] });
+  expect(toPuckField(node("enum", []), [])).toEqual({
+    type: "select",
+    label: "field",
+    options: [],
+  });
 });
 
-test("every other kind falls back to the read-only custom field", () => {
+test("an array whose row shape is described becomes the repeater custom field", () => {
+  const arrayField: FieldNode = {
+    path: "field",
+    kind: "array",
+    optional: false,
+    minItems: 2,
+    maxItems: 4,
+  };
+  const fields: FieldNode[] = [
+    arrayField,
+    { path: "field[]", kind: "object", optional: false },
+    { path: "field[].label", kind: "string", optional: false },
+  ];
+  const built = toPuckField(arrayField, fields);
+  expect(built.type).toBe("custom");
+  expect(built.label).toBe("field");
+});
+
+test("an object with described children becomes the fieldset custom field", () => {
+  const objectField: FieldNode = { path: "field", kind: "object", optional: false };
+  const fields: FieldNode[] = [
+    objectField,
+    { path: "field.name", kind: "string", optional: false },
+  ];
+  const built = toPuckField(objectField, fields);
+  expect(built.type).toBe("custom");
+  expect(built.label).toBe("field");
+});
+
+test("every kind the description cannot reach into falls back to the read-only custom field", () => {
   for (const kind of ["array", "object", "union", "unknown"] as const) {
-    expect(toPuckField(node(kind)).type).toBe("custom");
+    expect(toPuckField(node(kind), []).type).toBe("custom");
   }
 });

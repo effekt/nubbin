@@ -1,24 +1,22 @@
 import type { Field } from "@measured/puck";
 import type { FieldNode } from "@nubbin/core";
-import { toBoundedTextPuckField } from "./toBoundedTextPuckField";
+import { directChildFields } from "./directChildFields";
+import { rowFieldOf } from "./rowFieldOf";
+import { toEnumPuckField } from "./toEnumPuckField";
+import { toFieldsetPuckField } from "./toFieldsetPuckField";
 import { toReadOnlyPuckField } from "./toReadOnlyPuckField";
-import { toSegmentedEnumPuckField } from "./toSegmentedEnumPuckField";
-
-/* The wireframes' rule, and the specimen's: an enum an author can see whole lays flat as
- * segments; past this many members it folds into a dropdown. */
-const SEGMENTED_MAX_MEMBERS = 3;
+import { toRepeaterPuckField } from "./toRepeaterPuckField";
+import { toStringPuckField } from "./toStringPuckField";
 
 /** One schema field as Puck's inspector edits it — the same `zodAdapter` description the
- * old inspector read, mapped kind by kind: `string→text`, `number→number`, `boolean→radio`,
- * `enum→select`, with an enum of up to three members rendering as the segmented control
- * instead. A string whose schema bounds its length gets the bounded control — counter
- * and over-limit line — and every other kind renders read-only rather than guessing. */
-export function toPuckField(field: FieldNode): Field {
+ * old inspector read, mapped kind by kind: strings through `toStringPuckField`, enums
+ * through `toEnumPuckField`, `number→number`, `boolean→radio`. An array whose row shape
+ * the description reaches becomes the repeater, an object with described children the
+ * fieldset — which is why the whole description rides along — and every other kind
+ * renders read-only rather than guessing. */
+export function toPuckField(field: FieldNode, fields: readonly FieldNode[]): Field {
   if (field.kind === "string") {
-    if (field.maxLength !== undefined) {
-      return toBoundedTextPuckField(field, field.maxLength);
-    }
-    return { type: "text", label: field.path };
+    return toStringPuckField(field);
   }
   if (field.kind === "number") {
     return { type: "number", label: field.path };
@@ -34,15 +32,13 @@ export function toPuckField(field: FieldNode): Field {
     };
   }
   if (field.kind === "enum") {
-    const members = field.members ?? [];
-    if (members.length > 0 && members.length <= SEGMENTED_MAX_MEMBERS) {
-      return toSegmentedEnumPuckField(field, members);
-    }
-    return {
-      type: "select",
-      label: field.path,
-      options: members.map((member) => ({ label: member, value: member })),
-    };
+    return toEnumPuckField(field);
+  }
+  if (field.kind === "array" && rowFieldOf(fields, field.path) !== undefined) {
+    return toRepeaterPuckField(field, fields);
+  }
+  if (field.kind === "object" && directChildFields(fields, field.path).length > 0) {
+    return toFieldsetPuckField(field, fields);
   }
   return toReadOnlyPuckField(field);
 }

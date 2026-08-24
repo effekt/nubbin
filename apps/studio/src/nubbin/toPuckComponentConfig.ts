@@ -14,9 +14,10 @@ import { toSlotField } from "./toSlotField";
  * because `core` never learns React; the studio knows its registry holds React components. */
 export function toPuckComponentConfig(entry: CatalogEntry, block: Block): ComponentConfig {
   const fields: Record<string, Field> = {};
-  for (const field of zodAdapter.describe(entry.schema)) {
+  const described = zodAdapter.describe(entry.schema);
+  for (const field of described) {
     if (isTopLevelFieldPath(field.path)) {
-      fields[field.path] = toPuckField(field);
+      fields[field.path] = toPuckField(field, described);
     }
   }
   const defaultProps: Record<string, unknown> = { ...entry.defaults };

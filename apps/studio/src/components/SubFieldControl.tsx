@@ -1,0 +1,44 @@
+"use client";
+
+import { directChildFields } from "../nubbin/directChildFields";
+import { leafFieldName } from "../nubbin/leafFieldName";
+import { FieldsetGroup } from "./FieldsetGroup";
+import { RepeaterField } from "./RepeaterField";
+import { ScalarFieldControl } from "./ScalarFieldControl";
+import type { SubFieldProps } from "./subField.types";
+
+/** The recursion the repeater and fieldset render each child through: an object becomes a
+ * labelled fieldset, an array a nested repeater, and everything else a scalar control —
+ * so a stat's bounded label and a nested list edit by the same rules at any depth. */
+export function SubFieldControl(props: SubFieldProps) {
+  const { field, fields, id, value, readOnly, onChange } = props;
+  if (field.kind === "object") {
+    return (
+      <FieldsetGroup
+        id={id}
+        label={leafFieldName(field.path)}
+        fields={directChildFields(fields, field.path)}
+        allFields={fields}
+        value={value}
+        readOnly={readOnly}
+        onChange={onChange}
+        renderField={SubFieldControl}
+      />
+    );
+  }
+  if (field.kind === "array") {
+    return (
+      <RepeaterField
+        id={id}
+        label={leafFieldName(field.path)}
+        field={field}
+        fields={fields}
+        value={value}
+        readOnly={readOnly}
+        onChange={onChange}
+        renderField={SubFieldControl}
+      />
+    );
+  }
+  return <ScalarFieldControl {...props} />;
+}
