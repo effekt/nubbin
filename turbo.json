@@ -17,7 +17,13 @@
       "outputs": ["dist/**", ".next/**", "!.next/cache/**"]
     },
     "docs-site#build": {
-      "dependsOn": ["^build"],
+      "dependsOn": [
+        "@nubbin/cli#build",
+        "@nubbin/core#build",
+        "@nubbin/next#build",
+        "@nubbin/react#build",
+        "@nubbin/store-fs#build"
+      ],
       "inputs": ["$TURBO_DEFAULT$", "$TURBO_ROOT$/docs/**"],
       "outputs": ["dist/**", ".next/**", "!.next/cache/**"]
     },

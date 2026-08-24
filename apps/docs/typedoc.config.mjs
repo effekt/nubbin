@@ -1,6 +1,11 @@
 // Reference pages are generated from the packages' own sources, so the documented surface is
 // whatever `src/index.ts` exports rather than a list maintained beside it.
 //
+// Each package is read from source, and a sibling's types resolve through its `dist`, so
+// `turbo.json` names the five package builds as this one's dependencies. `^build` cannot do
+// it: this workspace imports none of them, so it has no dependencies for `^` to expand to,
+// and the docs build was free to run before any `dist` existed.
+//
 // `packages` strategy: TypeDoc converts each package independently against its own
 // tsconfig, then merges the projects into one site. Options that affect conversion belong in
 // `packageOptions` — a root-level setting does not cascade into a sub-project.
