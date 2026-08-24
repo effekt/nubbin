@@ -8,7 +8,7 @@ status: draft
 
 Pseudocode, not final signatures. The point is the shape and where each concern lives. The
 shipped signatures and behaviour are documented in the reference pages, starting at
-[`reference/blocks.md`](../reference/authoring/blocks.md); this document keeps the reasoning.
+[`reference/authoring/blocks.md`](../reference/authoring/blocks.md); this document keeps the reasoning.
 
 ## At a glance
 

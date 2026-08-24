@@ -97,12 +97,14 @@ section, and the caller decides what each finding becomes.
 ## Status
 
 Every package is published — `npm view @nubbin/core dist-tags` for the version and the tag,
-which in prose would be a copy of the registry. [`docs/reference/`](docs/README.md)
-documents `core`'s authoring and compile surfaces, the artifact contracts, and the `react`
-and `next` bindings as shipped. [`apps/studio/README.md`](apps/studio/README.md) documents the
-studio and its integration with the demo.
+which in prose would be a copy of the registry. [`docs/README.md`](docs/README.md) is the way in:
+the reference pages argue how each surface behaves, and the API reference beneath them is written
+from the packages' own sources on every docs build, so naming here which of them are covered
+would be a list going stale beside a generator that cannot.
+[`apps/studio/README.md`](apps/studio/README.md) documents the studio and its integration with
+the demo.
 
 Read [`docs/concepts/architecture.md`](docs/concepts/architecture.md) for the model and
 [`docs/decisions/`](docs/decisions/README.md) for what is settled. Treat
-[`docs/domain-model.md#what-this-model-has-not-settled`](docs/concepts/domain-model.md#what-this-model-has-not-settled)
+[`docs/concepts/domain-model.md#what-this-model-has-not-settled`](docs/concepts/domain-model.md#what-this-model-has-not-settled)
 as the list of things you may not silently decide.
