@@ -21,6 +21,7 @@ function renderPuck(apiRef: { current: (() => PuckApi) | undefined }) {
         () => undefined,
         [{ title: "Content", blocks: [{ name: "Hero", description: "The opening statement." }] }],
         {},
+        {},
       )}
     />,
   );

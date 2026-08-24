@@ -20,6 +20,12 @@
   --nb-dim: #55696e;
   --nb-teal: #0e5a6b;
   --nb-teal-tint: #e3eef0;
+  --nb-teal-light: #4fb3c7;
+  --nb-marine: #0b2b33;
+  --nb-brass: #c08a3e;
+  --nb-ok: #1e6b4a;
+  --nb-warn-deep: #7a501d;
+  --nb-bad: #a32b1e;
   --nb-r: 10px;
   --nb-shadow: 0 1px 2px rgba(11, 43, 51, 0.1), 0 10px 28px rgba(11, 43, 51, 0.07);
 
@@ -80,10 +86,54 @@
   background: var(--nb-ground);
 }
 
+/* The toolbar carries the specimen's brand edge: a 3px marine→teal→teal-light→brass
+ * gradient under a panel-white bar, painted through the border so the bar itself stays
+ * one flat surface. */
 .nubbin-studio [class^="_PuckHeader_"] {
-  background: var(--nb-panel);
-  border-bottom: 1px solid var(--nb-line);
+  background:
+    linear-gradient(var(--nb-panel), var(--nb-panel)) padding-box,
+    linear-gradient(
+      90deg,
+      var(--nb-marine),
+      var(--nb-teal) 34%,
+      var(--nb-teal-light) 60%,
+      var(--nb-brass) 92%
+    )
+    border-box;
+  border-bottom: 3px solid transparent;
   color: var(--nb-ink);
+}
+
+/* The header's Preview link, the one way out to the page as a reader sees it. */
+.nubbin-studio .nb-toolbar-preview {
+  font-size: 12.5px;
+  color: var(--nb-teal);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  margin-right: 4px;
+}
+
+/* The editor's frame is one viewport-high flex column — Puck takes the room the status
+ * bar leaves, in flow, so nothing ever runs past 100dvh or scrolls the page. The class
+ * pair beats the wrapper's own `display: contents`, which the portal wrapper keeps. */
+.nubbin-studio.nb-studio-frame {
+  display: flex;
+  flex-direction: column;
+  height: 100dvh;
+  overflow: hidden;
+}
+
+.nubbin-studio.nb-studio-frame > .Puck {
+  flex: 1 1 0;
+  min-height: 0;
+}
+
+.nubbin-studio.nb-studio-frame .Puck > div {
+  height: 100%;
+}
+
+.nubbin-studio [class^="_PuckLayout_"] {
+  height: 100%;
 }
 
 /* Each sidebar is a column of floating cards; the bar itself is invisible. */
@@ -131,6 +181,13 @@
   text-transform: uppercase;
 }
 
+/* Both left cards title themselves — "Blocks" inline with the search, "Page outline"
+ * beside its block count — so Puck's "Components" and "Outline" titles above them would
+ * each say the same thing twice. */
+.nubbin-studio [class*="_Sidebar--left_"] [class^="_SidebarSection-title_"] {
+  display: none;
+}
+
 /* Category headers in the block list read as the section headers of the design. */
 .nubbin-studio [class^="_ComponentList-title_"] {
   color: var(--nb-dim);
@@ -153,13 +210,29 @@
   border: 0;
   box-shadow: none;
   border-radius: 0;
-  padding: 4px 12px 4px 0;
+  padding: 0;
   color: var(--nb-ink);
 }
 
 .nubbin-studio [class^="_DrawerItem-name_"] {
   font-size: 12.5px;
   font-weight: 600;
+  line-height: 1.3;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* The brass grab-dots on the row's right edge replace Puck's grey drag icon; the drag
+ * itself rides the draggable element around both, so hiding the icon costs nothing. */
+.nubbin-studio .nb-palette-item [class^="_DragIcon_"] {
+  display: none;
+}
+
+/* Puck spaces its drawer items 12px apart for its card look; the specimen's rows are
+ * contiguous — the row's own padding is the rhythm. */
+.nubbin-studio .nb-palette-section [class^="_Drawer_"] {
+  gap: 0;
 }
 
 /* Puck paints its own hover on the draggable — azure-12, inside an

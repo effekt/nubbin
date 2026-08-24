@@ -1,0 +1,92 @@
+/* The floating preview beside the Blocks card: fixed and portalled to `body`, so no
+ * ancestor's overflow clips it, and inert end to end — `pointer-events: none` on the whole
+ * panel is what guarantees it can never intercept a click or a drag meant for a palette
+ * row, wherever it happens to sit. The header carries the block's name and its full
+ * description — wrapping, never clamped. The iframe below renders the block at a page
+ * width and the transform (set inline beside the width it divides) scales it to the panel;
+ * the region's height is set inline too, fitted to the measured content. */
+.nb-palette-preview {
+  position: fixed;
+  z-index: 100;
+  pointer-events: none;
+  overflow: hidden;
+  background: var(--nb-panel);
+  border: 1px solid var(--nb-line);
+  border-radius: var(--nb-r);
+  box-shadow: var(--nb-shadow);
+}
+
+/* The header owns padding and a separator, never a surface: the panel's one background is
+ * what sits behind both it and the preview, so nothing behind the card can bleed through
+ * a child. */
+.nb-palette-preview-header {
+  padding: 8px 12px;
+  border-bottom: 1px solid var(--nb-line-soft);
+}
+
+.nb-palette-preview-header strong {
+  display: block;
+  color: var(--nb-ink);
+  font-size: 12.5px;
+  font-weight: 700;
+}
+
+.nb-palette-preview-header p {
+  margin: 2px 0 0;
+  color: var(--nb-dim);
+  font-size: 11.5px;
+  line-height: 1.45;
+}
+
+/* The region opens compact and grows to the measured content — never large-then-collapse.
+ * While the iframe loads it is invisible over a quiet well-toned strip; the grow and the
+ * fade run only for readers who have not asked the OS for stillness, who get an instant
+ * jump instead. */
+.nb-palette-preview-frame {
+  position: relative;
+  overflow: hidden;
+  background: var(--nb-well);
+}
+
+.nb-palette-preview iframe {
+  display: block;
+  border: 0;
+  transform-origin: top left;
+}
+
+.nb-palette-preview-loading {
+  position: absolute;
+  inset: 0;
+  background: var(--nb-well);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .nb-palette-preview-frame {
+    transition: height 0.18s ease;
+  }
+
+  .nb-palette-preview iframe {
+    transition: opacity 0.15s ease;
+  }
+
+  .nb-palette-preview-loading {
+    background-image: linear-gradient(
+      90deg,
+      transparent 30%,
+      rgba(255, 255, 255, 0.65) 50%,
+      transparent 70%
+    );
+    background-size: 200% 100%;
+    animation: nb-preview-shimmer 1.2s linear infinite;
+  }
+}
+
+@keyframes nb-preview-shimmer {
+  from {
+    background-position: 200% 0;
+  }
+
+  to {
+    background-position: -200% 0;
+  }
+}

@@ -18,6 +18,7 @@ function renderSection(open: boolean, onToggle: () => void = () => undefined) {
           <PaletteSection
             group={group}
             onDetail={() => undefined}
+            onInsert={() => undefined}
             open={open}
             onToggle={onToggle}
           />
@@ -27,10 +28,10 @@ function renderSection(open: boolean, onToggle: () => void = () => undefined) {
   );
 }
 
-test("open: the heading, the count pill, and a draggable row per block", () => {
+test("open: the heading with its count pill, and a draggable row per block", () => {
   renderSection(true);
   expect(screen.getByRole("heading", { name: "Content 1" })).toBeDefined();
-  expect(screen.getByRole("button", { name: "Content" }).getAttribute("aria-expanded")).toBe(
+  expect(screen.getByRole("button", { name: "Content 1" }).getAttribute("aria-expanded")).toBe(
     "true",
   );
   expect(screen.getByTestId("drawer-item:Hero")).toBeDefined();
@@ -39,7 +40,7 @@ test("open: the heading, the count pill, and a draggable row per block", () => {
 test("collapsed: the rows unmount while the heading keeps its count", () => {
   renderSection(false);
   expect(screen.getByRole("heading", { name: "Content 1" })).toBeDefined();
-  expect(screen.getByRole("button", { name: "Content" }).getAttribute("aria-expanded")).toBe(
+  expect(screen.getByRole("button", { name: "Content 1" }).getAttribute("aria-expanded")).toBe(
     "false",
   );
   expect(screen.queryByTestId("drawer-item:Hero")).toBeNull();
@@ -48,6 +49,6 @@ test("collapsed: the rows unmount while the heading keeps its count", () => {
 test("the header button reports each press to its owner", () => {
   const onToggle = vi.fn();
   renderSection(true, onToggle);
-  fireEvent.click(screen.getByRole("button", { name: "Content" }));
+  fireEvent.click(screen.getByRole("button", { name: "Content 1" }));
   expect(onToggle).toHaveBeenCalledTimes(1);
 });

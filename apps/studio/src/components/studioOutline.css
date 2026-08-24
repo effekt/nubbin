@@ -1,0 +1,203 @@
+/* The Outline card's tree — head, guide-lined branches, area rows with fullness chips,
+ * legend pinned at the foot. Metrics and treatment from the canonical design specimen's
+ * `.tree`, `.tw` and `.chip` rules; tokens from `.nubbin-studio` in puckTheme.css. */
+
+.nb-outline {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.nb-outline-head {
+  flex: none;
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  padding: 8px 14px 5px;
+  border-bottom: 1px solid var(--nb-line-soft);
+}
+
+.nb-outline-head h2 {
+  margin: 0;
+  color: var(--nb-dim);
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.nb-outline-count {
+  margin-left: auto;
+  font-size: 11px;
+  color: var(--nb-dim);
+  font-variant-numeric: tabular-nums;
+}
+
+.nb-outline-tree,
+.nb-outline-tree ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.nb-outline-tree {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  padding: 3px 0 8px;
+}
+
+/* Each nesting level — the specimen's `.tree ul` — steps right and hangs its rows off a
+ * hairline guide, so ancestry reads at a glance. */
+.nb-outline-tree ul.nb-outline-branch {
+  position: relative;
+  margin-left: 17px;
+}
+
+.nb-outline-tree ul.nb-outline-branch::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 3px;
+  width: 1px;
+  background: var(--nb-line);
+}
+
+.nb-outline-row {
+  display: flex;
+  align-items: center;
+  min-height: 24px;
+  padding: 1px 12px 1px 8px;
+  border-left: 2px solid transparent;
+}
+
+.nb-outline-row:hover {
+  background: var(--nb-well);
+}
+
+.nb-outline-block[aria-current="true"] {
+  background: var(--nb-teal-tint);
+  border-left-color: var(--nb-teal);
+}
+
+.nb-outline-chevron {
+  flex: none;
+  width: 14px;
+  height: 14px;
+  display: grid;
+  place-items: center;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--nb-dim);
+  cursor: pointer;
+}
+
+span.nb-outline-chevron {
+  cursor: default;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .nb-outline-chevron svg {
+    transition: transform 0.12s;
+  }
+}
+
+.nb-outline-chevron[aria-expanded="false"] svg,
+.nb-outline-area-toggle[aria-expanded="false"] .nb-outline-chevron svg {
+  transform: rotate(-90deg);
+}
+
+.nb-outline-chevron:focus-visible,
+.nb-outline-name:focus-visible,
+.nb-outline-area-toggle:focus-visible {
+  outline: 2px solid var(--nb-teal);
+  outline-offset: -2px;
+}
+
+.nb-outline-name {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 2px 0;
+  border: 0;
+  background: none;
+  text-align: left;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--nb-ink);
+  cursor: pointer;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.nb-outline-glyph {
+  flex: none;
+  width: 14px;
+  display: grid;
+  place-items: center;
+  color: var(--nb-teal);
+  font-size: 12px;
+  line-height: 1;
+}
+
+/* An area row speaks in the small-caps voice behind the brass bracket. */
+.nb-outline-area-toggle {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 2px 0;
+  border: 0;
+  background: none;
+  text-align: left;
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--nb-dim);
+  cursor: pointer;
+}
+
+.nb-outline-area-toggle:disabled {
+  cursor: default;
+}
+
+.nb-outline-bracket {
+  flex: none;
+  display: grid;
+  place-items: center;
+  color: var(--nb-brass);
+}
+
+.nb-outline-chip {
+  margin-left: auto;
+  flex: none;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0;
+  text-transform: none;
+  font-variant-numeric: tabular-nums;
+  line-height: 16px;
+  border-radius: 99px;
+  padding: 0 7px;
+  background: var(--nb-well);
+  color: var(--nb-dim);
+  box-shadow: inset 0 0 0 1px var(--nb-line-soft);
+}
+
+/* The legend, fixed at the card's foot — it describes the area rows above it. */
+.nb-outline-legend {
+  flex: none;
+  margin: 0;
+  border-top: 1px solid var(--nb-line-soft);
+  padding: 6px 14px 7px;
+  font-size: 10.5px;
+  line-height: 1.45;
+  color: var(--nb-dim);
+}

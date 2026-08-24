@@ -1,0 +1,64 @@
+/* The row inside Puck's draggable item: a fixed-width glyph slot, then Puck's own name,
+ * one continuous hit area under one hover tint, with the brass grab-dots surfacing at the
+ * right edge on hover or focus. The accent edge sits at the row's outermost left and the
+ * tint spans the full row — the drag ref is on Puck's element around this row, so the icon
+ * drags with everything else. */
+.nb-palette-item-row {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  padding: 3px 26px 3px 14px;
+  min-height: 24px;
+  border-left: 2px solid transparent;
+  cursor: grab;
+}
+
+.nb-palette-item-row:hover {
+  background: var(--nb-teal-tint);
+  border-left-color: var(--nb-teal);
+}
+
+.nb-palette-item-row::after {
+  content: "";
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  width: 8px;
+  height: 13px;
+  transform: translateY(-50%);
+  background-image: radial-gradient(circle, var(--nb-brass) 1.1px, transparent 1.3px);
+  background-size: 4px 4.5px;
+  opacity: 0;
+}
+
+.nb-palette-item-row:hover::after,
+.nb-palette-item [class^="_DrawerItem_"]:focus-visible .nb-palette-item-row::after {
+  opacity: 1;
+}
+
+.nb-palette-item [class^="_DrawerItem_"]:focus-visible {
+  outline: 2px solid var(--nb-teal);
+  outline-offset: -2px;
+}
+
+.nb-palette-item [class^="_DrawerItem_"]:focus-visible .nb-palette-item-row {
+  background: var(--nb-teal-tint);
+  border-left-color: var(--nb-teal);
+}
+
+.nb-palette-item-icon {
+  flex: none;
+  width: 15px;
+  display: grid;
+  place-items: center;
+  color: var(--nb-teal);
+  font-size: 13px;
+  line-height: 1;
+}
+
+.nb-palette-item-row > :last-child {
+  flex: 1;
+  min-width: 0;
+}

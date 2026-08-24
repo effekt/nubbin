@@ -4,17 +4,20 @@ import { expect, test, vi } from "vitest";
 import type { PaletteBlock } from "../nubbin/paletteGroup.types";
 import { PaletteItem } from "./PaletteItem";
 
-const hero = { name: "Hero", description: "The opening statement of a page.", icon: "🖼" };
+const hero = { name: "Hero", description: "The opening statement of a page.", icon: "hero" };
 
 function renderItem(
   onDetail: (next: PaletteBlock | undefined) => void,
   block: PaletteBlock = hero,
+  onInsert: (block: PaletteBlock) => void = () => undefined,
 ) {
   return render(
     <Puck
       config={{ components: {} }}
       data={{ content: [], root: { props: {} } }}
-      overrides={{ drawer: () => <PaletteItem block={block} onDetail={onDetail} /> }}
+      overrides={{
+        drawer: () => <PaletteItem block={block} onDetail={onDetail} onInsert={onInsert} />,
+      }}
     />,
   );
 }
@@ -25,10 +28,10 @@ test("renders Puck's own draggable item, so dragging stays Puck's", () => {
   expect(screen.getAllByText("Hero").length).toBeGreaterThan(0);
 });
 
-test("renders the icon before the name, hidden from assistive tech", () => {
+test("renders a known icon name as its glyph before the name, hidden from assistive tech", () => {
   const { container } = renderItem(() => undefined);
   const icon = container.querySelector(".nb-palette-item-icon");
-  expect(icon?.textContent).toBe("🖼");
+  expect(icon?.querySelector("svg")).not.toBeNull();
   expect(icon?.getAttribute("aria-hidden")).toBe("true");
 });
 
@@ -53,4 +56,14 @@ test("reports the block on hover and focus, and nothing on leaving", () => {
   expect(onDetail).toHaveBeenLastCalledWith(undefined);
   fireEvent.focus(screen.getByTestId("drawer-item:Hero"));
   expect(onDetail).toHaveBeenLastCalledWith(hero);
+});
+
+test("Enter on the focused row asks for the insert; other keys do not", () => {
+  const onInsert = vi.fn();
+  renderItem(() => undefined, hero, onInsert);
+  const item = screen.getByTestId("drawer-item:Hero");
+  fireEvent.keyDown(item, { key: "a" });
+  expect(onInsert).not.toHaveBeenCalled();
+  fireEvent.keyDown(item, { key: "Enter" });
+  expect(onInsert).toHaveBeenCalledWith(hero);
 });

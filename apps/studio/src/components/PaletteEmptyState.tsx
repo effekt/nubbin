@@ -5,7 +5,10 @@
 export function PaletteEmptyState({ query, onClear }: { query: string; onClear: () => void }) {
   return (
     <div className="nb-palette-empty">
-      <p>No blocks match &ldquo;{query.trim()}&rdquo;.</p>
+      <p>
+        <b>No blocks match &ldquo;{query.trim()}&rdquo;.</b>
+        Try another word, or bring everything back.
+      </p>
       <button type="button" onClick={onClear}>
         Clear search
       </button>

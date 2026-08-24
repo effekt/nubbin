@@ -9,21 +9,20 @@ import { registry } from "demo/src/nubbin/registry";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { CONSUMER_VIEWPORTS } from "../nubbin/consumerViewports.constants";
 import { foldPuckChange } from "../nubbin/foldPuckChange";
-import { postDraftSave } from "../nubbin/postDraftSave";
 import type { PublishOutcome } from "../nubbin/publishOutcome.types";
 import type { PuckData } from "../nubbin/puckData.types";
 import { toAuthorIssues } from "../nubbin/toAuthorIssues";
 import { toDocsByBlock } from "../nubbin/toDocsByBlock";
 import { toPaletteGroups } from "../nubbin/toPaletteGroups";
 import { toPuckConfig } from "../nubbin/toPuckConfig";
+import { toSlotConstraintsByBlock } from "../nubbin/toSlotConstraintsByBlock";
 import { toSlotNamesByBlock } from "../nubbin/toSlotNamesByBlock";
 import { editorStatusStore } from "./editorStatusStore";
 import { PublishNotice } from "./PublishNotice";
 import { patchEditorStatus } from "./patchEditorStatus";
+import { StudioStatusBar } from "./StudioStatusBar";
 import { toBridgedOverrides } from "./toBridgedOverrides";
-import { useDebouncedCallback } from "./useDebouncedCallback";
-
-const SAVE_DELAY_MS = 500;
+import { useDraftSave } from "./useDraftSave";
 
 interface PuckEditorProps {
   route: string;
@@ -44,6 +43,7 @@ export function PuckEditor({ route, routes, initialData, initialVersion }: PuckE
   const palette = useMemo(() => toPaletteGroups(catalog, registry), []);
   const docsByBlock = useMemo(() => toDocsByBlock(catalog, registry), []);
   const blockSlots = useMemo(() => toSlotNamesByBlock(registry), []);
+  const slotsByBlock = useMemo(() => toSlotConstraintsByBlock(registry), []);
   const prior = useRef(initialVersion);
   const puckApi = useRef<(() => PuckApi) | undefined>(undefined);
   const [data, setData] = useState(initialData);
@@ -53,17 +53,15 @@ export function PuckEditor({ route, routes, initialData, initialVersion }: PuckE
     // must not carry over. First load assumes changes: the store starts unpublished.
     editorStatusStore.set({ issues: [], issuesOpen: false, published: false });
   }, []);
-  const save = useDebouncedCallback((version: DocumentVersion) => {
-    void postDraftSave(route, version).then((raw) =>
-      patchEditorStatus({ issues: raw === undefined ? [] : toAuthorIssues(raw, catalog, version) }),
-    );
-  }, SAVE_DELAY_MS);
+  const save = useDraftSave(route);
   const onChange = (next: Data) => {
     const folded = foldPuckChange(next, prior.current, blockSlots);
     prior.current = folded.version;
     setData(folded.data);
     setOutcome(undefined);
-    patchEditorStatus({ published: false });
+    // The new keystrokes are not saved yet, so the autosave note stands down until the
+    // debounced save lands again.
+    patchEditorStatus({ published: false, savedAt: undefined });
     save(folded.version);
   };
   const dismissOutcome = useCallback(() => setOutcome(undefined), []);
@@ -77,11 +75,12 @@ export function PuckEditor({ route, routes, initialData, initialVersion }: PuckE
     }
   }, []);
   const overrides = useMemo(
-    () => toBridgedOverrides(puckApi, { route, routes }, onOutcome, palette, docsByBlock),
-    [route, routes, onOutcome, palette, docsByBlock],
+    () =>
+      toBridgedOverrides(puckApi, { route, routes }, onOutcome, palette, docsByBlock, slotsByBlock),
+    [route, routes, onOutcome, palette, docsByBlock, slotsByBlock],
   );
   return (
-    <div className="nubbin-studio">
+    <div className="nubbin-studio nb-studio-frame">
       <div className="nubbin-notices">
         {outcome?.ok === true ? (
           <PublishNotice
@@ -99,6 +98,7 @@ export function PuckEditor({ route, routes, initialData, initialVersion }: PuckE
         overrides={overrides}
         viewports={CONSUMER_VIEWPORTS}
       />
+      <StudioStatusBar />
     </div>
   );
 }

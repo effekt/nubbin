@@ -5,9 +5,10 @@ export const PREVIEW_RENDER_WIDTH_PX = 800;
 /** The panel's on-screen width beside the Blocks card. */
 export const PREVIEW_PANEL_WIDTH_PX = 320;
 
-/** The preview region's height while the iframe is still loading — replaced by the scaled
- * content height the moment the document can be measured. */
-export const PREVIEW_FRAME_FALLBACK_PX = 240;
+/** The compact strip the preview region opens at while the iframe is still loading — the
+ * region grows to the scaled content height the moment it can be measured, never the
+ * reverse. */
+export const PREVIEW_FRAME_LOADING_PX = 72;
 
 /** How much of the viewport the preview region may take. The header above it brings the
  * whole panel to roughly seven tenths of the viewport at the cap. */

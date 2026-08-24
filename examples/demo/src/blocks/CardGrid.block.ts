@@ -7,7 +7,7 @@ import { cardGridSchema } from "./CardGrid.schema";
 export const cardGridBlock = defineBlock({
   name: "CardGrid",
   description: "A heading over a grid of cards, filled with Card blocks.",
-  icon: "🗂",
+  icon: "grid",
   schema: cardGridSchema,
   component: CardGrid,
   version: 1,
