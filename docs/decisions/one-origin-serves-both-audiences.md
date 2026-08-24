@@ -22,9 +22,7 @@ degrades from a transition to a page load exactly when it is the thing being dem
 inbound links divide across two origins rather than accumulating on one, which costs the newer
 surface the most. A redirect supplies the mnemonic without either cost.
 
-Holding `nubbin.io` also settles the collision recorded in
-[#74](https://github.com/effekt/nubbin/issues/74), which rested on that name belonging to someone
-else.
+Holding `nubbin.io` also settles the naming collision with another developer tool.
 
 The documentation's address is settled with the generator, in
 [the design-site entry](the-design-site-runs-docusaurus.md), because a host and a generator

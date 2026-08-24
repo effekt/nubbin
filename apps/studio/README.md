@@ -1,12 +1,12 @@
 ---
 title: Studio
-summary: The editor's first vertical slice — parse the demo's catalog, preview its drafts, publish them as artifacts
+summary: How the editor reads a catalog, previews and edits drafts, and publishes artifacts
 status: draft
 ---
 
 # Studio
 
-A Next.js app that does four things end to end, against the demo:
+A Next.js application for composing and publishing pages from the demo's block catalog:
 
 - **Parse** — `/` lists every block in the demo's catalog with the fields `zodAdapter`
   derives from each schema: path, kind, presence, enum members.
@@ -23,12 +23,12 @@ A Next.js app that does four things end to end, against the demo:
   the demo's store, and moves the route pointer; Download artifact hands back the compiled
   JSON instead, for carrying to any store.
 
-Drafts start as the demo's committed fixtures. A committed edit is written to a gitignored
-`.drafts/` directory beside the app — one file per route, overwritten in place, no history —
-so a draft survives a restart, and a checkout with no draft files serves every fixture
-unchanged. That directory is an autosave slot, not the authoring store: what that store's
-contract looks like is the open design question
-[#11](https://github.com/effekt/nubbin/issues/11), and nothing here decides it. The studio
+Drafts start as the demo's committed fixtures. A committed edit writes to a gitignored
+`.drafts/` directory beside the app, with one file per route. Drafts survive a restart, while
+a checkout without draft files serves the fixtures unchanged. This directory is an autosave
+slot rather than the authoring store; the
+[domain model](../../docs/domain-model.md#what-this-model-has-not-settled) leaves the
+authoring-store contract open. The studio
 [runs unauthenticated behind whatever gate the deployment provides](../../docs/decisions/the-studio-does-not-own-identity.md).
 
 ## Running it

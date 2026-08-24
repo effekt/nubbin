@@ -5,12 +5,12 @@
 
 ### Bug Fixes
 
-* **cli:** stdout carries the answer, and --origin is taken as given ([#503](https://github.com/effekt/nubbin/issues/503)) ([a2d8ff3](https://github.com/effekt/nubbin/commit/a2d8ff36e3ca8663b5fb296d159d63d7cf3f0cb0))
+* **cli:** stdout carries the answer, and --origin is taken as given ([a2d8ff3](https://github.com/effekt/nubbin/commit/a2d8ff36e3ca8663b5fb296d159d63d7cf3f0cb0))
 
 
 ### Miscellaneous Chores
 
-* **repo:** cut 0.1.0 rather than another candidate ([#502](https://github.com/effekt/nubbin/issues/502)) ([0a9e869](https://github.com/effekt/nubbin/commit/0a9e8694eaeec79fd534ed2a6a00b346d843e4ca))
+* **repo:** cut 0.1.0 rather than another candidate ([0a9e869](https://github.com/effekt/nubbin/commit/0a9e8694eaeec79fd534ed2a6a00b346d843e4ca))
 
 ## [0.1.0-rc.7](https://github.com/effekt/nubbin/compare/react-v0.1.0-rc.6...react-v0.1.0-rc.7) (2026-08-23)
 
@@ -22,12 +22,12 @@
 
 ### Features
 
-* **core:** one error surface, every refusal keyed by a code ([#497](https://github.com/effekt/nubbin/issues/497)) ([c9d74c7](https://github.com/effekt/nubbin/commit/c9d74c7816fb35f6607b8e57bdd4c25fd03aa2ca))
+* **core:** one error surface, every refusal keyed by a code ([c9d74c7](https://github.com/effekt/nubbin/commit/c9d74c7816fb35f6607b8e57bdd4c25fd03aa2ca))
 
 
 ### Code Refactoring
 
-* **core:** remove the published surface nothing reads ([#493](https://github.com/effekt/nubbin/issues/493)) ([8777c70](https://github.com/effekt/nubbin/commit/8777c70acdc6a9e837a7972d577e4b860031195e))
+* **core:** remove the published surface nothing reads ([8777c70](https://github.com/effekt/nubbin/commit/8777c70acdc6a9e837a7972d577e4b860031195e))
 
 ## [0.1.0-rc.6](https://github.com/effekt/nubbin/compare/react-v0.1.0-rc.5...react-v0.1.0-rc.6) (2026-08-19)
 
@@ -41,13 +41,13 @@
 
 ### Features
 
-* **repo:** a generated catalog answers "does this already exist" ([#473](https://github.com/effekt/nubbin/issues/473)) ([2d41486](https://github.com/effekt/nubbin/commit/2d414864667d41aa7ce2e055c540c3ceb5491364))
-* the studio edits — select a block, change a field, the preview follows ([#451](https://github.com/effekt/nubbin/issues/451)) ([23fbe05](https://github.com/effekt/nubbin/commit/23fbe0579c99972f0a5903d811f210119e5df510))
+* **repo:** a generated catalog answers "does this already exist" ([2d41486](https://github.com/effekt/nubbin/commit/2d414864667d41aa7ce2e055c540c3ceb5491364))
+* the studio edits — select a block, change a field, the preview follows ([23fbe05](https://github.com/effekt/nubbin/commit/23fbe0579c99972f0a5903d811f210119e5df510))
 
 
 ### Bug Fixes
 
-* **repo:** five product defects, each with the test that found it ([#472](https://github.com/effekt/nubbin/issues/472)) ([04ce3c7](https://github.com/effekt/nubbin/commit/04ce3c76905477d9b8d5a6d5160130f3638b0973))
+* **repo:** five product defects, each with the test that found it ([04ce3c7](https://github.com/effekt/nubbin/commit/04ce3c76905477d9b8d5a6d5160130f3638b0973))
 
 ## 0.1.0-rc.4
 

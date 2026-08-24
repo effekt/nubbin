@@ -16,10 +16,9 @@ Do not open a public issue for a suspected vulnerability.
 
 ## Scope
 
-Four packages ship — see [`README.md`](README.md#status). The surface is those packages, the
-tooling in `scripts/`, and the workflows in `.github/workflows/`: anything that could run
-untrusted code, exfiltrate data, or bypass a gate it exists to enforce. An artifact carrying
-anything executable is in scope by definition, because
+The security surface includes the packages, the tooling in `scripts/`, and the workflows in
+`.github/workflows/`. Report anything that could run untrusted code, expose data, or bypass a
+security gate. An artifact carrying executable content is in scope because
 [artifacts contain data, never code](docs/decisions/artifacts-contain-data-never-code.md) is a
 security constraint rather than a preference. Report that here rather than filing it as a bug.
 

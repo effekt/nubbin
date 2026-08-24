@@ -22,6 +22,4 @@ away from when they stopped keeping their own extension lists and started asking
 also: publishing `docs/` alone, which is the boundary that arrived by accident.
 
 The duplication gate follows this surface rather than lagging it, since one claim having one
-home is a property of what is published. Bringing its corpus up from the directories it reads
-today is [#243](https://github.com/effekt/nubbin/issues/243), and the margin that makes the
-order matter is [#242](https://github.com/effekt/nubbin/issues/242).
+home is a property of what is published.

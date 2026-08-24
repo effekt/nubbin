@@ -140,8 +140,7 @@ directly. Compiling denormalizes it into the artifact's nested tree — the trad
 `roots` lists entry elements in order, and `Artifact.tree` holds one denormalized tree for
 each — see [A document has many roots](../decisions/a-document-has-many-roots.md).
 
-How a `DocumentVersion` is stored is the authoring store, an open design question of its own
-([#11](https://github.com/effekt/nubbin/issues/11)) — so the examples here construct one as a
+How a `DocumentVersion` is stored is the authoring store, an open design question of its own — so the examples here construct one as a
 literal, the way the package's own tests do. Editing one is
 [`setNodeProp`](#setnodeprop-and-setatpath); composing one is
 [`addNode`, `removeNode` and `moveNode`](#addnode-removenode-and-movenode).
@@ -170,8 +169,7 @@ rather than inside an editor, so every caller — a studio, a script, an agent �
 
 Three deliberate absences. It does not validate the value — that is `compile`'s job at the
 next compile, which reports an `invalid-props` issue at the offending path. It does not bump
-`version` — appending a version belongs to the authoring store
-([#11](https://github.com/effekt/nubbin/issues/11)), not to one edit. And it throws on an
+`version` — appending a version belongs to the authoring store, not to one edit. And it throws on an
 unknown `nodeId` and on an `items[]` path, which names every array member rather than one.
 
 `setAtPath` is the copy-on-write descent it writes with — the same one the renderer uses to

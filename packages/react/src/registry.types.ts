@@ -14,7 +14,7 @@ export type BlockComponent<P extends UnknownProps = UnknownProps> = (
  *
  * The stored props type is `never` because parameters are contravariant: a component that reads
  * `title` cannot stand in for one obliged to accept any record, so `BlockComponent<UnknownProps>`
- * here would reject every real block ([#88](https://github.com/effekt/nubbin/issues/88)). The
+ * here would reject every real block. The
  * render site widens back with a single cast, because it is what holds the props compile
  * validated against the block's schema.
  */

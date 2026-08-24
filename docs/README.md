@@ -6,13 +6,9 @@ status: stable
 
 # Documentation
 
-The design here is written to survive review before code is written against it. **What is
-built is recorded in [`AGENTS.md`](https://github.com/effekt/nubbin/blob/main/AGENTS.md), never here** — a status line in this file
-would be a second copy of that, and the copy is the one that rots.
-
-These documents hold the parts an implementer works from: the contracts, the settled
-decisions, and the alternatives each one beat. They do not hold the deliberation that
-produced them.
+These documents explain Nubbin's contracts, architecture, settled decisions, and rejected
+alternatives. Start with the architecture, then use the reference pages while integrating a
+package.
 
 | Read | For | Status |
 |---|---|---|
@@ -45,10 +41,10 @@ content are deliberately not here:
 
 | Content | Where | Why |
 |---|---|---|
-| Open design questions | [Issues labelled `design-question`](https://github.com/effekt/nubbin/issues/15) | They need a thread that closes. A document can hold a question but can never resolve one. |
-| Build order and phasing | [The roadmap](https://github.com/effekt/nubbin/issues/14) | Sequencing is tracked work, not a contract. A roadmap in prose goes stale the first time reality disagrees with it. |
+| Open design questions | [`domain-model.md`](domain-model.md#what-this-model-has-not-settled) | The model must name its unresolved boundaries without silently deciding them. |
+| Build order and phasing | Repository planning tools | Sequencing is tracked work, not a contract. A roadmap in prose goes stale when reality disagrees with it. |
 
-[The design site](https://effekt.github.io/nubbin/) is not a third home. It is generated and
+[The Nubbin documentation site](https://nubbin.io) is not a third home. It is generated and
 published by CI from [the repository's
 markdown](decisions/the-site-publishes-the-repositorys-markdown.md), these documents
 included — see

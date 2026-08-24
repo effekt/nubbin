@@ -31,7 +31,5 @@ const artifact = compile(documentVersion, catalog, registry, "/promotions/summer
 Props are inferred from the schema with `InferProps<typeof heroSchema>`, so nothing declares a
 block's shape twice.
 
-**Release candidate.** The API is settled enough to build against and not yet stable.
-
-The design record, including the paths not taken, is at
-<https://effekt.github.io/nubbin/>. MIT.
+Read the [Nubbin documentation](https://nubbin.io) for the API reference and design record.
+MIT.

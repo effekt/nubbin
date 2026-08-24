@@ -40,8 +40,7 @@ this decision exists to serve.
 `slots: Record<string, readonly string[]>` on the document is the better long-run shape, and
 this widens into it without a migration: an ordered list is one named slot with the naming
 left out. It waits on two things. Slot names on a document have to agree with the layout's,
-and how a layout and a page reconcile a slot they both fill is
-[#13](https://github.com/effekt/nubbin/issues/13) — naming them now decides that silently, in
-the shape of the data rather than in the thread that owns it. No `Layout` type exists yet for
+and how a layout and a page reconcile a slot they both fill remains unsettled. Naming them now
+would decide that silently in the shape of the data. No `Layout` type exists yet for
 such a rule to check against. Named slots also turn `Artifact.tree` into a map, which moves
 the address of every artifact ever published.

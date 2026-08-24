@@ -76,8 +76,7 @@ type BlockRegistry = Record<string, () => Promise<BlockComponent<never>>>;
 
 The stored props type is `never` because parameters are contravariant: a component that reads
 `title` cannot stand in for one obliged to accept any record, so `BlockComponent<UnknownProps>`
-in the registry would reject every real block
-([#88](https://github.com/effekt/nubbin/issues/88)). `loadBlocks` widens back with a single cast
+in the registry would reject every real block. `loadBlocks` widens back with a single cast
 at the render seam, which is sound there and nowhere else — what reaches a component is props
 `compile` already validated against that block's schema.
 

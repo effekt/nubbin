@@ -99,10 +99,10 @@ section, and the caller decides what each finding becomes.
 Every package is published — `npm view @nubbin/core dist-tags` for the version and the tag,
 which in prose would be a copy of the registry. [`docs/reference/`](docs/README.md)
 documents `core`'s authoring and compile surfaces, the artifact contracts, and the `react`
-and `next` bindings as shipped. **The studio** grows slice by slice against the demo:
-[`apps/studio/README.md`](apps/studio/README.md) is what it does today, and
-[the roadmap](https://github.com/effekt/nubbin/issues/14) is what it does not yet.
+and `next` bindings as shipped. [`apps/studio/README.md`](apps/studio/README.md) documents the
+studio and its integration with the demo.
 
 Read [`docs/architecture.md`](docs/architecture.md) for the model and
-[`docs/decisions/`](docs/decisions/README.md) for what is settled, and treat the open issues
-labelled `design-question` as the list of things you may not silently decide.
+[`docs/decisions/`](docs/decisions/README.md) for what is settled. Treat
+[`docs/domain-model.md#what-this-model-has-not-settled`](docs/domain-model.md#what-this-model-has-not-settled)
+as the list of things you may not silently decide.

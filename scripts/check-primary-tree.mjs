@@ -5,9 +5,8 @@
 // `check-worktree.mjs` refuses the Write, Edit and MultiEdit tool calls, which is a mechanism.
 // Anything reaching the filesystem another way never meets it: a `>` redirect inside a shell
 // command, an MCP server writing beside whatever it drives, a build step, a test fixture.
-// https://github.com/effekt/nubbin/issues/211 lists the three untracked files that `git status`
-// found in the primary tree while that hook was active throughout. This check asks the outcome
-// question instead, so the route stops mattering.
+// Untracked files still appeared in the primary tree while that hook was active throughout.
+// This check asks the outcome question instead, so the route stops mattering.
 //
 // It reports and never blocks, in both modes, because it cannot see *which* session wrote a
 // file. A driver with legitimate uncommitted work trips it, and blocking on that would be a

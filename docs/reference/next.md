@@ -44,8 +44,8 @@ function staticRouteParams(store: ArtifactStore): Promise<{ slug: string[] }[]>
 A `generateStaticParams` source. It reads `store.manifest()`, which is advisory and exists for
 exactly this — no request is ever served through it.
 
-Pointers whose `matchKind` is not `"exact"` are excluded until pattern routing is settled by
-[#5](https://github.com/effekt/nubbin/issues/5).
+Pointers whose `matchKind` is not `"exact"` are excluded because pattern routing remains
+unsettled.
 
 ## `holeFetchOptions`
 

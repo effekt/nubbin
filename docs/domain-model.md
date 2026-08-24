@@ -265,7 +265,7 @@ where a deep object copy could silently share ids by accident.
 | Behaviour | Layout | Preset |
 |---|---|---|
 | Relationship | Referenced by pages | Copied into a new page |
-| Editing it | Referenced by every page using it; propagation to published pages is unresolved ([#13](https://github.com/effekt/nubbin/issues/13)) | Affects nothing already created |
+| Editing it | Referenced by every page using it; propagation to published pages is unresolved | Affects nothing already created |
 | Stored as | `Document` with `kind: "layout"` | `Document` with `kind: "preset"` |
 | Composition | Page tree fills the layout's named slots | Page starts as a clone of the tree |
 
@@ -316,8 +316,7 @@ interface RoutePointer {
 
 `matchKind` is parsed from `route` at publish, not caller-supplied — `[name]` means param, a
 trailing `/*` means prefix, anything else is exact. Precedence is most-specific-first: exact
-beats param, param beats prefix. Whether authors can create pattern routes is open
-([#5](https://github.com/effekt/nubbin/issues/5)).
+beats param, param beats prefix. Whether authors can create pattern routes is open.
 
 `manifest()` is not a stored document — it is an advisory aggregation read over every
 `RoutePointer`, for the studio's route list and CI. No render path reads it; a request
@@ -335,8 +334,7 @@ pointer; the artifact stays, so republishing is a pointer move rather than a rec
 
 ### ArtifactStore
 
-The output layer's whole IO surface. The authoring store's interface is undesigned
-([#11](https://github.com/effekt/nubbin/issues/11)). An adapter implements this; `core` only
+The output layer's whole IO surface. The authoring store's interface is undesigned. An adapter implements this; `core` only
 ever returns values for it.
 
 ```ts
@@ -410,18 +408,13 @@ before offering "rollback," and a script can call it from a terminal outside any
 
 ## What this model has not settled
 
-Five things above are deliberately undecided, so that they get settled on purpose rather than
-by whoever implements first. They live as issues, not prose, because each needs a discussion
-that closes:
+Five things above are deliberately undecided, so they get settled on purpose rather than by
+whoever implements first:
 
-| Undecided | Where |
+| Undecided | Cost of deciding late |
 |---|---|
-| Layout slot merge — may a page contribute to several of its layout's slots, or exactly one? | [#13](https://github.com/effekt/nubbin/issues/13) |
-| Who owns `meta` — the document version, or a block placed in the tree | [#13](https://github.com/effekt/nubbin/issues/13) |
-| Localization — one locale per `DocumentVersion`, or many | [#6](https://github.com/effekt/nubbin/issues/6) |
-| Concurrent editing — whether a document-wide lock is enough | [#10](https://github.com/effekt/nubbin/issues/10) |
-| The authoring store's interface — `ArtifactStore` has no counterpart on the content layer | [#11](https://github.com/effekt/nubbin/issues/11) |
-
-Every open question is indexed in
-[#15](https://github.com/effekt/nubbin/issues/15), with what deciding each one late would
-cost.
+| Layout slot merge: may a page contribute to several layout slots or exactly one? | The choice changes both the document shape and layout composition rules. |
+| Who owns `meta`: the document version or a block placed in the tree? | Ownership determines validation, inheritance, and editing behavior. |
+| Localization: one locale per `DocumentVersion` or many? | The choice affects document identity, routing, and publishing. |
+| Concurrent editing: is a document-wide lock enough? | The answer determines the authoring store's coordination contract. |
+| The authoring store interface: `ArtifactStore` has no counterpart on the content layer. | Every editor and automation client will depend on this boundary. |

@@ -21,9 +21,9 @@ version was the only thing standing between four different builds and one versio
 
 That is not a hygiene problem. `compile` stamps the version into every artifact as `compiledWith`,
 so an artifact is supposed to identify what produced it — and two materially different compilers
-stamped the same string. One of them rejects a registration the other accepts, because
-[#223](https://github.com/effekt/nubbin/issues/223) landed between them. A provenance field that
-does not identify its producer is worse than an absent one, because it looks like an answer.
+stamped the same string. One of them rejects a registration the other accepts because the
+registration behavior changed between builds. A provenance field that does not identify its
+producer is worse than an absent one because it looks like an answer.
 
 So the release pull request is opened by the tool that computes it, and the publish job is gated on
 `releases_created`, which is true only on the run that created the releases for a version. A

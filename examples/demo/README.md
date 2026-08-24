@@ -1,14 +1,14 @@
 ---
 title: Demo Marketing Site
-summary: A reference Next.js app whose components are shaped exactly as Nubbin blocks, and which serves published artifacts through a catch-all
+summary: A reference Next.js app whose components are Nubbin blocks and which serves published artifacts through a catch-all route
 status: reference
 ---
 
 # Demo marketing site
 
-A marketing site for a fictional scheduling product, Tidewell, built from fourteen components
-whose shape already matches what a block requires. It exists so `defineBlock` has something
-real to register — ordinary application code first, a Nubbin fixture second.
+A marketing site for a fictional scheduling product, Tidewell, built from components whose
+shape matches what a block requires. It gives `defineBlock` ordinary application code to
+register and provides fixtures for Nubbin integrations.
 
 Every component, schema, and hand-written page is ordinary Next.js code that stands on its own.
 `src/nubbin/` is the thin layer that registers those components with Nubbin and serves compiled
@@ -16,8 +16,7 @@ artifacts from the fs store; the components themselves know nothing about it.
 
 ## What "block-shaped" means here
 
-Each of the fourteen components in `src/blocks/` follows the constraints a block will need to
-satisfy:
+Each component in `src/blocks/` follows the constraints a block must satisfy:
 
 - **One root element.** A renderer that attaches an id to the DOM node needs exactly one node
   to attach it to.
@@ -35,8 +34,8 @@ satisfy:
 
 ## Pages
 
-Five are hand-written, under `src/app/reference/` so that no literal route shadows a published
-one; the rest are whatever the store has a pointer for.
+Hand-written pages live under `src/app/reference/` so no literal route shadows a published
+route. The catch-all serves any route with a store pointer.
 
 - `/reference/home` — eight blocks assembled into one marketing page: `Hero`, `LogoWall`,
   `FeatureGrid`, `StatBand`, `TestimonialQuote`, `FaqAccordion`, `CtaBanner`, `SiteFooter`.

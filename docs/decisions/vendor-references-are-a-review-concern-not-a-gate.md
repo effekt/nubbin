@@ -8,8 +8,7 @@ status: stable
 
 A scanner enforced the public-repository standard from a term list that is gitignored by
 design, so the list existed in exactly one checkout on one machine. It could not run in CI,
-and it could not run in a linked worktree
-([#299](https://github.com/effekt/nubbin/issues/299)) — which is where this repository's work
+and it could not run in a linked worktree — which is where this repository's work
 happens — so in every worktree run it reported a green tick over an empty term list.
 
 A control that runs in one place, and whose configuration cannot travel to the places the

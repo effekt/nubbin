@@ -1,15 +1,14 @@
 ---
 title: Contributing
-summary: Setup, gates, and what a good contribution looks like before any code exists
+summary: Setup, repository checks, and the kinds of contribution Nubbin accepts
 status: stable
 ---
 
 # Contributing
 
 Read [`AGENTS.md`](AGENTS.md) first. It documents the invariants and the commands, and routes
-to everything else; the gates are in [`docs/gates.md`](docs/gates.md). This file does not repeat
-either — it covers what neither does: getting set
-up, and what's actually worth contributing right now.
+to everything else; the gates are in [`docs/gates.md`](docs/gates.md). This file covers setup
+and contribution guidance.
 
 ## Setup
 
@@ -34,27 +33,18 @@ node scripts/check-a11y.mjs --check
 Node 22+ (24 pinned in `.nvmrc`) and pnpm are required; `packageManager` in `package.json`
 pins the exact pnpm version.
 
-## What's worth contributing right now
+## What to contribute
 
-`@nubbin/core` is built; the adapters and the studio are not, and the milestone that could
-invalidate the approach has not run (see [`README.md`](README.md#status)). That shapes what is
-worth doing:
+Contributions can improve code, documentation, examples, or the design itself. Start with an
+issue when a change affects an architectural invariant or crosses package boundaries.
 
-**Disagreement about the design is the most valuable contribution there is.** The
-architecture has already been through one adversarial review, which falsified the live
-postMessage preview and the single-manifest publish. It should survive more of that before
-code gets written on top of it. A
-convincing objection to something in `docs/` is worth more right now than any patch.
+Open design questions are listed in
+[`docs/domain-model.md`](docs/domain-model.md#what-this-model-has-not-settled). Each records
+what deciding it late would cost. Open a discussion with the Design question template before
+implementing one.
 
-**Argue in an open question.** They live as issues labelled `design-question`, indexed in
-[Open design questions](https://github.com/effekt/nubbin/issues/15). Each records what
-deciding it late would cost, because that is usually what settles it. Comment on one, or open
-a new one with the Design question template.
-
-**A settled decision can be reopened.** [`docs/decisions/`](docs/decisions/README.md) holds what's
-already settled and why. If you think one was settled wrong, argue it — reopening a decision
-is not a lesser contribution than proposing a new one, it just needs to engage with the
-reasoning already on the page, not just the conclusion.
+[`docs/decisions/`](docs/decisions/README.md) records settled choices and their reasoning. A
+proposal to reverse one should address that reasoning as well as the conclusion.
 
 ## Opening an issue
 
@@ -75,8 +65,7 @@ covers both.
 
 ## Documentation changes
 
-Most contributions right now are documentation. Read
-[`.claude/rules/documentation.md`](.claude/rules/documentation.md) before editing anything
+Read [`.claude/rules/documentation.md`](.claude/rules/documentation.md) before editing anything
 under `docs/` — it covers frontmatter, which document holds what, and the rule that a rename
 leaves no trace of the old name.
 

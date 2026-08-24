@@ -139,7 +139,5 @@ runs it against `examples/demo/live/`, a committed store of pages already publis
 `pnpm guardrail` step of the `verify` workflow.
 
 The check fails that workflow. Making it *required* is branch protection, which lives in
-repository settings rather than in this tree
-([#22](https://github.com/effekt/nubbin/issues/22)). A rollback is `publish(route, olderHash)`,
-a bare pointer move; putting `checkRollback` in front of it is
-[#21](https://github.com/effekt/nubbin/issues/21).
+repository settings rather than in this tree. A rollback is `publish(route, olderHash)`,
+a bare pointer move. A caller can run `checkRollback` before moving the pointer.

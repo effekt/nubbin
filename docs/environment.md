@@ -133,8 +133,8 @@ do verify still install, so one moved upstream does not leave you with none.
 
 `--check` verifies against upstream and writes nothing at all.
 
-It fetches the default branch, because entries record a source and a path but no commit, so a
-*past* state is not reachable — [#165](https://github.com/effekt/nubbin/issues/165) is that.
+It fetches the default branch because entries record a source and a path but no commit. The
+installer cannot reconstruct a past state.
 
 None of this is required to read the design or open an issue. It is required to reproduce a
 result — and to have the gates catch, on your machine, what they catch here.
