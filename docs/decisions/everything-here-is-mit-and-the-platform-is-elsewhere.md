@@ -6,8 +6,8 @@ status: stable
 
 # Everything here is MIT, and the platform is elsewhere
 
-Every package in this repository is MIT, the studio included. It runs locally against a
-consumer's own storage and identity, which is what
+Every package in this repository is MIT. The editor runs locally against a consumer's own
+storage and identity, which is what
 [the studio is self-hosted](the-studio-is-self-hosted-with-optional-surfaces-on-top.md) and
 [the studio does not own identity](the-studio-does-not-own-identity.md) already commit it to.
 The hosted platform is a different repository, and it is closed.
