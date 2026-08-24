@@ -46,12 +46,16 @@ porting them into the suite first would be a rewrite thrown away twice.
 | `tests/oneUnitPerFile.test.mjs` | one unit per file, counting module-private functions |
 | `tests/schemaDepth.test.mjs` | no nested object schemas — sub-schemas get their own file |
 | `tests/junkDrawerFilenames.test.mjs` | no junk-drawer filenames |
-| `tests/documentationStructure.test.mjs` | links and anchors resolve, fences balance, table columns are named, every top-level document is in the index |
+| `tests/documentationStructure.test.mjs` | links and anchors resolve, a label naming a path names the path it goes to, fences balance, table columns are named, every document beneath `docs/` is in the index |
 | `tests/fileReferencesResolve.test.mjs` | a repository file named inside a code span exists, or is gitignored on purpose |
+| `tests/referenceRestatement.test.mjs` | no `status: reference` page declares a symbol a package exports — the generated reference is where a signature lives |
+| `tests/sidebarCoverage.test.mjs` | every top-level group under `docs/` is named browsable or deliberately unlisted, and no name outlives its directory |
+| `tests/gettingStarted.test.mjs` | the first page installs every `@nubbin/*` package the demo consumes and no other, and shows every field the demo's simplest block declares |
 | `tests/proseDuplication.test.mjs` | one claim, one home — a run of 12 words written twice across `docs/`, `AGENTS.md`, the rules and the skills, measured after fences, comments and tables are stripped out |
 | `tests/planFiles.test.mjs` | no plan-shaped file under `docs/` — a `plans/` directory, a date-stamped filename, or a stem that is the word itself |
 | `tests/ruleFiles.test.mjs` | rule files carry `paths`, stay under 150 lines, end in a checklist, declare a gate, and glob at least one tracked file |
 | `tests/rulesCiteRealGates.test.mjs` | a rule naming a `check-*.mjs` or a skill names one that exists |
+| `tests/gateTableCoverage.test.mjs` | every suite in `tests/` has a row in this table, and every row names one that is there |
 | `tests/peerDependencies.test.mjs` | no package declares a peer dependency nothing in it imports |
 | `tests/packageMetadata.test.mjs` | every publishable package has a README, a licence file and field, a description and a repository |
 | `tests/coreVersionStamp.test.mjs` | `NUBBIN_VERSION`, stamped into every artifact, matches the published version |
