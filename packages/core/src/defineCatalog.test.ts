@@ -58,6 +58,23 @@ describe("defineCatalog", () => {
     ).toThrow(/List.*items\[\]\.heading/s);
   });
 
+  test("passes a control hint through untouched, on a top-level and an array-member path", () => {
+    const catalog = defineCatalog({
+      Hero: { schema: heroSchema, ui: { fields: { title: { control: "link" } } } },
+      List: { schema: listSchema, ui: { fields: { "items[].heading": { control: "link" } } } },
+    });
+    expect(catalog.Hero?.ui?.fields?.title?.control).toBe("link");
+    expect(catalog.List?.ui?.fields?.["items[].heading"]?.control).toBe("link");
+  });
+
+  test("fails registration when a control hint names a field the schema lacks", () => {
+    expect(() =>
+      defineCatalog({
+        Hero: { schema: heroSchema, ui: { fields: { url: { control: "link" } } } },
+      }),
+    ).toThrow(/url/);
+  });
+
   test("keeps a hint on an array-member path legal", () => {
     expect(() =>
       defineCatalog({

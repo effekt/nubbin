@@ -37,6 +37,12 @@ export interface FieldHint {
    * path, fails registration.
    */
   data?: FieldHintData;
+  /**
+   * Names the control an editing surface renders for the field — `"link"` for a string holding
+   * a destination. Core validates the path and reads nothing else: an unrecognised name falls
+   * back to the field's kind, so a hint never breaks an editor that predates it.
+   */
+  control?: string;
 }
 
 /**
