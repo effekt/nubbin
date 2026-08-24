@@ -4,6 +4,7 @@ import type { Overrides, PuckApi } from "@measured/puck";
 import type { SlotConstraint } from "@nubbin/core";
 import type { RefObject } from "react";
 import type { PaletteGroup } from "../nubbin/paletteGroup.types";
+import { prefixedRoute } from "../nubbin/prefixedRoute";
 import type { PublishOutcome } from "../nubbin/publishOutcome.types";
 import { toIconByBlock } from "../nubbin/toIconByBlock";
 import { BlockPalette } from "./BlockPalette";
@@ -47,6 +48,9 @@ export function toBridgedOverrides(
     headerActions: () => (
       <>
         <RouteSwitcher route={pages.route} routes={pages.routes} />
+        <a className="nb-toolbar-preview" href={prefixedRoute("/preview", pages.route)}>
+          Preview
+        </a>
         <IssuesPill apiRef={apiRef} />
         <PublishControl route={pages.route} onOutcome={onOutcome} />
       </>

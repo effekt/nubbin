@@ -86,10 +86,37 @@
   background: var(--nb-ground);
 }
 
+/* The toolbar carries the specimen's brand edge: a 3px marine→teal→teal-light→brass
+ * gradient under a panel-white bar, painted through the border so the bar itself stays
+ * one flat surface. */
 .nubbin-studio [class^="_PuckHeader_"] {
-  background: var(--nb-panel);
-  border-bottom: 1px solid var(--nb-line);
+  background:
+    linear-gradient(var(--nb-panel), var(--nb-panel)) padding-box,
+    linear-gradient(
+      90deg,
+      var(--nb-marine),
+      var(--nb-teal) 34%,
+      var(--nb-teal-light) 60%,
+      var(--nb-brass) 92%
+    )
+    border-box;
+  border-bottom: 3px solid transparent;
   color: var(--nb-ink);
+}
+
+/* The header's Preview link, the one way out to the page as a reader sees it. */
+.nubbin-studio .nb-toolbar-preview {
+  font-size: 12.5px;
+  color: var(--nb-teal);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  margin-right: 4px;
+}
+
+/* The status bar owns the viewport's last 32px; trimming the layout is what keeps the two
+ * from overlapping. */
+.nubbin-studio [class^="_PuckLayout_"] {
+  height: calc(100dvh - 32px);
 }
 
 /* Each sidebar is a column of floating cards; the bar itself is invisible. */

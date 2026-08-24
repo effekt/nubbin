@@ -10,4 +10,7 @@ export interface EditorStatus {
   readonly issues: readonly AuthorIssue[];
   readonly issuesOpen: boolean;
   readonly published: boolean;
+  /** When the draft last reached the endpoint, ISO-8601 — absent until a save lands, and
+   * cleared by each edit, so the status bar never claims a save it cannot prove. */
+  readonly savedAt?: string | undefined;
 }

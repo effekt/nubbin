@@ -1,0 +1,56 @@
+/* The specimen's status strip: 32px, quiet, dots carrying state alongside their words —
+ * never colour alone. It takes the room puckTheme.css trims from Puck's layout, so the
+ * two never overlap. */
+.nb-statusbar {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  padding: 0 14px;
+  height: 32px;
+  font-size: 12px;
+  color: var(--nb-dim);
+  background: var(--nb-panel);
+  border-top: 1px solid var(--nb-line);
+}
+
+.nb-statusbar-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.nb-statusbar-fix {
+  color: var(--nb-warn-deep);
+  font-weight: 600;
+}
+
+.nb-statusbar-right {
+  margin-left: auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 18px;
+}
+
+.nb-statusbar-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 99px;
+  flex: none;
+}
+
+.nb-statusbar-dot-ok {
+  background: var(--nb-ok);
+}
+
+.nb-statusbar-dot-amber {
+  background: #b07e24;
+}
+
+.nb-statusbar-dot-fix {
+  background: var(--nb-warn-deep);
+}
