@@ -1,15 +1,18 @@
 "use client";
 
 import type { Overrides, PuckApi } from "@measured/puck";
+import type { SlotConstraint } from "@nubbin/core";
 import type { RefObject } from "react";
 import type { PaletteGroup } from "../nubbin/paletteGroup.types";
 import type { PublishOutcome } from "../nubbin/publishOutcome.types";
+import { toIconByBlock } from "../nubbin/toIconByBlock";
 import { BlockPalette } from "./BlockPalette";
 import { FieldsWithCallout } from "./FieldsWithCallout";
 import { IssuesPill } from "./IssuesPill";
 import { PublishControl } from "./PublishControl";
 import { PuckApiBridge } from "./PuckApiBridge";
 import { RouteSwitcher } from "./RouteSwitcher";
+import { StudioOutline } from "./StudioOutline";
 
 /**
  * The studio's Puck overrides. The whole-UI `puck` override renders its children untouched
@@ -25,7 +28,9 @@ import { RouteSwitcher } from "./RouteSwitcher";
  * keystroke; everything that changes underneath (the pill's count, the publish label, the
  * callout) flows through the editor status store instead. `drawer` drops Puck's own block
  * list and renders the studio's palette — search, described blocks, detail bar — whose
- * rows are still Puck's `Drawer.Item`, so dragging stays Puck's.
+ * rows are still Puck's `Drawer.Item`, so dragging stays Puck's. `outline` drops Puck's
+ * layer tree for the studio's — the same glyphs as the palette, area rows with fullness
+ * chips — selecting through the same store Puck's tree used.
  */
 export function toBridgedOverrides(
   apiRef: RefObject<(() => PuckApi) | undefined>,
@@ -33,9 +38,12 @@ export function toBridgedOverrides(
   onOutcome: (outcome: PublishOutcome) => void,
   palette: readonly PaletteGroup[],
   docsByBlock: Record<string, Record<string, string>>,
+  slotsByBlock: Record<string, Record<string, SlotConstraint>>,
 ): Partial<Overrides> {
+  const icons = toIconByBlock(palette);
   return {
-    drawer: () => <BlockPalette groups={palette} />,
+    drawer: () => <BlockPalette groups={palette} apiRef={apiRef} />,
+    outline: () => <StudioOutline icons={icons} slotsByBlock={slotsByBlock} />,
     headerActions: () => (
       <>
         <RouteSwitcher route={pages.route} routes={pages.routes} />

@@ -2,23 +2,23 @@
 
 import type { PaletteBlock } from "../nubbin/paletteGroup.types";
 
-/** The palette's accessible narration, visually hidden: the hovered or focused block's
- * name and full description, or a hint while nothing is pointed at. Polite live region, so
- * a screen reader hears the description the moment a sighted reader sees it in the preview
- * panel — which stays `aria-hidden`, making this the one place assistive tech reads it.
- * It was the card's visible footer until the panel took the description over; a footer
- * truncated what the panel now wraps in full. */
+/** The card's reserved footer strip: one fixed-height instructional line that never reacts
+ * to hover — the list above must not move a pixel as the pointer travels rows, so nothing
+ * here grows. The pointed-at block's name and description still reach assistive tech
+ * through the visually hidden live region beside the hint: the hover preview panel is
+ * `aria-hidden`, making this the one copy a screen reader is handed. The clip pattern
+ * rather than `display: none`, because a hidden live region announces nothing. */
 export function PaletteDetailBar({ block }: { block: PaletteBlock | undefined }) {
   return (
-    <p className="nb-palette-detail" aria-live="polite">
-      {block === undefined ? (
-        "Hover a block to see what it is for."
-      ) : (
-        <>
-          <strong>{block.name}</strong>
-          {block.description === undefined ? "" : ` — ${block.description}`}
-        </>
-      )}
-    </p>
+    <div className="nb-palette-detail">
+      <p className="nb-palette-detail-hint">
+        Drag a block in, or press Enter to add it at the selection.
+      </p>
+      <p className="nb-palette-detail-live" aria-live="polite">
+        {block === undefined
+          ? ""
+          : `${block.name}${block.description === undefined ? "" : ` — ${block.description}`}`}
+      </p>
+    </div>
   );
 }

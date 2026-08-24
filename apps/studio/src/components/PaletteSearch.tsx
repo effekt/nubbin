@@ -1,24 +1,34 @@
 "use client";
 
-/** The palette's live filter: a labelled search input under the card's title, narrowing the
- * list on every keystroke. The magnifier is decorative — the label carries the meaning. */
+/** The palette's live filter, sitting inline beside the card's title: a labelled search
+ * input with the magnifier inside its left edge, quoting how many blocks it searches. The
+ * magnifier is decorative — the label carries the meaning. */
 export function PaletteSearch({
   query,
+  total,
   onChange,
 }: {
   query: string;
+  total: number;
   onChange: (next: string) => void;
 }) {
   return (
     <div className="nb-palette-search">
-      <svg aria-hidden="true" viewBox="0 0 16 16" width="14" height="14" fill="none">
-        <circle cx="7" cy="7" r="4.5" stroke="currentColor" strokeWidth="1.5" />
-        <path d="m10.5 10.5 3 3" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+      <svg
+        className="nb-palette-search-mag"
+        aria-hidden="true"
+        viewBox="0 0 14 14"
+        width="13"
+        height="13"
+        fill="none"
+      >
+        <circle cx="6" cy="6" r="4.2" stroke="currentColor" strokeWidth="1.5" />
+        <path d="m9.2 9.2 3 3" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
       </svg>
       <input
         type="search"
         value={query}
-        placeholder="Search blocks…"
+        placeholder={`Search ${total} blocks…`}
         aria-label="Search blocks"
         onChange={(event) => onChange(event.target.value)}
       />

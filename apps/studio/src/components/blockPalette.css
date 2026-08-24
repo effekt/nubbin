@@ -1,46 +1,74 @@
-/* The Blocks card's compact palette — search at the top, categories with count pills,
- * detail bar pinned at the foot. Tokens come from `.nubbin-studio` in puckTheme.css; the
- * canonical design artifact referenced there is canonical for the treatment. */
+/* The Blocks card's compact palette — title and search in one head row, categories with
+ * count pills, detail bar pinned at the foot. Metrics and treatment come verbatim from the
+ * canonical design specimen's `.pal-*`, `.acc*` and `.blk` rules; tokens from
+ * `.nubbin-studio` in puckTheme.css. */
 
-/* The card is a flex column: search and detail bar each hold their own strip, and only
- * the list between them scrolls — so the footer occupies reserved space and never paints
- * over a row. `height: 100%` hands the inner region the card's scroll instead of the
- * card's own content box. */
+/* The card is a flex column: head and detail bar each hold their own strip, and only the
+ * list between them scrolls — so the footer occupies reserved space and never paints over
+ * a row. `height: 100%` hands the inner region the card's scroll instead of the card's own
+ * content box. */
 .nb-palette {
   display: flex;
   flex-direction: column;
   height: 100%;
 }
 
-.nb-palette-search {
+.nb-palette-head {
   flex: none;
   display: flex;
   align-items: center;
-  gap: 6px;
-  padding: 6px 12px 8px;
+  gap: 10px;
+  padding: 6px 10px 6px 14px;
   background: var(--nb-panel);
-  color: var(--nb-dim);
   border-bottom: 1px solid var(--nb-line-soft);
 }
 
-.nb-palette-search input {
+.nb-palette-head h2 {
+  margin: 0;
+  color: var(--nb-dim);
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.nb-palette-search {
   flex: 1;
+  position: relative;
   min-width: 0;
+}
+
+.nb-palette-search-mag {
+  position: absolute;
+  left: 9px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--nb-dim);
+  pointer-events: none;
+}
+
+.nb-palette-search input {
+  width: 100%;
+  padding: 5px 9px 5px 27px;
   border: 1px solid var(--nb-line);
-  border-radius: 6px;
-  padding: 4px 8px;
+  border-radius: 7px;
+  background: var(--nb-well);
   font-size: 12.5px;
   color: var(--nb-ink);
-  background: var(--nb-well);
 }
 
 .nb-palette-search input::placeholder {
   color: var(--nb-dim);
 }
 
+.nb-palette-search input:hover {
+  border-color: #b9c5c3;
+}
+
 .nb-palette-search input:focus-visible {
   outline: 2px solid var(--nb-teal);
   outline-offset: 1px;
+  background: var(--nb-panel);
 }
 
 .nb-palette-groups {
@@ -49,73 +77,92 @@
   overflow-y: auto;
 }
 
+.nb-palette-section {
+  border-bottom: 1px solid var(--nb-line-soft);
+}
+
+.nb-palette-section:last-of-type {
+  border-bottom: 0;
+}
+
+.nb-palette-section-body {
+  padding-bottom: 3px;
+}
+
 .nb-palette-heading {
+  margin: 0;
+}
+
+/* The header is a disclosure: a real button spanning the row, in the heading's uppercase
+ * voice, the chevron pointing down open and rotating to point right collapsed. The rotate
+ * transitions only for readers who have not asked the OS for stillness. */
+.nb-palette-heading-toggle {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  padding: 4px 12px 0 4px;
-  color: var(--nb-dim);
+  gap: 6px;
+  width: 100%;
+  text-align: left;
+  padding: 6px 12px 5px 10px;
+  min-height: 26px;
+  border: 0;
+  background: none;
   font-size: 10.5px;
   font-weight: 700;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-}
-
-/* The header is a disclosure: a real button so the keyboard operates it, inheriting the
- * heading's uppercase voice, with the chevron pointing down open and rotating to point
- * right collapsed — a plain rotate with no transition, so there is nothing to gate on
- * prefers-reduced-motion. The count pill sits outside the button and stays visible while
- * the section is closed. */
-.nb-palette-heading-toggle {
-  display: flex;
-  align-items: center;
-  gap: 2px;
-  padding: 4px 4px 4px 2px;
-  border: 0;
-  background: none;
-  color: inherit;
-  font: inherit;
-  letter-spacing: inherit;
-  text-transform: inherit;
+  color: var(--nb-dim);
   cursor: pointer;
 }
 
 .nb-palette-heading-toggle:hover {
   color: var(--nb-ink);
+  background: var(--nb-well);
 }
 
 .nb-palette-heading-toggle:focus-visible {
   outline: 2px solid var(--nb-teal);
-  outline-offset: 1px;
-  border-radius: 4px;
+  outline-offset: -2px;
 }
 
-.nb-palette-chevron {
-  display: inline-block;
-  width: 12px;
-  font-size: 9px;
-  line-height: 1;
+.nb-palette-heading-toggle > svg {
+  flex: none;
 }
 
-.nb-palette-heading-toggle[aria-expanded="false"] .nb-palette-chevron {
+@media (prefers-reduced-motion: no-preference) {
+  .nb-palette-heading-toggle > svg {
+    transition: transform 0.12s;
+  }
+}
+
+.nb-palette-heading-toggle[aria-expanded="false"] > svg {
   transform: rotate(-90deg);
 }
 
 .nb-palette-count {
-  font-size: 10px;
-  font-weight: 700;
+  margin-left: auto;
+  font-size: 10.5px;
+  font-weight: 600;
   letter-spacing: 0;
-  color: var(--nb-teal);
-  background: var(--nb-teal-tint);
-  border: 1px solid var(--nb-line-soft);
-  border-radius: 999px;
+  text-transform: none;
+  color: var(--nb-dim);
+  background: var(--nb-well);
+  box-shadow: inset 0 0 0 1px var(--nb-line-soft);
+  border-radius: 99px;
   padding: 0 7px;
-  line-height: 16px;
+  font-variant-numeric: tabular-nums;
 }
 
 .nb-palette-empty {
-  padding: 16px 12px;
+  padding: 18px 16px 22px;
+  text-align: center;
+  font-size: 12px;
   color: var(--nb-dim);
+  line-height: 1.5;
+}
+
+.nb-palette-empty b {
+  display: block;
+  color: var(--nb-ink);
   font-size: 12.5px;
 }
 
@@ -141,12 +188,28 @@
   outline-offset: 1px;
 }
 
-/* The palette's narration, for assistive tech only. It was a visible footer that clamped
- * long descriptions to two lines; the preview panel's header now carries the description in
- * full, and the panel is aria-hidden, so this live region is kept — off screen — as the one
- * copy a screen reader is handed. The clip pattern rather than display:none, because a
- * hidden live region announces nothing. */
+/* The reserved footer strip: a fixed-height instructional line that never reacts to the
+ * pointer, so the list above never shifts under it. The height is constant — 43px, the
+ * specimen's reserve — whatever is hovered. */
 .nb-palette-detail {
+  flex: none;
+  border-top: 1px solid var(--nb-line-soft);
+  margin: 0;
+  padding: 6px 14px 7px;
+  height: 43px;
+  overflow: hidden;
+  font-size: 11.5px;
+  line-height: 1.4;
+  color: var(--nb-dim);
+}
+
+.nb-palette-detail-hint {
+  margin: 0;
+}
+
+/* The palette's narration for assistive tech: the clip pattern rather than display none,
+ * because a hidden live region announces nothing. */
+.nb-palette-detail-live {
   position: absolute;
   width: 1px;
   height: 1px;
@@ -156,87 +219,4 @@
   clip-path: inset(50%);
   white-space: nowrap;
   border: 0;
-}
-
-/* The row inside Puck's draggable item: a fixed-width glyph slot, then Puck's own name and
- * drag handle, one continuous hit area under one hover tint. The slot renders whether or not
- * the block has an icon, so a mixed list never misaligns; the glyph is decoration and the
- * name carries the semantics. The accent edge sits at the row's outermost left, left of the
- * icon, and the tint spans the full row — the drag ref is on Puck's element around this row,
- * so the icon drags with everything else. */
-.nb-palette-item-row {
-  display: flex;
-  align-items: center;
-  border-left: 2px solid transparent;
-  cursor: grab;
-}
-
-.nb-palette-item-row:hover {
-  background: var(--nb-teal-tint);
-  border-left-color: var(--nb-teal);
-}
-
-.nb-palette-item-row > :last-child {
-  flex: 1;
-  min-width: 0;
-}
-
-.nb-palette-item-icon {
-  flex: none;
-  width: 22px;
-  margin-right: 6px;
-  padding-left: 8px;
-  font-size: 13px;
-  line-height: 1;
-}
-
-/* The floating preview beside the Blocks card: fixed and portalled to `body`, so no
- * ancestor's overflow clips it, and inert end to end — `pointer-events: none` on the whole
- * panel is what guarantees it can never intercept a click or a drag meant for a palette
- * row, wherever it happens to sit. The header carries the block's name and its full
- * description — wrapping, never clamped. The iframe below renders the block at a page
- * width and the transform (set inline beside the width it divides) scales it to the panel;
- * the region's height is set inline too, fitted to the measured content. Appearance is a
- * plain paint with no transition, so there is nothing to gate on prefers-reduced-motion. */
-.nb-palette-preview {
-  position: fixed;
-  z-index: 100;
-  pointer-events: none;
-  overflow: hidden;
-  background: var(--nb-panel);
-  border: 1px solid var(--nb-line);
-  border-radius: var(--nb-r);
-  box-shadow: var(--nb-shadow);
-}
-
-/* The header owns padding and a separator, never a surface: the panel's one background is
- * what sits behind both it and the preview, so nothing behind the card can bleed through
- * a child. */
-.nb-palette-preview-header {
-  padding: 8px 12px;
-  border-bottom: 1px solid var(--nb-line-soft);
-}
-
-.nb-palette-preview-header strong {
-  display: block;
-  color: var(--nb-ink);
-  font-size: 12.5px;
-  font-weight: 700;
-}
-
-.nb-palette-preview-header p {
-  margin: 2px 0 0;
-  color: var(--nb-dim);
-  font-size: 11.5px;
-  line-height: 1.45;
-}
-
-.nb-palette-preview-frame {
-  overflow: hidden;
-}
-
-.nb-palette-preview iframe {
-  display: block;
-  border: 0;
-  transform-origin: top left;
 }

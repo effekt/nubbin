@@ -1,4 +1,4 @@
-import { render } from "@testing-library/react";
+import { fireEvent, render } from "@testing-library/react";
 import { createRef } from "react";
 import { expect, test } from "vitest";
 import { BlockPreviewPanel } from "./BlockPreviewPanel";
@@ -39,6 +39,30 @@ test("a block without a description gets a header of just the name", () => {
 test("no block, no panel", () => {
   render(<BlockPreviewPanel block={undefined} anchor={anchored()} />);
   expect(document.querySelector(".nb-palette-preview")).toBeNull();
+});
+
+test("opens compact — loading strip shown, iframe invisible — and grows once measured", () => {
+  render(<BlockPreviewPanel block={hero} anchor={anchored()} />);
+  const region = document.querySelector<HTMLElement>(".nb-palette-preview-frame");
+  const frame = region?.querySelector("iframe");
+  expect(region?.style.height).toBe("72px");
+  expect(region?.querySelector(".nb-palette-preview-loading")).not.toBeNull();
+  expect(frame?.style.opacity).toBe("0");
+  if (frame == null) {
+    throw new Error("the preview iframe did not render");
+  }
+  // jsdom lays nothing out, so the loaded document's height is stamped on it — the real
+  // measurer reads exactly this property off the body.
+  const body = frame.contentDocument?.body;
+  if (body == null) {
+    throw new Error("the iframe has no measurable document");
+  }
+  Object.defineProperty(body, "scrollHeight", { value: 500 });
+  fireEvent.load(frame);
+  expect(region?.querySelector(".nb-palette-preview-loading")).toBeNull();
+  expect(frame.style.opacity).toBe("1");
+  // 500 content pixels at the panel's 0.4 scale — grown from the 72px strip.
+  expect(region?.style.height).toBe("200px");
 });
 
 test("swapping blocks swaps the iframe's src without replacing the element", () => {

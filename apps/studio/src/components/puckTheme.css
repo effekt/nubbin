@@ -20,6 +20,12 @@
   --nb-dim: #55696e;
   --nb-teal: #0e5a6b;
   --nb-teal-tint: #e3eef0;
+  --nb-teal-light: #4fb3c7;
+  --nb-marine: #0b2b33;
+  --nb-brass: #c08a3e;
+  --nb-ok: #1e6b4a;
+  --nb-warn-deep: #7a501d;
+  --nb-bad: #a32b1e;
   --nb-r: 10px;
   --nb-shadow: 0 1px 2px rgba(11, 43, 51, 0.1), 0 10px 28px rgba(11, 43, 51, 0.07);
 
@@ -131,6 +137,13 @@
   text-transform: uppercase;
 }
 
+/* Both left cards title themselves — "Blocks" inline with the search, "Page outline"
+ * beside its block count — so Puck's "Components" and "Outline" titles above them would
+ * each say the same thing twice. */
+.nubbin-studio [class*="_Sidebar--left_"] [class^="_SidebarSection-title_"] {
+  display: none;
+}
+
 /* Category headers in the block list read as the section headers of the design. */
 .nubbin-studio [class^="_ComponentList-title_"] {
   color: var(--nb-dim);
@@ -153,13 +166,29 @@
   border: 0;
   box-shadow: none;
   border-radius: 0;
-  padding: 4px 12px 4px 0;
+  padding: 0;
   color: var(--nb-ink);
 }
 
 .nubbin-studio [class^="_DrawerItem-name_"] {
   font-size: 12.5px;
   font-weight: 600;
+  line-height: 1.3;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* The brass grab-dots on the row's right edge replace Puck's grey drag icon; the drag
+ * itself rides the draggable element around both, so hiding the icon costs nothing. */
+.nubbin-studio .nb-palette-item [class^="_DragIcon_"] {
+  display: none;
+}
+
+/* Puck spaces its drawer items 12px apart for its card look; the specimen's rows are
+ * contiguous — the row's own padding is the rhythm. */
+.nubbin-studio .nb-palette-section [class^="_Drawer_"] {
+  gap: 0;
 }
 
 /* Puck paints its own hover on the draggable — azure-12, inside an
