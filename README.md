@@ -50,6 +50,27 @@ export const heroBlock = defineBlock({
 
 Use catalog field hints to keep a value live instead of freezing it when you publish. See the [`defineBlock` and catalog reference](docs/reference/authoring/blocks.md) for the complete authoring model.
 
+## The editor
+
+Step 2 is where most page builders ask you to re-describe your components in their own format.
+Here it is the catalog you already wrote: the studio reads it and builds a palette from it, so a
+block reaches the editor because it was registered, not because someone modelled it twice.
+
+```bash
+pnpm --filter studio dev
+```
+
+Blocks drag in from the palette and nest into slots the schema allows. Props edit against that
+same schema — text, numbers, booleans and enums in the inspector, anything else read-only rather
+than guessed at. The canvas is the consumer's real components rendered in a draft of the real
+page, not an approximation of it. Publish compiles the draft exactly as the command line would
+and moves the route pointer through the running application, so a page the compiler refuses is
+one the editor refuses too.
+
+It runs locally, on the machine of whoever is editing, against storage and identity the
+deployment already has. [Running the studio](docs/reference/editing/studio.md) covers the draft
+store, the prop kinds, and the seam a consumer replaces to point it at their own application.
+
 ## Why Nubbin
 
 Nubbin keeps schemas in your repository and content in a store. Code changes follow your application deployment process, while content changes can publish independently.
@@ -87,7 +108,7 @@ Use these resources to understand Nubbin, integrate it, or follow its developmen
 | [Architecture](docs/concepts/architecture.md) | The contract, content, and artifact model |
 | [Decisions](docs/decisions/README.md) | Settled design choices, rejected alternatives, and boundaries |
 | [Domain model](docs/concepts/domain-model.md) | Entities, ownership, and relationships |
-| [Studio guide](apps/studio/README.md) | Running and integrating the editor application |
+| [Studio guide](docs/reference/editing/studio.md) | Running and integrating the editor application |
 
 Generated `CATALOG.md` files beside each package list its exports and their source files.
 

@@ -98,6 +98,20 @@ if (artifact === null) notFound();
 return <Renderer artifact={artifact} registry={blockRegistry} />;
 ```
 
+## Let someone else edit it
+
+Everything above is yours. The point of the blocks you registered is that the next change to
+the page does not come back to you.
+
+```bash
+pnpm --filter studio dev
+```
+
+The studio reads your catalog and builds a palette from it. A block is dragged in, its props
+edit against the schema you wrote, and Publish runs the same compile the command line does —
+so a page nobody could publish from a terminal is a page nobody can publish from the editor
+either. [Running the studio](reference/editing/studio.md) covers what it saves and when.
+
 ## Where to go next
 
 | If you are | Read |
@@ -106,6 +120,7 @@ return <Renderer artifact={artifact} registry={blockRegistry} />;
 | Writing blocks | [Blocks](reference/authoring/blocks.md) and [the catalog](reference/authoring/catalog.md) |
 | Publishing from CI or a terminal | [Compiling](reference/publishing/compile.md), [artifacts](reference/publishing/artifacts.md), [the command line](reference/publishing/cli.md) |
 | Rendering in an app | [The renderer](reference/rendering/renderer.md) and [the Next.js binding](reference/rendering/next.md) |
+| Letting someone else edit pages | [Running the studio](reference/editing/studio.md) |
 | Looking for a signature | [The API reference](reference/generated/README.md), written from the packages' own sources on every docs build |
 
 ## Every document
@@ -128,6 +143,8 @@ return <Renderer artifact={artifact} registry={blockRegistry} />;
 | **Reference — rendering** | | |
 | [`reference/rendering/renderer.md`](reference/rendering/renderer.md) | `@nubbin/react` as shipped — the `Renderer` server component, the registry types, and the hole resolver | reference |
 | [`reference/rendering/next.md`](reference/rendering/next.md) | `@nubbin/next` as shipped — route resolution, static params, hole fetch options, and the two publish calls | reference |
+| **Reference — editing** | | |
+| [`reference/editing/studio.md`](reference/editing/studio.md) | The editor as shipped — what it reads from a catalog, how a draft is saved, and what a consumer replaces | reference |
 | **Contributing** | | |
 | [`contributing/documents.md`](contributing/documents.md) | What belongs in a document rather than an issue, and the gates that hold this corpus to it | stable |
 | [`contributing/gates.md`](contributing/gates.md) | Every gate, what it enforces, where its verdict comes from, and the three that stay local | stable |
