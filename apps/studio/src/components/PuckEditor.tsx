@@ -13,6 +13,7 @@ import { postDraftSave } from "../nubbin/postDraftSave";
 import type { PublishOutcome } from "../nubbin/publishOutcome.types";
 import type { PuckData } from "../nubbin/puckData.types";
 import { toAuthorIssues } from "../nubbin/toAuthorIssues";
+import { toPaletteGroups } from "../nubbin/toPaletteGroups";
 import { toPuckConfig } from "../nubbin/toPuckConfig";
 import { toSlotNamesByBlock } from "../nubbin/toSlotNamesByBlock";
 import { editorStatusStore } from "./editorStatusStore";
@@ -39,6 +40,7 @@ interface PuckEditorProps {
  * that lands confirms above the canvas with the route and the URL the endpoint built. */
 export function PuckEditor({ route, routes, initialData, initialVersion }: PuckEditorProps) {
   const config = useMemo(() => toPuckConfig(catalog, registry), []);
+  const palette = useMemo(() => toPaletteGroups(catalog, registry), []);
   const blockSlots = useMemo(() => toSlotNamesByBlock(registry), []);
   const prior = useRef(initialVersion);
   const puckApi = useRef<(() => PuckApi) | undefined>(undefined);
@@ -73,8 +75,8 @@ export function PuckEditor({ route, routes, initialData, initialVersion }: PuckE
     }
   }, []);
   const overrides = useMemo(
-    () => toBridgedOverrides(puckApi, { route, routes }, onOutcome),
-    [route, routes, onOutcome],
+    () => toBridgedOverrides(puckApi, { route, routes }, onOutcome, palette),
+    [route, routes, onOutcome, palette],
   );
   return (
     <div className="nubbin-studio">

@@ -19,6 +19,7 @@ function renderPuck(apiRef: { current: (() => PuckApi) | undefined }) {
         apiRef,
         { route: "/", routes: ["/", "/live"] },
         () => undefined,
+        [{ title: "Content", blocks: [{ name: "Hero", description: "The opening statement." }] }],
       )}
     />,
   );

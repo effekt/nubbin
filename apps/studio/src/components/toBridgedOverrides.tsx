@@ -2,7 +2,9 @@
 
 import type { Overrides, PuckApi } from "@measured/puck";
 import type { RefObject } from "react";
+import type { PaletteGroup } from "../nubbin/paletteGroup.types";
 import type { PublishOutcome } from "../nubbin/publishOutcome.types";
+import { BlockPalette } from "./BlockPalette";
 import { FieldsWithCallout } from "./FieldsWithCallout";
 import { IssuesPill } from "./IssuesPill";
 import { PublishControl } from "./PublishControl";
@@ -21,14 +23,18 @@ import { RouteSwitcher } from "./RouteSwitcher";
  * the selected block's callout. The editor memoises the result — the ref, callback, route
  * and list are stable per page load — so Puck never sees a new overrides object per
  * keystroke; everything that changes underneath (the pill's count, the publish label, the
- * callout) flows through the editor status store instead.
+ * callout) flows through the editor status store instead. `drawer` drops Puck's own block
+ * list and renders the studio's palette — search, described blocks, detail bar — whose
+ * rows are still Puck's `Drawer.Item`, so dragging stays Puck's.
  */
 export function toBridgedOverrides(
   apiRef: RefObject<(() => PuckApi) | undefined>,
   pages: { route: string; routes: readonly string[] },
   onOutcome: (outcome: PublishOutcome) => void,
+  palette: readonly PaletteGroup[],
 ): Partial<Overrides> {
   return {
+    drawer: () => <BlockPalette groups={palette} />,
     headerActions: () => (
       <>
         <RouteSwitcher route={pages.route} routes={pages.routes} />
