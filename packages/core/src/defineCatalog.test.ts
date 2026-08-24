@@ -11,6 +11,15 @@ describe("defineCatalog", () => {
     expect(catalog.Hero?.schema).toBe(heroSchema);
   });
 
+  test("passes a description through untouched, and leaves an omitted one absent", () => {
+    const catalog = defineCatalog({
+      Hero: { schema: heroSchema, description: "The opening statement of a page." },
+      List: { schema: listSchema },
+    });
+    expect(catalog.Hero?.description).toBe("The opening statement of a page.");
+    expect(catalog.List?.description).toBeUndefined();
+  });
+
   test("fails registration when a ui hint names a field the schema lacks", () => {
     expect(() =>
       defineCatalog({ Hero: { schema: heroSchema, ui: { fields: { subtitle: {} } } } }),

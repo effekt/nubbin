@@ -106,6 +106,12 @@ export interface Block<Schema extends StandardSchemaV1 = StandardSchemaV1, Compo
    */
   name: string;
   /**
+   * One line saying what the block is for, shown wherever an editing surface lists blocks.
+   * Editor metadata with the same standing as editing hints: it sits beside the schema, never
+   * inside it, and compile never reads it — no artifact carries a description.
+   */
+  description?: string;
+  /**
    * The schema props are validated against, through its own `~standard.validate`. It must answer
    * synchronously; compile refuses a schema that returns a promise.
    */

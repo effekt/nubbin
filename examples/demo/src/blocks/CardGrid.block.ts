@@ -6,6 +6,7 @@ import { cardGridSchema } from "./CardGrid.schema";
  * name — the compiler says which block, which slot, and what the slot accepts instead. */
 export const cardGridBlock = defineBlock({
   name: "CardGrid",
+  description: "A heading over a grid of cards, filled with Card blocks.",
   schema: cardGridSchema,
   component: CardGrid,
   version: 1,

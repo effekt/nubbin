@@ -4,6 +4,7 @@ import { pageHeaderSchema } from "./PageHeader.schema";
 
 export const pageHeaderBlock = defineBlock({
   name: "PageHeader",
+  description: "Opens an interior page with eyebrow, headline and standfirst, no action.",
   schema: pageHeaderSchema,
   component: PageHeader,
   version: 1,

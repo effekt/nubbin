@@ -44,6 +44,7 @@ export const heroSchema = z.object({
 // Hero.block.ts
 export const heroBlock = defineBlock({
   name: "Hero",
+  description: "The opening statement of a page.",
   schema: heroSchema,
   component: Hero,
   version: 1,
