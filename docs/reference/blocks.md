@@ -8,13 +8,13 @@ status: reference
 
 This page describes the shipped behaviour of `defineBlock`, `createRegistry` and `richText` —
 what they reject, and why. Every signature, field and type they involve is generated from the
-source into [the API reference](generated/@nubbin/core/README.md); the reasoning behind the
+source into [the API reference](generated/core/README.md); the reasoning behind the
 shape lives in [`api.md`](../api.md) and [the decisions](../decisions/README.md).
 
 ## `defineBlock`
 
-[`defineBlock`](generated/@nubbin/core/functions/defineBlock.md) takes a
-[`Block`](generated/@nubbin/core/interfaces/Block.md) and, at runtime, returns it unchanged. Its
+[`defineBlock`](generated/core/functions/defineBlock.md) takes a
+[`Block`](generated/core/interfaces/Block.md) and, at runtime, returns it unchanged. Its
 job is to fix the two generic parameters at the call site, so the component's props follow from
 the output side of the schema rather than from a second declaration beside it — see
 [Props inferred from the schema, never declared](../decisions/props-inferred-from-the-schema-never-declared.md).
@@ -58,7 +58,7 @@ both synchronous and neither can await an answer.
 
 ## `richText`
 
-[`richText()`](generated/@nubbin/core/functions/richText.md) is a field of inline content as
+[`richText()`](generated/core/functions/richText.md) is a field of inline content as
 data. Marks and block kinds are both closed sets, both objects are closed, and a key the shape
 does not declare is rejected rather than dropped — see
 [Rich text is typed data, never markup](../decisions/rich-text-is-typed-data-never-markup.md).
@@ -83,7 +83,7 @@ value through `z.unknown()`, runs `core`'s `validate` as the check, and passes
 
 ## `StandardDataSchema`
 
-[`StandardDataSchema`](generated/@nubbin/core/interfaces/StandardDataSchema.md) is what a schema
+[`StandardDataSchema`](generated/core/interfaces/StandardDataSchema.md) is what a schema
 `core` writes itself guarantees over the Standard Schema interface generally: `validate` answers
 synchronously, which compile requires of any schema, and the JSON Schema converter is present
 rather than optional. It satisfies both `StandardSchemaV1` and `StandardJSONSchemaV1`, so a
@@ -123,7 +123,7 @@ registry.names(); // ["Page", "Testimonial"]
 Slot `allow` lists resolve only once every block is in, so an entry may reference a block
 that appears later in the array — its order carries no meaning.
 
-[`createRegistry`](generated/@nubbin/core/functions/createRegistry.md) throws on:
+[`createRegistry`](generated/core/functions/createRegistry.md) throws on:
 
 | Rejected | Why |
 |---|---|
@@ -132,7 +132,7 @@ that appears later in the array — its order carries no meaning.
 
 ## `Registry`
 
-A [registry](generated/@nubbin/core/interfaces/Registry.md) answers two questions and holds no
+A [registry](generated/core/interfaces/Registry.md) answers two questions and holds no
 identity of its own. What an artifact records about the registry it compiled against is
 `blockVersions` — the name and version of each block the document actually uses — which is what
 [the guardrail](artifacts.md#artifact) compares.

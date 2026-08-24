@@ -14,7 +14,7 @@ itself. Why compiling happens at publish, and why it is validation rather than a
 
 ## `compile`
 
-[`compile`](generated/@nubbin/core/functions/compile.md) validates one document version and
+[`compile`](generated/core/functions/compile.md) validates one document version and
 serializes it into an [`Artifact`](artifacts.md#artifact), returned beside the issues that did
 not stop one existing. A fault raises `NubbinError`; an `unknown-prop` is reported rather than
 raised, so a document carrying one still compiles and the caller decides what to do about it.
@@ -100,8 +100,8 @@ and not a field name — see
 
 ## Why the authoring shape is flat
 
-[`DocumentVersion`](generated/@nubbin/core/interfaces/DocumentVersion.md) indexes every
-[`Node`](generated/@nubbin/core/interfaces/Node.md) by id, and a node's `slots` hold ordered
+[`DocumentVersion`](generated/core/interfaces/DocumentVersion.md) indexes every
+[`Node`](generated/core/interfaces/Node.md) by id, and a node's `slots` hold ordered
 child ids rather than nested nodes, so every editor operation addresses a node directly.
 Compiling denormalizes it into the artifact's nested tree — the trade is
 [Flat while authoring, nested once published](../decisions/flat-while-authoring-nested-once-published.md).
@@ -116,7 +116,7 @@ literal, the way the package's own tests do. Editing one is
 
 ## `setNodeProp` and `setAtPath`
 
-[`setNodeProp`](generated/@nubbin/core/functions/setNodeProp.md) is the first document
+[`setNodeProp`](generated/core/functions/setNodeProp.md) is the first document
 operation: a new `DocumentVersion` with one prop set on one node, copy-on-write, every
 untouched node kept by reference. It lives beside `compile`
 rather than inside an editor, so every caller — a studio, a script, an agent —
@@ -127,15 +127,15 @@ next compile, which reports an `invalid-props` issue at the offending path. It d
 `version` — appending a version belongs to the authoring store, not to one edit. And it throws on an
 unknown `nodeId` and on an `items[]` path, which names every array member rather than one.
 
-[`setAtPath`](generated/@nubbin/core/functions/setAtPath.md) is the copy-on-write descent it
+[`setAtPath`](generated/core/functions/setAtPath.md) is the copy-on-write descent it
 writes with — the same one the renderer uses to fill a resolved hole value into props at
 render time.
 
 ## `addNode`, `removeNode` and `moveNode`
 
-[`addNode`](generated/@nubbin/core/functions/addNode.md),
-[`removeNode`](generated/@nubbin/core/functions/removeNode.md) and
-[`moveNode`](generated/@nubbin/core/functions/moveNode.md) compose structure, on the same
+[`addNode`](generated/core/functions/addNode.md),
+[`removeNode`](generated/core/functions/removeNode.md) and
+[`moveNode`](generated/core/functions/moveNode.md) compose structure, on the same
 terms as `setNodeProp`: a new `DocumentVersion`, copy-on-write, every untouched node kept by
 reference, and no bump to `version`. `index` inserts and its absence appends; for `moveNode`
 it names a position in the target slot *after* the node is taken out, which is the reading
@@ -161,7 +161,7 @@ Each throws on a `nodeId` or `parentId` the document does not hold.
 
 ## `NubbinError`, `NubbinIssue` and `NubbinIssueCode`
 
-[`NubbinError`](generated/@nubbin/core/classes/NubbinError.md) is one class for every refusal
+[`NubbinError`](generated/core/classes/NubbinError.md) is one class for every refusal
 the packages raise, so a consumer writes one `catch` and ships one shape to whatever tooling
 they keep. Nubbin never logs and never decides what a refusal means —
 it hands back the code and the prose, and the caller chooses.
@@ -185,13 +185,13 @@ try {
 }
 ```
 
-A [`NubbinIssue`](generated/@nubbin/core/interfaces/NubbinIssue.md) carries `at` and `path` as
+A [`NubbinIssue`](generated/core/interfaces/NubbinIssue.md) carries `at` and `path` as
 two coordinates rather than one string, so an editing surface can select the node and highlight
 the field without parsing a message.
 
 ### Every code
 
-[`NubbinIssueCode`](generated/@nubbin/core/type-aliases/NubbinIssueCode.md) is a closed set. A
+[`NubbinIssueCode`](generated/core/type-aliases/NubbinIssueCode.md) is a closed set. A
 member's value is its own name in kebab-case, so a serialized issue reads the same in a log as
 in code.
 

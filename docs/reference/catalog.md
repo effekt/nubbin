@@ -9,7 +9,7 @@ status: reference
 This page describes the shipped behaviour of `defineCatalog` — what registration rejects, how a
 hint addresses a field, and what an editing surface reads a block's fields through. The
 declarations behind it are generated from the source into
-[the API reference](generated/@nubbin/core/README.md). Why the catalog
+[the API reference](generated/core/README.md). Why the catalog
 exists apart from the registry is
 [Catalog and registry are separate](../decisions/catalog-and-registry-are-separate.md); why
 hints sit beside the schema rather than inside it is
@@ -17,7 +17,7 @@ hints sit beside the schema rather than inside it is
 
 ## `defineCatalog`
 
-[`defineCatalog`](generated/@nubbin/core/functions/defineCatalog.md) returns its argument after
+[`defineCatalog`](generated/core/functions/defineCatalog.md) returns its argument after
 checking everything checkable at registration, because a bad hint or bad defaults are silent at
 every later point. Derived from
 `packages/core/src/defineCatalog.test.ts` and the demo's
@@ -67,9 +67,9 @@ check are present.
 
 ## `Catalog` and `CatalogEntry`
 
-Keys of a [`Catalog`](generated/@nubbin/core/type-aliases/Catalog.md) are block names — the same
+Keys of a [`Catalog`](generated/core/type-aliases/Catalog.md) are block names — the same
 names the [registry](blocks.md#createregistry) resolves. A
-[`CatalogEntry`](generated/@nubbin/core/interfaces/CatalogEntry.md) is serializable data only:
+[`CatalogEntry`](generated/core/interfaces/CatalogEntry.md) is serializable data only:
 schema, hints, defaults, docs, and never a component. That is
 the catalog/registry split — an editing surface and CI read the catalog; rendering needs the
 registry.
@@ -80,16 +80,16 @@ runtime check happens either way.
 
 ## `BlockUi` and `FieldHint`
 
-[`BlockUi.fields`](generated/@nubbin/core/interfaces/BlockUi.md) is keyed by schema path in
+[`BlockUi.fields`](generated/core/interfaces/BlockUi.md) is keyed by schema path in
 dotted form, with `[]` addressing array members:
 `title`, `cta.label`, `items[].icon`. Every key must resolve against the entry's schema —
 see the registration checks above. Why paths rather than a mapped type, and how a control is
-chosen from a [`FieldHint`](generated/@nubbin/core/interfaces/FieldHint.md), are argued in
+chosen from a [`FieldHint`](generated/core/interfaces/FieldHint.md), are argued in
 [`api.md`](../api.md).
 
 ## `FieldHintData`
 
-A [`data` hint](generated/@nubbin/core/type-aliases/FieldHintData.md) says how a field's value
+A [`data` hint](generated/core/type-aliases/FieldHintData.md) says how a field's value
 resolves at render. An absent `data` hint means static: the value freezes
 into the artifact's props at compile. A hint means the value is left out and resolved by the
 consumer's resolver instead, cached for `revalidate` seconds. The two states and the reasoning are
@@ -98,16 +98,16 @@ compiler does with the hint is on the [compile page](compile.md#holes-what-a-dat
 
 ## `SchemaAdapter`, `FieldNode` and `FieldKind`
 
-[`SchemaAdapter`](generated/@nubbin/core/interfaces/SchemaAdapter.md) is the contract for
+[`SchemaAdapter`](generated/core/interfaces/SchemaAdapter.md) is the contract for
 reading a schema's field structure: `describe` returns
-one [`FieldNode`](generated/@nubbin/core/interfaces/FieldNode.md) per addressable path, in the
+one [`FieldNode`](generated/core/interfaces/FieldNode.md) per addressable path, in the
 same dotted form hint keys use, each carrying the
-[`FieldKind`](generated/@nubbin/core/type-aliases/FieldKind.md) an inspector renders it as. The
+[`FieldKind`](generated/core/type-aliases/FieldKind.md) an inspector renders it as. The
 schema root itself has no path, so the result is exactly the set of paths a hint may target.
 
 ## `zodAdapter`
 
-[`zodAdapter`](generated/@nubbin/core/variables/zodAdapter.md) is
+[`zodAdapter`](generated/core/variables/zodAdapter.md) is
 the shipped implementation — the adapter `defineCatalog` resolves hint paths through,
 exported so an editing surface can describe a block's fields without the block's component.
 It is named for the reference validator but reads any schema exposing the converter; why the

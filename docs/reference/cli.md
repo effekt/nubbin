@@ -16,9 +16,9 @@ repository imports it.
 
 ## `defineConfig`
 
-[`defineConfig`](generated/@nubbin/cli/functions/defineConfig.md) is identity at runtime. It
+[`defineConfig`](generated/cli/functions/defineConfig.md) is identity at runtime. It
 exists so a config file is checked against
-[`NubbinConfig`](generated/@nubbin/cli/interfaces/NubbinConfig.md) as it is written, rather than
+[`NubbinConfig`](generated/cli/interfaces/NubbinConfig.md) as it is written, rather than
 at the moment a publish fails.
 
 **`registry` is the compile-side one** — blocks with their schemas, whose fingerprint an artifact
