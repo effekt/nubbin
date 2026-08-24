@@ -53,12 +53,52 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 8px 12px 4px;
+  padding: 4px 12px 0 4px;
   color: var(--nb-dim);
   font-size: 10.5px;
   font-weight: 700;
   letter-spacing: 0.08em;
   text-transform: uppercase;
+}
+
+/* The header is a disclosure: a real button so the keyboard operates it, inheriting the
+ * heading's uppercase voice, with the chevron pointing down open and rotating to point
+ * right collapsed — a plain rotate with no transition, so there is nothing to gate on
+ * prefers-reduced-motion. The count pill sits outside the button and stays visible while
+ * the section is closed. */
+.nb-palette-heading-toggle {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  padding: 4px 4px 4px 2px;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  letter-spacing: inherit;
+  text-transform: inherit;
+  cursor: pointer;
+}
+
+.nb-palette-heading-toggle:hover {
+  color: var(--nb-ink);
+}
+
+.nb-palette-heading-toggle:focus-visible {
+  outline: 2px solid var(--nb-teal);
+  outline-offset: 1px;
+  border-radius: 4px;
+}
+
+.nb-palette-chevron {
+  display: inline-block;
+  width: 12px;
+  font-size: 9px;
+  line-height: 1;
+}
+
+.nb-palette-heading-toggle[aria-expanded="false"] .nb-palette-chevron {
+  transform: rotate(-90deg);
 }
 
 .nb-palette-count {
@@ -101,30 +141,21 @@
   outline-offset: 1px;
 }
 
-/* A reserved footer strip, never an overlay: it takes its own flex row below the scrolling
- * list, and the min-height holds the hint and a two-line description to one stable strip,
- * so pointing at a block moves no layout. */
+/* The palette's narration, for assistive tech only. It was a visible footer that clamped
+ * long descriptions to two lines; the preview panel's header now carries the description in
+ * full, and the panel is aria-hidden, so this live region is kept — off screen — as the one
+ * copy a screen reader is handed. The clip pattern rather than display:none, because a
+ * hidden live region announces nothing. */
 .nb-palette-detail {
-  flex: none;
-  /* Two clamped lines plus padding come to just under this, so the strip's height never
-   * moves between the hint and the longest description. */
-  min-height: 44px;
-  margin: 0;
-  padding: 6px 12px;
-  background: var(--nb-well);
-  border-top: 1px solid var(--nb-line-soft);
-  color: var(--nb-dim);
-  font-size: 11.5px;
-  line-height: 1.35;
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
   overflow: hidden;
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-}
-
-.nb-palette-detail strong {
-  color: var(--nb-ink);
-  font-weight: 600;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
 }
 
 /* The row inside Puck's draggable item: a fixed-width glyph slot, then Puck's own name and
@@ -157,4 +188,55 @@
   padding-left: 8px;
   font-size: 13px;
   line-height: 1;
+}
+
+/* The floating preview beside the Blocks card: fixed and portalled to `body`, so no
+ * ancestor's overflow clips it, and inert end to end — `pointer-events: none` on the whole
+ * panel is what guarantees it can never intercept a click or a drag meant for a palette
+ * row, wherever it happens to sit. The header carries the block's name and its full
+ * description — wrapping, never clamped. The iframe below renders the block at a page
+ * width and the transform (set inline beside the width it divides) scales it to the panel;
+ * the region's height is set inline too, fitted to the measured content. Appearance is a
+ * plain paint with no transition, so there is nothing to gate on prefers-reduced-motion. */
+.nb-palette-preview {
+  position: fixed;
+  z-index: 100;
+  pointer-events: none;
+  overflow: hidden;
+  background: var(--nb-panel);
+  border: 1px solid var(--nb-line);
+  border-radius: var(--nb-r);
+  box-shadow: var(--nb-shadow);
+}
+
+/* The header owns padding and a separator, never a surface: the panel's one background is
+ * what sits behind both it and the preview, so nothing behind the card can bleed through
+ * a child. */
+.nb-palette-preview-header {
+  padding: 8px 12px;
+  border-bottom: 1px solid var(--nb-line-soft);
+}
+
+.nb-palette-preview-header strong {
+  display: block;
+  color: var(--nb-ink);
+  font-size: 12.5px;
+  font-weight: 700;
+}
+
+.nb-palette-preview-header p {
+  margin: 2px 0 0;
+  color: var(--nb-dim);
+  font-size: 11.5px;
+  line-height: 1.45;
+}
+
+.nb-palette-preview-frame {
+  overflow: hidden;
+}
+
+.nb-palette-preview iframe {
+  display: block;
+  border: 0;
+  transform-origin: top left;
 }

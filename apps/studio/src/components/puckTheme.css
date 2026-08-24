@@ -162,6 +162,17 @@
   font-weight: 600;
 }
 
+/* Puck paints its own hover on the draggable — azure-12, inside an
+ * `@media (hover: hover)` rule six classes deep — and it sat over the row's tint: the name
+ * area read azure-12 while the icon beside it, outside the draggable, read the tint, so
+ * one row showed two colours. The tripled scope class matches that rule's specificity,
+ * and loading after puck.css settles the tie. One tint per row, on the row. */
+.nubbin-studio.nubbin-studio.nubbin-studio
+  [class^="_DrawerItem_"]
+  [class^="_DrawerItem-draggable_"]:hover {
+  background: transparent;
+}
+
 /* Outline rows carry the same voice; the selected one is unmistakably teal. */
 .nubbin-studio [class^="_Layer-inner_"] {
   border-left: 2px solid transparent;

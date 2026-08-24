@@ -1,7 +1,8 @@
 import { Puck } from "@measured/puck";
-import { fireEvent, render, screen } from "@testing-library/react";
-import { expect, test } from "vitest";
+import { act, fireEvent, render, screen } from "@testing-library/react";
+import { expect, test, vi } from "vitest";
 import { BlockPalette } from "./BlockPalette";
+import { PREVIEW_SHOW_DELAY_MS } from "./hoverPreview.constants";
 
 // Rendered inside a real Puck, because the rows are Puck's own Drawer.Item and need its
 // provider — the same tree the drawer override mounts the palette into.
@@ -81,4 +82,42 @@ test("a keystroke resets the detail, since the pointed-at row may have just unmo
   expect(container.querySelector("[aria-live='polite']")?.textContent).toBe(
     "Hover a block to see what it is for.",
   );
+});
+
+test("hovering a row floats the block's rendered preview after the delay, and Escape dismisses it", () => {
+  vi.useFakeTimers();
+  try {
+    const { container } = renderPalette();
+    const row = container.querySelector(".nb-palette-item");
+    if (row === null) {
+      throw new Error("the palette row did not render");
+    }
+    fireEvent.mouseEnter(row);
+    expect(document.querySelector(".nb-palette-preview")).toBeNull();
+    act(() => vi.advanceTimersByTime(PREVIEW_SHOW_DELAY_MS));
+    const frame = document.querySelector(".nb-palette-preview iframe");
+    expect(frame?.getAttribute("src")).toBe("/block-preview/Hero");
+    fireEvent.keyDown(document, { key: "Escape" });
+    expect(document.querySelector(".nb-palette-preview")).toBeNull();
+  } finally {
+    vi.useRealTimers();
+  }
+});
+
+test("a section collapses to its header and count, and search forces it open again", () => {
+  renderPalette();
+  const content = screen.getByRole("button", { name: "Content" });
+  fireEvent.click(content);
+  expect(screen.getByRole("heading", { name: "Content 2" })).toBeDefined();
+  expect(screen.queryByTestId("drawer-item:Hero")).toBeNull();
+  // Layout was not collapsed, so its rows stand.
+  expect(screen.getByTestId("drawer-item:Split")).toBeDefined();
+  // A query matching a hidden block must show it — a collapsed section would look broken.
+  fireEvent.change(search(), { target: { value: "newest" } });
+  expect(screen.getByTestId("drawer-item:UpdateFeed")).toBeDefined();
+  // Clearing the search restores the collapse the reader chose.
+  fireEvent.change(search(), { target: { value: "" } });
+  expect(screen.queryByTestId("drawer-item:Hero")).toBeNull();
+  fireEvent.click(screen.getByRole("button", { name: "Content" }));
+  expect(screen.getByTestId("drawer-item:Hero")).toBeDefined();
 });
