@@ -7,7 +7,7 @@ import { videoHeroSchema } from "./VideoHero.schema";
 export const videoHeroBlock = defineBlock({
   name: "VideoHero",
   description: "An opener led by moving water: headline over a poster that plays on request.",
-  icon: "hero",
+  icon: "video",
   schema: videoHeroSchema,
   component: VideoHero,
   version: 1,
