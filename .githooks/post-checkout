@@ -44,6 +44,15 @@ fi
 [ -f "$GIT_DIR_PATH/SKIP_INSTALL_HOOK" ] && exit 0
 [ -f "$GIT_DIR_PATH/../../SKIP_INSTALL_HOOK" ] && exit 0
 
+# The directory the clone and every worktree of it share. In a linked worktree `.git` is a file
+# holding `gitdir: <common>/worktrees/<name>`, so two levels up is the common directory; in the
+# clone it is `.git` itself.
+if [ -f "$ROOT/.git" ]; then
+  COMMON_DIR="$GIT_DIR_PATH/../.."
+else
+  COMMON_DIR="$GIT_DIR_PATH"
+fi
+
 # nvm is sourced only where pnpm is absent — a login shell usually has it, a GUI git client does
 # not, and this repository's toolchain is not on the default PATH.
 if ! command -v pnpm >/dev/null 2>&1; then
@@ -69,6 +78,33 @@ if ! pnpm install --frozen-lockfile; then
   echo "post-checkout: The worktree exists but has no node_modules, so no gate and" >&2
   echo "post-checkout: no git hook here can run. Fix it before editing:" >&2
   echo "post-checkout:     cd $ROOT && nvm use && pnpm install" >&2
+  echo "post-checkout: ############################################################" >&2
+  exit 0
+fi
+
+# An installed tree still cannot run its own gates. Every package resolves its siblings' types
+# from `dist/`, so a typecheck, a package suite and `type-coverage` all fail on a tree nobody has
+# built — with errors that name a missing module rather than a missing build.
+#
+# What this does not fix: pnpm links a `bin` for a file that exists, and `packages/cli/dist` does
+# not until the build below has run. A second install does not relink — the lockfile is already
+# satisfied — so `pnpm exec nubbin` stays unavailable here. Anything that needs the executable
+# runs the built file by path, which is what the demo's e2e suite does.
+#
+# The packages only. An application's build is minutes of work that no gate here needs — the demo
+# is served by its own suite, which builds what it serves as a pre-step.
+#
+# The cache lives beside the repository rather than inside the worktree, so a second worktree
+# restores what the first built instead of repeating it. It is keyed on file contents, so a
+# restore can only produce what a build here would have.
+echo "post-checkout: building $ROOT"
+if ! pnpm exec turbo run build --filter="./packages/*" --cache-dir="$COMMON_DIR/turbo-cache"; then
+  echo "" >&2
+  echo "post-checkout: ############################################################" >&2
+  echo "post-checkout: the build FAILED in $ROOT." >&2
+  echo "post-checkout: node_modules is there, but dist/ is not, so a typecheck or a" >&2
+  echo "post-checkout: package suite here will fail on a missing module. Run:" >&2
+  echo "post-checkout:     cd $ROOT && pnpm build" >&2
   echo "post-checkout: ############################################################" >&2
 fi
 
