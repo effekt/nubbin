@@ -3,6 +3,9 @@
 import { ActionBar } from "@measured/puck";
 import { type ReactNode, useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
+import { useMirroredTransform } from "./useMirroredTransform";
+
+const ACTIONS_CONTAINER = '[class^="_DraggableComponent-actions_"]';
 
 /**
  * The `actionBar` override, splitting Puck's one bar into the specimen's two overlays: the
@@ -10,7 +13,8 @@ import { createPortal } from "react-dom";
  * portalled to the overlay root Puck positions over the block, where canvasOverlay.css
  * hangs it astride the top-left edge as the rust name tag. The overlay root is found from
  * the rendered chip, so a Puck upgrade that renames it degrades to a one-pill bar, never to
- * a tag adrift.
+ * a tag adrift. The tag mirrors the inverse-zoom transform Puck sets inline on its actions
+ * container, so it holds its visual size across canvas zoom exactly as the chip does.
  */
 export function CanvasActionBar({
   label,
@@ -23,6 +27,7 @@ export function CanvasActionBar({
 }) {
   const chip = useRef<HTMLDivElement>(null);
   const [overlay, setOverlay] = useState<HTMLElement | null>(null);
+  const transform = useMirroredTransform(chip, ACTIONS_CONTAINER);
   useEffect(() => {
     setOverlay(chip.current?.closest<HTMLElement>("[data-puck-overlay]") ?? null);
   }, []);
@@ -35,7 +40,12 @@ export function CanvasActionBar({
         </ActionBar.Group>
       </ActionBar>
       {label !== undefined && overlay !== null
-        ? createPortal(<span className="nb-ov-tag">{label}</span>, overlay)
+        ? createPortal(
+            <span className="nb-ov-tag" style={{ transform }}>
+              {label}
+            </span>,
+            overlay,
+          )
         : null}
     </div>
   );

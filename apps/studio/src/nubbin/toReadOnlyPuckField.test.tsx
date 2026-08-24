@@ -24,3 +24,18 @@ test("its render shows the value as read-only JSON", () => {
   expect(screen.getByText(/read-only/)).toBeDefined();
   expect(screen.getByText(/"title"/)).toBeDefined();
 });
+
+test("its render hands Puck's field id through, so Go-to-it can address the region", () => {
+  const field = toReadOnlyPuckField({ path: "items", kind: "array", optional: false });
+  const Render = field.render;
+  const { container } = render(
+    <Render
+      field={field}
+      name="items"
+      id="n7_custom_items"
+      value={[]}
+      onChange={() => undefined}
+    />,
+  );
+  expect(container.querySelector("#n7_custom_items")).not.toBeNull();
+});
