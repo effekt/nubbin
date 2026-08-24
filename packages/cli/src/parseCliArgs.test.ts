@@ -28,4 +28,23 @@ describe("parseCliArgs", () => {
   test("refuses a flag it does not know, so a typo never runs the wrong publish", () => {
     expect(() => parseCliArgs(["publish", "/pricing", "--orgin", "x"])).toThrow(UsageError);
   });
+
+  test("carries the placement flags, with the index already a number", () => {
+    const argv = ["add", "/p", "Hero", "--parent", "n1", "--slot", "body", "--index", "2"];
+    const parsed = parseCliArgs(argv);
+    expect(parsed.args.parent).toBe("n1");
+    expect(parsed.args.slot).toBe("body");
+    expect(parsed.args.index).toBe(2);
+    expect(parsed.args.positionals).toEqual(["/p", "Hero"]);
+  });
+
+  test("an absent placement flag is an absent property", () => {
+    const args = parseCliArgs(["move", "/p", "n1"]).args;
+    expect("parent" in args).toBe(false);
+    expect("index" in args).toBe(false);
+  });
+
+  test("refuses an --index that names no position", () => {
+    expect(() => parseCliArgs(["add", "/p", "Hero", "--index", "second"])).toThrow(/--index/);
+  });
 });

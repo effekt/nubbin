@@ -29,6 +29,7 @@ interface NubbinConfig {
   registry: Registry;
   store: ArtifactStore;
   document: (route: string) => DocumentVersion | null | Promise<DocumentVersion | null>;
+  save?: (route: string, version: DocumentVersion) => void | Promise<void>;
 }
 ```
 
@@ -39,6 +40,12 @@ records. A render-side registry has no schemas and cannot be substituted here.
 directory of fixtures, a database, a draft API. A table is a one-line adapter over a function and
 the reverse is not true. Returning `null` says the route has no document, which is reported
 rather than guessed at.
+
+**`save` is `document` in the other direction, and optional.** It is where the write verbs put an
+edited document, and a config without one refuses them while everything else keeps working. Why
+it is a hook on the config rather than a store interface in `core` is argued in
+[an edited document goes back where it came
+from](../decisions/an-edited-document-goes-back-where-it-came-from.md).
 
 ## Finding the config
 
@@ -82,6 +89,10 @@ is the better failure.
 | `rollback <route> <hash>` | checks an artifact already in the store against the registry, then points the route at it. `--to <version>` names a document version instead, resolved through the history |
 | `history <route>` | what the route has pointed at, newest first, with the document version and time of each move |
 | `show <route>` | the document as authored — every id, the block it holds, and the slot it sits in. Compiles nothing, so a document the registry would refuse still shows its ids |
+| `add <route> <block>` | mint a node into a parent's slot, seeded from the block's catalog `defaults`, and print the id it minted |
+| `remove <route> <id>` | remove the node and everything beneath it |
+| `move <route> <id>` | move the node into a parent's slot |
+| `set <route> <id> <path> <value>` | set one prop on one node. The value is JSON when it parses as any, and the string as given otherwise |
 | `status [route]` | what is live, everywhere or at one route |
 | `check` | every live route against the registry as it is now |
 | `help` | the usage text, on stdout and exiting `0` — asking for it succeeds |
@@ -90,6 +101,8 @@ A command refuses an argument it does not read. `check` takes no route; `--origi
 by `compile`, `status` and `check` — none of them moves a pointer, so `status --origin http://prod`
 would answer from the local store while looking like it asked the server — and `--to` is refused
 by everything but `rollback`, the one command that resolves a document version through history.
+The placement flags — `--parent`, `--slot`, `--index` — belong to `add` and `move`, the two
+commands that place a node in a slot, and are refused everywhere else the same way.
 
 ### `publish`
 
@@ -110,6 +123,33 @@ printed.
 same history `history` lists — the latest move of that version wins, since a version published
 twice was last live as its later move. Given both a hash and `--to`, the command refuses rather
 than guessing which was meant.
+
+### The write verbs
+
+`add`, `remove`, `move` and `set` address nodes by the ids `show` prints, apply one of `core`'s
+document operations, and put the result back through the config's `save` — a config without one
+refuses them and names it. The whole shape is
+[an edited document goes back where it came
+from](../decisions/an-edited-document-goes-back-where-it-came-from.md); what a command adds to
+the operation it wraps:
+
+- **`add` mints the id** with `crypto.randomUUID()` and prints it after the arrow, so
+  `nubbin add … | grep -o '[^ ]*$'` captures the argument every later command takes. `core`
+  deliberately mints nothing —
+  [the caller supplies `node.id`](compile.md#addnode-removenode-and-movenode), and this command
+  is that caller. The node's props start as the block's catalog `defaults` — a block with
+  required fields and empty props cannot compile, so an `add` that seeded nothing could never
+  land.
+- **Every verb compiles before it saves**, and refuses to save a document that cannot compile,
+  printing the refusal's issue codes and exiting `1`. There is no `--force`: a command is one
+  edit, and the state it leaves is what the next command — or the next publish — reads. The
+  decision names what a multi-step edit is instead, and why no flag can be it.
+- **`set` refuses a path carrying a `data` hint**, by name. That field resolves per request: a
+  value written there would be stored, compiled into a hole, and replaced before it was served —
+  a write that is never wrong and never visible.
+- **`move` reads `--index` as a position in the slot as it stands after the node is taken
+  out** — the only reading under which "move it to the end" is the slot's length. For both
+  placing verbs, an absent `--index` appends.
 
 ### `history`
 

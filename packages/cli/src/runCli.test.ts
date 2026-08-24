@@ -47,6 +47,16 @@ describe("runCli", () => {
     expect(outcome.code).toBe(2);
   });
 
+  test.each([
+    [["remove", "/p", "n1", "--slot", "body"], /remove places no node, so --slot/],
+    [["set", "/p", "n1", "title", "x", "--parent", "n2"], /set places no node, so --parent/],
+    [["publish", "/p", "--index", "2"], /publish places no node, so --index/],
+  ])("refuses a placement flag on a command that places nothing: %j", async (argv, said) => {
+    const outcome = await runCli(argv, await nowhere());
+    expect(outcome.lines.join("\n")).toMatch(said);
+    expect(outcome.code).toBe(2);
+  });
+
   test("an unknown flag stops the run before any config is loaded", async () => {
     const outcome = await runCli(["publish", "/pricing", "--orgin", "x"], await nowhere());
     expect(outcome.code).toBe(2);

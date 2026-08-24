@@ -1,16 +1,22 @@
 import { parseArgs } from "node:util";
 import type { ParsedCli } from "./parsedCli.types";
+import { parseIndexFlag } from "./parseIndexFlag";
 import { UsageError } from "./UsageError";
+import { withoutAbsent } from "./withoutAbsent";
 
 const OPTIONS = {
   config: { type: "string" },
   origin: { type: "string" },
   to: { type: "string" },
+  parent: { type: "string" },
+  slot: { type: "string" },
+  index: { type: "string" },
 } as const;
 
 /**
- * `node:util` rather than a parser dependency: six commands and two flags is what `parseArgs`
- * is for, and a CLI that publishes a consumer's site is a poor place to add supply chain.
+ * `node:util` rather than a parser dependency: a dozen commands and six flags is what
+ * `parseArgs` is for, and a CLI that publishes a consumer's site is a poor place to add supply
+ * chain.
  *
  * Strict, so an unrecognised flag stops the run. A misspelled `--origin` would otherwise publish
  * into the store while the author believed they were publishing through their server.
@@ -23,15 +29,17 @@ export function parseCliArgs(argv: readonly string[]): ParsedCli {
       allowPositionals: true,
     });
     const [command, ...rest] = positionals;
-    // Spread rather than assigned: with exactOptionalPropertyTypes an absent flag has to be an
-    // absent property, not a property holding undefined.
     return {
-      ...(command === undefined ? {} : { command }),
-      ...(values.config === undefined ? {} : { configPath: values.config }),
+      ...withoutAbsent({ command, configPath: values.config }),
       args: {
         positionals: rest,
-        ...(values.origin === undefined ? {} : { origin: values.origin }),
-        ...(values.to === undefined ? {} : { to: values.to }),
+        ...withoutAbsent({
+          origin: values.origin,
+          to: values.to,
+          parent: values.parent,
+          slot: values.slot,
+          index: values.index === undefined ? undefined : parseIndexFlag(values.index),
+        }),
       },
     };
   } catch (error) {

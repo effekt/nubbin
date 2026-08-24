@@ -3,6 +3,7 @@ import { COMMANDS } from "./commands.constants";
 import { exitCodeFor } from "./exitCodeFor";
 import { formatRefusal } from "./formatRefusal";
 import { parseCliArgs } from "./parseCliArgs";
+import { refuseUnreadFlags } from "./refuseUnreadFlags";
 import { resolveConfig } from "./resolveConfig";
 import { UsageError } from "./UsageError";
 import { usageOutcome } from "./usageOutcome";
@@ -18,17 +19,13 @@ import { usageOutcome } from "./usageOutcome";
 export async function runCli(argv: readonly string[], cwd: string): Promise<CommandOutcome> {
   try {
     const { command, configPath, args } = parseCliArgs(argv);
-    const entry = command === undefined ? undefined : COMMANDS[command];
+    if (command === undefined) return usageOutcome(command);
+    const entry = COMMANDS[command];
     if (entry === undefined) return usageOutcome(command);
     if (args.positionals.length > entry.takes) {
       throw new UsageError(`${command} reads ${entry.takes} argument(s), and was given more`);
     }
-    if (args.origin !== undefined && entry.moves !== true) {
-      throw new UsageError(`${command} moves no pointer, so --origin would do nothing`);
-    }
-    if (args.to !== undefined && entry.resolves !== true) {
-      throw new UsageError(`${command} resolves no document version, so --to would do nothing`);
-    }
+    refuseUnreadFlags(command, entry, args);
     return await entry.run(await resolveConfig(cwd, configPath), args);
   } catch (error) {
     return { lines: formatRefusal(error), code: exitCodeFor(error) };
