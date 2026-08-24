@@ -9,6 +9,6 @@ export function toReadOnlyPuckField(field: FieldNode): CustomField<unknown> {
   return {
     type: "custom",
     label: field.path,
-    render: ({ value }) => <ReadOnlyField field={{ ...field, value }} />,
+    render: ({ id, value }) => <ReadOnlyField id={id} field={{ ...field, value }} />,
   };
 }

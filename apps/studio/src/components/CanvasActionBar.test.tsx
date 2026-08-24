@@ -1,4 +1,4 @@
-import { render, screen } from "@testing-library/react";
+import { render, screen, waitFor } from "@testing-library/react";
 import { expect, test } from "vitest";
 import { CanvasActionBar } from "./CanvasActionBar";
 
@@ -29,6 +29,25 @@ test("no label means no tag, and the actions chip still stands", () => {
   const { overlay } = renderInOverlay(undefined);
   expect(overlay.querySelector(".nb-ov-tag")).toBeNull();
   expect(screen.getByRole("button", { name: "Duplicate" })).toBeDefined();
+});
+
+test("the tag mirrors the inverse-zoom transform Puck sets on its actions container", async () => {
+  const overlay = document.createElement("div");
+  overlay.setAttribute("data-puck-overlay", "true");
+  document.body.appendChild(overlay);
+  const actions = document.createElement("div");
+  actions.className = "_DraggableComponent-actions_1vaqy_71";
+  actions.style.transform = "scale(1.1494)";
+  overlay.appendChild(actions);
+  render(
+    <CanvasActionBar label="Hero" parentAction={null}>
+      <button type="button">Duplicate</button>
+    </CanvasActionBar>,
+    { container: actions },
+  );
+  const tag = overlay.querySelector<HTMLElement>(":scope > .nb-ov-tag");
+  await waitFor(() => expect(tag?.style.transform).toBe("scale(1.1494)"));
+  overlay.remove();
 });
 
 test("with no overlay root to escape to, the tag is withheld rather than misplaced", () => {

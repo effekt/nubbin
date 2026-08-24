@@ -160,3 +160,11 @@
   margin: 0;
   color: var(--nb-bad);
 }
+
+/* The read-only region an issue's Go-to-it can land on. Focus arrives by script, which
+ * `:focus-visible` is free to ignore after a mouse click on the issue row — so the ring
+ * rides plain `:focus`, and the landing always announces itself. */
+.nubbin-readonly:focus {
+  outline: 2px solid var(--nb-teal);
+  outline-offset: 2px;
+}

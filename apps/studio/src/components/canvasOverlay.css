@@ -62,12 +62,15 @@
 /* The block's name as the specimen's rust tag (`.sel-tag` in the canonical artifact):
  * astride the top-left edge of the overlay root Puck positions over the block, white on
  * the one orange spend — the settled 5.26:1 pair. Selection alone shows it, the same
- * gating as the ring; it scales with Puck's canvas zoom, since only the actions bar
- * carries Puck's inverse-zoom transform. */
+ * gating as the ring. It holds its visual size across Puck's canvas zoom: the actionBar
+ * override mirrors the inverse-zoom transform Puck sets inline on its actions container
+ * onto the tag, and the left-center origin keeps the scaled tag astride the block's
+ * top-left corner rather than growing away from it. */
 .nb-ov-tag {
   position: absolute;
   top: -12px;
   left: 10px;
+  transform-origin: 0 50%;
   z-index: 2;
   background: var(--nb-ov-sel);
   color: #ffffff;

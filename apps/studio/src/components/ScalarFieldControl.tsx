@@ -58,5 +58,5 @@ export function ScalarFieldControl({ field, id, value, readOnly, onChange }: Sub
       />
     );
   }
-  return <ReadOnlyField field={{ ...field, value }} />;
+  return <ReadOnlyField id={id} field={{ ...field, value }} />;
 }

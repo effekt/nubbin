@@ -32,7 +32,7 @@ export function RichTextField(props: RichTextFieldProps) {
   const { id, label, field, value, readOnly, onChange } = props;
   const [selection, setSelection] = useState<RichTextSelection | undefined>(undefined);
   const doc = asRichTextValue(value);
-  if (doc === undefined) return <ReadOnlyField field={{ ...field, value }} />;
+  if (doc === undefined) return <ReadOnlyField id={id} field={{ ...field, value }} />;
   const selected =
     selection === undefined ? undefined : doc[selection.block]?.spans[selection.span];
   const applyToSelected = (next: RichTextSpan) => {
