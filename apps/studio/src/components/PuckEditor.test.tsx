@@ -37,8 +37,9 @@ test("hosts Puck's editor shell around the draft", () => {
   renderEditor();
   // The canvas itself lives in Puck's iframe, which happy-dom does not compose into this
   // document — the chrome is what a unit test can see, and the dev-server check covers the
-  // canvas. "Publish" is Puck's own header button, so its presence proves the shell mounted.
-  expect(screen.getByText("Publish")).toBeDefined();
+  // canvas. "Publish" is the studio's own header button (Puck's is overridden), so its
+  // presence proves the shell mounted with the overrides applied.
+  expect(screen.getByRole("button", { name: "Publish" }).tagName).toBe("BUTTON");
 });
 
 test("a refused publish lists the issues in author words, each a button", async () => {
@@ -49,7 +50,7 @@ test("a refused publish lists the issues in author words, each a button", async 
     Promise.resolve(Response.json({ ok: false, issues }, { status: 422 })),
   );
   renderEditor();
-  fireEvent.click(screen.getByText("Publish"));
+  fireEvent.click(screen.getByRole("button", { name: "Publish" }));
   const line = await screen.findByRole("button", {
     name: "Hero — Headline: maximum 80 characters",
   });
@@ -60,19 +61,15 @@ test("a refused publish lists the issues in author words, each a button", async 
   fireEvent.click(line);
 });
 
-test("a publish that lands confirms with the route and the demo's live page", async () => {
-  vi.stubGlobal("fetch", () => {
-    const landed = new Response("<html></html>", { status: 200 });
-    Object.defineProperty(landed, "url", {
-      value: "http://localhost:3001/preview?published=abc123",
-    });
-    return Promise.resolve(landed);
-  });
+test("a publish that lands confirms with the route and links the live page", async () => {
+  vi.stubGlobal("fetch", () =>
+    Promise.resolve(Response.json({ ok: true, hash: "abc123", url: "http://localhost:3000/" })),
+  );
   renderEditor();
-  fireEvent.click(screen.getByText("Publish"));
+  fireEvent.click(screen.getByRole("button", { name: "Publish" }));
   const status = await screen.findByRole("status");
   expect(status.textContent).toContain("abc123");
-  expect(screen.getByRole("link", { name: "view it on the demo site" }).getAttribute("href")).toBe(
+  expect(screen.getByRole("link", { name: "view the live page" }).getAttribute("href")).toBe(
     "http://localhost:3000/",
   );
 });
