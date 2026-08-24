@@ -8,7 +8,7 @@ status: reference
 
 This page describes the shipped output-layer contracts of `@nubbin/core`: the `Artifact`,
 `ArtifactNode` and `Holes` shapes `compile` produces, the `ArtifactStore` interface adapters
-implement, `RoutePointer` and `Manifest`, and the functions that operate on them — `checkCompatibility`,
+implement, `RoutePointer`, `Manifest` and `PointerMove`, and the functions that operate on them — `checkCompatibility`,
 `formatCompatibilityReport`, `checkRollback` and `parseMatchKind`. Why artifacts are immutable and addressed by content is
 [Artifacts are immutable and content-addressed](../decisions/artifacts-are-immutable-and-content-addressed.md);
 what they may contain is
@@ -185,6 +185,7 @@ interface ArtifactStore {
   pointer(route: string): Promise<RoutePointer | null>;
   publish(route: string, hash: string): Promise<void>;
   unpublish(route: string): Promise<void>;
+  history?(route: string): Promise<PointerMove[]>;
 }
 ```
 
@@ -201,6 +202,7 @@ behaviour that suite pins:
 | `publish` of a hash that was never written rejects | No pointer may dangle |
 | `publish` of the same route and hash twice is a no-op | Republishing is safe |
 | `unpublish` removes the pointer and keeps the artifact | Unpublishing takes a route offline; it destroys nothing, and a missing pointer is tolerated |
+| `history`, where implemented, lists the route's moves oldest first | Only published states appear; `unpublish` erases none of it; republishing the same hash records a second move — content addressing dedupes artifacts, not moves |
 
 Publishing never mutates an artifact — it writes a new one and moves the route's pointer,
 which is what makes cache invalidation at the store unnecessary.
@@ -226,6 +228,23 @@ its own record, naming the artifact currently live there. Why per-route pointers
 mutable manifest is [Route pointer](../domain-model.md#route-pointer). `Manifest` is the advisory
 aggregation over every pointer — a route list for an editing surface or CI, derived rather
 than authoritative.
+
+## `PointerMove`
+
+```ts
+interface PointerMove {
+  hash: string;
+  documentVersion: number;
+  movedAt: string;
+}
+```
+
+One `publish` at a route, as the optional `history(route)` hands it back: what the route was
+pointed at, the document version that compiled to it, and when. `history` is optional because a
+write-only blob store is still a valid adapter — a caller that needs it degrades with a message
+rather than assuming it. Why the record lives beside the pointer instead of inside it, and is
+appended rather than rewritten, is
+[A route remembers what it pointed at](../decisions/a-route-remembers-what-it-pointed-at.md).
 
 ## `parseMatchKind`
 
