@@ -38,12 +38,12 @@ rest of your application does — extensionless specifiers, path aliases, TypeSc
 ## The commands
 
 ```bash
-nubbin compile /pricing              # would it publish, and as what hash — writes nothing
-nubbin publish /pricing              # compile, write the artifact, then move the pointer
-nubbin unpublish /pricing            # drop the pointer; the artifact stays where it is
-nubbin rollback /pricing 9f2c1a…     # point the route back at an artifact already stored
-nubbin status                        # every live route, or one of them
-nubbin check                         # every live route against the registry as it is now
+nubbin compile /pricing                     # would it publish, and as what hash — writes nothing
+nubbin publish /pricing                     # compile, write the artifact, then move the pointer
+nubbin unpublish /pricing                   # drop the pointer; the artifact stays where it is
+nubbin rollback /pricing 9f2c1a8e4b7d0356   # point the route back at an artifact already stored
+nubbin status                               # every live route, or one of them
+nubbin check                                # every live route against the registry as it is now
 ```
 
 `--config <path>` names a config instead of searching for one.
