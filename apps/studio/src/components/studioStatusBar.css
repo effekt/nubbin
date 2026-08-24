@@ -1,12 +1,8 @@
 /* The specimen's status strip: 32px, quiet, dots carrying state alongside their words —
- * never colour alone. It takes the room puckTheme.css trims from Puck's layout, so the
- * two never overlap. */
+ * never colour alone. In flow at the frame's foot: the flex column in puckTheme.css hands
+ * Puck the rest, so the page never grows past the viewport. */
 .nb-statusbar {
-  position: fixed;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  z-index: 20;
+  flex: none;
   display: flex;
   align-items: center;
   gap: 18px;

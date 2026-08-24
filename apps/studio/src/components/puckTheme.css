@@ -113,10 +113,27 @@
   margin-right: 4px;
 }
 
-/* The status bar owns the viewport's last 32px; trimming the layout is what keeps the two
- * from overlapping. */
+/* The editor's frame is one viewport-high flex column — Puck takes the room the status
+ * bar leaves, in flow, so nothing ever runs past 100dvh or scrolls the page. The class
+ * pair beats the wrapper's own `display: contents`, which the portal wrapper keeps. */
+.nubbin-studio.nb-studio-frame {
+  display: flex;
+  flex-direction: column;
+  height: 100dvh;
+  overflow: hidden;
+}
+
+.nubbin-studio.nb-studio-frame > .Puck {
+  flex: 1 1 0;
+  min-height: 0;
+}
+
+.nubbin-studio.nb-studio-frame .Puck > div {
+  height: 100%;
+}
+
 .nubbin-studio [class^="_PuckLayout_"] {
-  height: calc(100dvh - 32px);
+  height: 100%;
 }
 
 /* Each sidebar is a column of floating cards; the bar itself is invisible. */

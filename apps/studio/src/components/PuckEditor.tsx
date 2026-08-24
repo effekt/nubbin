@@ -80,7 +80,7 @@ export function PuckEditor({ route, routes, initialData, initialVersion }: PuckE
     [route, routes, onOutcome, palette, docsByBlock, slotsByBlock],
   );
   return (
-    <div className="nubbin-studio">
+    <div className="nubbin-studio nb-studio-frame">
       <div className="nubbin-notices">
         {outcome?.ok === true ? (
           <PublishNotice
