@@ -75,7 +75,7 @@ that cannot compile is refused with its issue codes and **nothing is saved** —
 catalog entry carries a `data` hint is refused by name: it resolves per request, so a value
 written there would be compiled into a hole and replaced before anyone saw it. The reasoning
 lives in [an edited document goes back where it came
-from](../../docs/decisions/an-edited-document-goes-back-where-it-came-from.md).
+from](https://github.com/effekt/nubbin/blob/main/docs/decisions/an-edited-document-goes-back-where-it-came-from.md).
 
 ## Publishing while the application is running
 
