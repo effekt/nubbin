@@ -36,7 +36,8 @@ that failed rather than skipped, a dist-tag rule that stopped sending release ca
 being cured of bespoke mechanisms, and none of them the missing gate.
 
 Rejected: semantic-release, which publishes on every merge to the default branch and would remove
-the choice to sit on a prerelease tag — a choice this project is exercising.
+the choice of when to leave a prerelease line — a choice this project made deliberately, and
+exercised once, in the release that cut `0.1.0`.
 
 Rejected, within release-please: the `node-workspace` plugin, which rewrites internal dependency
 ranges. Internal dependencies here are written `workspace:*` and pnpm resolves them when it packs,

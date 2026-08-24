@@ -69,8 +69,16 @@ describe("release-please", () => {
     expect(linkedComponents()).toEqual([...components].sort());
   });
 
-  it("stays on the prerelease line rather than graduating off it", () => {
-    expect(CONFIG.versioning).toBe("prerelease");
-    expect(CONFIG.prerelease).toBe(true);
+  // Inverted at graduation rather than deleted. `latest` is what a plain `npm install` resolves,
+  // and a `prerelease` setting restored by hand — on the config or on one package — would put
+  // that package back on the candidate line while its siblings moved, which reads as a
+  // release-please quirk rather than as a line someone added.
+  it("carries no prerelease settings, on the config or on any package", () => {
+    expect(CONFIG.versioning).toBeUndefined();
+    expect(CONFIG.prerelease).toBeUndefined();
+    const candidates = Object.entries(CONFIG.packages)
+      .filter(([, entry]) => entry["prerelease-type"] !== undefined)
+      .map(([path]) => path);
+    expect(candidates).toEqual([]);
   });
 });
