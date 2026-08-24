@@ -201,6 +201,26 @@ describe("renderPackage", () => {
     expect(rendered).toContain("| [`Artifact`](src/artifact.types.ts) `Holes` | type |  |");
   });
 
+  // The same three calls `packageCatalog` makes per file, against a source rather than the
+  // tree: an export with no doc comment reaches the table as an empty cell, and never as
+  // invented filler. Asserting this against the real `packages/core` instead made the test a
+  // claim about the corpus — it passed only while some export was still undocumented, and
+  // documenting the last one turned a green suite red without any generator changing.
+  it("carries a declaration with no doc comment through to an empty cell", () => {
+    const file = "version.constants.ts";
+    const { primary, others } = primaryOf(
+      file,
+      declaredExports("export const NUBBIN_VERSION = '1';\n", file),
+    );
+    const table = renderPackage({
+      name: "@nubbin/core",
+      description: "The Nubbin contract.",
+      rows: [{ path: `src/${file}`, primary, others, summary: firstSentence(primary.doc) }],
+    });
+    expect(table).toContain("| [`NUBBIN_VERSION`](src/version.constants.ts) | const |  |");
+    expect(table).not.toMatch(/TODO|No description/);
+  });
+
   it("ends with a newline and no trailing whitespace on any line", () => {
     expect(rendered.endsWith("\n")).toBe(true);
     expect(rendered.split("\n").some((line) => /\s$/.test(line))).toBe(false);
@@ -257,11 +277,6 @@ describe("generate", () => {
     const core = (await generate(ROOT)).get("packages/core/CATALOG.md");
     expect(core).toContain("| [`fnv1a`](src/fnv1a.ts) | fn | FNV-1a, 64-bit.");
     expect(core).not.toMatch(/TODO|No description/);
-  });
-
-  it("gives an undocumented export an empty cell", async () => {
-    const core = (await generate(ROOT)).get("packages/core/CATALOG.md");
-    expect(core).toMatch(/\| \[`[A-Za-z]+`\]\([^)]+\)[^|]*\| \w+ \|\s*\|/);
   });
 
   it("orders rows by path, ignoring case, so a PascalCase filename is not exiled", async () => {
