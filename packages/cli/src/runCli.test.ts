@@ -25,7 +25,7 @@ describe("runCli", () => {
 
   test("a command run where there is no config says so, and exits as a usage error", async () => {
     const outcome = await runCli(["publish", "/pricing"], await nowhere());
-    expect(outcome.lines.join("\n")).toMatch(/no nubbin\.config\.ts found/);
+    expect(outcome.lines.join("\n")).toMatch(/no nubbin\.config\.ts/);
     expect(outcome.code).toBe(2);
   });
 

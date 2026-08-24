@@ -38,11 +38,11 @@ describe("publishCommand", () => {
     expect(order).toEqual(["write", "publish"]);
   });
 
-  test("publishes a document carrying an unknown key, and warns about it", async () => {
+  test("publishes a document carrying an unknown key, and warns beside the answer", async () => {
     const { config } = await fixtureProject();
     const outcome = await publishCommand(config, { positionals: ["/extra-prop"] });
     expect(outcome.code).toBe(0);
-    expect(outcome.lines.join("\n")).toContain("unknown-prop");
+    expect(outcome.warnings?.join("\n")).toContain("unknown-prop");
     expect(await config.store.pointer("/extra-prop")).not.toBeNull();
   });
 

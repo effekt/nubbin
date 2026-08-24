@@ -1,13 +1,13 @@
 ---
 title: The Command Line
-summary: The @nubbin/cli surface as shipped — the config file it resolves, the six commands, and what each exit code means
+summary: The @nubbin/cli surface as shipped — the config file it resolves, the commands, and what each exit code means
 status: reference
 ---
 
 # The command line
 
-This page describes the shipped surface of `@nubbin/cli`: the config a consumer writes, the six
-commands that read it, and the codes the process exits with. Why the publish path ships as a
+This page describes the shipped surface of `@nubbin/cli`: the config a consumer writes, the
+commands, and the codes the process exits with. Why the publish path ships as a
 command line at all, and what this package is not allowed to decide, is
 [its own decision](../decisions/publishing-has-a-driver-that-is-not-an-editor.md).
 
@@ -43,7 +43,13 @@ rather than guessed at.
 ## Finding the config
 
 `nubbin.config.ts` — or `.js` — is searched for from the working directory upward, stopping at
-the repository root. The nearest one wins, so an application's config beats the repository's.
+the repository root: the nearest directory carrying a `.git` entry, which a linked worktree has
+as a file and an ordinary checkout as a directory. The nearest config wins, so an application's
+beats the repository's, and the climb never crosses the root — a config above the repository
+belongs to some other project. A checkout with no `.git` anywhere — a tarball, a vendored copy,
+a Docker build context — offers no boundary to trust, so only the working directory is searched
+and the refusal says to name anything further away with `--config`.
+
 `--config <path>` names one instead, and a named path that is not there is an error rather than
 the start of a search.
 
@@ -76,6 +82,7 @@ is the better failure.
 | `rollback <route> <hash>` | checks an artifact already in the store against the registry, then points the route at it |
 | `status [route]` | what is live, everywhere or at one route |
 | `check` | every live route against the registry as it is now |
+| `help` | the usage text, on stdout and exiting `0` — asking for it succeeds |
 
 A command refuses an argument it does not read. `check` takes no route, and `--origin` is refused
 by `compile`, `status` and `check` — none of them moves a pointer, so `status --origin http://prod`
@@ -122,7 +129,8 @@ until it restarts.
 | `2` | the command could not be run as given | stderr |
 
 Stdout carries the answer or carries nothing, so `HASH=$(nubbin compile /pricing)` captures a hash
-or captures an empty string — never a complaint about why there is no hash.
+or captures an empty string — never a complaint about why there is no hash. A warning a compile
+survived, like `unknown-prop`, goes to stderr even though the exit is `0`.
 
 The split that matters is between `1` and `2`: a usage error means nothing was attempted, and a
 refusal means what was attempted is not legal. They are fixed in different files.

@@ -1,3 +1,5 @@
+import { readFile } from "node:fs/promises";
+import { resolve } from "node:path";
 import { createRegistry, defineBlock } from "@nubbin/core";
 import { describe, expect, test } from "vitest";
 import { z } from "zod";
@@ -68,5 +70,13 @@ describe("rollbackCommand", () => {
     await expect(rollbackCommand(config, { positionals: ["/pricing"] })).rejects.toThrow(
       /needs a hash/,
     );
+  });
+
+  // The store addresses artifacts by the full 16-hex-digit hash and resolves nothing shorter,
+  // so an abbreviated hash in the README is an example that cannot run as printed.
+  test("the README's example carries a hash the store could actually resolve", async () => {
+    const readme = await readFile(resolve(import.meta.dirname, "..", "README.md"), "utf8");
+    const example = readme.match(/nubbin rollback \/pricing (\S+)/);
+    expect(example?.[1]).toMatch(/^[0-9a-f]{16}$/);
   });
 });

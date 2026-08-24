@@ -10,7 +10,8 @@ npm install -D @nubbin/cli
 
 ## The config
 
-One file beside the application it configures, found by climbing from where the command ran:
+One file beside the application it configures, found by climbing from where the command ran —
+no further than the repository root, and no climbing at all outside a repository:
 
 ```ts
 // nubbin.config.ts
@@ -38,12 +39,13 @@ rest of your application does — extensionless specifiers, path aliases, TypeSc
 ## The commands
 
 ```bash
-nubbin compile /pricing              # would it publish, and as what hash — writes nothing
-nubbin publish /pricing              # compile, write the artifact, then move the pointer
-nubbin unpublish /pricing            # drop the pointer; the artifact stays where it is
-nubbin rollback /pricing 9f2c1a…     # point the route back at an artifact already stored
-nubbin status                        # every live route, or one of them
-nubbin check                         # every live route against the registry as it is now
+nubbin compile /pricing                     # would it publish, and as what hash — writes nothing
+nubbin publish /pricing                     # compile, write the artifact, then move the pointer
+nubbin unpublish /pricing                   # drop the pointer; the artifact stays where it is
+nubbin rollback /pricing 9f2c1a8e4b7d0356   # point the route back at an artifact already stored
+nubbin status                               # every live route, or one of them
+nubbin check                                # every live route against the registry as it is now
+nubbin help                                 # this list, as an answer rather than an error
 ```
 
 `--config <path>` names a config instead of searching for one.
@@ -72,8 +74,9 @@ It posts to `/api/nubbin/publish` and `/api/nubbin/unpublish`, which are two rou
 | `2` | the command could not be run as given |
 
 A refusal prints the code it carries — `unknown-block`, `slot-max`, `invalid-props` — on stderr, so
-a script branches on the same names your editor would. Stdout carries the answer or nothing:
-`HASH=$(nubbin compile /pricing)` captures a hash, never a complaint about why there is not one.
+a script branches on the same names your editor would. Warnings go to stderr too, even when the
+exit is `0`. Stdout carries the answer or nothing: `HASH=$(nubbin compile /pricing)` captures a
+hash, never a warning beside it, and never a complaint about why there is not one.
 
 ## In CI
 

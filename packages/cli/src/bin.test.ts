@@ -76,4 +76,11 @@ describe("the nubbin binary", () => {
     expect(ran.code).toBe(0);
     expect(ran.stdout.trim()).toMatch(/^\/pricing -> [0-9a-f]+$/);
   });
+
+  test("a warning goes to stderr, so the captured answer is still only the hash", async () => {
+    const ran = await nubbin(await project(), "compile", "/extra-prop");
+    expect(ran.code).toBe(0);
+    expect(ran.stdout.trim()).toMatch(/^\/extra-prop -> [0-9a-f]+$/);
+    expect(ran.stderr).toContain("unknown-prop");
+  });
 });

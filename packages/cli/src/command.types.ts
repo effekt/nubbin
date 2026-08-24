@@ -9,10 +9,17 @@ export interface CommandArgs {
 
 /**
  * What a command hands back rather than prints. Returning lines keeps every command testable
- * against what a person will actually read, and leaves one place — the bin — writing to stdout.
+ * against what a person will actually read, and leaves one place — the bin — writing to a
+ * stream. The lines are the outcome itself: the answer when the command happened, the causes
+ * when it did not, and the code says which.
  */
 export interface CommandOutcome {
   lines: readonly string[];
+  /**
+   * Noticed without stopping the command, and kept out of the lines because scripts capture
+   * stdout: a warning mixed into `$(nubbin compile …)` would be captured as part of the answer.
+   */
+  warnings?: readonly string[];
   code: number;
 }
 

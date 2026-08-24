@@ -7,6 +7,7 @@ export const USAGE = `nubbin <command> [arguments]
   rollback <route> <hash>    point the route back at an artifact already in the store
   status [route]             what is live, everywhere or at one route
   check                      every live route against the registry as it is now
+  help                       this text, as an answer rather than a complaint
 
   --config <path>            a config file, instead of searching upward for one
   --origin <url>             publish through a running application, not straight into the store`;
