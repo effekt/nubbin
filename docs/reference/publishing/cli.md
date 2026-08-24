@@ -34,7 +34,7 @@ rather than guessed at.
 edited document, and a config without one refuses them while everything else keeps working. Why
 it is a hook on the config rather than a store interface in `core` is argued in
 [an edited document goes back where it came
-from](../decisions/an-edited-document-goes-back-where-it-came-from.md).
+from](../../decisions/an-edited-document-goes-back-where-it-came-from.md).
 
 ## Finding the config
 
@@ -119,7 +119,7 @@ than guessing which was meant.
 document operations, and put the result back through the config's `save` — a config without one
 refuses them and names it. The whole shape is
 [an edited document goes back where it came
-from](../decisions/an-edited-document-goes-back-where-it-came-from.md); what a command adds to
+from](../../decisions/an-edited-document-goes-back-where-it-came-from.md); what a command adds to
 the operation it wraps:
 
 - **`add` mints the id** with `crypto.randomUUID()` and prints it after the arrow, so

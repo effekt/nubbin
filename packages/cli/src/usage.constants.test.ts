@@ -21,12 +21,12 @@ describe("the usage text", () => {
 
   test("the README and the reference page name help beside the other commands", () => {
     expect(doc("../README.md")).toContain("nubbin help");
-    expect(doc("../../../docs/reference/cli.md")).toMatch(/`help`/);
+    expect(doc("../../../docs/reference/publishing/cli.md")).toMatch(/`help`/);
   });
 
   test("the README and the reference page name every dispatched command", () => {
     const readme = doc("../README.md");
-    const reference = doc("../../../docs/reference/cli.md");
+    const reference = doc("../../../docs/reference/publishing/cli.md");
     for (const name of Object.keys(COMMANDS)) {
       expect(readme).toContain(`nubbin ${name}`);
       expect(reference).toMatch(new RegExp(`^\\| \\x60${name}[ \\x60<]`, "m"));
