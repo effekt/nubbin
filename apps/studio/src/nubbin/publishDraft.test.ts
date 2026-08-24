@@ -37,18 +37,39 @@ function memoryStore(): ArtifactStore {
   };
 }
 
-test("publishing a draft writes the artifact and moves the pointer to it", async () => {
+test("publishing writes the artifact, then moves the pointer through the given mover", async () => {
   const store = memoryStore();
-  const hash = await publishDraft(store, "/");
+  const moved: Array<{ route: string; hash: string }> = [];
+  const hash = await publishDraft(store, "/", async (route, pointedAt) => {
+    // The consumer's handler runs against the same store the studio wrote into.
+    await store.publish(route, pointedAt);
+    moved.push({ route, hash: pointedAt });
+  });
   expect(hash).toBeDefined();
-  const pointer = await store.pointer("/");
-  expect(pointer?.hash).toBe(hash);
+  expect(moved).toEqual([{ route: "/", hash }]);
   const artifact = hash === undefined ? null : await store.read(hash);
   expect(artifact?.route).toBe("/");
 });
 
-test("a route with no draft publishes nothing", async () => {
+test("a route with no draft publishes nothing and moves no pointer", async () => {
   const store = memoryStore();
-  expect(await publishDraft(store, "/no-such-route")).toBeUndefined();
-  expect(await store.pointer("/no-such-route")).toBeNull();
+  const moved: string[] = [];
+  const hash = await publishDraft(store, "/no-such-route", (route) => {
+    moved.push(route);
+    return Promise.resolve();
+  });
+  expect(hash).toBeUndefined();
+  expect(moved).toEqual([]);
+});
+
+test("a refused pointer move fails the publish, with the artifact already written", async () => {
+  const store = memoryStore();
+  let written: string | undefined;
+  const attempt = publishDraft(store, "/", (_route, hash) => {
+    written = hash;
+    return Promise.reject(new Error("the application is not running"));
+  });
+  await expect(attempt).rejects.toThrow("not running");
+  const artifact = written === undefined ? null : await store.read(written);
+  expect(artifact?.route).toBe("/");
 });
