@@ -28,20 +28,22 @@ test("posts the whole version as JSON and resolves undefined on a clean compile"
   expect(JSON.parse(String(init?.body))).toEqual({ route: "/", version });
 });
 
-test("a compile refusal resolves to the issues as lines — the draft was still saved", async () => {
-  const reply = { ok: false, issues: [{ message: "expected a string", path: "headline" }] };
-  vi.stubGlobal("fetch", () => Promise.resolve(Response.json(reply)));
-  await expect(postDraftSave("/", version)).resolves.toEqual(["headline: expected a string"]);
+test("a compile refusal resolves to the issues, raw — the draft was still saved", async () => {
+  const issues = [{ message: "expected a string", at: "n1", path: "headline" }];
+  vi.stubGlobal("fetch", () => Promise.resolve(Response.json({ ok: false, issues })));
+  await expect(postDraftSave("/", version)).resolves.toEqual(issues);
 });
 
 test("an endpoint refusal resolves to its text", async () => {
   vi.stubGlobal("fetch", () =>
     Promise.resolve(new Response("no draft for /nowhere", { status: 400 })),
   );
-  await expect(postDraftSave("/nowhere", version)).resolves.toEqual(["no draft for /nowhere"]);
+  await expect(postDraftSave("/nowhere", version)).resolves.toEqual([
+    { message: "no draft for /nowhere" },
+  ]);
 });
 
 test("an empty refusal body still yields a line", async () => {
   vi.stubGlobal("fetch", () => Promise.resolve(new Response("", { status: 500 })));
-  await expect(postDraftSave("/", version)).resolves.toEqual(["save rejected (500)"]);
+  await expect(postDraftSave("/", version)).resolves.toEqual([{ message: "save rejected (500)" }]);
 });
