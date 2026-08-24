@@ -1,6 +1,6 @@
 ---
 title: Blocks and the Registry
-summary: defineBlock and createRegistry as shipped — what registration rejects, and what the fingerprint covers
+summary: defineBlock and createRegistry as shipped — what registration rejects, and what an artifact records about a block
 status: reference
 ---
 

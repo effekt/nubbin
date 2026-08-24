@@ -6,8 +6,8 @@ const HEX_RADIX = 16;
 const HEX_WIDTH = 16;
 
 /**
- * FNV-1a, 64-bit. Used where a value only has to change when its input changes — content
- * addresses and registry fingerprints. It is not a security primitive and must not be used as
+ * FNV-1a, 64-bit. Used where a value only has to change when its input changes — the content
+ * address of an artifact. It is not a security primitive and must not be used as
  * one. core cannot reach node:crypto, and crypto.subtle is async where these call sites are not.
  *
  * 64 bits rather than 32 because the content address is load-bearing: `fsWriteArtifact` skips a

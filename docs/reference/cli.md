@@ -21,8 +21,9 @@ exists so a config file is checked against
 [`NubbinConfig`](generated/cli/interfaces/NubbinConfig.md) as it is written, rather than
 at the moment a publish fails.
 
-**`registry` is the compile-side one** — blocks with their schemas, whose fingerprint an artifact
-records. A render-side registry has no schemas and cannot be substituted here.
+**`registry` is the compile-side one** — blocks with their schemas, and the source of the
+version an artifact records for each block it uses. A render-side registry has no schemas and
+cannot be substituted here.
 
 **`document` is a function, not a table.** Where documents live belongs to the consumer: a
 directory of fixtures, a database, a draft API. A table is a one-line adapter over a function and
