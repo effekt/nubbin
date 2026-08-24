@@ -1,6 +1,8 @@
 import type { Block } from "@nubbin/core";
+import { announcementBarBlock } from "../blocks/AnnouncementBar.block";
 import { cardBlock } from "../blocks/Card.block";
 import { cardGridBlock } from "../blocks/CardGrid.block";
+import { countdownBannerBlock } from "../blocks/CountdownBanner.block";
 import { ctaBannerBlock } from "../blocks/CtaBanner.block";
 import { faqAccordionBlock } from "../blocks/FaqAccordion.block";
 import { featureGridBlock } from "../blocks/FeatureGrid.block";
@@ -11,7 +13,9 @@ import { proseBlock } from "../blocks/Prose.block";
 import { sectionStackBlock } from "../blocks/SectionStack.block";
 import { siteFooterBlock } from "../blocks/SiteFooter.block";
 import { splitBlock } from "../blocks/Split.block";
+import { splitHeroBlock } from "../blocks/SplitHero.block";
 import { updateFeedBlock } from "../blocks/UpdateFeed.block";
+import { videoHeroBlock } from "../blocks/VideoHero.block";
 
 /**
  * The blocks this site curates, as a list rather than a built registry, so the compatibility
@@ -20,6 +24,10 @@ import { updateFeedBlock } from "../blocks/UpdateFeed.block";
  */
 export const BLOCKS: Block[] = [
   heroBlock,
+  splitHeroBlock,
+  videoHeroBlock,
+  announcementBarBlock,
+  countdownBannerBlock,
   featureGridBlock,
   proseBlock,
   faqAccordionBlock,

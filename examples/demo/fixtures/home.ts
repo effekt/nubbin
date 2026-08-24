@@ -1,6 +1,8 @@
 import type { DocumentVersion } from "@nubbin/core";
+import { announcementBarDefaults } from "../src/blocks/announcementBarDefaults";
 import { cardDefaults } from "../src/blocks/cardDefaults";
 import { cardGridDefaults } from "../src/blocks/cardGridDefaults";
+import { countdownBannerDefaults } from "../src/blocks/countdownBannerDefaults";
 import { ctaBannerDefaults } from "../src/blocks/ctaBannerDefaults";
 import { faqAccordionDefaults } from "../src/blocks/faqAccordionDefaults";
 import { heroDefaults } from "../src/blocks/heroDefaults";
@@ -23,8 +25,11 @@ export const home: DocumentVersion = {
       id: "stack",
       block: "SectionStack",
       props: {},
-      slots: { sections: ["hero", "live", "split", "faq", "cta", "footer"] },
+      slots: {
+        sections: ["announce", "hero", "live", "split", "faq", "countdown", "cta", "footer"],
+      },
     },
+    announce: { id: "announce", block: "AnnouncementBar", props: announcementBarDefaults },
     hero: {
       id: "hero",
       block: "Hero",
@@ -115,6 +120,7 @@ export const home: DocumentVersion = {
     },
     updates: { id: "updates", block: "UpdateFeed", props: updateFeedDefaults },
     faq: { id: "faq", block: "FaqAccordion", props: faqAccordionDefaults },
+    countdown: { id: "countdown", block: "CountdownBanner", props: countdownBannerDefaults },
     cta: {
       id: "cta",
       block: "CtaBanner",

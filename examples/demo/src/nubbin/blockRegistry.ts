@@ -4,6 +4,12 @@ import { defineRegistry } from "@nubbin/react";
  * itself, which is what the renderer invokes — a module namespace is not callable. */
 export const blockRegistry = defineRegistry({
   Hero: () => import("../blocks/Hero").then((module) => module.Hero),
+  SplitHero: () => import("../blocks/SplitHero").then((module) => module.SplitHero),
+  VideoHero: () => import("../blocks/VideoHero").then((module) => module.VideoHero),
+  AnnouncementBar: () =>
+    import("../blocks/AnnouncementBar").then((module) => module.AnnouncementBar),
+  CountdownBanner: () =>
+    import("../blocks/CountdownBanner").then((module) => module.CountdownBanner),
   FeatureGrid: () => import("../blocks/FeatureGrid").then((module) => module.FeatureGrid),
   Prose: () => import("../blocks/Prose").then((module) => module.Prose),
   FaqAccordion: () => import("../blocks/FaqAccordion").then((module) => module.FaqAccordion),

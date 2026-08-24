@@ -4,6 +4,7 @@ import { cardGridDefaults } from "../src/blocks/cardGridDefaults";
 import { featureGridDefaults } from "../src/blocks/featureGridDefaults";
 import { pageHeaderDefaults } from "../src/blocks/pageHeaderDefaults";
 import { siteFooterDefaults } from "../src/blocks/siteFooterDefaults";
+import { splitHeroDefaults } from "../src/blocks/splitHeroDefaults";
 
 /** The page an editor reorders: cards in a slot, and the order of that slot is the whole edit. */
 export const dispatches: DocumentVersion = {
@@ -15,7 +16,7 @@ export const dispatches: DocumentVersion = {
       id: "stack",
       block: "SectionStack",
       props: {},
-      slots: { sections: ["header", "grid", "beats", "footer"] },
+      slots: { sections: ["header", "featured", "grid", "beats", "footer"] },
     },
     header: {
       id: "header",
@@ -25,6 +26,16 @@ export const dispatches: DocumentVersion = {
         eyebrow: "Dispatches",
         headline: "Everything we have written down",
         body: "Every piece we have filed, newest first. The order is an editor's decision, not a date sort.",
+      },
+    },
+    featured: {
+      id: "featured",
+      block: "SplitHero",
+      props: {
+        ...splitHeroDefaults,
+        headline: "This week's lead: the tide tables, corrected",
+        body: "Four minutes fast all spring. The corrected set is up, with the working shown.",
+        cta: { label: "Read the correction", href: "/dispatches/tide-tables" },
       },
     },
     grid: {
