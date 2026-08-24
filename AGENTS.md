@@ -14,7 +14,7 @@ Guidance for working in this repo. Loaded automatically by coding agents.
 blocks in code; non-developers compose pages from them. The composition is data, the
 contract is code, and publishing compiles a document into an immutable artifact.
 
-The packages are built; the studio is growing slice by slice. See `## Status`.
+The packages are published; the studio edits and publishes pages through them. See `## Status`.
 
 ```
 packages/
