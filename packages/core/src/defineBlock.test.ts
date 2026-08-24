@@ -39,10 +39,11 @@ describe("defineBlock", () => {
     expect(bare.description).toBeUndefined();
   });
 
-  test("passes an icon and docs links through untouched, and leaves omitted ones absent", () => {
+  test("passes icon, docs links and category through untouched, and leaves omitted ones absent", () => {
     const decorated = defineBlock({
       name: "Hero",
       icon: "🖼",
+      category: "Heroes & Banners",
       docs: { figma: "https://example.com/figma/hero", storybook: "https://example.com/sb/hero" },
       schema: heroSchema,
       component: Hero,
@@ -50,6 +51,7 @@ describe("defineBlock", () => {
       slots: {},
     });
     expect(decorated.icon).toBe("🖼");
+    expect(decorated.category).toBe("Heroes & Banners");
     expect(decorated.docs).toEqual({
       figma: "https://example.com/figma/hero",
       storybook: "https://example.com/sb/hero",
@@ -62,6 +64,7 @@ describe("defineBlock", () => {
       slots: {},
     });
     expect(bare.icon).toBeUndefined();
+    expect(bare.category).toBeUndefined();
     expect(bare.docs).toBeUndefined();
   });
 

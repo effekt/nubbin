@@ -105,6 +105,12 @@ export interface CatalogEntry {
    * renders each as "Open in {Key}"; the consumer supplies the URLs. Compile never reads it.
    */
   docs?: Record<string, string>;
+  /**
+   * The palette section the block files under, the serializable twin of `Block.category` — an
+   * opaque label the consumer chooses; a surface may derive a grouping for a block that omits
+   * it. Compile never reads it.
+   */
+  category?: string;
   /** Editing hints, keyed by schema path. Omit it and every field is treated as static. */
   ui?: BlockUi;
   /**

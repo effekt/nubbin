@@ -20,18 +20,21 @@ describe("defineCatalog", () => {
     expect(catalog.List?.description).toBeUndefined();
   });
 
-  test("passes an icon and docs links through untouched, and leaves omitted ones absent", () => {
+  test("passes icon, docs links and category through untouched, and leaves omitted ones absent", () => {
     const catalog = defineCatalog({
       Hero: {
         schema: heroSchema,
         icon: "🖼",
+        category: "Heroes & Banners",
         docs: { figma: "https://example.com/figma/hero" },
       },
       List: { schema: listSchema },
     });
     expect(catalog.Hero?.icon).toBe("🖼");
+    expect(catalog.Hero?.category).toBe("Heroes & Banners");
     expect(catalog.Hero?.docs).toEqual({ figma: "https://example.com/figma/hero" });
     expect(catalog.List?.icon).toBeUndefined();
+    expect(catalog.List?.category).toBeUndefined();
     expect(catalog.List?.docs).toBeUndefined();
   });
 

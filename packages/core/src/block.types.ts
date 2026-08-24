@@ -118,6 +118,13 @@ export interface Block<Schema extends StandardSchemaV1 = StandardSchemaV1, Compo
    */
   icon?: string;
   /**
+   * The palette section the block files under, wherever an editing surface groups blocks. An
+   * opaque label the consumer chooses — Nubbin holds no taxonomy of its own, and a surface may
+   * derive a grouping for a block that omits it. Editor metadata like `description`: compile
+   * never reads it.
+   */
+  category?: string;
+  /**
    * Opaque links keyed by destination — `docs: { figma: "…", storybook: "…" }` — that an editing
    * surface renders as "Open in {Key}" for the selected block. Nubbin never inspects a URL or
    * knows what is behind it; the consumer supplies them. Compile never reads it.
