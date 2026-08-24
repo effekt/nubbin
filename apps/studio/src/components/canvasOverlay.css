@@ -44,9 +44,10 @@
   outline: 1px solid var(--nb-ov-teal);
 }
 
-/* The action bar as the specimen's chip: a white pill of actions, the block's name riding
- * in it as the rust tag. Puck's default bar already carries the label, so the skin is the
- * whole change. */
+/* The action bar as the specimen's chip: a compact white pill of actions alone. The
+ * block's name no longer rides in it — the studio's own actionBar override portals the
+ * label out to the overlay root, where `.nb-ov-tag` below hangs it astride the block's
+ * top-left edge as the specimen's rust name tag. */
 [class^="_ActionBar_"] {
   background: var(--nb-ov-panel);
   border: 1px solid var(--nb-ov-line);
@@ -58,13 +59,30 @@
     0 10px 28px rgba(11, 43, 51, 0.07);
 }
 
-[class^="_ActionBar-label_"] {
+/* The block's name as the specimen's rust tag (`.sel-tag` in the canonical artifact):
+ * astride the top-left edge of the overlay root Puck positions over the block, white on
+ * the one orange spend — the settled 5.26:1 pair. Selection alone shows it, the same
+ * gating as the ring; it scales with Puck's canvas zoom, since only the actions bar
+ * carries Puck's inverse-zoom transform. */
+.nb-ov-tag {
+  position: absolute;
+  top: -12px;
+  left: 10px;
+  z-index: 2;
   background: var(--nb-ov-sel);
   color: #ffffff;
+  font-family: system-ui, sans-serif;
+  font-size: 11px;
   font-weight: 700;
-  border-radius: 99px;
+  letter-spacing: 0.03em;
   padding: 2px 9px;
-  margin-inline: 2px;
+  border-radius: 99px;
+  pointer-events: none;
+  opacity: 0;
+}
+
+[class*="_DraggableComponent--isSelected_"] > .nb-ov-tag {
+  opacity: 1;
 }
 
 [class^="_ActionBar-action_"] {
