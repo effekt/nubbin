@@ -14,13 +14,13 @@ test("an unknown route compiles to nothing", () => {
 });
 
 test("a fixture route compiles to an artifact addressed at that route", () => {
-  const artifact = compileDraft("/about");
-  expect(artifact?.route).toBe("/about");
+  const artifact = compileDraft("/");
+  expect(artifact?.route).toBe("/");
   expect(artifact?.tree.length).toBeGreaterThan(0);
 });
 
 test("the same draft compiles to the same hash", () => {
-  expect(compileDraft("/about")?.hash).toBe(compileDraft("/about")?.hash);
+  expect(compileDraft("/")?.hash).toBe(compileDraft("/")?.hash);
 });
 
 test("every committed draft compiles", () => {

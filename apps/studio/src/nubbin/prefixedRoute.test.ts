@@ -6,5 +6,7 @@ test("the root route collapses to the bare prefix", () => {
 });
 
 test("a nested route appends to the prefix", () => {
-  expect(prefixedRoute("/preview", "/promotions/summer")).toBe("/preview/promotions/summer");
+  expect(prefixedRoute("/preview", "/dispatches/tide-tables")).toBe(
+    "/preview/dispatches/tide-tables",
+  );
 });

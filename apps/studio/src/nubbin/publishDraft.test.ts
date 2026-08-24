@@ -39,12 +39,12 @@ function memoryStore(): ArtifactStore {
 
 test("publishing a draft writes the artifact and moves the pointer to it", async () => {
   const store = memoryStore();
-  const hash = await publishDraft(store, "/about");
+  const hash = await publishDraft(store, "/");
   expect(hash).toBeDefined();
-  const pointer = await store.pointer("/about");
+  const pointer = await store.pointer("/");
   expect(pointer?.hash).toBe(hash);
   const artifact = hash === undefined ? null : await store.read(hash);
-  expect(artifact?.route).toBe("/about");
+  expect(artifact?.route).toBe("/");
 });
 
 test("a route with no draft publishes nothing", async () => {

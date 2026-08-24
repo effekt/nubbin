@@ -15,16 +15,16 @@ beforeEach(() => {
 });
 
 test("a valid edit answers 200 with the new hash", async () => {
-  const response = await post({ route: "/about", nodeId: "hero", path: "headline", value: "New" });
+  const response = await post({ route: "/", nodeId: "hero", path: "headline", value: "New" });
   expect(response.status).toBe(200);
   const payload = (await response.json()) as { hash: string };
   expect(payload.hash).toMatch(/^[0-9a-f]+$/);
 });
 
 test("an unknown node is the client's fault, not the server's", async () => {
-  const response = await post({ route: "/about", nodeId: "nope", path: "headline", value: "x" });
+  const response = await post({ route: "/", nodeId: "nope", path: "headline", value: "x" });
   expect(response.status).toBe(400);
-  expect(await response.text()).toBe('no node "nope" in the draft for /about');
+  expect(await response.text()).toBe('no node "nope" in the draft for /');
 });
 
 test("an unknown route answers 400", async () => {
@@ -47,14 +47,14 @@ test("a route naming an Object.prototype member answers 400, not 500", async () 
 test.each(["", "cta..label", "paragraphs[].0"])(
   "the unaddressable path %j is a malformed edit",
   async (path) => {
-    const response = await post({ route: "/about", nodeId: "hero", path, value: "x" });
+    const response = await post({ route: "/", nodeId: "hero", path, value: "x" });
     expect(response.status).toBe(400);
     expect(await response.text()).toBe("malformed edit");
   },
 );
 
 test("a value the compiler rejects answers 422 with the compiler's words", async () => {
-  const response = await post({ route: "/about", nodeId: "hero", path: "headline", value: 42 });
+  const response = await post({ route: "/", nodeId: "hero", path: "headline", value: 42 });
   expect(response.status).toBe(422);
   expect(await response.text()).toContain("invalid-props");
 });
