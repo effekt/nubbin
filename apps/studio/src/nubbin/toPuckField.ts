@@ -1,11 +1,13 @@
 import type { Field } from "@measured/puck";
 import type { FieldNode } from "@nubbin/core";
 import { directChildFields } from "./directChildFields";
+import { isRichTextField } from "./isRichTextField";
 import { rowFieldOf } from "./rowFieldOf";
 import { toEnumPuckField } from "./toEnumPuckField";
 import { toFieldsetPuckField } from "./toFieldsetPuckField";
 import { toReadOnlyPuckField } from "./toReadOnlyPuckField";
 import { toRepeaterPuckField } from "./toRepeaterPuckField";
+import { toRichTextPuckField } from "./toRichTextPuckField";
 import { toStringPuckField } from "./toStringPuckField";
 
 /** One schema field as Puck's inspector edits it — the same `zodAdapter` description the
@@ -33,6 +35,9 @@ export function toPuckField(field: FieldNode, fields: readonly FieldNode[]): Fie
   }
   if (field.kind === "enum") {
     return toEnumPuckField(field);
+  }
+  if (field.kind === "array" && isRichTextField(field, fields)) {
+    return toRichTextPuckField(field);
   }
   if (field.kind === "array" && rowFieldOf(fields, field.path) !== undefined) {
     return toRepeaterPuckField(field, fields);

@@ -1,7 +1,8 @@
-import { zodAdapter } from "@nubbin/core";
+import { type FieldNode, zodAdapter } from "@nubbin/core";
 import { render, screen } from "@testing-library/react";
 import { expect, test } from "vitest";
 import { z } from "zod";
+import { richTextFieldNodes } from "../nubbin/richTextFieldNodes";
 import { SubFieldControl } from "./SubFieldControl";
 
 const schema = z.object({
@@ -49,4 +50,24 @@ test("a scalar child renders the per-kind control, bound included", () => {
   renderControl("items[].name", "Ledd & Co.");
   expect(screen.getByDisplayValue("Ledd & Co.")).toBeDefined();
   expect(screen.getByText("10/40")).toBeDefined();
+});
+
+test("a nested rich-text array becomes the rich-text control, not a repeater", () => {
+  const richFields: FieldNode[] = [
+    { path: "note", kind: "object", optional: false },
+    { path: "note.body", kind: "array", optional: false },
+    ...richTextFieldNodes.map((held) => ({ ...held, path: `note.body${held.path}` })),
+  ];
+  render(
+    <SubFieldControl
+      field={richFields[1] as FieldNode}
+      fields={richFields}
+      id="sub"
+      value={[{ kind: "paragraph", spans: [{ text: "nested prose" }] }]}
+      readOnly={false}
+      onChange={() => undefined}
+    />,
+  );
+  expect(screen.getByRole("toolbar", { name: "Text style" })).toBeDefined();
+  expect(screen.getByDisplayValue("nested prose")).toBeDefined();
 });
