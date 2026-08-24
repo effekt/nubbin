@@ -5,7 +5,7 @@ import { priceListSchema } from "./PriceList.schema";
 export const priceListBlock = defineBlock({
   name: "PriceList",
   description: "The chandlery's price board: items down one side, prices down the other.",
-  icon: "prose",
+  icon: "pricelist",
   category: "Commerce",
   schema: priceListSchema,
   component: PriceList,
