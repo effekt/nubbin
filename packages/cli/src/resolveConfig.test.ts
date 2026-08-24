@@ -34,6 +34,11 @@ describe("resolveConfig", () => {
     await expect(resolveConfig(bare)).rejects.toThrow(/nubbin\.config\.ts/);
   });
 
+  test("outside any repository, says the search went no further and points at --config", async () => {
+    const bare = await mkdtemp(join(tmpdir(), "nubbin-cli-bare-"));
+    await expect(resolveConfig(bare)).rejects.toThrow(/--config/);
+  });
+
   test("does not search when it was given a path that is not there", async () => {
     const root = await projectAt();
     await expect(resolveConfig(root, "apps/web/nubbin.config.ts")).rejects.toThrow(

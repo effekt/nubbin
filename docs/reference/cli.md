@@ -43,7 +43,13 @@ rather than guessed at.
 ## Finding the config
 
 `nubbin.config.ts` — or `.js` — is searched for from the working directory upward, stopping at
-the repository root. The nearest one wins, so an application's config beats the repository's.
+the repository root: the nearest directory carrying a `.git` entry, which a linked worktree has
+as a file and an ordinary checkout as a directory. The nearest config wins, so an application's
+beats the repository's, and the climb never crosses the root — a config above the repository
+belongs to some other project. A checkout with no `.git` anywhere — a tarball, a vendored copy,
+a Docker build context — offers no boundary to trust, so only the working directory is searched
+and the refusal says to name anything further away with `--config`.
+
 `--config <path>` names one instead, and a named path that is not there is an error rather than
 the start of a search.
 

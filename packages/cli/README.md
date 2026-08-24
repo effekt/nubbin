@@ -10,7 +10,8 @@ npm install -D @nubbin/cli
 
 ## The config
 
-One file beside the application it configures, found by climbing from where the command ran:
+One file beside the application it configures, found by climbing from where the command ran —
+no further than the repository root, and no climbing at all outside a repository:
 
 ```ts
 // nubbin.config.ts

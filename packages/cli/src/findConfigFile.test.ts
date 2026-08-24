@@ -59,4 +59,18 @@ describe("findConfigFile", () => {
   test("returns null when there is no config anywhere above", async () => {
     expect(await findConfigFile(await freshRepo())).toBeNull();
   });
+
+  test("with no repository around it, still finds the config beside the command", async () => {
+    const bare = await mkdtemp(join(tmpdir(), "nubbin-cli-bare-"));
+    await writeFile(join(bare, "nubbin.config.ts"), "");
+    expect(await findConfigFile(bare)).toBe(join(bare, "nubbin.config.ts"));
+  });
+
+  test("with no repository around it, does not climb — a config above could belong to anything", async () => {
+    const outer = await mkdtemp(join(tmpdir(), "nubbin-cli-bare-"));
+    await writeFile(join(outer, "nubbin.config.ts"), "");
+    const inner = join(outer, "apps", "web");
+    await mkdir(inner, { recursive: true });
+    expect(await findConfigFile(inner)).toBeNull();
+  });
 });
