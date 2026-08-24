@@ -92,3 +92,22 @@
 [class*="_DropZone--isDestination_"] {
   box-shadow: 0 0 0 2px var(--nb-ov-halo);
 }
+
+/* The dashed slot ring is a drag-time affordance in the specimen, never an idle one. Puck
+ * also washes the whole containing area on hover and on selection — and the demo's page
+ * root is one `sections` area, so hovering any block tinted the entire page. Destination
+ * zones keep Puck's own `!important` treatment; empty zones keep their dashed invitation. */
+[class*="_DropZone--hoveringOverArea_"]:not([class*="_DropZone--isDestination_"]):not(:empty),
+[class*="_DropZone--isAreaSelected_"]:not([class*="_DropZone--isDestination_"]):not(:empty) {
+  background: transparent;
+  /* a11y-ok — Puck's decorative area wash on a non-focusable dropzone, not a focus style */
+  outline: none;
+}
+
+/* The specimen's chip rides the block's top edge (`.sel-chip { top: -15px }` in the
+ * canonical artifact); Puck hangs its bar fully inside the block. Half its own height up
+ * puts it astride the edge, and the separate `translate` property composes with the
+ * inverse-zoom `transform` Puck sets inline, so the compensation survives. */
+[class^="_DraggableComponent-actions_"] {
+  translate: 0 -50%;
+}
