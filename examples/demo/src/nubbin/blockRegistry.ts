@@ -27,4 +27,8 @@ export const blockRegistry = defineRegistry({
   Card: () => import("../blocks/Card").then((module) => module.Card),
   LiveBand: () => import("../blocks/LiveBand").then((module) => module.LiveBand),
   UpdateFeed: () => import("../blocks/UpdateFeed").then((module) => module.UpdateFeed),
+  ProductCard: () => import("../blocks/ProductCard").then((module) => module.ProductCard),
+  ProductGrid: () => import("../blocks/ProductGrid").then((module) => module.ProductGrid),
+  PriceList: () => import("../blocks/PriceList").then((module) => module.PriceList),
+  SiteHeader: () => import("../blocks/SiteHeader").then((module) => module.SiteHeader),
 });

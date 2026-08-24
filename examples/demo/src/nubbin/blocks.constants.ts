@@ -12,10 +12,14 @@ import { imageFigureBlock } from "../blocks/ImageFigure.block";
 import { liveBandBlock } from "../blocks/LiveBand.block";
 import { logoWallBlock } from "../blocks/LogoWall.block";
 import { pageHeaderBlock } from "../blocks/PageHeader.block";
+import { priceListBlock } from "../blocks/PriceList.block";
+import { productCardBlock } from "../blocks/ProductCard.block";
+import { productGridBlock } from "../blocks/ProductGrid.block";
 import { proseBlock } from "../blocks/Prose.block";
 import { quoteBlock } from "../blocks/Quote.block";
 import { sectionStackBlock } from "../blocks/SectionStack.block";
 import { siteFooterBlock } from "../blocks/SiteFooter.block";
+import { siteHeaderBlock } from "../blocks/SiteHeader.block";
 import { splitBlock } from "../blocks/Split.block";
 import { splitHeroBlock } from "../blocks/SplitHero.block";
 import { statBandBlock } from "../blocks/StatBand.block";
@@ -50,4 +54,8 @@ export const BLOCKS: Block[] = [
   cardBlock,
   liveBandBlock,
   updateFeedBlock,
+  productCardBlock,
+  productGridBlock,
+  priceListBlock,
+  siteHeaderBlock,
 ];

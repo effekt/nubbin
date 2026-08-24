@@ -1,4 +1,5 @@
 import type { DocumentVersion } from "@nubbin/core";
+import { chandlery } from "./chandlery";
 import { dispatches } from "./dispatches";
 import { home } from "./home";
 import { lateEdition } from "./lateEdition";
@@ -13,4 +14,5 @@ export const fixtureRoutes: Record<string, DocumentVersion> = {
   "/dispatches/tide-tables": tideTables,
   "/dispatches/late-edition": lateEdition,
   "/live": live,
+  "/chandlery": chandlery,
 };
