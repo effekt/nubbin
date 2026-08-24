@@ -34,3 +34,21 @@ test("every icon the demo's registry names has a drawn glyph, not the text fallb
     unmount();
   }
 });
+
+test("no two icon names the registry uses draw the same glyph", () => {
+  const names = [
+    ...new Set(
+      registry
+        .names()
+        .map((name) => registry.get(name)?.icon)
+        .filter((icon): icon is string => icon !== undefined),
+    ),
+  ];
+  const drawings = names.map((name) => {
+    const { container, unmount } = render(<PaletteIcon icon={name} />);
+    const markup = container.innerHTML;
+    unmount();
+    return markup;
+  });
+  expect(new Set(drawings).size).toBe(names.length);
+});
