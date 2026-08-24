@@ -87,6 +87,20 @@ async function hookTarget() {
   }
 }
 
+/**
+ * A target that does not exist yet — the first write into a new directory — is judged by its
+ * nearest existing ancestor, which sits in the same worktree. The previous fallback was
+ * `process.cwd()`, which classified that write by wherever the hook happened to run: for a
+ * session driving a linked worktree that is the primary tree, so the refusal named the wrong
+ * tree (#538). Walking up stops at the filesystem root, which always exists; git then resolves
+ * and classifies whatever the ancestor is, so a symlinked path is still compared resolved.
+ */
+function nearestExistingAncestor(path) {
+  let current = resolve(path);
+  while (!existsSync(current)) current = dirname(current);
+  return current;
+}
+
 /** What the run examined, so a pass is distinguishable from a run that checked nothing. */
 function summary(cwd) {
   const root = gitIn(cwd, ["rev-parse", "--show-toplevel"]);
@@ -103,7 +117,7 @@ const check = args.includes("--check");
 const paths = args.filter((arg) => !arg.startsWith("--"));
 
 const requested = hook ? await hookTarget() : resolve(paths[0] ?? process.cwd());
-const cwd = existsSync(requested) ? requested : process.cwd();
+const cwd = nearestExistingAncestor(requested);
 const problem = verdict(cwd);
 
 if (problem === null) {
