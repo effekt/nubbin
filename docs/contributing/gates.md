@@ -56,6 +56,7 @@ porting them into the suite first would be a rewrite thrown away twice.
 | `tests/ruleFiles.test.mjs` | rule files carry `paths`, stay under 150 lines, end in a checklist, declare a gate, and glob at least one tracked file |
 | `tests/rulesCiteRealGates.test.mjs` | a rule naming a `check-*.mjs` or a skill names one that exists |
 | `tests/gateTableCoverage.test.mjs` | every suite in `tests/` has a row in this table, and every row names one that is there |
+| `tests/commitAttribution.test.mjs` | the no-agent-attribution commitlint rule rejects trailers naming an agent, and the laundered form — a placeholder address or a one-letter co-author — that once slipped past it |
 | `tests/peerDependencies.test.mjs` | no package declares a peer dependency nothing in it imports |
 | `tests/packageMetadata.test.mjs` | every publishable package has a README, a licence file and field, a description and a repository |
 | `tests/coreVersionStamp.test.mjs` | `NUBBIN_VERSION`, stamped into every artifact, matches the published version |
