@@ -106,7 +106,7 @@ return <Renderer artifact={artifact} registry={blockRegistry} />;
 | Writing blocks | [Blocks](reference/authoring/blocks.md) and [the catalog](reference/authoring/catalog.md) |
 | Publishing from CI or a terminal | [Compiling](reference/publishing/compile.md), [artifacts](reference/publishing/artifacts.md), [the command line](reference/publishing/cli.md) |
 | Rendering in an app | [The renderer](reference/rendering/renderer.md) and [the Next.js binding](reference/rendering/next.md) |
-| Looking for a signature | The generated API reference, written from the packages' own sources |
+| Looking for a signature | [The API reference](reference/generated/README.md), written from the packages' own sources on every docs build |
 
 ## Every document
 
