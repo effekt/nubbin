@@ -1,6 +1,5 @@
 import type { Config } from "@measured/puck";
 import type { Catalog, Registry } from "@nubbin/core";
-import { toPuckCategories } from "./toPuckCategories";
 import { toPuckComponentConfig } from "./toPuckComponentConfig";
 import { toPuckRootConfig } from "./toPuckRootConfig";
 
@@ -8,7 +7,10 @@ import { toPuckRootConfig } from "./toPuckRootConfig";
  * `toPuckComponentConfig` from the pair the demo already maintains — the catalog for schema
  * and defaults, the registry for slots and the component. A catalog block the registry does
  * not hold is a configuration fault worth stopping on, not a component to skip. `root` is
- * the Page panel's field set — the whole `DocumentMeta`, from `toPuckRootConfig`. */
+ * the Page panel's field set — the whole `DocumentMeta`, from `toPuckRootConfig`. No
+ * `categories`: the drawer override renders the studio's own palette, grouped by
+ * `toPaletteGroups`, so Puck's own component list — the only thing categories feed — never
+ * mounts. */
 export function toPuckConfig(catalog: Catalog, registry: Registry): Config {
   const components: Config["components"] = {};
   for (const [name, entry] of Object.entries(catalog)) {
@@ -20,7 +22,6 @@ export function toPuckConfig(catalog: Catalog, registry: Registry): Config {
   }
   return {
     components,
-    categories: toPuckCategories(registry, Object.keys(components)),
     root: toPuckRootConfig(),
   };
 }
