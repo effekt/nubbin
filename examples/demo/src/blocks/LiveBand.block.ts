@@ -6,7 +6,7 @@ export const liveBandBlock = defineBlock({
   name: "LiveBand",
   description:
     "A strip of what is happening right now, resolved on each request rather than frozen at publish.",
-  icon: "🔴",
+  icon: "band",
   schema: liveBandSchema,
   component: LiveBand,
   version: 1,

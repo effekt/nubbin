@@ -5,7 +5,7 @@ import { siteFooterSchema } from "./SiteFooter.schema";
 export const siteFooterBlock = defineBlock({
   name: "SiteFooter",
   description: "The end of every page: tagline, link columns and the legal line.",
-  icon: "⚓",
+  icon: "footer",
   schema: siteFooterSchema,
   component: SiteFooter,
   version: 1,
