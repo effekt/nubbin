@@ -59,7 +59,8 @@
     "worktree-check": "node scripts/check-worktree.mjs --check",
     "primary-tree": "node scripts/check-primary-tree.mjs --check",
     "release-tag": "node scripts/check-release-tag.mjs --check",
-    "prepare": "git config core.hooksPath .githooks && lefthook install --force || true; node scripts/catalog.mjs || true"
+    "prepare": "git config core.hooksPath .githooks && lefthook install --force || true; node scripts/catalog.mjs || true",
+    "demo:publish": "turbo run fixtures:publish --filter=demo"
   },
   "devDependencies": {
     "@arethetypeswrong/cli": "catalog:",

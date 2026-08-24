@@ -12,10 +12,10 @@
     "guardrail": "vitest run --project guardrail",
     "e2e": "vitest run --project e2e",
     "typecheck": "tsc --noEmit",
-    "fixtures:publish": "tsx scripts/publishFixtures.ts",
-    "serve:verify": "node scripts/verifyServing.mjs",
-    "publish:live": "tsx scripts/publishLive.ts",
-    "live:record": "tsx scripts/recordLive.ts"
+    "nubbin": "node ../../packages/cli/dist/bin.js",
+    "fixtures:publish": "pnpm nubbin publish / && pnpm nubbin publish /dispatches && pnpm nubbin publish /dispatches/tide-tables && pnpm nubbin publish /live",
+    "live:record": "pnpm nubbin publish / --config nubbin.live.config.ts && pnpm nubbin publish /dispatches --config nubbin.live.config.ts && pnpm nubbin publish /dispatches/tide-tables --config nubbin.live.config.ts && pnpm nubbin publish /live --config nubbin.live.config.ts",
+    "serve:verify": "node scripts/verifyServing.mjs"
   },
   "dependencies": {
     "@nubbin/core": "workspace:*",
