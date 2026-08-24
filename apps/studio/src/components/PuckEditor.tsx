@@ -2,6 +2,7 @@
 
 import { type Data, Puck, type PuckApi } from "@measured/puck";
 import "@measured/puck/puck.css";
+import "./puckTheme.css";
 import type { DocumentVersion } from "@nubbin/core";
 import { catalog } from "demo/src/nubbin/catalog";
 import { registry } from "demo/src/nubbin/registry";
@@ -68,18 +69,20 @@ export function PuckEditor({ route, initialData, initialVersion }: PuckEditorPro
   const refused = outcome !== undefined && !outcome.ok;
   const issues = refused ? toAuthorIssues(outcome.issues, catalog, prior.current) : saveIssues;
   return (
-    <>
-      {issues !== undefined && issues.length > 0 ? (
-        <IssuesPanel
-          heading={refused ? "Publishing was refused" : "This draft has issues"}
-          issues={issues}
-          onSelect={onSelect}
-        />
-      ) : null}
-      {outcome?.ok === true ? (
-        <PublishNotice route={route} hash={outcome.hash} url={outcome.url} />
-      ) : null}
+    <div className="nubbin-studio">
+      <div className="nubbin-notices">
+        {issues !== undefined && issues.length > 0 ? (
+          <IssuesPanel
+            heading={refused ? "Publishing was refused" : "This draft has issues"}
+            issues={issues}
+            onSelect={onSelect}
+          />
+        ) : null}
+        {outcome?.ok === true ? (
+          <PublishNotice route={route} hash={outcome.hash} url={outcome.url} />
+        ) : null}
+      </div>
       <Puck config={config} data={data} onChange={onChange} overrides={overrides} />
-    </>
+    </div>
   );
 }

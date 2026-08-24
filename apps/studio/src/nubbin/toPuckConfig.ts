@@ -1,5 +1,6 @@
 import type { Config } from "@measured/puck";
 import type { Catalog, Registry } from "@nubbin/core";
+import { toPuckCategories } from "./toPuckCategories";
 import { toPuckComponentConfig } from "./toPuckComponentConfig";
 
 /** The whole Puck config, derived: one component per catalog block, each built by
@@ -15,5 +16,5 @@ export function toPuckConfig(catalog: Catalog, registry: Registry): Config {
     }
     components[name] = toPuckComponentConfig(entry, block);
   }
-  return { components };
+  return { components, categories: toPuckCategories(registry, Object.keys(components)) };
 }

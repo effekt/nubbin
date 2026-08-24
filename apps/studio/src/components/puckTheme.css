@@ -1,0 +1,191 @@
+/* The studio's committed look, applied to Puck's chrome — tokens and treatment from the
+ * canonical design artifact
+ * (https://claude.ai/code/artifact/0226aad8-3310-41be-99ce-4c89991793af): warm ground,
+ * white panels with soft depth, teal as the one working accent, brass reserved for
+ * hardware. Selectors match Puck 0.20.2's hashed class names by their stable prefix; a
+ * Puck upgrade that renames a class degrades to Puck's own styling for that element,
+ * never to broken layout. The canvas iframe is the consumer's page and is untouched. */
+
+.nubbin-studio {
+  /* The wrapper contributes tokens and scope, never a box — Puck keeps sizing itself
+   * against the page exactly as it did unwrapped. */
+  display: contents;
+
+  --nb-ground: #e7eceb;
+  --nb-panel: #ffffff;
+  --nb-well: #f1f4f3;
+  --nb-line: #d3dbda;
+  --nb-line-soft: #e2e8e7;
+  --nb-ink: #0b2b33;
+  --nb-dim: #55696e;
+  --nb-teal: #0e5a6b;
+  --nb-teal-tint: #e3eef0;
+  --nb-r: 10px;
+  --nb-shadow: 0 1px 2px rgba(11, 43, 51, 0.1), 0 10px 28px rgba(11, 43, 51, 0.07);
+
+  /* Puck's own hooks: its azure ramp becomes the teal ramp, its greys go warm. */
+  --puck-font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --puck-color-azure-03: #093a45;
+  --puck-color-azure-04: #0a4451;
+  --puck-color-azure-05: #0e5a6b;
+  --puck-color-azure-06: #1e6b7d;
+  --puck-color-azure-07: #4fb3c7;
+  --puck-color-azure-08: #7cc5d4;
+  --puck-color-azure-09: #a9d8e2;
+  --puck-color-azure-10: #c9e6ec;
+  --puck-color-azure-11: #e3eef0;
+  --puck-color-azure-12: #eff6f7;
+  --puck-color-grey-01: #04141a;
+  --puck-color-grey-02: #081f27;
+  --puck-color-grey-03: #0b2b33;
+  --puck-color-grey-04: #2e4147;
+  --puck-color-grey-05: #4a5f66;
+  --puck-color-grey-06: #55696e;
+  --puck-color-grey-07: #7c8a87;
+  --puck-color-grey-08: #9aa6a3;
+  --puck-color-grey-09: #d3dbda;
+  --puck-color-grey-10: #e2e8e7;
+  --puck-color-grey-11: #edf1f0;
+  --puck-color-grey-12: #f1f4f3;
+  --puck-color-black: #0b2b33;
+}
+
+/* Notices drop under the header's right edge instead of pushing the editor down — the
+ * dropdown treatment the demo site uses. An empty container catches no pointer. */
+.nubbin-notices {
+  position: fixed;
+  top: 64px;
+  right: 16px;
+  z-index: 30;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: min(440px, calc(100vw - 32px));
+  pointer-events: none;
+}
+
+.nubbin-notices > * {
+  pointer-events: auto;
+  background: var(--nb-panel);
+  border: 1px solid var(--nb-line);
+  border-radius: var(--nb-r);
+  box-shadow:
+    0 2px 6px rgba(11, 43, 51, 0.14),
+    0 18px 48px rgba(11, 43, 51, 0.18);
+}
+
+/* The ground the panels float on. */
+.nubbin-studio [class^="_PuckLayout_"],
+.nubbin-studio [class^="_PuckLayout-inner_"] {
+  background: var(--nb-ground);
+}
+
+.nubbin-studio [class^="_PuckHeader_"] {
+  background: var(--nb-panel);
+  border-bottom: 1px solid var(--nb-line);
+  color: var(--nb-ink);
+}
+
+/* Each sidebar is a column of floating cards; the bar itself is invisible. */
+.nubbin-studio [class^="_Sidebar_"] {
+  background: transparent;
+  border: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 10px;
+  min-height: 0;
+}
+
+.nubbin-studio [class^="_SidebarSection_"] {
+  background: var(--nb-panel);
+  border-radius: var(--nb-r);
+  box-shadow: var(--nb-shadow);
+  border: 0;
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 0;
+  min-height: 0;
+  overflow: hidden;
+}
+
+/* The blocks card gets the larger share, as in the design. */
+.nubbin-studio [class^="_SidebarSection_"]:first-child {
+  flex-grow: 1.3;
+}
+
+/* Each card scrolls its own content, so a long palette never buries the outline. */
+.nubbin-studio [class^="_SidebarSection-content_"] {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+}
+
+.nubbin-studio [class^="_SidebarSection-title_"] {
+  border: 0;
+  padding: 8px 12px 5px;
+  color: var(--nb-dim);
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+/* Category headers in the block list read as the section headers of the design. */
+.nubbin-studio [class^="_ComponentList-title_"] {
+  color: var(--nb-dim);
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.nubbin-studio [class^="_ComponentList-title_"]:hover {
+  color: var(--nb-ink);
+  background: var(--nb-well);
+}
+
+/* A block is a quiet row, not a card: teal tint on hover, no chrome of its own. */
+.nubbin-studio [class^="_DrawerItem_"] [class^="_DrawerItem-draggable_"] {
+  background: transparent;
+  border: 0;
+  box-shadow: none;
+  border-radius: 0;
+  border-left: 2px solid transparent;
+  padding: 4px 12px;
+  color: var(--nb-ink);
+}
+
+.nubbin-studio [class^="_DrawerItem_"]:hover [class^="_DrawerItem-draggable_"] {
+  background: var(--nb-teal-tint);
+  border-left-color: var(--nb-teal);
+}
+
+.nubbin-studio [class^="_DrawerItem-name_"] {
+  font-size: 12.5px;
+  font-weight: 600;
+}
+
+/* Outline rows carry the same voice; the selected one is unmistakably teal. */
+.nubbin-studio [class^="_Layer-inner_"] {
+  border-left: 2px solid transparent;
+}
+
+.nubbin-studio [class^="_Layer_"]:not([class*="--isSelected"]) > [class^="_Layer-inner_"]:hover {
+  background: var(--nb-well);
+}
+
+.nubbin-studio [class*="_Layer--isSelected_"] > [class^="_Layer-inner_"] {
+  background: var(--nb-teal-tint);
+  border-left-color: var(--nb-teal);
+}
+
+.nubbin-studio [class^="_Layer-name_"] {
+  font-size: 12.5px;
+}
+
+/* Node and slot glyphs are teal working accents, not Puck's rose. */
+.nubbin-studio [class^="_Layer-icon_"],
+.nubbin-studio [class^="_Layer-zoneIcon_"] {
+  color: var(--nb-teal);
+}
