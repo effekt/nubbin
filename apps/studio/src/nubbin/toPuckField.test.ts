@@ -32,15 +32,32 @@ test("boolean becomes a radio over true and false", () => {
   });
 });
 
-test("enum becomes a select over its members", () => {
-  expect(toPuckField(node("enum", ["light", "dark"]))).toEqual({
+test("an enum of up to three members becomes the segmented custom control", () => {
+  for (const members of [
+    ["light", "dark"],
+    ["left", "center", "right"],
+  ] as const) {
+    const field = toPuckField(node("enum", members));
+    expect(field.type).toBe("custom");
+    expect(field.label).toBe("field");
+  }
+});
+
+test("an enum past three members stays a select over them", () => {
+  expect(toPuckField(node("enum", ["a", "b", "c", "d"]))).toEqual({
     type: "select",
     label: "field",
     options: [
-      { label: "light", value: "light" },
-      { label: "dark", value: "dark" },
+      { label: "a", value: "a" },
+      { label: "b", value: "b" },
+      { label: "c", value: "c" },
+      { label: "d", value: "d" },
     ],
   });
+});
+
+test("an enum with no members stays a select rather than an empty segment row", () => {
+  expect(toPuckField(node("enum", []))).toEqual({ type: "select", label: "field", options: [] });
 });
 
 test("every other kind falls back to the read-only custom field", () => {

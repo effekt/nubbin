@@ -6,7 +6,6 @@
  * the current route is marked by weight, tint and the aria-current bar, never hue alone. */
 .nubbin-pages {
   position: relative;
-  margin-right: 10px;
 }
 
 .nubbin-pages > button {
@@ -32,10 +31,6 @@
   font-weight: 700;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-}
-
-.nubbin-pages-current {
-  font-weight: 600;
 }
 
 .nubbin-pages-caret {

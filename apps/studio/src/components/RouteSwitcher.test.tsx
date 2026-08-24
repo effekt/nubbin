@@ -9,9 +9,9 @@ function open() {
   fireEvent.click(screen.getByRole("button", { name: /Pages/ }));
 }
 
-test("closed, it is one button naming the document being edited", () => {
+test("closed, it is the specimen's one plain Pages disclosure", () => {
   render(<RouteSwitcher route="/dispatches" routes={routes} />);
-  const button = screen.getByRole("button", { name: /Pages.*\/dispatches/ });
+  const button = screen.getByRole("button", { name: /Pages/ });
   expect(button.getAttribute("aria-expanded")).toBe("false");
   expect(screen.queryByRole("navigation")).toBeNull();
 });

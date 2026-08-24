@@ -1,0 +1,120 @@
+/* The inspector's skin, from the canonical specimen: a head naming the selected block, a
+ * body that scrolls alone, a quiet foot, and Puck's own fields dressed in the studio's
+ * tokens — labels at 12.5/600, inputs on the well, teal focus rings. Structure comes from
+ * FieldsWithCallout; nothing here re-implements a field. Same voice and tokens as
+ * puckTheme.css, split from it only for the file-length gate. */
+
+/* The right card's own title row is Puck's breadcrumbs; the head below names the block
+ * with its glyph and position instead, and the outline still walks parents. */
+.nubbin-studio [class*="_Sidebar--right_"] [class^="_SidebarSection-title_"] {
+  display: none;
+}
+
+/* Head / scrolling body / foot: the card is the column, the form fills it, and only the
+ * body moves. */
+.nubbin-studio [class*="_Sidebar--right_"] [class^="_SidebarSection-content_"] {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.nubbin-studio [class*="_Sidebar--right_"] form[class^="_PuckFields_"] {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.nb-insp-head {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  flex: none;
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--nb-line-soft);
+}
+
+/* The block's glyph in the warm tile the specimen paints behind it — the selection
+ * orange as ink on its own tint, decoration beside the name. */
+.nb-insp-head-icon {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 28px;
+  height: 28px;
+  border-radius: 7px;
+  background: #fbf1ec;
+  color: var(--nb-sel);
+}
+
+.nb-insp-head-name h2 {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--nb-ink);
+}
+
+.nb-insp-head-name p {
+  margin: 0;
+  font-size: 11px;
+  color: var(--nb-dim);
+}
+
+.nb-insp-body {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  padding: 6px 16px 16px;
+}
+
+.nb-insp-foot {
+  flex: none;
+  margin: 0;
+  padding: 10px 16px;
+  border-top: 1px solid var(--nb-line-soft);
+  font-size: 11.5px;
+  line-height: 1.5;
+  color: var(--nb-dim);
+}
+
+/* Puck's fields, dressed: the specimen's label weight and input wells. The body's own
+ * padding carries the gutter, so the field rows shed Puck's. */
+.nb-insp-body [class^="_PuckFields-field_"] {
+  padding: 8px 0;
+}
+
+.nubbin-studio [class^="_Input-label_"] {
+  color: var(--nb-ink);
+  font-size: 12.5px;
+  font-weight: 600;
+}
+
+.nubbin-studio input[class^="_Input-input_"],
+.nubbin-studio select[class^="_Input-input_"],
+.nubbin-studio textarea[class^="_Input-input_"] {
+  background: var(--nb-well);
+  border: 1px solid var(--nb-line);
+  border-radius: 7px;
+  color: var(--nb-ink);
+  font-size: 12.5px;
+}
+
+.nubbin-studio input[class^="_Input-input_"]:hover,
+.nubbin-studio select[class^="_Input-input_"]:hover,
+.nubbin-studio textarea[class^="_Input-input_"]:hover {
+  border-color: #b9c5c3;
+}
+
+.nubbin-studio input[class^="_Input-input_"]:focus-visible,
+.nubbin-studio select[class^="_Input-input_"]:focus-visible,
+.nubbin-studio textarea[class^="_Input-input_"]:focus-visible {
+  outline: 2px solid var(--nb-teal);
+  outline-offset: 1px;
+  background: var(--nb-panel);
+}
+
+/* The docs links moved inside the body; its gutter replaces their margins. */
+.nb-insp-body .nubbin-inspector-docs {
+  margin: 10px 0 0;
+}

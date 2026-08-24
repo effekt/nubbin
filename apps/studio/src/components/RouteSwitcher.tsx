@@ -12,9 +12,10 @@ interface RouteSwitcherProps {
   routes: readonly string[];
 }
 
-/** The masthead's Pages control: a disclosure button naming the document being edited,
- * opening the list of every editable route — fixtures and studio-created pages alike, the
- * current one marked — with "New page" at the foot. Real links do the switching, so the
+/** The toolbar's Pages control: a disclosure button opening the list of every editable
+ * route — fixtures and studio-created pages alike, the current one marked — with "New
+ * page" at the foot. The document being edited is named by the doc-name beside it, so the
+ * button itself stays the specimen's plain "Pages". Real links do the switching, so the
  * keyboard, middle-click and the address bar all behave; Escape closes and hands focus
  * back to the button. */
 export function RouteSwitcher({ route, routes }: RouteSwitcherProps) {
@@ -36,7 +37,6 @@ export function RouteSwitcher({ route, routes }: RouteSwitcherProps) {
         onClick={() => (open ? close() : setOpen(true))}
       >
         <span className="nubbin-pages-eyebrow">Pages</span>
-        <span className="nubbin-pages-current">{route}</span>
         <span aria-hidden="true" className="nubbin-pages-caret">
           ▾
         </span>

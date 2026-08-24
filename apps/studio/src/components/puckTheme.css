@@ -23,6 +23,7 @@
   --nb-teal-light: #4fb3c7;
   --nb-marine: #0b2b33;
   --nb-brass: #c08a3e;
+  --nb-sel: #bf411d;
   --nb-ok: #1e6b4a;
   --nb-warn-deep: #7a501d;
   --nb-bad: #a32b1e;
@@ -86,23 +87,8 @@
   background: var(--nb-ground);
 }
 
-/* The toolbar carries the specimen's brand edge: a 3px marine→teal→teal-light→brass
- * gradient under a panel-white bar, painted through the border so the bar itself stays
- * one flat surface. */
-.nubbin-studio [class^="_PuckHeader_"] {
-  background:
-    linear-gradient(var(--nb-panel), var(--nb-panel)) padding-box,
-    linear-gradient(
-      90deg,
-      var(--nb-marine),
-      var(--nb-teal) 34%,
-      var(--nb-teal-light) 60%,
-      var(--nb-brass) 92%
-    )
-    border-box;
-  border-bottom: 3px solid transparent;
-  color: var(--nb-ink);
-}
+/* The toolbar itself is the studio's own `.nb-toolbar` (studioToolbar.css), mounted
+ * through the `header` override — Puck's stock header no longer renders. */
 
 /* The header's Preview link, the one way out to the page as a reader sees it. */
 .nubbin-studio .nb-toolbar-preview {
@@ -133,6 +119,13 @@
 }
 
 .nubbin-studio [class^="_PuckLayout_"] {
+  height: 100%;
+}
+
+/* Puck's inner grid sizes itself to the viewport (100dvh), which runs its last 32px under
+ * the status bar — the inspector's pinned foot made the overlap visible. It fills the room
+ * the layout actually leaves instead. */
+.nubbin-studio [class^="_PuckLayout-inner_"] {
   height: 100%;
 }
 
@@ -244,6 +237,16 @@
   [class^="_DrawerItem_"]
   [class^="_DrawerItem-draggable_"]:hover {
   background: transparent;
+}
+
+/* The canvas strip keeps only what the toolbar cannot host: zoom rides Puck's internal
+ * zoomConfig, unreachable from the public API, so its buttons and select stay here while
+ * the viewport chips — plain `setUi`, which the canvas re-zooms after by itself — moved up
+ * into the toolbar's segmented row. The spans are the stock viewport buttons; the first
+ * divider went with them. */
+.nubbin-studio [class^="_ViewportControls_"] > span,
+.nubbin-studio [class^="_ViewportControls_"] > div[class*="divider"]:first-of-type {
+  display: none;
 }
 
 /* Outline rows carry the same voice; the selected one is unmistakably teal. */
