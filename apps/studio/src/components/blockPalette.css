@@ -126,3 +126,24 @@
   color: var(--nb-ink);
   font-weight: 600;
 }
+
+/* The row inside Puck's draggable item: a fixed-width glyph slot, then Puck's own name and
+ * drag handle. The slot renders whether or not the block has an icon, so a mixed list never
+ * misaligns; the glyph is decoration and the name carries the semantics. */
+.nb-palette-item-row {
+  display: flex;
+  align-items: center;
+}
+
+.nb-palette-item-row > :last-child {
+  flex: 1;
+  min-width: 0;
+}
+
+.nb-palette-item-icon {
+  flex: none;
+  width: 22px;
+  padding-left: 8px;
+  font-size: 13px;
+  line-height: 1;
+}

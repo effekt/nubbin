@@ -25,7 +25,18 @@ export function PaletteItem({
       onFocus={() => onDetail(block)}
       onBlur={() => onDetail(undefined)}
     >
-      <Drawer.Item name={block.name} />
+      <Drawer.Item name={block.name}>
+        {({ children }) => (
+          <div className="nb-palette-item-row">
+            {/* Decoration beside the name Puck already renders; a block without an icon
+             * keeps the fixed-width span so rows stay aligned. */}
+            <span className="nb-palette-item-icon" aria-hidden="true">
+              {block.icon}
+            </span>
+            {children}
+          </div>
+        )}
+      </Drawer.Item>
     </div>
   );
 }
