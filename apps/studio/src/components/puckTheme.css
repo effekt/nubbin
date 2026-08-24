@@ -114,7 +114,10 @@
   min-height: 0;
 }
 
-.nubbin-studio.nb-studio-frame .Puck > div {
+/* First child only: `.Puck` also holds Puck's empty portal container as a second child,
+ * and a bare `> div` hands that portal a full viewport of height below the layout — the
+ * editor then scrolls one blank screen past its own frame. */
+.nubbin-studio.nb-studio-frame .Puck > div:first-child {
   height: 100%;
 }
 
