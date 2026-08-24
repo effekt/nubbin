@@ -6,6 +6,7 @@ export const quoteBlock = defineBlock({
   name: "Quote",
   description: "One voice vouching for the paper, set large, with who said it underneath.",
   icon: "quote",
+  category: "Social Proof",
   schema: quoteSchema,
   component: Quote,
   version: 1,

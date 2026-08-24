@@ -6,6 +6,7 @@ export const proseBlock = defineBlock({
   name: "Prose",
   description: "A heading over paragraphs of rich text, for the pages that mostly say something.",
   icon: "prose",
+  category: "Content",
   schema: proseSchema,
   component: Prose,
   version: 2,

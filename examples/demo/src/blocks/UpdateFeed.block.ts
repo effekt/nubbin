@@ -6,6 +6,7 @@ export const updateFeedBlock = defineBlock({
   name: "UpdateFeed",
   description: "The record of recent changes, newest first, resolved on each request.",
   icon: "feed",
+  category: "Live data",
   schema: updateFeedSchema,
   component: UpdateFeed,
   version: 1,

@@ -6,6 +6,7 @@ export const pageHeaderBlock = defineBlock({
   name: "PageHeader",
   description: "Opens an interior page with eyebrow, headline and standfirst, no action.",
   icon: "header",
+  category: "Heroes & Banners",
   schema: pageHeaderSchema,
   component: PageHeader,
   version: 1,

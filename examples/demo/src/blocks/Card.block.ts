@@ -8,6 +8,7 @@ export const cardBlock = defineBlock({
   name: "Card",
   description: "One linked card for a CardGrid cell: title, summary, meta and a badge.",
   icon: "card",
+  category: "Content",
   docs: {
     figma: "https://example.com/figma/card",
     storybook: "https://example.com/storybook/card",

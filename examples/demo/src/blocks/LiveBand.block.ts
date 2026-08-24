@@ -7,6 +7,7 @@ export const liveBandBlock = defineBlock({
   description:
     "A strip of what is happening right now, resolved on each request rather than frozen at publish.",
   icon: "band",
+  category: "Live data",
   schema: liveBandSchema,
   component: LiveBand,
   version: 1,

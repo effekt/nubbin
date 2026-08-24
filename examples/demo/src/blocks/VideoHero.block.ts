@@ -8,6 +8,7 @@ export const videoHeroBlock = defineBlock({
   name: "VideoHero",
   description: "An opener led by moving water: headline over a poster that plays on request.",
   icon: "video",
+  category: "Heroes & Banners",
   schema: videoHeroSchema,
   component: VideoHero,
   version: 1,
