@@ -10,6 +10,17 @@ const AGENT_ATTRIBUTION = [
     /^[ \t]*co-authored-by[ \t]*:.*\b(?:claude|anthropic|copilot|cursor|codex|devin|chatgpt)\b/im,
     "a Co-Authored-By: trailer naming an agent",
   ],
+  // A trailer that attributes authorship to nobody is the same noise laundered: an RFC 2606
+  // reserved domain cannot receive mail, and a one-letter name identifies no one. Both shapes
+  // reached main as `Co-authored-by: t <t@example.com>` before this pattern existed.
+  [
+    /^[ \t]*co-authored-by[ \t]*:[^\n<]*<[^@>\n]+@(?:[^>\n]*\.)?(?:example(?:\.(?:com|net|org))?|invalid|test|localhost)[ \t]*>/im,
+    "a Co-Authored-By: trailer with an unreachable placeholder address",
+  ],
+  [
+    /^[ \t]*co-authored-by[ \t]*:[ \t]*\S[ \t]+</im,
+    "a Co-Authored-By: trailer with a single-character name",
+  ],
   [/^[ \t]*claude-session[ \t]*:/im, "a Claude-Session: trailer"],
   [/generated with \[claude code\]/i, "the 'Generated with Claude Code' footer"],
   // Anchored to the start of a line: the footer's bare session URL is attribution, a sentence
