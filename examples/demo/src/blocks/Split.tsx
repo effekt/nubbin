@@ -19,7 +19,7 @@ const RATIO_STYLES = {
 export function Split({ ratio, tone, start, end }: SplitProps) {
   const surface = tone === undefined ? "" : ` ${TONE_SURFACE[tone]}`;
   return (
-    <section data-nubbin-block="Split" className={`px-6 py-16${surface}`}>
+    <section data-nubbin-block="Split" className={`px-6 py-10${surface}`}>
       <div className={`mx-auto grid max-w-6xl items-start gap-8 ${RATIO_STYLES[ratio]}`}>
         <div>{start}</div>
         <div>{end}</div>

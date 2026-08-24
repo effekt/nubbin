@@ -146,7 +146,12 @@ module.exports = {
       // Nothing is lost: knip follows test files and still fails on an unused file there.
       from: {
         orphan: true,
-        pathNot: "\\.d\\.ts$|\\.config\\.[cm]?[jt]s$|(^|/)src/testing/",
+        // A framework's special files are resolved by convention, so nothing imports them and
+        // every one of them reads as an orphan. The same set `tests/oneUnitPerFile.test.mjs`
+        // exempts, for the same reason.
+        pathNot:
+          "\\.d\\.ts$|\\.config\\.[cm]?[jt]s$|(^|/)src/testing/|" +
+          "(^|/)(page|layout|route|template|loading|error|not-found|default|global-error)\\.tsx?$",
       },
       to: {},
     },

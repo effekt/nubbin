@@ -15,7 +15,7 @@ const COLUMN_STYLES = {
  * same block works on canvas, inside a dark split, or under a hero. */
 export function CardGrid({ heading, columns, cards }: CardGridProps) {
   return (
-    <section data-nubbin-block="CardGrid" className="px-6 py-16">
+    <section data-nubbin-block="CardGrid" className="px-6 py-10">
       <div className="mx-auto max-w-6xl">
         {heading === undefined ? null : (
           <h2 className="max-w-2xl text-balance text-3xl font-semibold tracking-tight">

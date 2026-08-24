@@ -40,7 +40,7 @@ export const tideTables: DocumentVersion = {
       id: "related",
       block: "CardGrid",
       props: { ...cardGridDefaults, heading: "Related", columns: "two" },
-      slots: { cards: ["card-ferry"] },
+      slots: { cards: ["card-ferry", "card-slip"] },
     },
     "card-ferry": {
       id: "card-ferry",
@@ -50,6 +50,17 @@ export const tideTables: DocumentVersion = {
         title: "The ferry holds to winter hours",
         summary: "The crossing reads the same table, four minutes and all.",
         meta: "Crossings",
+      },
+    },
+    "card-slip": {
+      id: "card-slip",
+      block: "Card",
+      props: {
+        ...cardDefaults,
+        title: "Slipway hours follow the corrected table",
+        summary: "Four minutes matters on a slipway, which is where this was noticed.",
+        meta: "Harbour",
+        badge: "updated",
       },
     },
     cta: {

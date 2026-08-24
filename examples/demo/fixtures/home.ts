@@ -44,8 +44,10 @@ export const home: DocumentVersion = {
     grid: {
       id: "grid",
       block: "CardGrid",
-      props: { ...cardGridDefaults, heading: "This morning's dispatches", columns: "two" },
-      slots: { cards: ["card-tides", "card-ferry", "card-terns"] },
+      props: { ...cardGridDefaults, heading: "This morning's dispatches", columns: "three" },
+      slots: {
+        cards: ["card-tides", "card-ferry", "card-terns", "card-fog", "card-wall", "card-boats"],
+      },
     },
     "card-tides": {
       id: "card-tides",
@@ -78,6 +80,37 @@ export const home: DocumentVersion = {
         summary: "Eleven days earlier than last year, and the wardens have roped the north end.",
         meta: "Shoreline",
         badge: "new",
+      },
+    },
+    "card-fog": {
+      id: "card-fog",
+      block: "Card",
+      props: {
+        ...cardDefaults,
+        title: "Sea fog, and why it stops at the wall",
+        summary: "A warm land breeze meeting cold water does not travel far inland.",
+        meta: "Weather",
+      },
+    },
+    "card-wall": {
+      id: "card-wall",
+      block: "Card",
+      props: {
+        ...cardDefaults,
+        title: "Repairs to the harbour wall begin Monday",
+        summary: "The eastern arm closes to walkers for six weeks. The slipway stays open.",
+        meta: "Harbour",
+        badge: "new",
+      },
+    },
+    "card-boats": {
+      id: "card-boats",
+      block: "Card",
+      props: {
+        ...cardDefaults,
+        title: "Three boats out of Faversham this week",
+        summary: "Two dredging, one taking visitors as far as the bar and back on the ebb.",
+        meta: "Crossings",
       },
     },
     updates: { id: "updates", block: "UpdateFeed", props: updateFeedDefaults },

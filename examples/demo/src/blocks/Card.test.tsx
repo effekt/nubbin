@@ -5,7 +5,7 @@ import { cardDefaults } from "./cardDefaults";
 
 describe("Card", () => {
   test("a badged card shows a visible pill, and the title links out", () => {
-    render(<Card {...cardDefaults} />);
+    render(<Card {...cardDefaults} badge="new" />);
     const link = screen.getByRole("link", {
       name: "The herring fleet waits out a third day of fog",
     });

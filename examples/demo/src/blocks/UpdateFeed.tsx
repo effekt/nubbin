@@ -12,7 +12,7 @@ type UpdateFeedProps = InferProps<typeof updateFeedSchema>;
  */
 export function UpdateFeed({ heading, entries }: UpdateFeedProps) {
   return (
-    <section data-nubbin-block="UpdateFeed" className="bg-canvas px-6 py-24 text-marine">
+    <section data-nubbin-block="UpdateFeed" className="bg-canvas px-6 py-10 text-marine">
       <div className="mx-auto max-w-3xl">
         <h2 className="text-balance text-3xl font-semibold tracking-tight">{heading}</h2>
         {entries.length === 0 ? (

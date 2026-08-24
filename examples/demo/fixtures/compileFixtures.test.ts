@@ -57,7 +57,10 @@ describe("fixtures", () => {
     const grid = split?.slots?.start?.[0];
     expect(split?.block).toBe("Split");
     expect(grid?.block).toBe("CardGrid");
-    expect(grid?.slots?.cards?.map((card) => card.block)).toEqual(["Card", "Card", "Card"]);
+    // Every child, not a count: the slot's `allow` list is what makes this true, and a page
+    // that grew a sixth card should not need this assertion rewritten to stay honest.
+    expect(grid?.slots?.cards?.every((card) => card.block === "Card")).toBe(true);
+    expect(grid?.slots?.cards?.length).toBeGreaterThan(1);
     expect(split?.slots?.end?.[0]?.block).toBe("UpdateFeed");
   });
 });

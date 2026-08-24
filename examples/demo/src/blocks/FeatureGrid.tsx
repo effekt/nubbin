@@ -42,7 +42,7 @@ export function FeatureGrid({ heading, tone, columns, compact, items }: FeatureG
   return (
     <section
       data-nubbin-block="FeatureGrid"
-      className={`${styles.section} px-6 ${compact ? "py-10" : "py-24"}`}
+      className={`${styles.section} px-6 ${compact ? "py-10" : "py-14"}`}
     >
       <div className="mx-auto max-w-6xl">
         <h2 className="max-w-2xl text-balance text-3xl font-semibold tracking-tight">{heading}</h2>

@@ -33,7 +33,7 @@ export const lateEdition: DocumentVersion = {
       id: "grid",
       block: "CardGrid",
       props: { ...cardGridDefaults, heading: undefined, columns: "two" },
-      slots: { cards: ["card-swell"] },
+      slots: { cards: ["card-swell", "card-glass", "card-lamp", "card-count"] },
     },
     "card-swell": {
       id: "card-swell",
@@ -44,6 +44,39 @@ export const lateEdition: DocumentVersion = {
         summary: "Two metres by morning, on a flat calm evening. It is coming from somewhere else.",
         meta: "Weather",
         badge: "new",
+      },
+    },
+    "card-glass": {
+      id: "card-glass",
+      block: "Card",
+      props: {
+        ...cardDefaults,
+        title: "The glass has been falling since four",
+        summary:
+          "Nine millibars in six hours, which is the sort of drop that arrives with weather.",
+        meta: "Weather",
+        badge: "new",
+      },
+    },
+    "card-lamp": {
+      id: "card-lamp",
+      block: "Card",
+      props: {
+        ...cardDefaults,
+        title: "The east arm lamp is out again",
+        summary: "Reported at dusk. The harbour office says Thursday, which means next week.",
+        meta: "Harbour",
+      },
+    },
+    "card-count": {
+      id: "card-count",
+      block: "Card",
+      props: {
+        ...cardDefaults,
+        title: "Tern count, evening: forty-one",
+        summary: "Up nine on last night, and the wardens think the second wave has arrived.",
+        meta: "Shoreline",
+        badge: "updated",
       },
     },
     footer: { id: "footer", block: "SiteFooter", props: siteFooterDefaults },
