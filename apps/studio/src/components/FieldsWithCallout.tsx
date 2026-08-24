@@ -7,6 +7,7 @@ import { InspectorCallout } from "./InspectorCallout";
 import { InspectorDocsLinks } from "./InspectorDocsLinks";
 import { InspectorFoot } from "./InspectorFoot";
 import { InspectorHead } from "./InspectorHead";
+import { InspectorPageNote } from "./InspectorPageNote";
 import { useEditorStatus } from "./useEditorStatus";
 
 interface FieldsWithCalloutProps {
@@ -18,8 +19,9 @@ interface FieldsWithCalloutProps {
 }
 
 /** The `fields` override's body, arranged as the specimen's inspector: the head naming the
- * selected block, then a body that scrolls alone — docs links, the callout while the
- * selected node has issues, and Puck's own field list untouched — then the quiet foot.
+ * selected block, then a body that scrolls alone — the Page note while nothing is selected,
+ * docs links, the callout while the selected node has issues, and Puck's own field list
+ * untouched — then the quiet foot.
  * The least invasive seam Puck offers, since the override wraps the panel without
  * re-implementing any field. Selection comes from Puck's provider, issues from the status
  * store, so the overrides object never changes identity. */
@@ -33,6 +35,7 @@ export function FieldsWithCallout({ children, docsByBlock, icons }: FieldsWithCa
     <>
       <InspectorHead icons={icons} />
       <div className="nb-insp-body">
+        {selectedItem == null ? <InspectorPageNote /> : null}
         {docs !== undefined ? <InspectorDocsLinks docs={docs} /> : null}
         {count > 0 && selectedItem != null ? (
           <InspectorCallout blockName={selectedItem.type} count={count} />

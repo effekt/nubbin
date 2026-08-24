@@ -10,6 +10,16 @@ test("one Puck component per catalog block", () => {
   expect(Object.keys(config.components).sort()).toEqual(Object.keys(catalog).sort());
 });
 
+test("the root carries the Page panel's whole meta field set", () => {
+  const config = toPuckConfig(catalog, registry);
+  expect(Object.keys(config.root?.fields ?? {})).toStrictEqual([
+    "title",
+    "description",
+    "robots",
+    "canonical",
+  ]);
+});
+
 test("a constrained slot carries its allow list, and its scalars their controls", () => {
   const config = toPuckConfig(catalog, registry);
   const cardGrid = config.components.CardGrid;
