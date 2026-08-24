@@ -55,8 +55,8 @@ included — see
 Prose has no compiler, so a wrong sentence here is caught by nothing but a reader who acts on
 it and comes unstuck. Gates run against these files on every commit — links and anchors
 resolve, no claim rests on a corpus a reader cannot open, nothing reaches back for a name that
-no longer exists, no reference identifies a codebase that is not this one, one claim lives in
-one document, and a document that trails something it links to gets flagged for re-reading.
+no longer exists, no reference identifies a codebase that is not this one, and one claim lives
+in one document.
 
 [`.claude/rules/documentation.md`](https://github.com/effekt/nubbin/blob/main/.claude/rules/documentation.md) holds why that is worth
 the machinery, and what the gates cannot reach: which document holds what, and the rule that a
