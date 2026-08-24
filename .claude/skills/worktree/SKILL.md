@@ -22,11 +22,20 @@ git worktree add -b <branch> .worktrees/<name> origin/main
 | `.worktrees/<name>` | Gitignored, and on the same disk as the work. A path under `/tmp` is swept with uncommitted work still in it |
 | `origin/main` | The local `main` may be behind, or checked out by another worktree |
 
-## The install happens on its own
+## The setup happens on its own
 
-`.githooks/post-checkout` runs `pnpm install` in the new worktree, so there is no command to
-chain and nothing to remember. It fires on creation only — git passes a null previous HEAD for
-`worktree add` and `clone`, and a real one for an ordinary branch switch.
+`.githooks/post-checkout` installs the new worktree and then builds the packages in it, so there
+is no command to chain and nothing to remember. It fires on creation only — git passes a null
+previous HEAD for `worktree add` and `clone`, and a real one for an ordinary branch switch.
+
+The build is there because an installed tree still cannot run its own gates: every package
+resolves its siblings' types from `dist/`, so a typecheck or a package suite on an unbuilt tree
+fails naming a missing module rather than a missing build. The turbo cache is shared across
+worktrees of one clone, so the second worktree restores what the first built.
+
+**`core.hooksPath` is relative, so git resolves it against the directory the command ran in.**
+Creating a worktree from tree A runs A's copy of this hook, not the new tree's — which is why a
+change to the hook has to be tested by creating a worktree *from* the tree that carries it.
 
 It has to happen, which is why it is a hook rather than an instruction. Git hooks live in the
 common directory, so a fresh worktree inherits `pre-commit`, `commit-msg` and `pre-push`, and they

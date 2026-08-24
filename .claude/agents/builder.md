@@ -28,8 +28,8 @@ You are given a path under `.worktrees/` and a branch. Work there and nowhere el
 whoever is driving the session, and a `git checkout` or `git reset` in that tree destroys
 uncommitted work — yours or theirs — with no error on either side.
 
-`.githooks/post-checkout` installs a new worktree as it is created, so `node_modules` is there
-before you edit anything. Read what `git worktree add` printed: the hook cannot fail a checkout,
+`.githooks/post-checkout` installs a new worktree as it is created and builds its packages, so
+`node_modules` and `dist/` are both there before you edit anything. Read what `git worktree add` printed: the hook cannot fail a checkout,
 so an install that failed says so and leaves a tree where biome, vitest and tsc report
 `Command "biome" not found` rather than reporting clean.
 

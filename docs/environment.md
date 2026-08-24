@@ -32,7 +32,8 @@ pnpm install                    # sets core.hooksPath and installs the hooks via
 
 `prepare` points `core.hooksPath` at `.githooks/`, which is stored in the common git directory and
 so covers every worktree made afterwards. That directory holds one tracked hook — `post-checkout`,
-which installs a worktree as it is created — beside lefthook's generated shims, which are ignored.
+which installs a worktree as it is created and builds its packages — beside lefthook's generated
+shims, which are ignored.
 
 **`lefthook install` must be passed `--force` under a custom `core.hooksPath`.** Without it, it
 prints a target line, writes nothing, and `prepare` swallows the exit code — every git hook in the
