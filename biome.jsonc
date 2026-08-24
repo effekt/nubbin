@@ -157,6 +157,9 @@
         "**/*.config.*",
         "**/*.d.ts",
         "packages/*/src/index.ts",
+        // A second published entry point, the same category as the one above: the exports
+        // map names it, so it re-exports by definition.
+        "packages/*/src/testing/index.ts",
         // An executable exports nothing — its name is the command a consumer types, which the
         // package's bin field points at.
         "packages/cli/src/bin.ts",

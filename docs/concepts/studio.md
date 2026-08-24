@@ -1,7 +1,7 @@
 ---
 title: Studio
 summary: How the self-hosted studio canvas, drag-and-drop, and preview are architected
-status: draft
+status: stable
 ---
 
 # Studio

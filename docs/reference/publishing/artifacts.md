@@ -127,8 +127,17 @@ renders the report as a log reads it, leading with the count in both directions:
 
 [`ArtifactStore`](../generated/core/interfaces/ArtifactStore.md) is the output layer's
 whole IO surface. `core` only returns values for it; adapters implement it — `@nubbin/store-fs`
-is the reference implementation, and every implementation is proven against one shared suite,
-`packages/store-fs/src/testing/runArtifactStoreContract.ts`. The behaviour that suite pins:
+is the reference implementation, and every implementation is proven against one shared suite:
+
+```ts
+import { runArtifactStoreContract } from "@nubbin/store-fs/testing";
+
+runArtifactStoreContract("postgres", async () => createPostgresArtifactStore(await freshSchema()));
+```
+
+It runs under vitest, which `@nubbin/store-fs` declares as an optional peer — installing the
+store needs nothing, and running its contract needs the runner you already have. A store that
+implements no `history` is not failed for it; those tests skip. The behaviour the suite pins:
 
 | Guarantee | Meaning |
 |---|---|
