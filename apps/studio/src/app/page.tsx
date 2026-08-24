@@ -1,10 +1,16 @@
-import { fixtureRoutes } from "demo/fixtures/fixtureRoutes";
 import { catalog } from "demo/src/nubbin/catalog";
 import { BlockFields } from "../components/BlockFields";
+import { listEditableRoutes } from "../nubbin/listEditableRoutes";
 import { prefixedRoute } from "../nubbin/prefixedRoute";
 
-/** Everything on this page is derived: routes from the demo's fixtures, blocks and fields
- * from its catalog's schemas. */
+/** Everything on this page is derived: routes from the same listing the editor's switcher
+ * reads — fixtures plus any draft-only pages — and blocks and fields from the catalog's
+ * schemas. Two surfaces listing routes from two sources is how a New page went missing
+ * here while the switcher showed it. */
+
+// The drafts directory changes between requests, so the listing cannot freeze at build.
+export const dynamic = "force-dynamic";
+
 export default function Page() {
   return (
     <main className="mx-auto max-w-4xl px-6 py-10 text-marine">
@@ -14,7 +20,7 @@ export default function Page() {
           Drafts
         </h2>
         <ul className="mt-3 list-disc pl-6">
-          {Object.keys(fixtureRoutes).map((route) => (
+          {listEditableRoutes().map((route) => (
             <li key={route} className="py-0.5">
               <a
                 className="text-teal underline underline-offset-4"
