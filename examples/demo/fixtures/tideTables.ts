@@ -2,6 +2,7 @@ import type { DocumentVersion } from "@nubbin/core";
 import { cardDefaults } from "../src/blocks/cardDefaults";
 import { cardGridDefaults } from "../src/blocks/cardGridDefaults";
 import { ctaBannerDefaults } from "../src/blocks/ctaBannerDefaults";
+import { imageFigureDefaults } from "../src/blocks/imageFigureDefaults";
 import { pageHeaderDefaults } from "../src/blocks/pageHeaderDefaults";
 import { proseDefaults } from "../src/blocks/proseDefaults";
 import { siteFooterDefaults } from "../src/blocks/siteFooterDefaults";
@@ -17,7 +18,7 @@ export const tideTables: DocumentVersion = {
       id: "stack",
       block: "SectionStack",
       props: {},
-      slots: { sections: ["header", "split", "cta", "footer"] },
+      slots: { sections: ["header", "figure", "split", "cta", "footer"] },
     },
     header: {
       id: "header",
@@ -27,6 +28,16 @@ export const tideTables: DocumentVersion = {
         eyebrow: "Field notes",
         headline: "Tide tables corrected for Whitstable",
         body: "The published table ran four minutes fast all spring.",
+      },
+    },
+    figure: {
+      id: "figure",
+      block: "ImageFigure",
+      props: {
+        ...imageFigureDefaults,
+        caption:
+          "The stretch the four minutes cover: from the harbour arm to the shingle bank, dry at the corrected low.",
+        width: "wide",
       },
     },
     split: {
