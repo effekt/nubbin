@@ -145,20 +145,16 @@
   background: var(--nb-well);
 }
 
-/* A block is a quiet row, not a card: teal tint on hover, no chrome of its own. */
+/* A block is a quiet row, not a card: no chrome of its own. The row chrome — teal tint on
+ * hover, the left accent edge — lives on `.nb-palette-item-row` in blockPalette.css, so it
+ * spans the icon and the name as one continuous hit area. */
 .nubbin-studio [class^="_DrawerItem_"] [class^="_DrawerItem-draggable_"] {
   background: transparent;
   border: 0;
   box-shadow: none;
   border-radius: 0;
-  border-left: 2px solid transparent;
-  padding: 4px 12px;
+  padding: 4px 12px 4px 0;
   color: var(--nb-ink);
-}
-
-.nubbin-studio [class^="_DrawerItem_"]:hover [class^="_DrawerItem-draggable_"] {
-  background: var(--nb-teal-tint);
-  border-left-color: var(--nb-teal);
 }
 
 .nubbin-studio [class^="_DrawerItem-name_"] {
