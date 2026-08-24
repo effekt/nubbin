@@ -11,8 +11,10 @@ name: release
 # So the version is no longer a thing anyone chooses. release-please derives it from the
 # conventional commits since the last release, opens a pull request that carries the bump and the
 # changelogs, and creates the GitHub releases when that pull request merges. `releases_created` is
-# true only on the run that created them — which is once per version, ever. That output is the
-# republish prevention, and nothing else in this file is.
+# true only on the run that created them — which is once per version, ever. That output is what
+# keeps a routine push to `main` from publishing anything. The registry read in the publish job
+# is what keeps a version from being sent twice — per package, so a run that landed part of a
+# release can be re-run to send the rest.
 on:
   push:
     branches: [main]
@@ -169,8 +171,18 @@ jobs:
       #
       # The registry is read first because both `pnpm publish` and its predecessor skip a version
       # already on it and exit 0 — that is the behaviour under which one version reported four
-      # successful publishes. Here it is a red build with the version named.
-      - name: Refuse a version the registry already has
+      # successful publishes. The read decides per package, because a publish can land partially:
+      # `0.1.1` shipped four of five when the fifth had no trusted publisher yet, and refusing
+      # over the whole set stranded it — the re-run failed here over the four that had landed.
+      # So a package the registry already has at this version is skipped by name and never
+      # republished; the ones it is missing become the publish set; and when nothing is missing,
+      # the run is a re-run of a release that already completed — a red build with the version
+      # named, rather than a no-op reported as success.
+      #
+      # Only an E404 counts as missing. Any other `npm view` failure fails the step, because a
+      # network flake read as "missing" would hand an already-published package to a publisher
+      # that skips it silently.
+      - name: Refuse what the registry has; publish only what it is missing
         run: |
           set -euo pipefail
           version=$(node -p "require('./packages/core/package.json').version")
@@ -179,27 +191,49 @@ jobs:
             *)   tag=latest ;;
           esac
           if [ "$tag" = "latest" ]; then pnpm release-tag; fi
-          published=0
+          missing=""
           for dir in packages/*/; do
             [ -f "$dir/package.json" ] || continue
             name=$(node -p "require('./$dir/package.json').name")
-            if npm view "$name@$version" version >/dev/null 2>&1; then
-              echo "::error::$name@$version is already on the registry. Publishing it again would either be a no-op reported as success, or a different build under a version consumers already have." >&2
-              published=$((published + 1))
+            if err=$(npm view "$name@$version" version 2>&1 >/dev/null); then
+              echo "skip: $name@$version is already on the registry, and a published version is never sent again"
+            elif printf '%s' "$err" | grep -q "E404"; then
+              echo "publish: the registry has no $name@$version"
+              missing="$missing${missing:+ }${dir%/}"
+            else
+              echo "::error::npm view $name@$version failed with something other than E404, so the publish set cannot be decided from it." >&2
+              printf '%s\n' "$err" >&2
+              exit 1
             fi
           done
-          [ "$published" -eq 0 ]
+          if [ -z "$missing" ]; then
+            echo "::error::Every package is already on the registry at $version. Publishing again would either be a no-op reported as success, or a different build under a version consumers already have." >&2
+            exit 1
+          fi
           echo "NPM_DIST_TAG=$tag" >> "$GITHUB_ENV"
           echo "NUBBIN_VERSION=$version" >> "$GITHUB_ENV"
+          echo "NUBBIN_PUBLISH_DIRS=$missing" >> "$GITHUB_ENV"
 
       # pnpm rather than npm: workspace dependencies are written `catalog:` and `workspace:*`, and
       # pnpm rewrites them to real versions when it packs. npm cannot, and publishes a manifest
       # that fails on install for every consumer.
       #
+      # The filters name exactly the directories the registry read found missing, never the whole
+      # of `packages/*` — sending the full set on a recovery run would put every already-landed
+      # package through a publisher that skips it and exits 0, the silence this workflow exists
+      # to refuse.
+      #
       # NPM_CONFIG_PROVENANCE reaches npm through pnpm's delegation to `npm publish` — the
       # attestation on `0.1.0-rc.4` was produced through this same path.
       - name: Publish
-        run: pnpm --filter "./packages/*" publish --tag "$NPM_DIST_TAG" --no-git-checks
+        run: |
+          set -euo pipefail
+          read -r -a dirs <<< "$NUBBIN_PUBLISH_DIRS"
+          filters=()
+          for dir in "${dirs[@]}"; do
+            filters+=(--filter "./$dir")
+          done
+          pnpm "${filters[@]}" publish --tag "$NPM_DIST_TAG" --no-git-checks
         env:
           NPM_CONFIG_PROVENANCE: "true"
 
