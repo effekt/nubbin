@@ -51,4 +51,8 @@ The studio reaches its catalog, registry, blocks and stylesheet through a worksp
 dependency on `demo`, compiled from source via `transpilePackages`. `src/nubbin/` is the
 whole binding — store path, draft state, the Puck config and data adapters, the consumer
 origin the publish goes through, hole resolution — and is what a consumer would replace to
-point the studio at their own app.
+point the studio at their own app. Two of those seams are environment variables rather than
+code: `NUBBIN_CONSUMER_ORIGIN` is the origin of the application the studio publishes into —
+the pointer move runs against it, and the publish response builds the live page's link from
+it, so it is the one variable naming that address — and `NUBBIN_STUDIO_STORE` is the
+directory the artifact store writes.

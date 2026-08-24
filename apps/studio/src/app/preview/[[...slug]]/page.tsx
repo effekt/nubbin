@@ -30,7 +30,7 @@ export default async function Page({
     notFound();
   }
   const artifact = compileVersion(draft, route);
-  const pointer = await studioStore.pointer(route);
+  const pointer = await studioStore().pointer(route);
   return (
     <>
       <PreviewToolbar artifact={artifact} publishedHash={pointer?.hash} justPublished={published} />
