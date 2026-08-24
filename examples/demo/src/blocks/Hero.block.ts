@@ -7,6 +7,7 @@ export const heroBlock = defineBlock({
   description:
     "The opening statement of a page: headline, supporting line, image and one call to action.",
   icon: "hero",
+  category: "Heroes & Banners",
   docs: {
     figma: "https://example.com/figma/hero",
     storybook: "https://example.com/storybook/hero",

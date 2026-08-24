@@ -6,6 +6,7 @@ export const featureGridBlock = defineBlock({
   name: "FeatureGrid",
   description: "Points of value in a grid, an icon and a line each, two to four columns.",
   icon: "features",
+  category: "Content",
   schema: featureGridSchema,
   component: FeatureGrid,
   version: 1,

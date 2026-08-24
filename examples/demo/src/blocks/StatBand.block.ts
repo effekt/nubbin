@@ -8,6 +8,7 @@ export const statBandBlock = defineBlock({
   name: "StatBand",
   description: "A strip of figures the paper stands on, each with what it counts.",
   icon: "band",
+  category: "Social Proof",
   schema: statBandSchema,
   component: StatBand,
   version: 1,

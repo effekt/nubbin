@@ -8,6 +8,7 @@ export const sectionStackBlock = defineBlock({
   name: "SectionStack",
   description: "The page root, stacking its child sections top to bottom.",
   icon: "stack",
+  category: "Structure",
   schema: sectionStackSchema,
   component: SectionStack,
   version: 1,

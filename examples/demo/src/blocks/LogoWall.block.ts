@@ -8,6 +8,7 @@ export const logoWallBlock = defineBlock({
   name: "LogoWall",
   description: "A row of the harbours and crews that carry the paper, as marks or set names.",
   icon: "grid",
+  category: "Social Proof",
   schema: logoWallSchema,
   component: LogoWall,
   version: 1,

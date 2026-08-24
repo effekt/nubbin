@@ -1,7 +1,10 @@
 import { Puck, type PuckApi } from "@measured/puck";
+import { createRegistry, defineBlock, defineCatalog } from "@nubbin/core";
 import { act, fireEvent, render, screen } from "@testing-library/react";
 import type { RefObject } from "react";
 import { expect, test, vi } from "vitest";
+import { z } from "zod";
+import { toPaletteGroups } from "../nubbin/toPaletteGroups";
 import { BlockPalette } from "./BlockPalette";
 import { PREVIEW_SHOW_DELAY_MS } from "./hoverPreview.constants";
 import { PuckApiBridge } from "./PuckApiBridge";
@@ -138,6 +141,58 @@ test("hovering a row floats the block's rendered preview after the delay, and Es
   } finally {
     vi.useRealTimers();
   }
+});
+
+test("a mixed catalog renders declared sections in catalog order, derived ones after", () => {
+  const schema = z.object({ title: z.string() });
+  const registry = createRegistry([
+    defineBlock({
+      name: "Hero",
+      category: "Heroes & Banners",
+      description: "The opening statement of a page.",
+      schema,
+      component: null,
+      version: 1,
+      slots: {},
+    }),
+    defineBlock({
+      name: "Quote",
+      category: "Social Proof",
+      schema,
+      component: null,
+      version: 1,
+      slots: {},
+    }),
+    defineBlock({ name: "Prose", schema, component: null, version: 1, slots: {} }),
+  ]);
+  const catalog = defineCatalog({
+    Hero: { schema },
+    Quote: { schema },
+    Prose: { schema, description: "Paragraphs of set text." },
+  });
+  const groups = toPaletteGroups(catalog, registry);
+  const apiRef: RefObject<(() => PuckApi) | undefined> = { current: undefined };
+  const { container } = render(
+    <Puck
+      config={{
+        components: {
+          Hero: { render: () => <div /> },
+          Quote: { render: () => <div /> },
+          Prose: { render: () => <div /> },
+        },
+      }}
+      data={{ content: [], root: { props: {} } }}
+      overrides={{ drawer: () => <BlockPalette groups={groups} apiRef={apiRef} /> }}
+    />,
+  );
+  const headings = [...container.querySelectorAll(".nb-palette-heading-toggle")].map(
+    (toggle) => toggle.textContent,
+  );
+  expect(headings).toEqual(["Heroes & Banners1", "Social Proof1", "Content1"]);
+  // Search still narrows across declared and derived sections alike.
+  fireEvent.change(search(), { target: { value: "set text" } });
+  expect(screen.getAllByText("Prose").length).toBeGreaterThan(0);
+  expect(screen.queryByText("Hero")).toBeNull();
 });
 
 test("a section collapses to its header and count, and search forces it open again", () => {

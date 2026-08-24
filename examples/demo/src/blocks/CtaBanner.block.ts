@@ -6,6 +6,7 @@ export const ctaBannerBlock = defineBlock({
   name: "CtaBanner",
   description: "A closing prompt: heading, a line of context, and the one action to take.",
   icon: "banner",
+  category: "Content",
   schema: ctaBannerSchema,
   component: CtaBanner,
   version: 1,

@@ -46,6 +46,7 @@ export const heroBlock = defineBlock({
   name: "Hero",
   description: "The opening statement of a page.",
   icon: "🖼",
+  category: "Heroes & Banners",
   docs: { figma: "https://example.com/figma/hero" },
   schema: heroSchema,
   component: Hero,

@@ -6,6 +6,7 @@ export const imageFigureBlock = defineBlock({
   name: "ImageFigure",
   description: "One picture set into the page, with its caption and credit, at three widths.",
   icon: "figure",
+  category: "Media",
   schema: imageFigureSchema,
   component: ImageFigure,
   version: 1,

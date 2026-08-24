@@ -17,6 +17,7 @@ export const splitBlock = defineBlock({
   name: "Split",
   description: "Two blocks side by side, weighted toward either end or balanced.",
   icon: "split",
+  category: "Structure",
   schema: splitSchema,
   component: Split,
   version: 1,
