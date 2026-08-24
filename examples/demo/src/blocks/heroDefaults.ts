@@ -2,13 +2,13 @@ import type { z } from "zod";
 import type { heroSchema } from "./Hero.schema";
 
 export const heroDefaults: z.infer<typeof heroSchema> = {
-  eyebrow: "Now shipping weekly",
-  headline: "Plan the work. Trust the read.",
-  body: "Tidewell turns scattered planning docs into one schedule everyone on the team reads the same way — no more Friday afternoon status hunts.",
+  eyebrow: "Read the estuary before you read the forecast",
+  headline: "The water tells you first",
+  body: "Bellwether walks the same three miles of shoreline every morning and writes down what changed — tides, wind, the ferry, the birds on the shingle.",
   tone: "dark",
-  cta: { label: "Start a free trial", href: "/pricing" },
+  cta: { label: "Read this morning's dispatches", href: "/dispatches" },
   image: {
     url: "/hero-board.svg",
-    alt: "A Tidewell planning board showing three workstreams moving from backlog to done",
+    alt: "Three panels of colour blocks, standing in for a chalked tide board",
   },
 };

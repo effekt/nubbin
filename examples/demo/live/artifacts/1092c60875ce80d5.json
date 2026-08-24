@@ -1,0 +1,166 @@
+{
+  "route": "/dispatches",
+  "documentId": "dispatches",
+  "documentVersion": 1,
+  "blockVersions": {
+    "SectionStack": 1,
+    "PageHeader": 1,
+    "CardGrid": 1,
+    "Card": 1,
+    "SiteFooter": 1
+  },
+  "tree": [
+    {
+      "id": "stack",
+      "block": "SectionStack",
+      "props": {},
+      "slots": {
+        "sections": [
+          {
+            "id": "header",
+            "block": "PageHeader",
+            "props": {
+              "eyebrow": "Dispatches",
+              "headline": "Everything we have written down",
+              "body": "Every piece we have filed, newest first. The order is an editor's decision, not a date sort.",
+              "tone": "dark"
+            }
+          },
+          {
+            "id": "grid",
+            "block": "CardGrid",
+            "props": {
+              "columns": "three"
+            },
+            "slots": {
+              "cards": [
+                {
+                  "id": "card-tides",
+                  "block": "Card",
+                  "props": {
+                    "title": "Tide tables corrected for Whitstable",
+                    "summary": "Four minutes fast all spring, and nobody said anything until the oyster boats did.",
+                    "href": "/dispatches/tide-tables",
+                    "meta": "Field notes",
+                    "badge": "updated"
+                  }
+                },
+                {
+                  "id": "card-terns",
+                  "block": "Card",
+                  "props": {
+                    "title": "Terns back on the shingle bank",
+                    "summary": "Eleven days early. The north end is roped until the chicks fledge.",
+                    "href": "/dispatches/fog-week",
+                    "meta": "Shoreline",
+                    "badge": "new"
+                  }
+                },
+                {
+                  "id": "card-ferry",
+                  "block": "Card",
+                  "props": {
+                    "title": "The ferry holds to winter hours",
+                    "summary": "No change until the equinox, whatever the timetable board says.",
+                    "href": "/dispatches/fog-week",
+                    "meta": "Crossings",
+                    "badge": "new"
+                  }
+                },
+                {
+                  "id": "card-fog",
+                  "block": "Card",
+                  "props": {
+                    "title": "Sea fog, and why it stops at the wall",
+                    "summary": "A warm land breeze meeting cold water does not travel far inland.",
+                    "href": "/dispatches/fog-week",
+                    "meta": "Weather",
+                    "badge": "new"
+                  }
+                },
+                {
+                  "id": "card-wall",
+                  "block": "Card",
+                  "props": {
+                    "title": "Repairs to the harbour wall begin Monday",
+                    "summary": "The eastern arm closes to walkers for six weeks. The slipway stays open.",
+                    "href": "/dispatches/fog-week",
+                    "meta": "Harbour",
+                    "badge": "new"
+                  }
+                }
+              ]
+            }
+          },
+          {
+            "id": "footer",
+            "block": "SiteFooter",
+            "props": {
+              "tagline": "Dispatches from three miles of shoreline, filed by six each morning.",
+              "tone": "dark",
+              "columns": [
+                {
+                  "heading": "Read",
+                  "links": [
+                    {
+                      "label": "Dispatches",
+                      "href": "/dispatches"
+                    },
+                    {
+                      "label": "On now",
+                      "href": "/live"
+                    },
+                    {
+                      "label": "Tide tables",
+                      "href": "/dispatches/tide-tables"
+                    }
+                  ]
+                },
+                {
+                  "heading": "The paper",
+                  "links": [
+                    {
+                      "label": "Who writes this",
+                      "href": "/#"
+                    },
+                    {
+                      "label": "Corrections",
+                      "href": "/#"
+                    },
+                    {
+                      "label": "Contact",
+                      "href": "/#"
+                    }
+                  ]
+                },
+                {
+                  "heading": "Elsewhere",
+                  "links": [
+                    {
+                      "label": "Harbour office",
+                      "href": "/#"
+                    },
+                    {
+                      "label": "Lifeboat station",
+                      "href": "/#"
+                    },
+                    {
+                      "label": "Bird reserve",
+                      "href": "/#"
+                    }
+                  ]
+                }
+              ],
+              "legal": "© 2026 Bellwether. Printed when the tide allows."
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "meta": {
+    "title": "Dispatches — Bellwether"
+  },
+  "compiledWith": "0.1.0",
+  "hash": "1092c60875ce80d5"
+}

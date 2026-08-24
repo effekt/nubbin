@@ -15,42 +15,52 @@ describe("fixtures", () => {
     expect(compile(version, catalog, registry, route).artifact.hash).toBe(artifact.hash);
   });
 
-  // Both holes are intervals. A `{ revalidate: 5 }` hint is still a supported kind, but no fixture uses
-  // one: it maps to `cache: "no-store"`, which a cached page refuses, and the static-or-dynamic
-  // choice is per route — so a single per-request field takes every page's cache with it.
+  // Every hint here is an interval. A `{ data: "request" }` kind is still supported, but no
+  // fixture uses one: it maps to `cache: "no-store"`, which a cached page refuses, and the
+  // static-or-dynamic choice is per route — so a single per-request field takes a whole page
+  // with it.
   test("live fields compile to holes, not frozen props", () => {
-    const version = fixtureRoutes["/live/pulse"];
+    const version = fixtureRoutes["/live"];
     if (!version) {
       throw new Error("missing fixture");
     }
-    const { artifact } = compile(version, catalog, registry, "/live/pulse");
+    const { artifact } = compile(version, catalog, registry, "/live");
     const sections = artifact.tree[0]?.slots?.sections ?? [];
-    const statBand = sections.find((node) => node.block === "StatBand");
-    const faq = sections.find((node) => node.block === "FaqAccordion");
-    expect(statBand?.holes).toEqual({ stats: { revalidate: 5 } });
-    expect(statBand?.props).not.toHaveProperty("stats");
-    expect(faq?.holes).toEqual({ items: { revalidate: 5 } });
+    const band = sections.find((node) => node.block === "LiveBand");
+    const feed = sections.find((node) => node.block === "UpdateFeed");
+    expect(band?.holes).toEqual({ items: { revalidate: 5 } });
+    expect(band?.props).not.toHaveProperty("items");
+    expect(feed?.holes).toEqual({ entries: { revalidate: 5 } });
+    expect(feed?.props).not.toHaveProperty("entries");
   });
 
-  test("/changelog compiles to zero holes — it uses neither block with a data hint", () => {
-    const version = fixtureRoutes["/changelog"];
+  test("a page that uses no hinted block compiles to zero holes", () => {
+    const version = fixtureRoutes["/dispatches"];
     if (!version) {
       throw new Error("missing fixture");
     }
-    const { artifact } = compile(version, catalog, registry, "/changelog");
+    const { artifact } = compile(version, catalog, registry, "/dispatches");
     const nodes = [artifact.tree[0], ...(artifact.tree[0]?.slots?.sections ?? [])];
     expect(nodes.every((node) => node?.holes === undefined)).toBe(true);
   });
 
-  test("marketing fixtures carry no holes at all — their pages must stay fully static", () => {
-    for (const route of ["/promotions/summer", "/promotions/winter", "/promotions/flash"]) {
-      const version = fixtureRoutes[route];
-      if (!version) {
-        throw new Error(route);
-      }
-      const { artifact } = compile(version, catalog, registry, route);
-      const nodes = [artifact.tree[0], ...(artifact.tree[0]?.slots?.sections ?? [])];
-      expect(nodes.every((node) => node?.holes === undefined)).toBe(true);
+  // The composition this demo exists to show: a stack holding a split, a pane holding a grid,
+  // the grid holding cards. Asserted by walking it, because a flat page would pass every other
+  // test in this file unchanged.
+  test("the home page nests four levels deep", () => {
+    const version = fixtureRoutes["/"];
+    if (!version) {
+      throw new Error("missing fixture");
     }
+    const { artifact } = compile(version, catalog, registry, "/");
+    const split = (artifact.tree[0]?.slots?.sections ?? []).find((node) => node.block === "Split");
+    const grid = split?.slots?.start?.[0];
+    expect(split?.block).toBe("Split");
+    expect(grid?.block).toBe("CardGrid");
+    // Every child, not a count: the slot's `allow` list is what makes this true, and a page
+    // that grew a sixth card should not need this assertion rewritten to stay honest.
+    expect(grid?.slots?.cards?.every((card) => card.block === "Card")).toBe(true);
+    expect(grid?.slots?.cards?.length).toBeGreaterThan(1);
+    expect(split?.slots?.end?.[0]?.block).toBe("UpdateFeed");
   });
 });

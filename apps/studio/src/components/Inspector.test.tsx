@@ -6,7 +6,7 @@ import { Inspector } from "./Inspector";
 function node(id: string, tone: string): InspectorNode {
   return {
     id,
-    block: "StatBand",
+    block: "Hero",
     fields: [
       { path: "tone", kind: "enum", optional: false, members: ["light", "dark"], value: tone },
     ],

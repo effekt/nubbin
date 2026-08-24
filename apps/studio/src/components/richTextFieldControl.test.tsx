@@ -4,7 +4,7 @@ import { FieldControl } from "./FieldControl";
 
 const commit = async () => undefined;
 
-const body = [{ kind: "paragraph", spans: [{ text: "linked", href: "/security" }] }];
+const body = [{ kind: "paragraph", spans: [{ text: "linked", href: "/dispatches" }] }];
 
 /** The rich-text editor is a later phase. Until it exists the inspector has to degrade rather
  * than break: an `array` field with no single control renders read-only, showing the value. */

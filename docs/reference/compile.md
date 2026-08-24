@@ -82,7 +82,7 @@ const version: DocumentVersion = {
   createdBy: "docs",
 };
 
-const artifact = compile(version, catalog, registry, "/promotions/summer");
+const artifact = compile(version, catalog, registry, "/dispatches");
 
 artifact.tree[0]?.props; // { title: "T" }  — static fields, frozen
 artifact.tree[0]?.holes; // { price: { revalidate: 60 } }  — resolved at render instead
@@ -247,7 +247,7 @@ it hands back the code and the prose, and the caller chooses.
 import { NubbinError, NubbinIssueCode } from "@nubbin/core";
 
 try {
-  const { artifact, issues } = compile(version, catalog, registry, "/promotions/summer");
+  const { artifact, issues } = compile(version, catalog, registry, "/dispatches");
   for (const issue of issues) {
     // Not fatal — an artifact exists. Log it, ship it, or ignore it.
     logger.warn({ code: issue.code, at: issue.at, path: issue.path, message: issue.message });

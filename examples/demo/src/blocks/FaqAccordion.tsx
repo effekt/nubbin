@@ -19,7 +19,7 @@ const TONE_STYLES = {
 export function FaqAccordion({ heading, tone, items }: FaqAccordionProps) {
   const styles = TONE_STYLES[tone];
   return (
-    <section data-nubbin-block="FaqAccordion" className={`${styles.section} px-6 py-24`}>
+    <section data-nubbin-block="FaqAccordion" className={`${styles.section} px-6 py-14`}>
       <div className="mx-auto max-w-3xl">
         <h2 className="text-balance text-3xl font-semibold tracking-tight">{heading}</h2>
         <FaqDisclosureGroup items={items} itemClassName={styles.item} />

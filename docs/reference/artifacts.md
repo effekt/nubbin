@@ -91,7 +91,7 @@ const heroAtV2 = defineBlock({
 
 const artifact: Artifact = {
   hash: "h",
-  route: "/promotions/summer",
+  route: "/dispatches",
   documentId: "promotions-summer",
   documentVersion: 1,
   blockVersions: { Hero: 1 },
@@ -170,7 +170,7 @@ The report as a log reads it, leading with the count in both directions:
 2 of 8 live route pointer(s) are incompatible with this registry:
   /  (artifact 4a162726)
     Hero: page needs v1, registry has v2
-    LogoWall: page needs v1, no longer in the registry
+    CardGrid: page needs v1, no longer in the registry
   /about  (artifact 8be9f4fd)
     Hero: page needs v1, registry has v2
 ```

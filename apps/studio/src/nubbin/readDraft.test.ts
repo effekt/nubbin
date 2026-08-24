@@ -1,7 +1,7 @@
 import { mkdtempSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
-import { about } from "demo/fixtures/about";
+import { home } from "demo/fixtures/home";
 import { beforeEach, expect, test } from "vitest";
 import { draftFilePath } from "./draftFilePath";
 import { readDraft } from "./readDraft";
@@ -12,13 +12,13 @@ beforeEach(() => {
 });
 
 test("a route with no draft file reads its committed fixture", () => {
-  expect(readDraft("/about")).toBe(about);
+  expect(readDraft("/")).toBe(home);
 });
 
 test("an edited route reads its draft file instead", () => {
-  const edited = { ...about, meta: { title: "Edited" } };
-  writeDraftFile(draftFilePath("/about"), edited);
-  expect(readDraft("/about")).toEqual(edited);
+  const edited = { ...home, meta: { title: "Edited" } };
+  writeDraftFile(draftFilePath("/"), edited);
+  expect(readDraft("/")).toEqual(edited);
 });
 
 test("an unknown route reads nothing", () => {

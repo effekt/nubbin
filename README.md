@@ -12,6 +12,12 @@ Nubbin is not a general-purpose content management system (CMS). It gives people
 npm install @nubbin/core
 ```
 
+![A terminal publishing a page while a browser shows it change: the card shelf and the changes
+feed trade places, revert, and one card is rewritten](docs/media/publish-loop.svg)
+
+[Explore the demo application](examples/demo/README.md) for a complete integration and usage
+examples.
+
 ## How Nubbin works
 
 Nubbin separates the component contract from the content that uses it:

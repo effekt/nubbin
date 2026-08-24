@@ -22,7 +22,7 @@ export function Hero({ eyebrow, headline, body, tone, cta, image }: HeroProps) {
         aria-hidden="true"
         className="-top-24 -right-24 pointer-events-none absolute h-96 w-96 rounded-full bg-orange opacity-20 blur-3xl"
       />
-      <div className="relative z-10 mx-auto grid max-w-6xl gap-12 px-6 py-24 md:grid-cols-2 md:items-center">
+      <div className="relative z-10 mx-auto grid max-w-6xl gap-12 px-6 py-16 md:grid-cols-2 md:items-center">
         <div>
           <p className={`text-sm font-semibold uppercase tracking-wide ${styles.eyebrow}`}>
             {eyebrow}
