@@ -59,10 +59,11 @@ function anchorsOf(span, root, base) {
 
 /**
  * True when git would ignore the path. A gitignored file is absent on purpose — every `CATALOG.md`
- * is generated at install — so naming one in prose is correct, and an escape comment would only
- * record that the check is too blunt.
+ * is generated at install, and the reference pages typedoc writes are generated at build — so
+ * naming one in prose is correct, and an escape comment would only record that the check is too
+ * blunt. Exported because `documentationStructure` asks the same question of a link target.
  */
-function isDeliberatelyAbsent(span, root) {
+export function isDeliberatelyAbsent(span, root) {
   try {
     execFileSync("git", ["check-ignore", "-q", span], { cwd: root, stdio: "pipe" });
     return true;

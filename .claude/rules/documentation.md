@@ -116,18 +116,18 @@ The `docs/README.md` table is a separate, hand-written reading order — **gate:
 `tests/documentationStructure.test.mjs` verifies every file appears in it; the accuracy of a
 status line is on you.
 
-### A document that trails what it depends on gets reviewed
+### A document that trails what it depends on gets re-read
 
-If A links to B and B was committed after A was last touched, A described B's subject at a
-moment that has since moved.
+If A describes B and B has moved since A was last touched, A described B's subject at a
+moment that has passed. Re-reading and finding it still correct is a valid outcome.
 
-Freshness comes from `git log`, not a hand-maintained date, so there is nothing to forget
-and nothing that can lie. It is deliberately biased toward false positives — a review costs
-a minute, a wrong document costs a decision — and runs at **pre-push, not pre-commit**,
-because "you may want to re-read this" should not block a commit.
+**Gate:** none. A check comparing commit times was tried and reverted: every document links
+to many, so almost everything trailed something, and the standing rows went uncleared until
+the report meant nothing. A timestamp cannot tell a document that restates a signature from
+one that argues a decision, and only the first goes stale when the code moves.
 
-Re-reading and finding it still correct is a valid outcome: touch the file so the edge
-resets.
+Restating is what makes this expensive, so the rule above it is the one that carries the
+weight: a page that never copies a signature has nothing to fall out of step with.
 
 ### Evidence, not provenance
 

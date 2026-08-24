@@ -34,7 +34,7 @@ describe("defineCatalog", () => {
     ).toThrow(/List.*items\[\]\.heading/s);
   });
 
-  test("keeps label and control hints legal on an array-member path", () => {
+  test("keeps a hint on an array-member path legal", () => {
     expect(() =>
       defineCatalog({
         List: { schema: listSchema, ui: { fields: { "items[].heading": {} } } },

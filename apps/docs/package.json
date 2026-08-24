@@ -2,10 +2,11 @@
   "name": "docs-site",
   "private": true,
   "version": "0.0.0",
-  "description": "The design site — Docusaurus rendering the documents in docs/, which stay canonical on main.",
+  "description": "The design site \u2014 Docusaurus rendering the documents in docs/, which stay canonical on main.",
   "scripts": {
+    "api": "typedoc --options typedoc.config.mjs",
+    "build": "pnpm run api && docusaurus build --out-dir dist",
     "dev": "docusaurus start",
-    "build": "docusaurus build --out-dir dist",
     "serve": "docusaurus serve --dir dist",
     "typecheck": "tsc --noEmit"
   },
@@ -21,6 +22,8 @@
   "devDependencies": {
     "@docusaurus/plugin-content-docs": "3.10.2",
     "@docusaurus/types": "3.10.2",
+    "typedoc": "0.28.20",
+    "typedoc-plugin-markdown": "4.12.0",
     "typescript": "catalog:"
   }
 }

@@ -16,22 +16,10 @@ repository imports it.
 
 ## `defineConfig`
 
-```ts
-function defineConfig(config: NubbinConfig): NubbinConfig
-```
-
-Identity at runtime. It exists so a config file is checked as it is written rather than at the
-moment a publish fails.
-
-```ts
-interface NubbinConfig {
-  catalog: Catalog;
-  registry: Registry;
-  store: ArtifactStore;
-  document: (route: string) => DocumentVersion | null | Promise<DocumentVersion | null>;
-  save?: (route: string, version: DocumentVersion) => void | Promise<void>;
-}
-```
+[`defineConfig`](generated/@nubbin/cli/functions/defineConfig.md) is identity at runtime. It
+exists so a config file is checked against
+[`NubbinConfig`](generated/@nubbin/cli/interfaces/NubbinConfig.md) as it is written, rather than
+at the moment a publish fails.
 
 **`registry` is the compile-side one** — blocks with their schemas, whose fingerprint an artifact
 records. A render-side registry has no schemas and cannot be substituted here.
