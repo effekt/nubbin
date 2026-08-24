@@ -20,6 +20,21 @@ describe("defineCatalog", () => {
     expect(catalog.List?.description).toBeUndefined();
   });
 
+  test("passes an icon and docs links through untouched, and leaves omitted ones absent", () => {
+    const catalog = defineCatalog({
+      Hero: {
+        schema: heroSchema,
+        icon: "🖼",
+        docs: { figma: "https://example.com/figma/hero" },
+      },
+      List: { schema: listSchema },
+    });
+    expect(catalog.Hero?.icon).toBe("🖼");
+    expect(catalog.Hero?.docs).toEqual({ figma: "https://example.com/figma/hero" });
+    expect(catalog.List?.icon).toBeUndefined();
+    expect(catalog.List?.docs).toBeUndefined();
+  });
+
   test("fails registration when a ui hint names a field the schema lacks", () => {
     expect(() =>
       defineCatalog({ Hero: { schema: heroSchema, ui: { fields: { subtitle: {} } } } }),

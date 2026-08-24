@@ -112,6 +112,18 @@ export interface Block<Schema extends StandardSchemaV1 = StandardSchemaV1, Compo
    */
   description?: string;
   /**
+   * A single glyph — an emoji or short string the consumer chooses — shown beside the name
+   * wherever an editing surface lists blocks. A string rather than a component, so `core` stays
+   * render-agnostic. Editor metadata like `description`: compile never reads it.
+   */
+  icon?: string;
+  /**
+   * Opaque links keyed by destination — `docs: { figma: "…", storybook: "…" }` — that an editing
+   * surface renders as "Open in {Key}" for the selected block. Nubbin never inspects a URL or
+   * knows what is behind it; the consumer supplies them. Compile never reads it.
+   */
+  docs?: Record<string, string>;
+  /**
    * The schema props are validated against, through its own `~standard.validate`. It must answer
    * synchronously; compile refuses a schema that returns a promise.
    */
