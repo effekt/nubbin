@@ -1,5 +1,13 @@
 # @nubbin/core
 
+## [0.2.0](https://github.com/effekt/nubbin/compare/core-v0.1.1...core-v0.2.0) (2026-08-24)
+
+
+### Features
+
+* a route remembers what it pointed at ([#516](https://github.com/effekt/nubbin/issues/516)) ([4279f4f](https://github.com/effekt/nubbin/commit/4279f4f3c63962af9e1ac53c67ab271513ac4dbf))
+* **docs:** the generated reference is navigable ([#525](https://github.com/effekt/nubbin/issues/525)) ([c1eaa98](https://github.com/effekt/nubbin/commit/c1eaa9896b27a1d5f570e7eae7123791e17d1e1c))
+
 ## [0.1.1](https://github.com/effekt/nubbin/compare/core-v0.1.0...core-v0.1.1) (2026-08-24)
 
 

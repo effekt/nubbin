@@ -1,5 +1,12 @@
 # @nubbin/store-fs
 
+## [0.2.0](https://github.com/effekt/nubbin/compare/store-fs-v0.1.1...store-fs-v0.2.0) (2026-08-24)
+
+
+### Features
+
+* a route remembers what it pointed at ([#516](https://github.com/effekt/nubbin/issues/516)) ([4279f4f](https://github.com/effekt/nubbin/commit/4279f4f3c63962af9e1ac53c67ab271513ac4dbf))
+
 ## [0.1.1](https://github.com/effekt/nubbin/compare/store-fs-v0.1.0...store-fs-v0.1.1) (2026-08-24)
 
 

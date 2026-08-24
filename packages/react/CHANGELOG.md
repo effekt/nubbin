@@ -1,5 +1,12 @@
 # @nubbin/react
 
+## [0.2.0](https://github.com/effekt/nubbin/compare/react-v0.1.1...react-v0.2.0) (2026-08-24)
+
+
+### Miscellaneous Chores
+
+* **react:** Synchronize nubbin versions
+
 ## [0.1.1](https://github.com/effekt/nubbin/compare/react-v0.1.0...react-v0.1.1) (2026-08-24)
 
 
