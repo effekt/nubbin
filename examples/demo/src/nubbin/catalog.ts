@@ -16,19 +16,25 @@ import { featureGridDefaults } from "../blocks/featureGridDefaults";
 import { heroSchema } from "../blocks/Hero.schema";
 import { heroDefaults } from "../blocks/heroDefaults";
 import { liveBandSchema } from "../blocks/LiveBand.schema";
+import { logoWallSchema } from "../blocks/LogoWall.schema";
 import { liveBandDefaults } from "../blocks/liveBandDefaults";
+import { logoWallDefaults } from "../blocks/logoWallDefaults";
 import { pageHeaderSchema } from "../blocks/PageHeader.schema";
 import { proseSchema } from "../blocks/Prose.schema";
 import { pageHeaderDefaults } from "../blocks/pageHeaderDefaults";
 import { proseDefaults } from "../blocks/proseDefaults";
+import { quoteSchema } from "../blocks/Quote.schema";
+import { quoteDefaults } from "../blocks/quoteDefaults";
 import { sectionStackSchema } from "../blocks/SectionStack.schema";
 import { siteFooterSchema } from "../blocks/SiteFooter.schema";
 import { splitSchema } from "../blocks/Split.schema";
 import { splitHeroSchema } from "../blocks/SplitHero.schema";
+import { statBandSchema } from "../blocks/StatBand.schema";
 import { sectionStackDefaults } from "../blocks/sectionStackDefaults";
 import { siteFooterDefaults } from "../blocks/siteFooterDefaults";
 import { splitDefaults } from "../blocks/splitDefaults";
 import { splitHeroDefaults } from "../blocks/splitHeroDefaults";
+import { statBandDefaults } from "../blocks/statBandDefaults";
 import { updateFeedSchema } from "../blocks/UpdateFeed.schema";
 import { updateFeedDefaults } from "../blocks/updateFeedDefaults";
 import { videoHeroSchema } from "../blocks/VideoHero.schema";
@@ -56,6 +62,9 @@ export const catalog = defineCatalog({
     ui: { fields: { items: { data: { revalidate: 5 } } } },
   },
   CtaBanner: { schema: ctaBannerSchema, defaults: ctaBannerDefaults },
+  Quote: { schema: quoteSchema, defaults: quoteDefaults },
+  LogoWall: { schema: logoWallSchema, defaults: logoWallDefaults },
+  StatBand: { schema: statBandSchema, defaults: statBandDefaults },
   PageHeader: { schema: pageHeaderSchema, defaults: pageHeaderDefaults },
   SiteFooter: { schema: siteFooterSchema, defaults: siteFooterDefaults },
   SectionStack: { schema: sectionStackSchema, defaults: sectionStackDefaults },

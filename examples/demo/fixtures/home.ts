@@ -7,6 +7,8 @@ import { ctaBannerDefaults } from "../src/blocks/ctaBannerDefaults";
 import { faqAccordionDefaults } from "../src/blocks/faqAccordionDefaults";
 import { heroDefaults } from "../src/blocks/heroDefaults";
 import { liveBandDefaults } from "../src/blocks/liveBandDefaults";
+import { logoWallDefaults } from "../src/blocks/logoWallDefaults";
+import { quoteDefaults } from "../src/blocks/quoteDefaults";
 import { siteFooterDefaults } from "../src/blocks/siteFooterDefaults";
 import { splitDefaults } from "../src/blocks/splitDefaults";
 import { updateFeedDefaults } from "../src/blocks/updateFeedDefaults";
@@ -26,7 +28,18 @@ export const home: DocumentVersion = {
       block: "SectionStack",
       props: {},
       slots: {
-        sections: ["announce", "hero", "live", "split", "faq", "countdown", "cta", "footer"],
+        sections: [
+          "announce",
+          "hero",
+          "live",
+          "split",
+          "quote",
+          "faq",
+          "countdown",
+          "cta",
+          "wall",
+          "footer",
+        ],
       },
     },
     announce: { id: "announce", block: "AnnouncementBar", props: announcementBarDefaults },
@@ -119,6 +132,8 @@ export const home: DocumentVersion = {
       },
     },
     updates: { id: "updates", block: "UpdateFeed", props: updateFeedDefaults },
+    quote: { id: "quote", block: "Quote", props: { ...quoteDefaults, tone: "dark" } },
+    wall: { id: "wall", block: "LogoWall", props: logoWallDefaults },
     faq: { id: "faq", block: "FaqAccordion", props: faqAccordionDefaults },
     countdown: { id: "countdown", block: "CountdownBanner", props: countdownBannerDefaults },
     cta: {
