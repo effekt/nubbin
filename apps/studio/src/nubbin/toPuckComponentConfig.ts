@@ -29,7 +29,7 @@ export function toPuckComponentConfig(entry: CatalogEntry, block: Block): Compon
   return {
     fields,
     defaultProps,
-    render: toPuckRender(block.component as ComponentType<Record<string, unknown>>, [
+    render: toPuckRender(block.name, block.component as ComponentType<Record<string, unknown>>, [
       ...Object.keys(block.slots),
     ]),
   };
