@@ -29,6 +29,8 @@ export interface FieldNode {
   optional: boolean;
   /** Present only for `enum`. */
   members?: readonly string[];
+  /** The schema's own upper bound on a `string` field's length, when it declares one. */
+  maxLength?: number;
 }
 
 /** The contract for reading a schema's field structure — what `defineCatalog` resolves hint

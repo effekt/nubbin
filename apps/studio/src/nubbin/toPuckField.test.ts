@@ -11,6 +11,12 @@ test("string becomes a text field", () => {
   expect(toPuckField(node("string"))).toEqual({ type: "text", label: "field" });
 });
 
+test("a string the schema bounds becomes the bounded custom control", () => {
+  const field = toPuckField({ path: "field", kind: "string", optional: false, maxLength: 60 });
+  expect(field.type).toBe("custom");
+  expect(field.label).toBe("field");
+});
+
 test("number becomes a number field", () => {
   expect(toPuckField(node("number"))).toEqual({ type: "number", label: "field" });
 });

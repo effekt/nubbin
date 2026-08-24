@@ -1,9 +1,11 @@
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { afterEach, expect, test, vi } from "vitest";
+import { editorStatusStore } from "./editorStatusStore";
 import { PublishControl } from "./PublishControl";
 
 afterEach(() => {
   vi.unstubAllGlobals();
+  editorStatusStore.set({ issues: [], issuesOpen: false, published: false });
 });
 
 const publishReply = {
@@ -24,7 +26,7 @@ function stubEndpoints(publish: Response = Response.json(publishReply)) {
 test("closed, it is the publish button and a chevron — both real buttons", () => {
   stubEndpoints();
   render(<PublishControl route="/" onOutcome={vi.fn()} />);
-  expect(screen.getByRole("button", { name: "Publish" }).tagName).toBe("BUTTON");
+  expect(screen.getByRole("button", { name: "Publish changes" }).tagName).toBe("BUTTON");
   const toggle = screen.getByRole("button", { name: "Publish history and rollback" });
   expect(toggle.tagName).toBe("BUTTON");
   expect(toggle.getAttribute("aria-expanded")).toBe("false");
@@ -33,7 +35,7 @@ test("closed, it is the publish button and a chevron — both real buttons", () 
 test("publishing opens the report: three steps checked with the server's timings, then the live strip", async () => {
   stubEndpoints();
   render(<PublishControl route="/" onOutcome={vi.fn()} />);
-  fireEvent.click(screen.getByRole("button", { name: "Publish" }));
+  fireEvent.click(screen.getByRole("button", { name: "Publish changes" }));
   await waitFor(() => {
     expect(screen.getByText("Published")).toBeTruthy();
   });
@@ -49,7 +51,7 @@ test("publishing opens the report: three steps checked with the server's timings
 test("the report's rollback affordance opens the history view", async () => {
   stubEndpoints();
   render(<PublishControl route="/" onOutcome={vi.fn()} />);
-  fireEvent.click(screen.getByRole("button", { name: "Publish" }));
+  fireEvent.click(screen.getByRole("button", { name: "Publish changes" }));
   await waitFor(() => {
     expect(screen.getByRole("button", { name: "Roll back to an earlier version…" })).toBeTruthy();
   });
@@ -59,12 +61,12 @@ test("the report's rollback affordance opens the history view", async () => {
   });
 });
 
-test("a refusal hands its issues up and closes — the IssuesPanel path is untouched", async () => {
+test("a refusal hands its issues up and closes — the editor routes them to the pill", async () => {
   const issues = [{ message: "expected a string", at: "hero", path: "headline" }];
   stubEndpoints(Response.json({ ok: false, issues }, { status: 422 }));
   const onOutcome = vi.fn();
   render(<PublishControl route="/" onOutcome={onOutcome} />);
-  fireEvent.click(screen.getByRole("button", { name: "Publish" }));
+  fireEvent.click(screen.getByRole("button", { name: "Publish changes" }));
   await waitFor(() => {
     expect(onOutcome).toHaveBeenCalledWith({ ok: false, issues });
   });

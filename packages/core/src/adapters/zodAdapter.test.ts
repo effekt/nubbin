@@ -26,6 +26,16 @@ describe("zodAdapter.describe", () => {
     });
   });
 
+  test("reports a string's declared maximum length, and only a declared one", () => {
+    const fields = zodAdapter.describe(
+      z.object({ headline: z.string().max(60), body: z.string() }),
+    );
+    expect(fields).toEqual([
+      { path: "headline", kind: "string", optional: false, maxLength: 60 },
+      { path: "body", kind: "string", optional: false },
+    ]);
+  });
+
   test("descends into a nested object using dotted paths", () => {
     expect(paths(z.object({ cta: z.object({ label: z.string(), href: z.string() }) }))).toEqual([
       "cta",

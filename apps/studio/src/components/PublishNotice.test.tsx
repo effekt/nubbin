@@ -2,7 +2,7 @@ import { fireEvent, render, screen } from "@testing-library/react";
 import { expect, test, vi } from "vitest";
 import { PublishNotice } from "./PublishNotice";
 
-test("confirms the route and hash and links the live page at the URL the server built", () => {
+test("confirms the rollback's route and hash and links the live page at the server's URL", () => {
   render(
     <PublishNotice
       route="/dispatches"
@@ -12,6 +12,7 @@ test("confirms the route and hash and links the live page at the URL the server 
     />,
   );
   const status = screen.getByRole("status");
+  expect(status.textContent).toContain("Rolled back");
   expect(status.textContent).toContain("/dispatches");
   expect(status.textContent).toContain("abc123");
   const link = screen.getByRole("link", { name: "view the live page" });

@@ -2,10 +2,12 @@ import type { PuckApi } from "@measured/puck";
 import { Puck } from "@measured/puck";
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { afterEach, expect, test, vi } from "vitest";
+import { editorStatusStore } from "./editorStatusStore";
 import { toBridgedOverrides } from "./toBridgedOverrides";
 
 afterEach(() => {
   vi.unstubAllGlobals();
+  editorStatusStore.set({ issues: [], issuesOpen: false, published: false });
 });
 
 function renderPuck(apiRef: { current: (() => PuckApi) | undefined }) {
@@ -41,7 +43,7 @@ test("the header publish control is the studio's button and posts the publish", 
     );
   });
   renderPuck({ current: undefined });
-  const control = screen.getByRole("button", { name: "Publish" });
+  const control = screen.getByRole("button", { name: "Publish changes" });
   expect(control.tagName).toBe("BUTTON");
   fireEvent.click(control);
   await waitFor(() => {

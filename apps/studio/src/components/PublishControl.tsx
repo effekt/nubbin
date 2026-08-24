@@ -3,11 +3,14 @@
 import "./publishControl.css";
 import { useCallback, useRef, useState } from "react";
 import { postPublish } from "../nubbin/postPublish";
+import { publishLabel } from "../nubbin/publishLabel";
 import type { PublishOutcome, PublishSuccess } from "../nubbin/publishOutcome.types";
 import { PublishButton } from "./PublishButton";
 import { PublishPanel, type PublishView } from "./PublishPanel";
+import { patchEditorStatus } from "./patchEditorStatus";
 import { useCloseOnEscape } from "./useCloseOnEscape";
 import { useCloseOnOutsideClick } from "./useCloseOnOutsideClick";
+import { useEditorStatus } from "./useEditorStatus";
 
 interface PublishControlProps {
   route: string;
@@ -22,6 +25,7 @@ interface PublishControlProps {
  * click elsewhere closes without stealing focus from where it landed; a rollback's outcome
  * closes the panel and reports through the same flow. */
 export function PublishControl({ route, onOutcome }: PublishControlProps) {
+  const { published } = useEditorStatus();
   const [view, setView] = useState<PublishView | "closed">("closed");
   const [landed, setLanded] = useState<PublishSuccess | undefined>(undefined);
   const rootRef = useRef<HTMLDivElement>(null);
@@ -38,6 +42,7 @@ export function PublishControl({ route, onOutcome }: PublishControlProps) {
       if (outcome.ok) {
         setLanded(outcome);
         setView("published");
+        patchEditorStatus({ published: true });
         return;
       }
       onOutcome(outcome);
@@ -50,7 +55,7 @@ export function PublishControl({ route, onOutcome }: PublishControlProps) {
   };
   return (
     <div ref={rootRef} className="nubbin-publish">
-      <PublishButton onPublish={publish} />
+      <PublishButton label={publishLabel(published)} onPublish={publish} />
       <button
         type="button"
         ref={toggleRef}
