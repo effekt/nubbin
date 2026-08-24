@@ -49,3 +49,60 @@ test("the callout tops the fields panel exactly while the selected node has issu
   const callout = await screen.findByText(/Hero has 2 things to fix\./);
   expect(callout.textContent).toContain("the page just can't go live");
 });
+
+test("docs links render for the selected block declaring them, and not otherwise", async () => {
+  const apiRef: { current: (() => PuckApi) | undefined } = { current: undefined };
+  render(
+    <Puck
+      config={{
+        components: {
+          Hero: { fields: {}, render: () => <div /> },
+          Stack: { fields: {}, render: () => <div /> },
+        },
+      }}
+      data={{
+        content: [
+          { type: "Hero", props: { id: "hero" } },
+          { type: "Stack", props: { id: "stack" } },
+        ],
+        root: { props: {} },
+      }}
+      overrides={{
+        fields: ({ children }) => (
+          <FieldsWithCallout docsByBlock={{ Hero: { figma: "https://example.com/figma/hero" } }}>
+            {children}
+          </FieldsWithCallout>
+        ),
+        puck: ({ children }) => (
+          <>
+            <PuckApiBridge apiRef={apiRef} />
+            {children}
+          </>
+        ),
+      }}
+    />,
+  );
+  expect(screen.queryByRole("link", { name: "Open in Figma" })).toBeNull();
+  await waitFor(() => {
+    expect(apiRef.current).toBeDefined();
+  });
+  act(() => {
+    const api = apiRef.current;
+    if (api !== undefined) {
+      selectPuckNode(api(), "hero");
+    }
+  });
+  const link = await screen.findByRole("link", { name: "Open in Figma" });
+  expect(link.getAttribute("href")).toBe("https://example.com/figma/hero");
+  expect(link.getAttribute("target")).toBe("_blank");
+  expect(link.getAttribute("rel")).toBe("noreferrer");
+  act(() => {
+    const api = apiRef.current;
+    if (api !== undefined) {
+      selectPuckNode(api(), "stack");
+    }
+  });
+  await waitFor(() => {
+    expect(screen.queryByRole("link", { name: "Open in Figma" })).toBeNull();
+  });
+});

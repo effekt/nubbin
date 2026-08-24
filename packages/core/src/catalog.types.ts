@@ -89,6 +89,16 @@ export interface CatalogEntry {
    * components. Compile never reads it.
    */
   description?: string;
+  /**
+   * A single glyph shown beside the name wherever an editing surface lists blocks. The
+   * serializable twin of `Block.icon` — a string, never a component. Compile never reads it.
+   */
+  icon?: string;
+  /**
+   * Opaque links keyed by destination, the serializable twin of `Block.docs`. An editing surface
+   * renders each as "Open in {Key}"; the consumer supplies the URLs. Compile never reads it.
+   */
+  docs?: Record<string, string>;
   /** Editing hints, keyed by schema path. Omit it and every field is treated as static. */
   ui?: BlockUi;
   /**

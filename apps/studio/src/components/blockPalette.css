@@ -126,3 +126,35 @@
   color: var(--nb-ink);
   font-weight: 600;
 }
+
+/* The row inside Puck's draggable item: a fixed-width glyph slot, then Puck's own name and
+ * drag handle, one continuous hit area under one hover tint. The slot renders whether or not
+ * the block has an icon, so a mixed list never misaligns; the glyph is decoration and the
+ * name carries the semantics. The accent edge sits at the row's outermost left, left of the
+ * icon, and the tint spans the full row — the drag ref is on Puck's element around this row,
+ * so the icon drags with everything else. */
+.nb-palette-item-row {
+  display: flex;
+  align-items: center;
+  border-left: 2px solid transparent;
+  cursor: grab;
+}
+
+.nb-palette-item-row:hover {
+  background: var(--nb-teal-tint);
+  border-left-color: var(--nb-teal);
+}
+
+.nb-palette-item-row > :last-child {
+  flex: 1;
+  min-width: 0;
+}
+
+.nb-palette-item-icon {
+  flex: none;
+  width: 22px;
+  margin-right: 6px;
+  padding-left: 8px;
+  font-size: 13px;
+  line-height: 1;
+}

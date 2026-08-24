@@ -20,8 +20,8 @@ import { RouteSwitcher } from "./RouteSwitcher";
  * switcher naming the document being edited, the issues pill with its dropdown, then the
  * split publish control, which owns the publish call and its in-panel report and hands
  * refusals and rollback outcomes up through `onOutcome`. `fields` tops the inspector with
- * the selected block's callout. The editor memoises the result — the ref, callback, route
- * and list are stable per page load — so Puck never sees a new overrides object per
+ * the selected block's docs links and its callout. The editor memoises the result — the
+ * ref, callback, route and lists are stable per page load — so Puck never sees a new overrides object per
  * keystroke; everything that changes underneath (the pill's count, the publish label, the
  * callout) flows through the editor status store instead. `drawer` drops Puck's own block
  * list and renders the studio's palette — search, described blocks, detail bar — whose
@@ -32,6 +32,7 @@ export function toBridgedOverrides(
   pages: { route: string; routes: readonly string[] },
   onOutcome: (outcome: PublishOutcome) => void,
   palette: readonly PaletteGroup[],
+  docsByBlock: Record<string, Record<string, string>>,
 ): Partial<Overrides> {
   return {
     drawer: () => <BlockPalette groups={palette} />,
@@ -42,7 +43,9 @@ export function toBridgedOverrides(
         <PublishControl route={pages.route} onOutcome={onOutcome} />
       </>
     ),
-    fields: ({ children }) => <FieldsWithCallout>{children}</FieldsWithCallout>,
+    fields: ({ children }) => (
+      <FieldsWithCallout docsByBlock={docsByBlock}>{children}</FieldsWithCallout>
+    ),
     puck: ({ children }) => (
       <>
         <PuckApiBridge apiRef={apiRef} />

@@ -15,6 +15,7 @@ export function toPaletteGroups(catalog: Catalog, registry: Registry): PaletteGr
     blocks: (category.components ?? []).map((name) => ({
       name,
       description: registry.get(name)?.description ?? catalog[name]?.description,
+      icon: registry.get(name)?.icon ?? catalog[name]?.icon,
     })),
   }));
 }

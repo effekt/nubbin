@@ -1,0 +1,19 @@
+/* The selected block's docs links, a quiet row at the top of the fields panel. Tokens come
+ * from `.nubbin-studio` in puckTheme.css. */
+.nubbin-inspector-docs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 12px;
+  margin: 10px 12px 0;
+  font-size: 12.5px;
+}
+
+.nubbin-inspector-docs a {
+  color: var(--nb-dim);
+  text-decoration: none;
+}
+
+.nubbin-inspector-docs a:hover,
+.nubbin-inspector-docs a:focus-visible {
+  text-decoration: underline;
+}

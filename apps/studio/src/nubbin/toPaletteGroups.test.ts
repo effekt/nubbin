@@ -10,6 +10,7 @@ const registry = createRegistry([
   defineBlock({
     name: "Hero",
     description: "The opening statement of a page.",
+    icon: "🖼",
     schema: heroSchema,
     component: null,
     version: 1,
@@ -26,7 +27,7 @@ const registry = createRegistry([
 
 const catalog = defineCatalog({
   Hero: { schema: heroSchema },
-  Stack: { schema: stackSchema, description: "Stacks its children top to bottom." },
+  Stack: { schema: stackSchema, description: "Stacks its children top to bottom.", icon: "🧱" },
 });
 
 test("groups blocks by the derived categories, content before layout", () => {
@@ -40,4 +41,10 @@ test("reads a description from the block first, the catalog entry second", () =>
   const groups = toPaletteGroups(catalog, registry);
   expect(groups[0]?.blocks[0]?.description).toBe("The opening statement of a page.");
   expect(groups[1]?.blocks[0]?.description).toBe("Stacks its children top to bottom.");
+});
+
+test("reads an icon from the block first, the catalog entry second", () => {
+  const groups = toPaletteGroups(catalog, registry);
+  expect(groups[0]?.blocks[0]?.icon).toBe("🖼");
+  expect(groups[1]?.blocks[0]?.icon).toBe("🧱");
 });

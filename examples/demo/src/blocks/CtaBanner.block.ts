@@ -5,6 +5,7 @@ import { ctaBannerSchema } from "./CtaBanner.schema";
 export const ctaBannerBlock = defineBlock({
   name: "CtaBanner",
   description: "A closing prompt: heading, a line of context, and the one action to take.",
+  icon: "📣",
   schema: ctaBannerSchema,
   component: CtaBanner,
   version: 1,

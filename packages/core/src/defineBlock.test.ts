@@ -39,6 +39,32 @@ describe("defineBlock", () => {
     expect(bare.description).toBeUndefined();
   });
 
+  test("passes an icon and docs links through untouched, and leaves omitted ones absent", () => {
+    const decorated = defineBlock({
+      name: "Hero",
+      icon: "🖼",
+      docs: { figma: "https://example.com/figma/hero", storybook: "https://example.com/sb/hero" },
+      schema: heroSchema,
+      component: Hero,
+      version: 1,
+      slots: {},
+    });
+    expect(decorated.icon).toBe("🖼");
+    expect(decorated.docs).toEqual({
+      figma: "https://example.com/figma/hero",
+      storybook: "https://example.com/sb/hero",
+    });
+    const bare = defineBlock({
+      name: "Hero",
+      schema: heroSchema,
+      component: Hero,
+      version: 1,
+      slots: {},
+    });
+    expect(bare.icon).toBeUndefined();
+    expect(bare.docs).toBeUndefined();
+  });
+
   test("rejects a version below 1, because artifacts record the version they compiled against", () => {
     expect(() =>
       defineBlock({ name: "Hero", schema: heroSchema, component: Hero, version: 0, slots: {} }),

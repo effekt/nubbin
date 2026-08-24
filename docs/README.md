@@ -45,6 +45,8 @@ export const heroSchema = z.object({
 export const heroBlock = defineBlock({
   name: "Hero",
   description: "The opening statement of a page.",
+  icon: "🖼",
+  docs: { figma: "https://example.com/figma/hero" },
   schema: heroSchema,
   component: Hero,
   version: 1,

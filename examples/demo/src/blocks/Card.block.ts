@@ -7,6 +7,11 @@ import { cardSchema } from "./Card.schema";
 export const cardBlock = defineBlock({
   name: "Card",
   description: "One linked card for a CardGrid cell: title, summary, meta and a badge.",
+  icon: "🪪",
+  docs: {
+    figma: "https://example.com/figma/card",
+    storybook: "https://example.com/storybook/card",
+  },
   schema: cardSchema,
   component: Card,
   version: 1,
