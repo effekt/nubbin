@@ -83,6 +83,25 @@ catalog:
   "@types/react": 19.2.17
   "@types/react-dom": 19.2.3
 
+# Security overrides for transitive dependencies whose direct dependent has not shipped a
+# fixed release. Each entry names the dependabot alert and advisory it clears, is dated, and
+# is deleted once the dependent's own range reaches the fixed version. Every version here is
+# past the cooldown and carries npm provenance, checked on the day of the entry.
+overrides:
+  # 2026-08-24 — alerts 2, 16, 17, 18 (GHSA-qx2v-qp2m-jg93, GHSA-6g55-p6wh-862q,
+  # GHSA-r28c-9q8g-f849, GHSA-fxqj-rqcc-2cmp): next pins postcss 8.4.31 exactly; fixes
+  # landed in 8.5.x. 8.5.26 is the version the rest of the tree already resolves.
+  "postcss@8.4.31": 8.5.26
+  # 2026-08-24 — alert 6 (GHSA-f88m-g3jw-g9cj): next allows sharp ^0.34.5; the libvips
+  # CVEs are fixed in 0.35.0.
+  "sharp@<0.35.0": 0.35.3
+  # 2026-08-24 — alerts 1, 4 (GHSA-5c6j-r48x-rmvq, GHSA-qj8w-gfj5-8c6v): copy-webpack-plugin
+  # and css-minimizer-webpack-plugin resolve 6.0.2; both fixes land by 7.0.5.
+  "serialize-javascript@<7.0.5": 7.0.5
+  # 2026-08-24 — alert 3 (GHSA-w5hq-g745-h8pq): sockjs allows uuid ^8.3.2; the bounds-check
+  # fix for its major line is 11.1.1. sockjs calls only v4, which uuid 11 exports unchanged.
+  "uuid@<11.1.1": 11.1.1
+
 # pnpm 11 replaced the ignore-with-a-warning default: a dependency wanting to run a build
 # script is now an error until this file says yes or no to it by name. All four were already
 # ignored under pnpm 10 and every gate was green, so `false` records the behaviour that was
