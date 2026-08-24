@@ -159,7 +159,10 @@
         "packages/*/src/index.ts",
         // An executable exports nothing — its name is the command a consumer types, which the
         // package's bin field points at.
-        "packages/cli/src/bin.ts"
+        "packages/cli/src/bin.ts",
+        // A typedoc plugin's entry point is named `load` by typedoc, not by us — the same
+        // reason the executable above is exempt. The file is named for what it does.
+        "apps/docs/typedocFrontmatter.mjs"
       ],
       "linter": {
         "rules": {

@@ -22,7 +22,7 @@ package.
 | [`api.md`](api.md) | The shape of `defineBlock` through compile and render, and where UI hints live | draft |
 | [`authoring-flows.md`](authoring-flows.md) | What an author does step by step, and the failure modes each flow carries | draft |
 | [`studio.md`](studio.md) | How the self-hosted canvas, cross-iframe drag, and preview are architected | draft |
-| [`reference/blocks.md`](reference/blocks.md) | `defineBlock` and `createRegistry` as shipped — what registration rejects, and what the fingerprint covers | reference |
+| [`reference/blocks.md`](reference/blocks.md) | `defineBlock` and `createRegistry` as shipped — what registration rejects, and what an artifact records about a block | reference |
 | [`reference/catalog.md`](reference/catalog.md) | `defineCatalog` as shipped — entries, field hints, defaults, and schema introspection | reference |
 | [`reference/compile.md`](reference/compile.md) | `compile` as shipped — the document shape, the two validation passes, and every issue code | reference |
 | [`reference/renderer.md`](reference/renderer.md) | `@nubbin/react` as shipped — the `Renderer` server component, the registry types, and the hole resolver | reference |

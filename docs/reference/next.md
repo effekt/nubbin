@@ -7,13 +7,13 @@ status: reference
 # The Next.js binding
 
 This page describes the shipped surface of `@nubbin/next`:
-[`resolveArtifact`](generated/@nubbin/next/functions/resolveArtifact.md),
-[`routeFromSlug`](generated/@nubbin/next/functions/routeFromSlug.md),
-[`staticRouteParams`](generated/@nubbin/next/functions/staticRouteParams.md),
-[`holeFetchOptions`](generated/@nubbin/next/functions/holeFetchOptions.md),
-[`artifactMetadata`](generated/@nubbin/next/functions/artifactMetadata.md),
-[`publishRoute`](generated/@nubbin/next/functions/publishRoute.md) and
-[`unpublishRoute`](generated/@nubbin/next/functions/unpublishRoute.md), each signature generated
+[`resolveArtifact`](generated/next/functions/resolveArtifact.md),
+[`routeFromSlug`](generated/next/functions/routeFromSlug.md),
+[`staticRouteParams`](generated/next/functions/staticRouteParams.md),
+[`holeFetchOptions`](generated/next/functions/holeFetchOptions.md),
+[`artifactMetadata`](generated/next/functions/artifactMetadata.md),
+[`publishRoute`](generated/next/functions/publishRoute.md) and
+[`unpublishRoute`](generated/next/functions/unpublishRoute.md), each signature generated
 from the source it belongs to. Every one takes an `ArtifactStore` or a core type and holds no
 state of its own, so a consumer substituting a different store or a different framework replaces
 the binding and keeps the contract.

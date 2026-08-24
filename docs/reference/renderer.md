@@ -7,14 +7,14 @@ status: reference
 # Renderer and block registry
 
 This page describes the shipped surface of `@nubbin/react`: the
-[`Renderer`](generated/@nubbin/react/functions/Renderer.md) server component,
-[`defineRegistry`](generated/@nubbin/react/functions/defineRegistry.md),
-[`loadBlocks`](generated/@nubbin/react/functions/loadBlocks.md), and the
-[`BlockComponent`](generated/@nubbin/react/type-aliases/BlockComponent.md),
-[`BlockRegistry`](generated/@nubbin/react/type-aliases/BlockRegistry.md),
-[`RendererProps`](generated/@nubbin/react/interfaces/RendererProps.md),
-[`HoleContext`](generated/@nubbin/react/interfaces/HoleContext.md) and
-[`HoleResolver`](generated/@nubbin/react/type-aliases/HoleResolver.md) types — every one of them
+[`Renderer`](generated/react/functions/Renderer.md) server component,
+[`defineRegistry`](generated/react/functions/defineRegistry.md),
+[`loadBlocks`](generated/react/functions/loadBlocks.md), and the
+[`BlockComponent`](generated/react/type-aliases/BlockComponent.md),
+[`BlockRegistry`](generated/react/type-aliases/BlockRegistry.md),
+[`RendererProps`](generated/react/interfaces/RendererProps.md),
+[`HoleContext`](generated/react/interfaces/HoleContext.md) and
+[`HoleResolver`](generated/react/type-aliases/HoleResolver.md) types — every one of them
 declared where it is defined, and generated from there. The package renders an artifact tree
 against a registry of blocks and evaluates nothing the artifact carries — why that boundary
 exists is [Artifacts contain data, never code](../decisions/artifacts-contain-data-never-code.md).

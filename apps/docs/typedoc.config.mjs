@@ -26,7 +26,29 @@ export default {
   // Resolved from this file rather than named: pnpm isolates each package, and TypeDoc
   // imports a bare plugin specifier relative to its own location in the store, where
   // nothing this workspace depends on is reachable.
-  plugin: [import.meta.resolve("typedoc-plugin-markdown")],
+  plugin: [
+    // Resolved rather than named: pnpm isolates each package, and TypeDoc imports a bare
+    // specifier relative to its own location in the store, where nothing this workspace
+    // depends on is reachable.
+    import.meta.resolve("typedoc-plugin-markdown"),
+    // A relative path, which TypeDoc resolves against this file. Resolving it the way the
+    // package above is resolved would bake an absolute `file://` URL into the config, and
+    // knip reads this file to find what it depends on — a URL is not a specifier it can
+    // follow, so the plugin read as an unresolved import.
+    "./typedocFrontmatter.mjs",
+  ],
+  // The breadcrumb duplicates navigation Docusaurus already draws, and putting it above the
+  // page title is what hid the heading from the sidebar in the first place.
+  // The merged project is the API reference, and its name is what the root page is titled.
+  // Left alone it renders as "Documentation", which says nothing beside six documents that
+  // are also documentation.
+  name: "API Reference",
+  // Every package here shares one scope, so the `@nubbin` directory it would otherwise add
+  // is a level of nesting that separates nothing. The package pages keep their scoped names
+  // as titles; only the paths lose it.
+  excludeScopesInPaths: true,
+  hideBreadcrumbs: true,
+  hidePageHeader: true,
   // Beside the hand-written reference pages, which is where a reader already looks for the
   // shipped surface. Generated on every docs build and gitignored — never committed.
   //
