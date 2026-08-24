@@ -1,7 +1,7 @@
 {
-  "packages/cli": "0.1.0-rc.7",
-  "packages/core": "0.1.0-rc.7",
-  "packages/next": "0.1.0-rc.7",
-  "packages/react": "0.1.0-rc.7",
-  "packages/store-fs": "0.1.0-rc.7"
+  "packages/cli": "0.1.0",
+  "packages/core": "0.1.0",
+  "packages/next": "0.1.0",
+  "packages/react": "0.1.0",
+  "packages/store-fs": "0.1.0"
 }
