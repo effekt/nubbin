@@ -1,14 +1,105 @@
 ---
-title: Documentation Index
-summary: Reading order for the design, and what each document is responsible for
+title: Nubbin
+summary: Install it, define a block, publish a page — and where to go for the surface you are integrating
 status: stable
 ---
 
-# Documentation
+# Nubbin
 
-These documents explain Nubbin's contracts, architecture, settled decisions, and rejected
-alternatives. Start with the architecture, then use the reference pages while integrating a
-package.
+A page builder that lives inside your codebase. You decide what can go on a page by writing
+blocks; someone else arranges them without touching the code. What they arrange is data, what
+you wrote is the contract, and publishing turns one into an immutable artifact the site serves.
+
+## Install
+
+```bash
+npm install @nubbin/core @nubbin/react @nubbin/next @nubbin/store-fs
+npm install -D @nubbin/cli
+```
+
+`@nubbin/core` is the contract and depends on nothing. The rest are adapters, and any of them
+can be replaced — bring your own storage, your own framework binding.
+
+## Define a block
+
+A block is a schema beside a component. Props are inferred from the schema rather than declared
+again next to it, so the two cannot disagree.
+
+```ts
+// Hero.schema.ts — any Standard Schema; zod here
+export const heroSchema = z.object({
+  headline: z.string(),
+  tone: z.enum(["light", "dark"]),
+});
+
+// Hero.block.ts
+export const heroBlock = defineBlock({
+  name: "Hero",
+  schema: heroSchema,
+  component: Hero,
+  version: 1,
+  slots: {},
+});
+```
+
+## Register it, twice
+
+Publishing and rendering need different things, so there are two registries and neither
+substitutes for the other.
+
+```ts
+// compile side — schemas and versions, what a document is validated against
+export const registry = createRegistry([heroBlock]);
+
+// render side — a loader per block, which the bundler splits into its own chunk
+export const blockRegistry = defineRegistry({
+  Hero: () => import("./blocks/Hero").then((module) => module.Hero),
+});
+```
+
+## Publish a page
+
+`nubbin.config.ts` tells the command line where everything lives. `document` is a function
+rather than a table, because where documents live is yours.
+
+```ts
+export default defineConfig({
+  catalog,
+  registry,
+  store: createFsArtifactStore("./.nubbin"),
+  document: (route) => documents[route] ?? null,
+});
+```
+
+```bash
+npx nubbin publish /pricing
+```
+
+Compiling validates the document against every block's schema and serialises it. Nothing is
+built and nothing is deployed — the artifact is written, then the route is pointed at it.
+
+## Render it
+
+One catch-all route resolves the artifact for a path and hands it to the renderer.
+
+```tsx
+const artifact = await resolveArtifact(store, routeFromSlug(slug));
+if (artifact === null) notFound();
+
+return <Renderer artifact={artifact} registry={blockRegistry} />;
+```
+
+## Where to go next
+
+| If you are | Read |
+|---|---|
+| Trying to understand the model | [How it works](concepts/architecture.md) |
+| Writing blocks | [Blocks](reference/authoring/blocks.md) and [the catalog](reference/authoring/catalog.md) |
+| Publishing from CI or a terminal | [Compiling](reference/publishing/compile.md), [artifacts](reference/publishing/artifacts.md), [the command line](reference/publishing/cli.md) |
+| Rendering in an app | [The renderer](reference/rendering/renderer.md) and [the Next.js binding](reference/rendering/next.md) |
+| Looking for a signature | The generated API reference, written from the packages' own sources |
+
+## Every document
 
 | Read | For | Status |
 |---|---|---|
@@ -29,6 +120,7 @@ package.
 | [`reference/rendering/renderer.md`](reference/rendering/renderer.md) | `@nubbin/react` as shipped — the `Renderer` server component, the registry types, and the hole resolver | reference |
 | [`reference/rendering/next.md`](reference/rendering/next.md) | `@nubbin/next` as shipped — route resolution, static params, hole fetch options, and the two publish calls | reference |
 | **Contributing** | | |
+| [`contributing/documents.md`](contributing/documents.md) | What belongs in a document rather than an issue, and the gates that hold this corpus to it | stable |
 | [`contributing/gates.md`](contributing/gates.md) | Every gate, what it enforces, which run it belongs to, and the four that stay out of `verify` | stable |
 | [`contributing/releasing.md`](contributing/releasing.md) | How a version reaches npm, what decides it, and the two behaviours that surprise people | stable |
 | [`contributing/environment.md`](contributing/environment.md) | The plugins, skills and toolchain this repository is worked on with, and how to reproduce them | stable |
@@ -43,31 +135,3 @@ directory listing.
 `draft` means the shape is expected to move. `stable` means changing it is a design change,
 not an edit. `reference` means the page describes the shipped surface — it changes when the
 code does.
-
-## What lives elsewhere
-
-Documents are for things that change with the code and get reviewed in a diff. Two kinds of
-content are deliberately not here:
-
-| Content | Where | Why |
-|---|---|---|
-| Open design questions | [`concepts/domain-model.md`](concepts/domain-model.md#what-this-model-has-not-settled) | The model must name its unresolved boundaries without silently deciding them. |
-| Build order and phasing | Repository planning tools | Sequencing is tracked work, not a contract. A roadmap in prose goes stale when reality disagrees with it. |
-
-[The Nubbin documentation site](https://nubbin.io) is not a third home. It is generated and
-published by CI from [the repository's
-markdown](decisions/the-site-publishes-the-repositorys-markdown.md), these documents
-included — see
-[Generated documents are published, never committed](decisions/generated-documents-are-published-never-committed.md).
-
-## Keeping them honest
-
-Prose has no compiler, so a wrong sentence here is caught by nothing but a reader who acts on
-it and comes unstuck. Gates run against these files on every commit — links and anchors
-resolve, no claim rests on a corpus a reader cannot open, nothing reaches back for a name that
-no longer exists, no reference identifies a codebase that is not this one, and one claim lives
-in one document.
-
-[`.claude/rules/documentation.md`](https://github.com/effekt/nubbin/blob/main/.claude/rules/documentation.md) holds why that is worth
-the machinery, and what the gates cannot reach: which document holds what, and the rule that a
-decision changes prose in *every* document describing it, in the same commit.
