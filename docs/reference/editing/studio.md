@@ -14,11 +14,20 @@ A Next.js application for composing and publishing pages from the demo's block c
   from that catalog ([the decision](../../decisions/puck-is-the-iteration-one-editor.md)):
   every block is a palette entry rendered by the demo's own component, `string`, `number`,
   `boolean` and `enum` props edit in the inspector, an array edits as a repeater — rows
-  under stable generated keys, labelled by their own first string field, reordered by drag
-  or buttons, with add and remove disabled at the schema's bounds and the reason in the
-  control's title — an object as a fieldset recursing per sub-field with the same per-kind
-  controls, only a kind the description cannot reach renders read-only, and a
-  slot's `allow` constraint refuses an illegal drop before it lands. A string whose
+  under stable generated keys, labelled by the first string field the catalog does not
+  hint as a link, reordered by drag or buttons, with add and remove disabled at the
+  schema's bounds and the reason in the control's title — an object as a fieldset
+  recursing per sub-field with the same per-kind controls, and a `richText()` array as
+  the rich text control, recognized by its described shape: block rows holding spans, with
+  marks and the link toggled on the selected span from `core`'s closed set, so nothing the
+  control produces is something the schema would refuse. Only a kind the description
+  cannot reach renders read-only, and a
+  slot's `allow` constraint refuses an illegal drop before it lands — Enter on a palette
+  row inserts the block after the selection under the same refusal, so the keyboard and
+  the mouse build the same documents. With nothing selected the inspector is the Page
+  panel: every `DocumentMeta` field — title, description, robots, canonical — edits
+  there, and an optional field an author empties folds back to absent rather than saving
+  an empty string. A string whose
   catalog entry hints `control: "link"` gets the link control at any depth: an absolute
   http(s) URL or a root-relative path shows an Open link — relative paths resolve against
   the consumer origin, since the studio's own origin is not where the pages serve — and
@@ -37,23 +46,33 @@ A Next.js application for composing and publishing pages from the demo's block c
 - **Publish** — the editor's Publish button compiles the draft, writes the artifact into the
   demo's store, and moves the route pointer through the demo's own
   `api/nubbin/publish` handler — the pointer must move inside the process that serves the
-  page, or that process keeps answering from its cache. `/api/artifact/<route>` hands back
+  page, or that process keeps answering from its cache. The button is a split control: a
+  landed publish reports its three steps with the durations the server measured and links
+  the page the visitor now sees, while a refusal hands its issues to the pill below.
+  `/api/artifact/<route>` hands back
   the compiled JSON instead, for carrying to any store.
-- **Route** — `/api/routes` lists what the store holds and mints a route that is not there
-  yet, so a page can begin in the editor rather than as a fixture someone commits first. A new
-  route opens on a blank document rather than a copy of another page.
-- **Recall** — `/api/history/<route>` is the moves that route has made, newest first, read
-  through the store's optional `history`. `/api/rollback` points the route back at one of
+- **Route** — the toolbar's switcher lists every route the editor can open — the demo's
+  fixtures plus any page begun in the studio — and its New page form posts `/api/routes`,
+  which judges the route with the compiler's own parser, answers a conflict for one the
+  studio already edits, and writes a blank draft. A page can begin in the editor rather
+  than as a fixture someone commits first, and it begins blank rather than as a copy of
+  another page.
+- **Recall** — `/api/history/<route>` is the moves that route has made, newest first and
+  capped at the last twenty, read
+  through the store's optional `history`; the chevron beside the Publish button discloses
+  them. `/api/rollback` points the route back at one of
   them, and refuses when it cannot: it runs `checkRollback` first, so an artifact whose blocks
   have moved on since it was written is named rather than served. That is the same refusal the
   command line makes, from the same function.
 
-The inspector reports what the compiler refused. An issue names the block it came from and
+The header's amber pill counts what the compiler refused, present exactly while the draft has
+issues, and a strip under the canvas carries the publish state, the same count, and the
+autosave note. An issue names the block it came from and
 selects it on the canvas, so a message about a field on a node deep in a slot is a click rather
 than a search — the compiler answers in paths, and a path is only useful to an author once
 something turns it into a place.
 
-Canvas widths are the consumer's own breakpoints. They are read from the binding seam rather
+Canvas widths are the consumer's own breakpoints, declared in the binding seam rather
 than invented for the editor, so an author checking a layout at `md` is checking the width the
 consumer's stylesheet actually breaks at.
 
@@ -81,8 +100,9 @@ The studio reaches its catalog, registry, blocks and stylesheet through a worksp
 dependency on `demo`, compiled from source via `transpilePackages`. `src/nubbin/` is the
 whole binding — store path, draft state, the Puck config and data adapters, the consumer
 origin the publish goes through, hole resolution — and is what a consumer would replace to
-point the studio at their own app. Two of those seams are environment variables rather than
+point the studio at their own app. One of those seams is an environment variable rather than
 code: `NUBBIN_CONSUMER_ORIGIN` is the origin of the application the studio publishes into —
 the pointer move runs against it, and the publish response builds the live page's link from
-it, so it is the one variable naming that address — and `NUBBIN_STUDIO_STORE` is the
-directory the artifact store writes.
+it, so it is the one variable naming that address. The artifact store's directory is code in
+the same binding — `storeDir` reaches the demo's own `.nubbin` — and the `NUBBIN_STUDIO_STORE`
+override exists so parallel test files never share one directory.
