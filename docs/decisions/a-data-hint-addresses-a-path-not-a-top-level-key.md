@@ -7,7 +7,8 @@ status: stable
 # A `data` hint addresses a path, not a top-level key
 
 `ui.fields` is keyed by schema path throughout — `title`, `cta.label`, `items[].icon` — and
-`label` and `control` have always read every one of them. `data` did not. The compiler split a
+its path-keyed hints (`control` today; `label` when the decision was recorded) read every one
+of them. `data` did not. The compiler split a
 node's validated props by walking the value's own top-level keys, so a hint on `cta.label`
 matched nothing: it registered, it compiled, and the whole of `cta` froze into `props` with no
 hole recorded and no error at registration, at compile or at render.
