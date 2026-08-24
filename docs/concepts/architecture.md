@@ -50,13 +50,13 @@ caching tier to survive the round trip.
 **Catalog and registry are separate.** The pipeline splits at `defineBlock` for that reason:
 one branch is inert data any environment can validate against, the other is a set of importers
 a bundler can follow. Chosen over one flat list of components, which forces every page to load
-all of them — [the decision](decisions/catalog-and-registry-are-separate.md).
+all of them — [the decision](../decisions/catalog-and-registry-are-separate.md).
 
 **Documents are flat while authoring, nested once published.** The draft shape is
 `{ roots, elements }` keyed by id, so an editor addresses a node directly instead of walking a
 tree to find it. Compile denormalizes that into the self-contained tree the renderer reads,
 checking reference integrity, cycle-freedom and reachability on the way —
-[the decision](decisions/flat-while-authoring-nested-once-published.md) has the rest.
+[the decision](../decisions/flat-while-authoring-nested-once-published.md) has the rest.
 
 ## Why compile at publish
 
@@ -104,7 +104,7 @@ A recommendation for the Next binding, not a requirement of `core`.
 Every value an artifact holds is inert data validated against a schema, so the render path
 evaluates nothing it loads and a published page cannot execute anything its author typed. The
 list of what that rules out, and the security and performance case for it, is
-[the decision](decisions/artifacts-contain-data-never-code.md).
+[the decision](../decisions/artifacts-contain-data-never-code.md).
 
 ## Preview
 
@@ -134,7 +134,7 @@ same comparison for one artifact, which is what a pointer move back to an older 
 before it can feed frozen props to a component that has since changed. Neither reads a store:
 the caller reads its own and hands over what it found, so the check runs against a filesystem
 store, a database, or a deployment's API without `core` learning about any of them. Wiring it is
-[Artifacts, pointers and rollback](reference/artifacts.md#checkcompatibility); this repository
+[Artifacts, pointers and rollback](../reference/publishing/artifacts.md#checkcompatibility); this repository
 runs it against `examples/demo/live/`, a committed store of pages already published, as the
 `pnpm guardrail` step of the `verify` workflow.
 

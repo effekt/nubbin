@@ -7,7 +7,7 @@ status: stable
 # Contributing
 
 Read [`AGENTS.md`](AGENTS.md) first. It documents the invariants and the commands, and routes
-to everything else; the gates are in [`docs/gates.md`](docs/gates.md). This file covers setup
+to everything else; the gates are in [`docs/contributing/gates.md`](docs/contributing/gates.md). This file covers setup
 and contribution guidance.
 
 ## Setup
@@ -39,7 +39,7 @@ Contributions can improve code, documentation, examples, or the design itself. S
 issue when a change affects an architectural invariant or crosses package boundaries.
 
 Open design questions are listed in
-[`docs/domain-model.md`](docs/domain-model.md#what-this-model-has-not-settled). Each records
+[`docs/concepts/domain-model.md`](docs/concepts/domain-model.md#what-this-model-has-not-settled). Each records
 what deciding it late would cost. Open a discussion with the Design question template before
 implementing one.
 
@@ -80,7 +80,7 @@ case, so a subject opening with a type name or an acronym fails — `feat(core):
 
 ## Code
 
-The invariants in `AGENTS.md` and the gates in `docs/gates.md` apply in full: one unit per file, every dependency pinned,
+The invariants in `AGENTS.md` and the gates in `docs/contributing/gates.md` apply in full: one unit per file, every dependency pinned,
 `pnpm verify` green before review. If a gate seems to make correct code impossible to write,
 that's worth raising — as an issue, not a workaround.
 

@@ -27,7 +27,7 @@ Drafts start as the demo's committed fixtures. A committed edit writes to a giti
 `.drafts/` directory beside the app, with one file per route. Drafts survive a restart, while
 a checkout without draft files serves the fixtures unchanged. This directory is an autosave
 slot rather than the authoring store; the
-[domain model](../../docs/domain-model.md#what-this-model-has-not-settled) leaves the
+[domain model](../../docs/concepts/domain-model.md#what-this-model-has-not-settled) leaves the
 authoring-store contract open. The studio
 [runs unauthenticated behind whatever gate the deployment provides](../../docs/decisions/the-studio-does-not-own-identity.md).
 

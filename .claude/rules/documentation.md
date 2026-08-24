@@ -29,8 +29,8 @@ them was internally plausible, which is why nothing caught them.
 |---|---|---|
 | [`docs/decisions/`](../../docs/decisions/README.md) | Settled choices and *why* | Would someone re-litigate this? Then it belongs here |
 | GitHub issues labelled `design-question` | Undecided, with the cost of deciding late | Discussable, linkable, and closable — a document cannot be any of those |
-| `docs/domain-model.md`, `docs/api.md` | The contracts an agent writes code against | Would an implementer need this open beside them? |
-| `docs/architecture.md` | How the system works now | Never aspirational, never historical |
+| `docs/concepts/domain-model.md`, `docs/concepts/api.md` | The contracts an agent writes code against | Would an implementer need this open beside them? |
+| `docs/concepts/architecture.md` | How the system works now | Never aspirational, never historical |
 | `.claude/rules/*` | How to work in the repo | Judgment a gate cannot encode |
 
 A design document that has stopped changing has a job to do: move its conclusion into
@@ -134,7 +134,7 @@ weight: a page that never copies a signature has nothing to fall out of step wit
 Publishable: a pattern, a failure mode, a thing you now know. Not publishable: whose codebase
 taught you it, or a measurement standing in for the reasoning. Anonymising a statistic does
 not make it checkable — argue the conclusion from why it holds. See
-[`docs/public-repository.md`](../../docs/public-repository.md). **Gates:** `check-prose.mjs`.
+[`docs/contributing/public-repository.md`](../../docs/contributing/public-repository.md). **Gates:** `check-prose.mjs`.
 
 ## Checklist
 

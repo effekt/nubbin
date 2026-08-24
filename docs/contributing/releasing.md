@@ -12,7 +12,7 @@ The packages that publish from this repository — `@nubbin/core`, `@nubbin/reac
 ## Versions are derived, never edited
 
 Which tool derives them, and what it beat, is
-[release-please owns versions](decisions/release-please-owns-versions.md).
+[release-please owns versions](../decisions/release-please-owns-versions.md).
 
 Nothing is recorded at commit time beyond the commit message, whose format `commitlint` already
 enforces. A `fix:` or a `feat:` touching a package is what the next version is computed from.

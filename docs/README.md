@@ -12,23 +12,33 @@ package.
 
 | Read | For | Status |
 |---|---|---|
-| [`architecture.md`](architecture.md) | How the contract/content/output split and the compile-at-publish pipeline fit together. **Start here.** | stable |
-| [`environment.md`](environment.md) | The plugins, skills and toolchain this repository is worked on with, and how to reproduce them | stable |
-| [`gates.md`](gates.md) | Every gate, what it enforces, which run it belongs to, and the four that stay out of `verify` | stable |
-| [`public-repository.md`](public-repository.md) | What may not appear here, and how to publish a finding without its provenance | stable |
-| [`releasing.md`](releasing.md) | How a version reaches npm, what decides it, and the two behaviours that surprise people | stable |
+| **How it works** | | |
+| [`concepts/architecture.md`](concepts/architecture.md) | How the contract/content/output split and the compile-at-publish pipeline fit together. **Start here.** | stable |
+| [`concepts/domain-model.md`](concepts/domain-model.md) | Every entity, what owns it, and where it lives across the three layers | draft |
+| [`concepts/authoring-flows.md`](concepts/authoring-flows.md) | What an author does step by step, and the failure modes each flow carries | draft |
+| [`concepts/studio.md`](concepts/studio.md) | How the self-hosted canvas, cross-iframe drag, and preview are architected | draft |
+| [`concepts/api.md`](concepts/api.md) | The shape of `defineBlock` through compile and render, and where UI hints live | draft |
+| **Reference — authoring** | | |
+| [`reference/authoring/blocks.md`](reference/authoring/blocks.md) | `defineBlock` and `createRegistry` as shipped — what registration rejects, and what an artifact records about a block | reference |
+| [`reference/authoring/catalog.md`](reference/authoring/catalog.md) | `defineCatalog` as shipped — entries, field hints, defaults, and schema introspection | reference |
+| **Reference — publishing** | | |
+| [`reference/publishing/compile.md`](reference/publishing/compile.md) | `compile` as shipped — the document shape, the two validation passes, and every issue code | reference |
+| [`reference/publishing/artifacts.md`](reference/publishing/artifacts.md) | The `Artifact` and `ArtifactStore` contracts as shipped, with the compatibility and rollback checks | reference |
+| [`reference/publishing/cli.md`](reference/publishing/cli.md) | `@nubbin/cli` as shipped — the config file it resolves, the commands, and what each exit code means | reference |
+| **Reference — rendering** | | |
+| [`reference/rendering/renderer.md`](reference/rendering/renderer.md) | `@nubbin/react` as shipped — the `Renderer` server component, the registry types, and the hole resolver | reference |
+| [`reference/rendering/next.md`](reference/rendering/next.md) | `@nubbin/next` as shipped — route resolution, static params, hole fetch options, and the two publish calls | reference |
+| **Contributing** | | |
+| [`contributing/gates.md`](contributing/gates.md) | Every gate, what it enforces, which run it belongs to, and the four that stay out of `verify` | stable |
+| [`contributing/releasing.md`](contributing/releasing.md) | How a version reaches npm, what decides it, and the two behaviours that surprise people | stable |
+| [`contributing/environment.md`](contributing/environment.md) | The plugins, skills and toolchain this repository is worked on with, and how to reproduce them | stable |
+| [`contributing/public-repository.md`](contributing/public-repository.md) | What may not appear here, and how to publish a finding without its provenance | stable |
+| **Decisions** | | |
 | [`decisions/`](decisions/README.md) | Settled choices and the reasoning behind them, one file per decision | stable |
-| [`domain-model.md`](domain-model.md) | Every entity, what owns it, and where it lives across the three layers | draft |
-| [`api.md`](api.md) | The shape of `defineBlock` through compile and render, and where UI hints live | draft |
-| [`authoring-flows.md`](authoring-flows.md) | What an author does step by step, and the failure modes each flow carries | draft |
-| [`studio.md`](studio.md) | How the self-hosted canvas, cross-iframe drag, and preview are architected | draft |
-| [`reference/blocks.md`](reference/blocks.md) | `defineBlock` and `createRegistry` as shipped — what registration rejects, and what an artifact records about a block | reference |
-| [`reference/catalog.md`](reference/catalog.md) | `defineCatalog` as shipped — entries, field hints, defaults, and schema introspection | reference |
-| [`reference/compile.md`](reference/compile.md) | `compile` as shipped — the document shape, the two validation passes, and every issue code | reference |
-| [`reference/renderer.md`](reference/renderer.md) | `@nubbin/react` as shipped — the `Renderer` server component, the registry types, and the hole resolver | reference |
-| [`reference/next.md`](reference/next.md) | `@nubbin/next` as shipped — route resolution, static params, hole fetch options, and the two publish calls | reference |
-| [`reference/cli.md`](reference/cli.md) | `@nubbin/cli` as shipped — the config file it resolves, the commands, and what each exit code means | reference |
-| [`reference/artifacts.md`](reference/artifacts.md) | The `Artifact` and `ArtifactStore` contracts as shipped, with the compatibility and rollback checks | reference |
+
+The generated API reference carries no row: `docs/reference/generated/` is written by the docs
+build from the packages' own sources, so listing it here would be a hand-maintained copy of a
+directory listing.
 
 `draft` means the shape is expected to move. `stable` means changing it is a design change,
 not an edit. `reference` means the page describes the shipped surface — it changes when the
@@ -41,7 +51,7 @@ content are deliberately not here:
 
 | Content | Where | Why |
 |---|---|---|
-| Open design questions | [`domain-model.md`](domain-model.md#what-this-model-has-not-settled) | The model must name its unresolved boundaries without silently deciding them. |
+| Open design questions | [`concepts/domain-model.md`](concepts/domain-model.md#what-this-model-has-not-settled) | The model must name its unresolved boundaries without silently deciding them. |
 | Build order and phasing | Repository planning tools | Sequencing is tracked work, not a contract. A roadmap in prose goes stale when reality disagrees with it. |
 
 [The Nubbin documentation site](https://nubbin.io) is not a third home. It is generated and

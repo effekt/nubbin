@@ -31,6 +31,6 @@ CI job to call by name.
 **A CLI that also composes documents** — `init`, and verbs that add, move or remove nodes — was
 rejected for the first release. Those verbs need somewhere to read and write documents, and
 [the authoring store has no settled
-interface](../domain-model.md#what-this-model-has-not-settled). A command minting node ids against an
+interface](../concepts/domain-model.md#what-this-model-has-not-settled). A command minting node ids against an
 unsettled store would be deciding that contract rather than driving it, and the deciding would
 happen in the package furthest from where the contract lives.

@@ -18,7 +18,7 @@ failure modes are open questions rather than settled behavior, and are marked as
 **Steps:** choose a route (a literal path, e.g. `/dispatches/tide-tables`); pick a layout (a
 `Document` with `kind: "layout"`) or none; optionally start from a preset instead of blank.
 A preset is stored as `kind: "preset"`. Why it is not called a template is
-[in the decisions](decisions/a-copy-once-document-is-a-preset-not-a-template.md).
+[in the decisions](../decisions/a-copy-once-document-is-a-preset-not-a-template.md).
 
 **System:**
 - Blank start: `Document` created with `head: 1` and no route pointer — that absence, not a

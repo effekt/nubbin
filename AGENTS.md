@@ -41,7 +41,7 @@ argued where its name links to.
    no `node:*` — it runs in a browser, a worker and a build step unchanged.
 3. **[Artifacts are immutable and content-addressed.](docs/decisions/artifacts-are-immutable-and-content-addressed.md)**
    Publishing writes a new artifact and moves a pointer.
-4. **[Compiling is not building.](docs/architecture.md#why-compile-at-publish)** Compile validates
+4. **[Compiling is not building.](docs/concepts/architecture.md#why-compile-at-publish)** Compile validates
    and serializes a document; publishing and previewing never require a deploy.
 5. **IO happens in adapters.** `core` computes; adapters read and write.
 6. **[Artifacts contain data, never code.](docs/decisions/artifacts-contain-data-never-code.md)**
@@ -74,8 +74,8 @@ Two pages are surfaced by nothing, and are named here for that reason:
 
 | Doing | Read |
 |---|---|
-| Anything that must pass CI | [`docs/gates.md`](docs/gates.md) |
-| Writing prose, an example, or a fixture | [`docs/public-repository.md`](docs/public-repository.md) |
+| Anything that must pass CI | [`docs/contributing/gates.md`](docs/contributing/gates.md) |
+| Writing prose, an example, or a fixture | [`docs/contributing/public-repository.md`](docs/contributing/public-repository.md) |
 
 A hand-maintained list beside a mechanism goes stale, so this page carries none. What it
 carries instead is where the generated ones are:
@@ -102,7 +102,7 @@ documents `core`'s authoring and compile surfaces, the artifact contracts, and t
 and `next` bindings as shipped. [`apps/studio/README.md`](apps/studio/README.md) documents the
 studio and its integration with the demo.
 
-Read [`docs/architecture.md`](docs/architecture.md) for the model and
+Read [`docs/concepts/architecture.md`](docs/concepts/architecture.md) for the model and
 [`docs/decisions/`](docs/decisions/README.md) for what is settled. Treat
-[`docs/domain-model.md#what-this-model-has-not-settled`](docs/domain-model.md#what-this-model-has-not-settled)
+[`docs/domain-model.md#what-this-model-has-not-settled`](docs/concepts/domain-model.md#what-this-model-has-not-settled)
 as the list of things you may not silently decide.

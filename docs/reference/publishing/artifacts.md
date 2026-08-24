@@ -10,15 +10,15 @@ This page holds the reasoning behind the output layer of `@nubbin/core`: what an
 guarantees, what an `ArtifactStore` implementation owes its callers, and how the compatibility
 and rollback checks read drift. The declarations themselves — every member, parameter, return
 and throw — are generated from the source that defines them, in
-[the generated reference](generated/core/README.md), and nothing here repeats one. Why
+[the generated reference](../generated/core/README.md), and nothing here repeats one. Why
 artifacts are immutable and addressed by content is
-[Artifacts are immutable and content-addressed](../decisions/artifacts-are-immutable-and-content-addressed.md);
+[Artifacts are immutable and content-addressed](../../decisions/artifacts-are-immutable-and-content-addressed.md);
 what they may contain is
-[Artifacts contain data, never code](../decisions/artifacts-contain-data-never-code.md).
+[Artifacts contain data, never code](../../decisions/artifacts-contain-data-never-code.md).
 
 ## `Artifact`
 
-An [`Artifact`](generated/core/interfaces/Artifact.md) is one document version compiled
+An [`Artifact`](../generated/core/interfaces/Artifact.md) is one document version compiled
 for one route, and its hash is its identity rather than a checksum carried beside it. The
 address is computed over every other field — the tree, the metadata, the route, the recorded
 block versions and the compiling `@nubbin/core` version — with object keys sorted first, so two
@@ -32,22 +32,22 @@ a name [`checkRollback`](#checkrollback) later holds the registry to.
 
 ## `ArtifactNode` and `Holes`
 
-An [`ArtifactNode`](generated/core/interfaces/ArtifactNode.md) is fully resolved:
+An [`ArtifactNode`](../generated/core/interfaces/ArtifactNode.md) is fully resolved:
 `slots` hold nested nodes rather than ids, so rendering needs no lookups and no dangling
 reference is possible. `props` hold only frozen literal values; each entry in
-[`Holes`](generated/core/type-aliases/Holes.md) records a field the renderer resolves
+[`Holes`](../generated/core/type-aliases/Holes.md) records a field the renderer resolves
 instead, keyed by schema path and carrying the
-[`FieldHintData`](generated/core/type-aliases/FieldHintData.md) that says how — see
+[`FieldHintData`](../generated/core/type-aliases/FieldHintData.md) that says how — see
 [Holes: what a `data` hint compiles to](compile.md#holes-what-a-data-hint-compiles-to). How a
 hole's value is sourced at render is per-adapter. The authorization model for connecting a
 field to a data source remains open.
 
 ## `checkRollback`
 
-[`checkRollback`](generated/core/functions/checkRollback.md) compares what the artifact
+[`checkRollback`](../generated/core/functions/checkRollback.md) compares what the artifact
 was compiled against — its `blockVersions` — with the registry live now, before a pointer is
 moved back to it. It returns rather than throws: the caller decides whether drift blocks the
-rollback. The model is [Rollback](../domain-model.md#rollback).
+rollback. The model is [Rollback](../../concepts/domain-model.md#rollback).
 
 Derived from `packages/core/src/checkRollback.test.ts`:
 
@@ -85,7 +85,7 @@ the failure a rollback must be warned about.
 
 ## `checkCompatibility`
 
-[`checkCompatibility`](generated/core/functions/checkCompatibility.md) runs the same
+[`checkCompatibility`](../generated/core/functions/checkCompatibility.md) runs the same
 comparison over every pointer instead of one artifact, and reports it with the version delta a
 reader needs to act: which route, which artifact, which block, what the page was compiled
 against, and what is registered now. A block the registry has lost reads as `registered: null`.
@@ -111,7 +111,7 @@ a pass.
 
 ## `formatCompatibilityReport`
 
-[`formatCompatibilityReport`](generated/core/functions/formatCompatibilityReport.md)
+[`formatCompatibilityReport`](../generated/core/functions/formatCompatibilityReport.md)
 renders the report as a log reads it, leading with the count in both directions:
 
 ```
@@ -125,7 +125,7 @@ renders the report as a log reads it, leading with the count in both directions:
 
 ## `ArtifactStore`
 
-[`ArtifactStore`](generated/core/interfaces/ArtifactStore.md) is the output layer's
+[`ArtifactStore`](../generated/core/interfaces/ArtifactStore.md) is the output layer's
 whole IO surface. `core` only returns values for it; adapters implement it — `@nubbin/store-fs`
 is the reference implementation, and every implementation is proven against one shared suite,
 `packages/store-fs/src/testing/runArtifactStoreContract.ts`. The behaviour that suite pins:
@@ -149,25 +149,25 @@ which is what makes cache invalidation at the store unnecessary.
 
 ## `RoutePointer` and `Manifest`
 
-The [pointer](generated/core/interfaces/RoutePointer.md) is the single piece of
+The [pointer](../generated/core/interfaces/RoutePointer.md) is the single piece of
 output-layer state that changes in place — each route owns its own record, naming the artifact
 currently live there. Why per-route pointers beat one mutable manifest is
-[Route pointer](../domain-model.md#route-pointer).
-[`Manifest`](generated/core/interfaces/Manifest.md) is the advisory aggregation over
+[Route pointer](../../concepts/domain-model.md#route-pointer).
+[`Manifest`](../generated/core/interfaces/Manifest.md) is the advisory aggregation over
 every pointer — a route list for an editing surface or CI, derived rather than authoritative.
 
 ## `PointerMove`
 
-A [`PointerMove`](generated/core/interfaces/PointerMove.md) is one `publish` at a route,
+A [`PointerMove`](../generated/core/interfaces/PointerMove.md) is one `publish` at a route,
 as the optional `history(route)` hands it back. `history` is optional because a write-only blob
 store is still a valid adapter — a caller that needs it degrades with a message rather than
 assuming it. Why the record lives beside the pointer instead of inside it, and is appended
 rather than rewritten, is
-[A route remembers what it pointed at](../decisions/a-route-remembers-what-it-pointed-at.md).
+[A route remembers what it pointed at](../../decisions/a-route-remembers-what-it-pointed-at.md).
 
 ## `parseMatchKind`
 
-[`parseMatchKind`](generated/core/functions/parseMatchKind.md) derives a pointer's
+[`parseMatchKind`](../generated/core/functions/parseMatchKind.md) derives a pointer's
 `matchKind` from its route. It lives in `core` so every adapter shares one implementation — a
 second parser is free to disagree. It judges the route before classifying it, and that is the
 last point before a pointer is written: an adapter that never called `compile` still cannot

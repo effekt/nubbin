@@ -8,13 +8,13 @@ status: reference
 
 This page holds the reasoning: why validation runs in two passes, what each issue code means,
 and when an author sees one. Every signature, parameter and type member is generated from the
-source into [the API reference](generated/README.md), which is where to read the surface
+source into [the API reference](../generated/README.md), which is where to read the surface
 itself. Why compiling happens at publish, and why it is validation rather than a build, is
-[Why compile at publish](../architecture.md#why-compile-at-publish).
+[Why compile at publish](../../concepts/architecture.md#why-compile-at-publish).
 
 ## `compile`
 
-[`compile`](generated/core/functions/compile.md) validates one document version and
+[`compile`](../generated/core/functions/compile.md) validates one document version and
 serializes it into an [`Artifact`](artifacts.md#artifact), returned beside the issues that did
 not stop one existing. A fault raises `NubbinError`; an `unknown-prop` is reported rather than
 raised, so a document carrying one still compiles and the caller decides what to do about it.
@@ -90,24 +90,24 @@ order cannot change the address.
 ## Holes: what a `data` hint compiles to
 
 After validation, each node's parsed props are split by the catalog's
-[`data` hints](catalog.md#fieldhintdata). A field with no hint freezes into
+[`data` hints](../authoring/catalog.md#fieldhintdata). A field with no hint freezes into
 `ArtifactNode.props`; a field carrying a `{ revalidate }` hint is dropped from props and
 recorded in `ArtifactNode.holes` under the path its hint names, carrying the hint as the
 instruction for render time. The split is by that whole dotted path: a hint on `cta.label`
 takes that leaf alone and the rest of `cta` stays frozen, which is why a hole's key is a path
 and not a field name — see
-[A `data` hint addresses a path, not a top-level key](../decisions/a-data-hint-addresses-a-path-not-a-top-level-key.md).
+[A `data` hint addresses a path, not a top-level key](../../decisions/a-data-hint-addresses-a-path-not-a-top-level-key.md).
 
 ## Why the authoring shape is flat
 
-[`DocumentVersion`](generated/core/interfaces/DocumentVersion.md) indexes every
-[`Node`](generated/core/interfaces/Node.md) by id, and a node's `slots` hold ordered
+[`DocumentVersion`](../generated/core/interfaces/DocumentVersion.md) indexes every
+[`Node`](../generated/core/interfaces/Node.md) by id, and a node's `slots` hold ordered
 child ids rather than nested nodes, so every editor operation addresses a node directly.
 Compiling denormalizes it into the artifact's nested tree — the trade is
-[Flat while authoring, nested once published](../decisions/flat-while-authoring-nested-once-published.md).
+[Flat while authoring, nested once published](../../decisions/flat-while-authoring-nested-once-published.md).
 
 `roots` lists entry elements in order, and `Artifact.tree` holds one denormalized tree for
-each — see [A document has many roots](../decisions/a-document-has-many-roots.md).
+each — see [A document has many roots](../../decisions/a-document-has-many-roots.md).
 
 How a `DocumentVersion` is stored is the authoring store, an open design question of its own — so the examples here construct one as a
 literal, the way the package's own tests do. Editing one is
@@ -116,26 +116,26 @@ literal, the way the package's own tests do. Editing one is
 
 ## `setNodeProp` and `setAtPath`
 
-[`setNodeProp`](generated/core/functions/setNodeProp.md) is the first document
+[`setNodeProp`](../generated/core/functions/setNodeProp.md) is the first document
 operation: a new `DocumentVersion` with one prop set on one node, copy-on-write, every
 untouched node kept by reference. It lives beside `compile`
 rather than inside an editor, so every caller — a studio, a script, an agent —
-[writes a document through one definition of the write](../decisions/document-operations-live-in-core-beside-compile.md).
+[writes a document through one definition of the write](../../decisions/document-operations-live-in-core-beside-compile.md).
 
 Three deliberate absences. It does not validate the value — that is `compile`'s job at the
 next compile, which reports an `invalid-props` issue at the offending path. It does not bump
 `version` — appending a version belongs to the authoring store, not to one edit. And it throws on an
 unknown `nodeId` and on an `items[]` path, which names every array member rather than one.
 
-[`setAtPath`](generated/core/functions/setAtPath.md) is the copy-on-write descent it
+[`setAtPath`](../generated/core/functions/setAtPath.md) is the copy-on-write descent it
 writes with — the same one the renderer uses to fill a resolved hole value into props at
 render time.
 
 ## `addNode`, `removeNode` and `moveNode`
 
-[`addNode`](generated/core/functions/addNode.md),
-[`removeNode`](generated/core/functions/removeNode.md) and
-[`moveNode`](generated/core/functions/moveNode.md) compose structure, on the same
+[`addNode`](../generated/core/functions/addNode.md),
+[`removeNode`](../generated/core/functions/removeNode.md) and
+[`moveNode`](../generated/core/functions/moveNode.md) compose structure, on the same
 terms as `setNodeProp`: a new `DocumentVersion`, copy-on-write, every untouched node kept by
 reference, and no bump to `version`. `index` inserts and its absence appends; for `moveNode`
 it names a position in the target slot *after* the node is taken out, which is the reading
@@ -161,7 +161,7 @@ Each throws on a `nodeId` or `parentId` the document does not hold.
 
 ## `NubbinError`, `NubbinIssue` and `NubbinIssueCode`
 
-[`NubbinError`](generated/core/classes/NubbinError.md) is one class for every refusal
+[`NubbinError`](../generated/core/classes/NubbinError.md) is one class for every refusal
 the packages raise, so a consumer writes one `catch` and ships one shape to whatever tooling
 they keep. Nubbin never logs and never decides what a refusal means —
 it hands back the code and the prose, and the caller chooses.
@@ -185,13 +185,13 @@ try {
 }
 ```
 
-A [`NubbinIssue`](generated/core/interfaces/NubbinIssue.md) carries `at` and `path` as
+A [`NubbinIssue`](../generated/core/interfaces/NubbinIssue.md) carries `at` and `path` as
 two coordinates rather than one string, so an editing surface can select the node and highlight
 the field without parsing a message.
 
 ### Every code
 
-[`NubbinIssueCode`](generated/core/type-aliases/NubbinIssueCode.md) is a closed set. A
+[`NubbinIssueCode`](../generated/core/type-aliases/NubbinIssueCode.md) is a closed set. A
 member's value is its own name in kebab-case, so a serialized issue reads the same in a log as
 in code.
 

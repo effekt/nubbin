@@ -110,7 +110,7 @@ flag forces an all-or-nothing choice per block. It lives per field instead. See
 ### Structural change
 
 Reshaping an old document is neither something `Block` declares nor something `compile` does:
-[a schema change is a republish, not a migration](decisions/a-schema-change-is-a-republish-not-a-migration.md).
+[a schema change is a republish, not a migration](../decisions/a-schema-change-is-a-republish-not-a-migration.md).
 A rename, a split into two blocks, or a `slots` change is a dataset-wide pass over
 `DocumentVersion`s, run by a script through the document operations in `core` — an adapter
 concern (invariant 5).
@@ -127,7 +127,7 @@ interface Registry {
 ```
 
 What an artifact records about the registry, and what the guardrail compares, is on the
-[blocks reference](reference/blocks.md#registry).
+[blocks reference](../reference/authoring/blocks.md#registry).
 
 Deletion is two steps: `status: "deprecated"` keeps a block resolvable (`registry.get()`
 still returns it, so existing `Node`s keep rendering) while hiding it from the studio's
@@ -197,7 +197,7 @@ interface DocumentVersion {
 
 A layout's named slots need no separate field: they are the slots of the nodes `roots`
 names. Why a page lists entry elements rather than naming one block that contains them is
-[A document has many roots](decisions/a-document-has-many-roots.md).
+[A document has many roots](../decisions/a-document-has-many-roots.md).
 
 | Concern | Answer |
 |---|---|
@@ -216,7 +216,7 @@ CRDT sync layer left as a later swap.
 
 The same composition takes two shapes: authoring wants random access, rendering wants a
 self-contained tree. See
-[Flat while authoring, nested once published](decisions/flat-while-authoring-nested-once-published.md)
+[Flat while authoring, nested once published](../decisions/flat-while-authoring-nested-once-published.md)
 for why.
 
 ```ts
@@ -271,7 +271,7 @@ where a deep object copy could silently share ids by accident.
 
 Naming these apart early is cheap; separating them later is a data migration. `preset` rather
 than `template` because Atomic Design's template is this model's Layout — see
-[the decision](decisions/a-copy-once-document-is-a-preset-not-a-template.md).
+[the decision](../decisions/a-copy-once-document-is-a-preset-not-a-template.md).
 
 ## Output layer
 

@@ -37,7 +37,7 @@ Do not argue any part from a measurement a reader cannot open. See
 |---|---|
 | Settled, and someone would re-litigate it | A new file in `docs/decisions/` |
 | Still undecided | A GitHub issue labelled `design-question` — it needs a thread that closes |
-| How the system works now | `docs/architecture.md`, `docs/domain-model.md`, or `docs/api.md` |
+| How the system works now | `docs/concepts/architecture.md`, `docs/concepts/domain-model.md`, or `docs/concepts/api.md` |
 | How to work in the repo | `.claude/rules/` |
 
 One decision lives in exactly one place. If it needs to appear elsewhere, link it — two copies

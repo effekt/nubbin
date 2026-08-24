@@ -120,7 +120,7 @@ real inputs, not by reviewing it:
 | a `PreToolUse` hook matching `Write|Edit|MultiEdit`, to keep the primary worktree clean | files written by an MCP server never meet it — [#211](https://github.com/effekt/nubbin/issues/211) |
 | a pattern over gate-table rows, to find rows over-claiming their surface | the only two rows stating a surface stated it correctly, so it fired on the honest rows and passed the rest |
 
-Open [`docs/gates.md`](../../docs/gates.md) and grep the table for a scope literal to check the second yourself. Both authors had argued against this failure in the same breath as proposing it.
+Open [`docs/contributing/gates.md`](../../docs/contributing/gates.md) and grep the table for a scope literal to check the second yourself. Both authors had argued against this failure in the same breath as proposing it.
 
 So hand the check to whoever did not design it, to run against the corpus it will meet — the
 same standard as seeding a gate, one level up.
