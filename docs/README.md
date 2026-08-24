@@ -27,7 +27,7 @@ package.
 | [`reference/compile.md`](reference/compile.md) | `compile` as shipped — the document shape, the two validation passes, and every issue code | reference |
 | [`reference/renderer.md`](reference/renderer.md) | `@nubbin/react` as shipped — the `Renderer` server component, the registry types, and the hole resolver | reference |
 | [`reference/next.md`](reference/next.md) | `@nubbin/next` as shipped — route resolution, static params, hole fetch options, and the two publish calls | reference |
-| [`reference/cli.md`](reference/cli.md) | `@nubbin/cli` as shipped — the config file it resolves, the six commands, and what each exit code means | reference |
+| [`reference/cli.md`](reference/cli.md) | `@nubbin/cli` as shipped — the config file it resolves, the commands, and what each exit code means | reference |
 | [`reference/artifacts.md`](reference/artifacts.md) | The `Artifact` and `ArtifactStore` contracts as shipped, with the compatibility and rollback checks | reference |
 
 `draft` means the shape is expected to move. `stable` means changing it is a design change,
@@ -55,8 +55,8 @@ included — see
 Prose has no compiler, so a wrong sentence here is caught by nothing but a reader who acts on
 it and comes unstuck. Gates run against these files on every commit — links and anchors
 resolve, no claim rests on a corpus a reader cannot open, nothing reaches back for a name that
-no longer exists, no reference identifies a codebase that is not this one, one claim lives in
-one document, and a document that trails something it links to gets flagged for re-reading.
+no longer exists, no reference identifies a codebase that is not this one, and one claim lives
+in one document.
 
 [`.claude/rules/documentation.md`](https://github.com/effekt/nubbin/blob/main/.claude/rules/documentation.md) holds why that is worth
 the machinery, and what the gates cannot reach: which document holds what, and the rule that a

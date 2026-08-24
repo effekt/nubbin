@@ -6,73 +6,48 @@ status: reference
 
 # Artifacts, pointers and rollback
 
-This page describes the shipped output-layer contracts of `@nubbin/core`: the `Artifact`,
-`ArtifactNode` and `Holes` shapes `compile` produces, the `ArtifactStore` interface adapters
-implement, `RoutePointer`, `Manifest` and `PointerMove`, and the functions that operate on them — `checkCompatibility`,
-`formatCompatibilityReport`, `checkRollback` and `parseMatchKind`. Why artifacts are immutable and addressed by content is
+This page holds the reasoning behind the output layer of `@nubbin/core`: what an artifact
+guarantees, what an `ArtifactStore` implementation owes its callers, and how the compatibility
+and rollback checks read drift. The declarations themselves — every member, parameter, return
+and throw — are generated from the source that defines them, in
+[the generated reference](generated/@nubbin/core/README.md), and nothing here repeats one. Why
+artifacts are immutable and addressed by content is
 [Artifacts are immutable and content-addressed](../decisions/artifacts-are-immutable-and-content-addressed.md);
 what they may contain is
 [Artifacts contain data, never code](../decisions/artifacts-contain-data-never-code.md).
 
 ## `Artifact`
 
-```ts
-interface Artifact {
-  hash: string;
-  route: string;
-  documentId: string;
-  documentVersion: number;
-  blockVersions: Record<string, number>;
-  tree: ArtifactNode[];
-  meta: DocumentMeta;
-  compiledWith: string;
-}
-```
+An [`Artifact`](generated/@nubbin/core/interfaces/Artifact.md) is one document version compiled
+for one route, and its hash is its identity rather than a checksum carried beside it. The
+address is computed over every other field — the tree, the metadata, the route, the recorded
+block versions and the compiling `@nubbin/core` version — with object keys sorted first, so two
+compiles of the same content land at the same address whatever order they happened to build it
+in. Nothing sits outside the address, so a change anywhere is a different artifact rather than
+the same one edited.
 
-| Field | Behaviour as shipped |
-|---|---|
-| `hash` | The content address, and the identity. Computed over every other field with object keys sorted first, so the same content always produces the same address. |
-| `route` | The route this compile targeted, as passed to [`compile`](compile.md#compile). |
-| `documentId`, `documentVersion` | Which document version this is the compilation of. |
-| `blockVersions` | Name → version for only the blocks the document uses; a route loads what its artifact lists, so naming unused blocks would load them too. [`checkRollback`](#checkrollback) reads this field. |
-| `tree` | The document's `roots`, denormalized — one tree per entry element, in the order `roots` names them. |
-| `meta` | The document's `DocumentMeta`, carried through unchanged. |
-| `compiledWith` | The `@nubbin/core` version that produced the artifact. |
+`blockVersions` records the blocks the document uses and no others. A route loads what its
+artifact lists, so naming unused blocks would load them too — and every name recorded there is
+a name [`checkRollback`](#checkrollback) later holds the registry to.
 
 ## `ArtifactNode` and `Holes`
 
-```ts
-interface ArtifactNode {
-  id: string;
-  block: string;
-  props: UnknownProps;
-  holes?: Holes;
-  slots?: Record<string, ArtifactNode[]>;
-}
-
-type Holes = Record<string, FieldHintData>;
-```
-
-Fully resolved: `slots` hold nested nodes rather than ids, so rendering needs no lookups and
-no dangling reference is possible. `props` hold only frozen literal values; each entry in
-`holes` records a field the renderer resolves instead, keyed by schema path and carrying the
-[`FieldHintData`](catalog.md#fieldhintdata) that says how — see
+An [`ArtifactNode`](generated/@nubbin/core/interfaces/ArtifactNode.md) is fully resolved:
+`slots` hold nested nodes rather than ids, so rendering needs no lookups and no dangling
+reference is possible. `props` hold only frozen literal values; each entry in
+[`Holes`](generated/@nubbin/core/type-aliases/Holes.md) records a field the renderer resolves
+instead, keyed by schema path and carrying the
+[`FieldHintData`](generated/@nubbin/core/type-aliases/FieldHintData.md) that says how — see
 [Holes: what a `data` hint compiles to](compile.md#holes-what-a-data-hint-compiles-to). How a
 hole's value is sourced at render is per-adapter. The authorization model for connecting a
 field to a data source remains open.
 
 ## `checkRollback`
 
-```ts
-function checkRollback(artifact: Artifact, registry: Registry): RollbackCheck;
-
-type RollbackCheck = { compatible: true } | { compatible: false; drifted: string[] };
-```
-
-Compares what the artifact was compiled against — its `blockVersions` — with the registry
-live now, before a pointer is moved back to it. It returns rather than throws: the caller
-decides whether drift blocks the rollback. The model is
-[Rollback](../domain-model.md#rollback).
+[`checkRollback`](generated/@nubbin/core/functions/checkRollback.md) compares what the artifact
+was compiled against — its `blockVersions` — with the registry live now, before a pointer is
+moved back to it. It returns rather than throws: the caller decides whether drift blocks the
+rollback. The model is [Rollback](../domain-model.md#rollback).
 
 Derived from `packages/core/src/checkRollback.test.ts`:
 
@@ -110,36 +85,12 @@ the failure a rollback must be warned about.
 
 ## `checkCompatibility`
 
-```ts
-function checkCompatibility(live: readonly LiveRoute[], registry: Registry): CompatibilityReport;
-
-interface LiveRoute {
-  pointer: RoutePointer;
-  artifact: Artifact | null;
-}
-
-interface BlockDrift {
-  block: string;
-  live: number;
-  registered: number | null;
-}
-
-type RouteIncompatibility =
-  | { route: string; hash: string; reason: "unreadable-artifact" }
-  | { route: string; hash: string; reason: "block-drift"; drifted: BlockDrift[] };
-
-interface CompatibilityReport {
-  checked: number;
-  compatible: boolean;
-  incompatible: RouteIncompatibility[];
-}
-```
-
-The same comparison as `checkRollback`, run over every pointer instead of one artifact, and
-reported with the version delta a reader needs to act: which route, which artifact, which block,
-what the page was compiled against, and what is registered now. `registered: null` is a block
-the registry has lost. A pointer whose hash the store cannot resolve is incompatible on its own,
-since that route is broken with no registry change involved.
+[`checkCompatibility`](generated/@nubbin/core/functions/checkCompatibility.md) runs the same
+comparison over every pointer instead of one artifact, and reports it with the version delta a
+reader needs to act: which route, which artifact, which block, what the page was compiled
+against, and what is registered now. A block the registry has lost reads as `registered: null`.
+A pointer whose hash the store cannot resolve is incompatible on its own, since that route is
+broken with no registry change involved.
 
 It takes the pointers and artifacts rather than the store, because passing an `ArtifactStore`
 would put IO inside the package whose portability is the point, and would exclude any consumer
@@ -160,11 +111,8 @@ a pass.
 
 ## `formatCompatibilityReport`
 
-```ts
-function formatCompatibilityReport(report: CompatibilityReport): string;
-```
-
-The report as a log reads it, leading with the count in both directions:
+[`formatCompatibilityReport`](generated/@nubbin/core/functions/formatCompatibilityReport.md)
+renders the report as a log reads it, leading with the count in both directions:
 
 ```
 2 of 8 live route pointer(s) are incompatible with this registry:
@@ -177,22 +125,10 @@ The report as a log reads it, leading with the count in both directions:
 
 ## `ArtifactStore`
 
-```ts
-interface ArtifactStore {
-  read(hash: string): Promise<Artifact | null>;
-  write(artifact: Artifact): Promise<void>;
-  manifest(): Promise<Manifest>;
-  pointer(route: string): Promise<RoutePointer | null>;
-  publish(route: string, hash: string): Promise<void>;
-  unpublish(route: string): Promise<void>;
-  history?(route: string): Promise<PointerMove[]>;
-}
-```
-
-The output layer's whole IO surface. `core` only returns values for it; adapters implement
-it — `@nubbin/store-fs` is the reference implementation, and every implementation is proven
-against one shared suite, `packages/store-fs/src/testing/runArtifactStoreContract.ts`. The
-behaviour that suite pins:
+[`ArtifactStore`](generated/@nubbin/core/interfaces/ArtifactStore.md) is the output layer's
+whole IO surface. `core` only returns values for it; adapters implement it — `@nubbin/store-fs`
+is the reference implementation, and every implementation is proven against one shared suite,
+`packages/store-fs/src/testing/runArtifactStoreContract.ts`. The behaviour that suite pins:
 
 | Guarantee | Meaning |
 |---|---|
@@ -204,65 +140,35 @@ behaviour that suite pins:
 | `unpublish` removes the pointer and keeps the artifact | Unpublishing takes a route offline; it destroys nothing, and a missing pointer is tolerated |
 | `history`, where implemented, lists the route's moves oldest first | Only published states appear; `unpublish` erases none of it; republishing the same hash records a second move — content addressing dedupes artifacts, not moves |
 
+The ordering is the caller's to keep: write the artifact, then point the route at its hash. A
+pointer published at a hash nothing was written for is a live 404, which is why an
+implementation rejects one rather than storing it.
+
 Publishing never mutates an artifact — it writes a new one and moves the route's pointer,
 which is what makes cache invalidation at the store unnecessary.
 
 ## `RoutePointer` and `Manifest`
 
-```ts
-interface RoutePointer {
-  route: string;
-  matchKind: "exact" | "param" | "prefix";
-  hash: string;
-  updatedAt: string;
-}
-
-interface Manifest {
-  routes: RoutePointer[];
-  generatedAt: string;
-}
-```
-
-The pointer is the single piece of output-layer state that changes in place — each route owns
-its own record, naming the artifact currently live there. Why per-route pointers beat one
-mutable manifest is [Route pointer](../domain-model.md#route-pointer). `Manifest` is the advisory
-aggregation over every pointer — a route list for an editing surface or CI, derived rather
-than authoritative.
+The [pointer](generated/@nubbin/core/interfaces/RoutePointer.md) is the single piece of
+output-layer state that changes in place — each route owns its own record, naming the artifact
+currently live there. Why per-route pointers beat one mutable manifest is
+[Route pointer](../domain-model.md#route-pointer).
+[`Manifest`](generated/@nubbin/core/interfaces/Manifest.md) is the advisory aggregation over
+every pointer — a route list for an editing surface or CI, derived rather than authoritative.
 
 ## `PointerMove`
 
-```ts
-interface PointerMove {
-  hash: string;
-  documentVersion: number;
-  movedAt: string;
-}
-```
-
-One `publish` at a route, as the optional `history(route)` hands it back: what the route was
-pointed at, the document version that compiled to it, and when. `history` is optional because a
-write-only blob store is still a valid adapter — a caller that needs it degrades with a message
-rather than assuming it. Why the record lives beside the pointer instead of inside it, and is
-appended rather than rewritten, is
+A [`PointerMove`](generated/@nubbin/core/interfaces/PointerMove.md) is one `publish` at a route,
+as the optional `history(route)` hands it back. `history` is optional because a write-only blob
+store is still a valid adapter — a caller that needs it degrades with a message rather than
+assuming it. Why the record lives beside the pointer instead of inside it, and is appended
+rather than rewritten, is
 [A route remembers what it pointed at](../decisions/a-route-remembers-what-it-pointed-at.md).
 
 ## `parseMatchKind`
 
-```ts
-function parseMatchKind(route: string): "exact" | "param" | "prefix";
-```
-
-Derives a pointer's `matchKind` from its route. It lives in `core` so every adapter shares one
-implementation — a second parser is free to disagree. Derived from
-`packages/core/src/parseMatchKind.test.ts`:
-
-```ts
-import { parseMatchKind } from "@nubbin/core";
-
-parseMatchKind("/about"); // "exact"
-parseMatchKind("/guides/[city]"); // "param"
-parseMatchKind("/collections/*"); // "prefix"
-```
-
-A route ending in `/*` is `prefix`; otherwise a route containing a `[bracketed]` segment is
-`param`; anything else, including `/`, is `exact`.
+[`parseMatchKind`](generated/@nubbin/core/functions/parseMatchKind.md) derives a pointer's
+`matchKind` from its route. It lives in `core` so every adapter shares one implementation — a
+second parser is free to disagree. It judges the route before classifying it, and that is the
+last point before a pointer is written: an adapter that never called `compile` still cannot
+publish an unaddressable route.

@@ -6,27 +6,19 @@ status: reference
 
 # Compiling a document
 
-This page describes the shipped behaviour of `compile` and `NubbinError`, and the types they
-take and raise: `DocumentVersion`, `Node`, `DocumentMeta`, `NubbinIssue` and
-`NubbinIssueCode`. Why compiling happens at publish, and why it is validation rather than a
-build, is [Why compile at publish](../architecture.md#why-compile-at-publish).
+This page holds the reasoning: why validation runs in two passes, what each issue code means,
+and when an author sees one. Every signature, parameter and type member is generated from the
+source into [the API reference](generated/README.md), which is where to read the surface
+itself. Why compiling happens at publish, and why it is validation rather than a build, is
+[Why compile at publish](../architecture.md#why-compile-at-publish).
 
 ## `compile`
 
-```ts
-function compile(
-  version: DocumentVersion,
-  catalog: Catalog,
-  registry: Registry,
-  route: string,
-): CompileResult;
-```
-
-Validates one document version and serializes it into an [`Artifact`](artifacts.md#artifact),
-returned beside the issues that did not stop one existing. A fault raises `NubbinError`; an
-`unknown-prop` is reported rather than raised, so a document carrying one still compiles and
-the caller decides what to do about it. It performs no IO — reading the document and writing
-the artifact belong to adapters.
+[`compile`](generated/@nubbin/core/functions/compile.md) validates one document version and
+serializes it into an [`Artifact`](artifacts.md#artifact), returned beside the issues that did
+not stop one existing. A fault raises `NubbinError`; an `unknown-prop` is reported rather than
+raised, so a document carrying one still compiles and the caller decides what to do about it.
+It performs no IO — reading the document and writing the artifact belong to adapters.
 
 Validation runs in two passes, and the second runs only if the first found nothing —
 prop validation over a document with dangling references would bury the real cause in
@@ -91,9 +83,9 @@ artifact.tree[0]?.holes; // { price: { revalidate: 60 } }  — resolved at rende
 artifact.blockVersions; // { Hero: 1, Card: 1 }
 ```
 
-Compiling the same document against the same registry yields the same `hash` every time — the
-artifact is content-addressed, with key order normalized before hashing so insertion order
-cannot change the address.
+Compiling the same document against the same catalog and registry yields the same `hash` every
+time — the artifact is content-addressed, with key order normalized before hashing so insertion
+order cannot change the address.
 
 ## Holes: what a `data` hint compiles to
 
@@ -106,37 +98,12 @@ takes that leaf alone and the rest of `cta` stays frozen, which is why a hole's 
 and not a field name — see
 [A `data` hint addresses a path, not a top-level key](../decisions/a-data-hint-addresses-a-path-not-a-top-level-key.md).
 
-## `DocumentVersion`, `Node` and `DocumentMeta`
+## Why the authoring shape is flat
 
-```ts
-interface DocumentVersion {
-  documentId: string;
-  version: number;
-  roots: readonly string[];
-  elements: Record<string, Node>;
-  meta: DocumentMeta;
-  createdAt: string;
-  createdBy: string;
-}
-
-interface Node {
-  id: string;
-  block: string;
-  props: UnknownProps;
-  slots?: Record<string, readonly string[]>;
-}
-
-interface DocumentMeta {
-  title: string;
-  description?: string;
-  robots?: string;
-  canonical?: string;
-}
-```
-
-The authoring shape is flat: `elements` is an index keyed by id, and a node's `slots` hold
-ordered child ids rather than nested nodes, so every editor operation addresses a node
-directly. Compiling denormalizes it into the artifact's nested tree — the trade is
+[`DocumentVersion`](generated/@nubbin/core/interfaces/DocumentVersion.md) indexes every
+[`Node`](generated/@nubbin/core/interfaces/Node.md) by id, and a node's `slots` hold ordered
+child ids rather than nested nodes, so every editor operation addresses a node directly.
+Compiling denormalizes it into the artifact's nested tree — the trade is
 [Flat while authoring, nested once published](../decisions/flat-while-authoring-nested-once-published.md).
 
 `roots` lists entry elements in order, and `Artifact.tree` holds one denormalized tree for
@@ -149,23 +116,9 @@ literal, the way the package's own tests do. Editing one is
 
 ## `setNodeProp` and `setAtPath`
 
-```ts
-function setNodeProp(
-  version: DocumentVersion,
-  nodeId: string,
-  path: string,
-  value: unknown,
-): DocumentVersion;
-
-function setAtPath(
-  target: Record<string, unknown>,
-  path: string,
-  value: unknown,
-): Record<string, unknown>;
-```
-
-`setNodeProp` is the first document operation: a new `DocumentVersion` with one prop set on
-one node, copy-on-write, every untouched node kept by reference. It lives beside `compile`
+[`setNodeProp`](generated/@nubbin/core/functions/setNodeProp.md) is the first document
+operation: a new `DocumentVersion` with one prop set on one node, copy-on-write, every
+untouched node kept by reference. It lives beside `compile`
 rather than inside an editor, so every caller — a studio, a script, an agent —
 [writes a document through one definition of the write](../decisions/document-operations-live-in-core-beside-compile.md).
 
@@ -174,35 +127,19 @@ next compile, which reports an `invalid-props` issue at the offending path. It d
 `version` — appending a version belongs to the authoring store, not to one edit. And it throws on an
 unknown `nodeId` and on an `items[]` path, which names every array member rather than one.
 
-`setAtPath` is the copy-on-write descent it writes with — the same one the renderer uses to
-fill a resolved hole value into props at render time.
+[`setAtPath`](generated/@nubbin/core/functions/setAtPath.md) is the copy-on-write descent it
+writes with — the same one the renderer uses to fill a resolved hole value into props at
+render time.
 
 ## `addNode`, `removeNode` and `moveNode`
 
-```ts
-function addNode(
-  version: DocumentVersion,
-  parentId: string,
-  slot: string,
-  node: Node,
-  index?: number,
-): DocumentVersion;
-
-function removeNode(version: DocumentVersion, nodeId: string): DocumentVersion;
-
-function moveNode(
-  version: DocumentVersion,
-  nodeId: string,
-  toParentId: string,
-  toSlot: string,
-  index?: number,
-): DocumentVersion;
-```
-
-Structure, on the same terms as `setNodeProp`: a new `DocumentVersion`, copy-on-write, every
-untouched node kept by reference, and no bump to `version`. `index` inserts and its absence
-appends; for `moveNode` it names a position in the target slot *after* the node is taken out,
-which is the reading under which moving something to the end is the slot's length.
+[`addNode`](generated/@nubbin/core/functions/addNode.md),
+[`removeNode`](generated/@nubbin/core/functions/removeNode.md) and
+[`moveNode`](generated/@nubbin/core/functions/moveNode.md) compose structure, on the same
+terms as `setNodeProp`: a new `DocumentVersion`, copy-on-write, every untouched node kept by
+reference, and no bump to `version`. `index` inserts and its absence appends; for `moveNode`
+it names a position in the target slot *after* the node is taken out, which is the reading
+under which moving something to the end is the slot's length.
 
 **The caller supplies `node.id`.** `core` runs in a browser, a worker and a build step, so it
 reaches no `node:` builtin — and a generator inside these functions would make the same
@@ -224,22 +161,9 @@ Each throws on a `nodeId` or `parentId` the document does not hold.
 
 ## `NubbinError`, `NubbinIssue` and `NubbinIssueCode`
 
-```ts
-class NubbinError extends Error {
-  readonly code: NubbinIssueCode;
-  readonly issues: readonly NubbinIssue[];
-}
-
-interface NubbinIssue {
-  code: NubbinIssueCode;
-  message: string;
-  at?: string;    // a node id, a block name, or a route
-  path?: string;  // where within it: a dotted prop path, `slots.items`, or `block`
-}
-```
-
-One class for every refusal the packages raise, so a consumer writes one `catch` and ships one
-shape to whatever tooling they keep. Nubbin never logs and never decides what a refusal means —
+[`NubbinError`](generated/@nubbin/core/classes/NubbinError.md) is one class for every refusal
+the packages raise, so a consumer writes one `catch` and ships one shape to whatever tooling
+they keep. Nubbin never logs and never decides what a refusal means —
 it hands back the code and the prose, and the caller chooses.
 
 `code` is on the error directly because every surface but `compile` raises exactly one issue;
@@ -261,13 +185,15 @@ try {
 }
 ```
 
-`at` and `path` are two coordinates rather than one string so an editing surface can select the
-node and highlight the field without parsing a message.
+A [`NubbinIssue`](generated/@nubbin/core/interfaces/NubbinIssue.md) carries `at` and `path` as
+two coordinates rather than one string, so an editing surface can select the node and highlight
+the field without parsing a message.
 
 ### Every code
 
-`NubbinIssueCode` is a closed set. A member's value is its own name in kebab-case, so a
-serialized issue reads the same in a log as in code.
+[`NubbinIssueCode`](generated/@nubbin/core/type-aliases/NubbinIssueCode.md) is a closed set. A
+member's value is its own name in kebab-case, so a serialized issue reads the same in a log as
+in code.
 
 **Registration** — raised by `defineBlock`, `defineCatalog` and `createRegistry`, at the point a
 developer's own code registers something unusable.

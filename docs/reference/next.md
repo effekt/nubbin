@@ -6,40 +6,30 @@ status: reference
 
 # The Next.js binding
 
-This page describes the shipped surface of `@nubbin/next`: `resolveArtifact`,
-`routeFromSlug`, `staticRouteParams`, `holeFetchOptions`, `publishRoute` and `unpublishRoute`.
-Every one takes an `ArtifactStore` or a core type and holds no state of its own, so a consumer
-substituting a different store or a different framework replaces the binding and keeps the
-contract.
+This page describes the shipped surface of `@nubbin/next`:
+[`resolveArtifact`](generated/@nubbin/next/functions/resolveArtifact.md),
+[`routeFromSlug`](generated/@nubbin/next/functions/routeFromSlug.md),
+[`staticRouteParams`](generated/@nubbin/next/functions/staticRouteParams.md),
+[`holeFetchOptions`](generated/@nubbin/next/functions/holeFetchOptions.md),
+[`artifactMetadata`](generated/@nubbin/next/functions/artifactMetadata.md),
+[`publishRoute`](generated/@nubbin/next/functions/publishRoute.md) and
+[`unpublishRoute`](generated/@nubbin/next/functions/unpublishRoute.md), each signature generated
+from the source it belongs to. Every one takes an `ArtifactStore` or a core type and holds no
+state of its own, so a consumer substituting a different store or a different framework replaces
+the binding and keeps the contract.
 
-## `resolveArtifact`
+## Reading a route
 
-```ts
-function resolveArtifact(
-  store: ArtifactStore,
-  slug: readonly string[] | undefined,
-): Promise<Artifact | null>
-```
-
-The whole production read path: one pointer read, then one artifact read.
+`resolveArtifact` is the whole production read path: one pointer read, then one artifact read.
 
 **`null` means the caller renders a real 404.** An unpublished route has no pointer, which is
 what makes unpublishing produce a server 404 rather than an empty page.
 
-## `routeFromSlug`
-
-```ts
-function routeFromSlug(slug: readonly string[] | undefined): string
-```
-
-Catch-all params to the route string that artifacts and pointers are keyed by. An absent or
-empty slug is `"/"`; otherwise the segments are joined under a leading slash.
+`routeFromSlug` turns catch-all params into the route string that artifacts and pointers are
+keyed by. An absent or empty slug is `"/"`; otherwise the segments are joined under a leading
+slash.
 
 ## `staticRouteParams`
-
-```ts
-function staticRouteParams(store: ArtifactStore): Promise<{ slug: string[] }[]>
-```
 
 A `generateStaticParams` source. It reads `store.manifest()`, which is advisory and exists for
 exactly this — no request is ever served through it.
@@ -49,26 +39,12 @@ unsettled.
 
 ## `holeFetchOptions`
 
-```ts
-function holeFetchOptions(
-  spec: FieldHintData,
-): RequestInit & { next?: { revalidate: number } }
-```
-
 Maps a hole's declared lifecycle onto Next's fetch cache, so the mapping is owned by the binding
 rather than re-decided inside every consumer's resolver. A `{ revalidate: n }` spec becomes
 `{ next: { revalidate: n } }`, which leaves the page cacheable and refreshes the value on that
 interval.
 
-It takes core's `FieldHintData` directly rather than deriving a local spec type from
-`ArtifactNode["holes"]`: core exports the type by name, so both packages import it from core.
-
 ## `publishRoute` and `unpublishRoute`
-
-```ts
-function publishRoute(store: ArtifactStore, route: string, hash: string): Promise<void>
-function unpublishRoute(store: ArtifactStore, route: string): Promise<void>
-```
 
 **Pointer first, invalidation second.** The reverse order re-caches the outgoing page during the
 gap, and the publish then appears to have silently not happened. The store's own `publish`
