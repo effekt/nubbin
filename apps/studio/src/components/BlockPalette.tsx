@@ -1,13 +1,17 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 import type { PaletteBlock, PaletteGroup } from "../nubbin/paletteGroup.types";
 import { toMatchingGroups } from "../nubbin/toMatchingGroups";
+import { withToggled } from "../nubbin/withToggled";
 import "./blockPalette.css";
+import { BlockPreviewPanel } from "./BlockPreviewPanel";
 import { PaletteDetailBar } from "./PaletteDetailBar";
 import { PaletteEmptyState } from "./PaletteEmptyState";
 import { PaletteSearch } from "./PaletteSearch";
 import { PaletteSection } from "./PaletteSection";
+import { useCloseOnEscape } from "./useCloseOnEscape";
+import { useHoverPreview } from "./useHoverPreview";
 
 /** The Blocks card's content, replacing Puck's own list through the `drawer` override: a
  * search over name and description, the categories with their filtered counts, and the
@@ -17,6 +21,14 @@ import { PaletteSection } from "./PaletteSection";
 export function BlockPalette({ groups }: { groups: readonly PaletteGroup[] }) {
   const [query, setQuery] = useState("");
   const [detail, setDetail] = useState<PaletteBlock | undefined>(undefined);
+  // Titles the reader has collapsed. A live search forces every matching section open —
+  // a collapsed section hiding hits would make search look broken — without touching this
+  // set, so clearing the search restores exactly the sections the reader had closed.
+  const [collapsed, setCollapsed] = useState<ReadonlySet<string>>(new Set());
+  const card = useRef<HTMLDivElement>(null);
+  // The panel trails the detail bar: same pointed-at block, its own delays, Escape to close.
+  const { preview, dismiss } = useHoverPreview(detail);
+  useCloseOnEscape(preview !== undefined, dismiss);
   const matching = toMatchingGroups(query, groups);
   // A keystroke can unmount the row under the cursor, and an unmounted row fires no
   // mouseleave — so the query change itself resets the detail rather than trusting one.
@@ -25,18 +37,25 @@ export function BlockPalette({ groups }: { groups: readonly PaletteGroup[] }) {
     setDetail(undefined);
   };
   return (
-    <div className="nb-palette">
+    <div className="nb-palette" ref={card}>
       <PaletteSearch query={query} onChange={onQuery} />
       <div className="nb-palette-groups">
         {matching.length === 0 ? (
           <PaletteEmptyState query={query} onClear={() => onQuery("")} />
         ) : (
           matching.map((group) => (
-            <PaletteSection key={group.title} group={group} onDetail={setDetail} />
+            <PaletteSection
+              key={group.title}
+              group={group}
+              onDetail={setDetail}
+              open={query !== "" || !collapsed.has(group.title)}
+              onToggle={() => setCollapsed((prev) => withToggled(prev, group.title))}
+            />
           ))
         )}
       </div>
       <PaletteDetailBar block={detail} />
+      <BlockPreviewPanel block={preview} anchor={card} />
     </div>
   );
 }

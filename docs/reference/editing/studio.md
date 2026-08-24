@@ -17,7 +17,11 @@ A Next.js application for composing and publishing pages from the demo's block c
   slot's `allow` constraint refuses an illegal drop before it lands. Every change — a drop, a
   reorder, a delete, a prop edit — folds back into a Nubbin document and saves to the draft
   store on a debounce; a value the schema refuses still saves, with the compiler's issues in
-  the reply, because publish is the gate rather than save.
+  the reply, because publish is the gate rather than save. Resting on a palette row floats
+  the block itself beside the card, an iframe of `/block-preview/<name>` — the block
+  compiled and rendered server-side from its catalog `defaults`, required slots filled with
+  the first block each allows — so the preview is the component as shipped and cannot go
+  stale the way a screenshot would.
 - **Preview** — `/preview/<route>` compiles the current draft and renders it through
   `Renderer` with the demo's block registry, so the page on screen is the page the demo
   would serve.
