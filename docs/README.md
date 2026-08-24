@@ -121,7 +121,7 @@ return <Renderer artifact={artifact} registry={blockRegistry} />;
 | [`reference/rendering/next.md`](reference/rendering/next.md) | `@nubbin/next` as shipped — route resolution, static params, hole fetch options, and the two publish calls | reference |
 | **Contributing** | | |
 | [`contributing/documents.md`](contributing/documents.md) | What belongs in a document rather than an issue, and the gates that hold this corpus to it | stable |
-| [`contributing/gates.md`](contributing/gates.md) | Every gate, what it enforces, which run it belongs to, and the four that stay out of `verify` | stable |
+| [`contributing/gates.md`](contributing/gates.md) | Every gate, what it enforces, where its verdict comes from, and the three that stay local | stable |
 | [`contributing/releasing.md`](contributing/releasing.md) | How a version reaches npm, what decides it, and the two behaviours that surprise people | stable |
 | [`contributing/environment.md`](contributing/environment.md) | The plugins, skills and toolchain this repository is worked on with, and how to reproduce them | stable |
 | [`contributing/public-repository.md`](contributing/public-repository.md) | What may not appear here, and how to publish a finding without its provenance | stable |
