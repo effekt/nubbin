@@ -6,7 +6,7 @@
 // machine can see; terminology drift is the other half, and lives in `scripts/check-prose.mjs`.
 
 import { existsSync, readFileSync } from "node:fs";
-import { dirname, join, relative, resolve } from "node:path";
+import { basename, dirname, join, relative, resolve } from "node:path";
 import { describe, expect, it } from "vitest";
 import { isDeliberatelyAbsent } from "../scripts/danglingFileRefs.mjs";
 import { REPO_ROOT } from "./support/repoRoot.mjs";
@@ -77,6 +77,33 @@ function brokenCrossLink(file, target, anchor, anchorsByFile) {
   return "";
 }
 
+/**
+ * A link whose label is itself a path, pointing somewhere that path does not name.
+ *
+ * `documentationStructure` already proves a target resolves, and a resolving target says nothing
+ * about the label above it: moving a document and rewriting every target leaves the labels naming
+ * where the file used to be, which reads as authoritative and is checked by nothing. Two survived
+ * exactly that way — `docs/domain-model.md` and `reference/blocks.md`, both named a directory
+ * before their document was grouped by subject.
+ */
+export function mislabelledLinks(file, text) {
+  const problems = [];
+  for (const match of text.matchAll(
+    /\[`([^`\]]+\.md(?:#[^`\]]*)?)`\]\((?!https?:)([^)#\s]+\.md)/g,
+  )) {
+    const label = match[1].split("#")[0];
+    const target = match[2];
+    if (basename(label) !== basename(target)) {
+      problems.push(`label \`${match[1]}\` points at ${target}`);
+      continue;
+    }
+    if (!label.includes("/")) continue;
+    const resolved = relative(REPO_ROOT, resolve(dirname(file), target));
+    if (!resolved.endsWith(label)) problems.push(`label \`${match[1]}\` points at ${resolved}`);
+  }
+  return problems;
+}
+
 function danglingLinks(file, text, anchorsByFile) {
   const problems = [];
   for (const match of text.matchAll(/\]\((?!https?:|mailto:|#)([^)\s]+)\)/g)) {
@@ -118,6 +145,23 @@ describe("the detectors", () => {
     expect(problems).toEqual(["link to missing file: ./nothing-here.md"]);
   });
 
+  it("sees a label naming a path the target does not", () => {
+    const text = "see [`reference/blocks.md`](../reference/authoring/blocks.md)";
+    expect(mislabelledLinks(join(REPO_ROOT, "docs/concepts/api.md"), text)).toEqual([
+      "label `reference/blocks.md` points at docs/reference/authoring/blocks.md",
+    ]);
+  });
+
+  it("leaves a label that agrees with its target alone", () => {
+    const text = "see [`reference/authoring/blocks.md`](../reference/authoring/blocks.md)";
+    expect(mislabelledLinks(join(REPO_ROOT, "docs/concepts/api.md"), text)).toEqual([]);
+  });
+
+  it("leaves a label that is prose rather than a path alone", () => {
+    const text = "see [the blocks page](../reference/authoring/blocks.md)";
+    expect(mislabelledLinks(join(REPO_ROOT, "docs/concepts/api.md"), text)).toEqual([]);
+  });
+
   it("sees a link to an anchor a real document does not carry", () => {
     const problems = danglingLinks(
       INDEX,
@@ -138,6 +182,7 @@ describe("every tracked document", () => {
         ...unbalancedFences(text),
         ...unnamedTableColumns(text),
         ...danglingLinks(file, text, anchorsByFile),
+        ...mislabelledLinks(file, text),
       ]) {
         problems.push(`${rel}  ${problem}`);
       }

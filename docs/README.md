@@ -10,6 +10,9 @@ A page builder that lives inside your codebase. You decide what can go on a page
 blocks; someone else arranges them without touching the code. What they arrange is data, what
 you wrote is the contract, and publishing turns one into an immutable artifact the site serves.
 
+![A terminal publishes a route while the browser beside it changes: two sections swap places,
+revert, and a card is rewritten — all without a rebuild](media/publish-loop.svg)
+
 ## Install
 
 ```bash
@@ -17,8 +20,14 @@ npm install @nubbin/core @nubbin/react @nubbin/next @nubbin/store-fs
 npm install -D @nubbin/cli
 ```
 
-`@nubbin/core` is the contract and depends on nothing. The rest are adapters, and any of them
-can be replaced — bring your own storage, your own framework binding.
+[`@nubbin/core`](https://www.npmjs.com/package/@nubbin/core) is the contract and depends on
+nothing. The rest are adapters and any of them can be replaced — bring your own storage, your own
+framework binding: [`@nubbin/react`](https://www.npmjs.com/package/@nubbin/react),
+[`@nubbin/next`](https://www.npmjs.com/package/@nubbin/next),
+[`@nubbin/store-fs`](https://www.npmjs.com/package/@nubbin/store-fs), and
+[`@nubbin/cli`](https://www.npmjs.com/package/@nubbin/cli) for the terminal.
+
+More about the project at [nubbin.io](https://nubbin.io).
 
 ## Define a block
 
@@ -97,7 +106,7 @@ return <Renderer artifact={artifact} registry={blockRegistry} />;
 | Writing blocks | [Blocks](reference/authoring/blocks.md) and [the catalog](reference/authoring/catalog.md) |
 | Publishing from CI or a terminal | [Compiling](reference/publishing/compile.md), [artifacts](reference/publishing/artifacts.md), [the command line](reference/publishing/cli.md) |
 | Rendering in an app | [The renderer](reference/rendering/renderer.md) and [the Next.js binding](reference/rendering/next.md) |
-| Looking for a signature | The generated API reference, written from the packages' own sources |
+| Looking for a signature | [The API reference](reference/generated/README.md), written from the packages' own sources on every docs build |
 
 ## Every document
 
@@ -121,7 +130,7 @@ return <Renderer artifact={artifact} registry={blockRegistry} />;
 | [`reference/rendering/next.md`](reference/rendering/next.md) | `@nubbin/next` as shipped — route resolution, static params, hole fetch options, and the two publish calls | reference |
 | **Contributing** | | |
 | [`contributing/documents.md`](contributing/documents.md) | What belongs in a document rather than an issue, and the gates that hold this corpus to it | stable |
-| [`contributing/gates.md`](contributing/gates.md) | Every gate, what it enforces, which run it belongs to, and the four that stay out of `verify` | stable |
+| [`contributing/gates.md`](contributing/gates.md) | Every gate, what it enforces, where its verdict comes from, and the three that stay local | stable |
 | [`contributing/releasing.md`](contributing/releasing.md) | How a version reaches npm, what decides it, and the two behaviours that surprise people | stable |
 | [`contributing/environment.md`](contributing/environment.md) | The plugins, skills and toolchain this repository is worked on with, and how to reproduce them | stable |
 | [`contributing/public-repository.md`](contributing/public-repository.md) | What may not appear here, and how to publish a finding without its provenance | stable |
