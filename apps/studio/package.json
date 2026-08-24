@@ -12,6 +12,7 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
+    "@measured/puck": "catalog:",
     "@nubbin/core": "workspace:*",
     "@nubbin/next": "workspace:*",
     "@nubbin/react": "workspace:*",
@@ -31,6 +32,7 @@
     "happy-dom": "catalog:",
     "tailwindcss": "catalog:",
     "typescript": "catalog:",
-    "vitest": "catalog:"
+    "vitest": "catalog:",
+    "zod": "catalog:"
   }
 }

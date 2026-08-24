@@ -54,6 +54,10 @@ catalog:
   "@biomejs/biome": 2.5.8
   turbo: 2.10.9
 
+  # Editor shell — the studio hosts Puck for palette, outline, drag and inspector chrome;
+  # everything Nubbin-specific enters through a config derived from the catalog
+  "@measured/puck": 0.20.2
+
   # Rendering under test — the studio and the demo both render components in vitest, so a
   # DOM implementation and the render helpers are shared and pinned here like any other pair
   happy-dom: 20.11.2
