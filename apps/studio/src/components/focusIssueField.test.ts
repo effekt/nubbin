@@ -56,6 +56,59 @@ test("a row that renders nothing deeper leaves focus on its disclosure", async (
   root.remove();
 });
 
+const RICH_TEXT = `
+  <fieldset id="n7_custom_body" class="nb-richtext">
+    <ol class="nb-richtext-blocks">
+      <li id="n7_custom_body_0" class="nb-richtext-block">
+        <div id="n7_custom_body_0_spans" class="nb-richtext-spans">
+          <div id="n7_custom_body_0_spans_0" class="nb-richtext-span">
+            <input id="n7_custom_body_0_spans_0_text" />
+          </div>
+          <div id="n7_custom_body_0_spans_1" class="nb-richtext-span">
+            <input id="n7_custom_body_0_spans_1_text" />
+          </div>
+        </div>
+      </li>
+    </ol>
+  </fieldset>`;
+
+test("a compiler path into rich text lands focus in the span's own input", async () => {
+  const root = mount(RICH_TEXT);
+  expect(await focusIssueField(root, "n7", "body.0.spans.1.text", 2)).toBe("body.0.spans.1.text");
+  expect(document.activeElement?.id).toBe("n7_custom_body_0_spans_1_text");
+  root.remove();
+});
+
+test("a path with no control of its own degrades to the span's row, not the fieldset", async () => {
+  const root = mount(RICH_TEXT);
+  expect(await focusIssueField(root, "n7", "body.0.spans.1.marks.0", 2)).toBe("body.0.spans.1");
+  expect(document.activeElement?.id).toBe("n7_custom_body_0_spans_1");
+  root.remove();
+});
+
+test("rich text behind a closed repeater row is opened first, then the span focused", async () => {
+  const root = mount(`
+    <fieldset id="n7_custom_items" class="nb-repeater">
+      <ul class="nb-repeater-rows">
+        <li class="nb-repeater-row"><div class="nb-repeater-rowhead">
+          <button class="nb-repeater-disclose" aria-expanded="false">Body</button>
+        </div></li>
+      </ul>
+    </fieldset>`);
+  const row = root.querySelector(".nb-repeater-row");
+  root.querySelector("button")?.addEventListener("click", () => {
+    row?.insertAdjacentHTML(
+      "beforeend",
+      '<fieldset id="n7_custom_items_0_body" class="nb-richtext">' +
+        '<input id="n7_custom_items_0_body_0_spans_0_text" /></fieldset>',
+    );
+  });
+  const path = "items.0.body.0.spans.0.text";
+  expect(await focusIssueField(root, "n7", path, 5)).toBe(path);
+  expect(document.activeElement?.id).toBe("n7_custom_items_0_body_0_spans_0_text");
+  root.remove();
+});
+
 test("no path and an unaddressable path both degrade to nothing, silently", async () => {
   const root = mount('<input id="n7_custom_headline" />');
   expect(await focusIssueField(root, "n7", undefined, 2)).toBeUndefined();

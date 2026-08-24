@@ -7,7 +7,7 @@ import { productCardSchema } from "./ProductCard.schema";
 export const productCardBlock = defineBlock({
   name: "ProductCard",
   description: "One thing the paper sells: name, price as printed, and a line about it.",
-  icon: "card",
+  icon: "tag",
   category: "Commerce",
   schema: productCardSchema,
   component: ProductCard,

@@ -7,7 +7,7 @@ import { logoWallSchema } from "./LogoWall.schema";
 export const logoWallBlock = defineBlock({
   name: "LogoWall",
   description: "A row of the harbours and crews that carry the paper, as marks or set names.",
-  icon: "grid",
+  icon: "logos",
   category: "Social Proof",
   schema: logoWallSchema,
   component: LogoWall,

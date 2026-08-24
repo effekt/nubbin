@@ -8,7 +8,7 @@ import { productGridSchema } from "./ProductGrid.schema";
 export const productGridBlock = defineBlock({
   name: "ProductGrid",
   description: "A shelf of ProductCards, three across, with an optional heading.",
-  icon: "grid",
+  icon: "products",
   category: "Commerce",
   schema: productGridSchema,
   component: ProductGrid,

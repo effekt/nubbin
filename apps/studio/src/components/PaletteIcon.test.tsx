@@ -35,15 +35,12 @@ test("every icon the demo's registry names has a drawn glyph, not the text fallb
   }
 });
 
-test("no two icon names the registry uses draw the same glyph", () => {
-  const names = [
-    ...new Set(
-      registry
-        .names()
-        .map((name) => registry.get(name)?.icon)
-        .filter((icon): icon is string => icon !== undefined),
-    ),
-  ];
+test("every registered block wears its own glyph — no two share a name or a drawing", () => {
+  const names = registry
+    .names()
+    .map((name) => registry.get(name)?.icon)
+    .filter((icon): icon is string => icon !== undefined);
+  expect(new Set(names).size).toBe(names.length);
   const drawings = names.map((name) => {
     const { container, unmount } = render(<PaletteIcon icon={name} />);
     const markup = container.innerHTML;

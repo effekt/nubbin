@@ -38,6 +38,12 @@ test("the kind edits as a segmented group over core's closed set", () => {
   expect(handlers.onKind).toHaveBeenCalledWith("paragraph");
 });
 
+test("the row carries the block's id and hands its spans the spans segment", () => {
+  renderRow();
+  expect(screen.getByRole("listitem").id).toBe("b1");
+  expect(screen.getByLabelText("Span text").id).toBe("b1_spans_0_text");
+});
+
 test("the block moves and removes by the repeater's own buttons", () => {
   const handlers = renderRow();
   fireEvent.click(screen.getByRole("button", { name: "Move row up" }));

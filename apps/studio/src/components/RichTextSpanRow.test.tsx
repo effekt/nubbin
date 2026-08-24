@@ -36,6 +36,13 @@ test("an unlinked span shows no target input; a linked one edits it", () => {
   expect(screen.queryByLabelText("Link target")).toBeNull();
 });
 
+test("the row and its inputs carry the compiler path's addressing ids", () => {
+  renderRow({ span: { text: "quiet water", href: "/harbour" } });
+  expect(screen.getByLabelText("Span text").id).toBe("s0_text");
+  expect(screen.getByLabelText("Link target").id).toBe("s0_href");
+  expect(document.getElementById("s0")?.className).toContain("nb-richtext-span");
+});
+
 test("a single-line paste is left to the input itself", () => {
   const handlers = renderRow();
   fireEvent.paste(screen.getByLabelText("Span text"), {

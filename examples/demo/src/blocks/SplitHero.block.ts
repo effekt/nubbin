@@ -8,7 +8,7 @@ import { splitHeroSchema } from "./SplitHero.schema";
 export const splitHeroBlock = defineBlock({
   name: "SplitHero",
   description: "An opener in two halves: headline and standfirst one side, media the other.",
-  icon: "split",
+  icon: "splithero",
   category: "Heroes & Banners",
   schema: splitHeroSchema,
   component: SplitHero,
