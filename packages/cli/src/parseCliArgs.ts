@@ -5,6 +5,7 @@ import { UsageError } from "./UsageError";
 const OPTIONS = {
   config: { type: "string" },
   origin: { type: "string" },
+  to: { type: "string" },
 } as const;
 
 /**
@@ -30,6 +31,7 @@ export function parseCliArgs(argv: readonly string[]): ParsedCli {
       args: {
         positionals: rest,
         ...(values.origin === undefined ? {} : { origin: values.origin }),
+        ...(values.to === undefined ? {} : { to: values.to }),
       },
     };
   } catch (error) {

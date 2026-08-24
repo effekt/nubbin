@@ -43,6 +43,8 @@ nubbin compile /pricing                     # would it publish, and as what hash
 nubbin publish /pricing                     # compile, write the artifact, then move the pointer
 nubbin unpublish /pricing                   # drop the pointer; the artifact stays where it is
 nubbin rollback /pricing 9f2c1a8e4b7d0356   # point the route back at an artifact already stored
+nubbin rollback /pricing --to 3             # the same, naming the document version instead
+nubbin history /pricing                     # what the route has pointed at, newest first
 nubbin status                               # every live route, or one of them
 nubbin check                                # every live route against the registry as it is now
 nubbin help                                 # this list, as an answer rather than an error

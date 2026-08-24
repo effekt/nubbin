@@ -20,11 +20,18 @@ await store.publish("/promotions/summer", artifact.hash);
 .nubbin/
   artifacts/<hash>.json
   routes/%2Fpromotions%2Fsummer.json
+  history/%2Fpromotions%2Fsummer.jsonl
 ```
 
 Writes are temp-then-rename, so a concurrent reader sees the old pointer or the new one and
 never half of either. `manifest()` reads the pointer directory rather than a stored file, so
 there is nothing to keep in step.
+
+Each publish also appends one line to the route's history log — after the pointer has moved,
+so a failed publish is never recorded as live. Appending writes only the new line, never
+reading the log back to rewrite it, so concurrent publishes of one route cannot lose each
+other's entry either. `history(route)` reads it back oldest first, and `unpublish` leaves it
+where it is.
 
 It passes a shared `ArtifactStore` contract suite, which is how a replacement adapter proves
 itself equivalent — by execution rather than by inspection.

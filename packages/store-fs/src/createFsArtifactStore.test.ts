@@ -1,4 +1,4 @@
-import { mkdtemp, readdir } from "node:fs/promises";
+import { mkdtemp, readdir, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { describe, expect, test } from "vitest";
@@ -21,6 +21,18 @@ describe("fs-specific behaviour", () => {
     const entries = await readdir(join(root, "routes"));
     expect(entries.sort()).toEqual(["%2Fx.json", "%2Fy.json"]);
     expect(await readdir(root)).not.toContain("manifest.json");
+  });
+
+  // The pointer moves first and the log is appended after: a failure between the two must
+  // leave the log short, never claiming a publish that went nowhere. Making `routes` a plain
+  // file forces the pointer write itself to fail, so anything the log then holds is a lie.
+  test("a publish whose pointer write failed records no move", async () => {
+    const root = await freshRoot();
+    const store = createFsArtifactStore(root);
+    await store.write(artifactFixture("a1", "/x"));
+    await writeFile(join(root, "routes"), "not a directory");
+    await expect(store.publish("/x", "a1")).rejects.toThrow();
+    expect(await store.history?.("/x")).toEqual([]);
   });
 
   test("a second store over the same root sees everything the first wrote", async () => {

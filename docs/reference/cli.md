@@ -79,14 +79,16 @@ is the better failure.
 | `compile <route>` | compiles and reports the hash the route would publish as. Writes nothing |
 | `publish <route>` | compiles, writes the artifact, then moves the pointer |
 | `unpublish <route>` | drops the pointer. The artifact stays readable |
-| `rollback <route> <hash>` | checks an artifact already in the store against the registry, then points the route at it |
+| `rollback <route> <hash>` | checks an artifact already in the store against the registry, then points the route at it. `--to <version>` names a document version instead, resolved through the history |
+| `history <route>` | what the route has pointed at, newest first, with the document version and time of each move |
 | `status [route]` | what is live, everywhere or at one route |
 | `check` | every live route against the registry as it is now |
 | `help` | the usage text, on stdout and exiting `0` — asking for it succeeds |
 
-A command refuses an argument it does not read. `check` takes no route, and `--origin` is refused
+A command refuses an argument it does not read. `check` takes no route; `--origin` is refused
 by `compile`, `status` and `check` — none of them moves a pointer, so `status --origin http://prod`
-would answer from the local store while looking like it asked the server.
+would answer from the local store while looking like it asked the server — and `--to` is refused
+by everything but `rollback`, the one command that resolves a document version through history.
 
 ### `publish`
 
@@ -102,6 +104,22 @@ The artifact is read by hash and refused if it belongs to another route. `checkR
 compares what it was compiled against with the registry as it stands: an older artifact whose
 blocks have moved on cannot render, so the pointer does not move and the drifted block names are
 printed.
+
+`rollback /pricing --to 3` names the document version instead of the hash, resolved through the
+same history `history` lists — the latest move of that version wins, since a version published
+twice was last live as its later move. Given both a hash and `--to`, the command refuses rather
+than guessing which was meant.
+
+### `history`
+
+Every move `publish` made at the route, newest first, each line carrying the hash, the document
+version that compiled to it, and when it went live. Unpublishing erases nothing, and only
+published states appear — the model is
+[A route remembers what it pointed at](../decisions/a-route-remembers-what-it-pointed-at.md).
+
+`history(route)` is optional on `ArtifactStore`, so a store that keeps no history is answered
+with a refusal naming the gap — and `rollback --to`, which resolves through the same record,
+says to name the hash instead.
 
 ### `check`
 

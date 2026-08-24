@@ -1,6 +1,7 @@
 import { checkCommand } from "./checkCommand";
 import type { CommandEntry } from "./command.types";
 import { compileCommand } from "./compileCommand";
+import { historyCommand } from "./historyCommand";
 import { publishCommand } from "./publishCommand";
 import { rollbackCommand } from "./rollbackCommand";
 import { statusCommand } from "./statusCommand";
@@ -15,8 +16,9 @@ import { unpublishCommand } from "./unpublishCommand";
 export const COMMANDS: Record<string, CommandEntry> = {
   check: { run: checkCommand, takes: 0 },
   compile: { run: compileCommand, takes: 1 },
+  history: { run: historyCommand, takes: 1 },
   publish: { run: publishCommand, takes: 1, moves: true },
-  rollback: { run: rollbackCommand, takes: 2, moves: true },
+  rollback: { run: rollbackCommand, takes: 2, moves: true, resolves: true },
   status: { run: statusCommand, takes: 1 },
   unpublish: { run: unpublishCommand, takes: 1, moves: true },
 };
