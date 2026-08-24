@@ -1,4 +1,5 @@
 import type { NowPayload } from "./nowPayload.types";
+import { plural } from "./plural";
 import { timeOfDay } from "./timeOfDay";
 
 /**
@@ -14,14 +15,17 @@ export function demoHoleValue(block: string, path: string, payload: NowPayload):
   const at = timeOfDay(payload.now);
   if (block === "LiveBand" && path === "items") {
     return [
-      { text: `The estuary has been read ${payload.served} times`, at },
+      { text: `The estuary has been read ${payload.served} ${plural(payload.served, "time")}`, at },
       { text: "Ferry holding to the winter timetable", at },
     ];
   }
   if (block === "UpdateFeed" && path === "entries") {
     return [
       { text: "This feed resolved for the request you just made", at },
-      { text: `Answered ${payload.served} times since the server started`, at },
+      {
+        text: `Answered ${payload.served} ${plural(payload.served, "time")} since the server started`,
+        at,
+      },
     ];
   }
   if (block === "FaqAccordion" && path === "items") {

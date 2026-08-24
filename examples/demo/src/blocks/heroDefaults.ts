@@ -9,6 +9,6 @@ export const heroDefaults: z.infer<typeof heroSchema> = {
   cta: { label: "Read this morning's dispatches", href: "/dispatches" },
   image: {
     url: "/hero-board.svg",
-    alt: "A tide board at the harbour, chalked with the day's high and low water",
+    alt: "Three panels of colour blocks, standing in for a chalked tide board",
   },
 };
