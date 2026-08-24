@@ -48,7 +48,46 @@ const config: Config = {
     prism: { theme: codeTheme, darkTheme: codeTheme },
     navbar: {
       title: "Nubbin",
-      items: [{ href: "https://github.com/effekt/nubbin", label: "GitHub", position: "right" }],
+      items: [
+        { href: "https://nubbin.io", label: "Site", position: "right" },
+        { href: "https://www.npmjs.com/org/nubbin", label: "npm", position: "right" },
+        { href: "https://github.com/effekt/nubbin", label: "GitHub", position: "right" },
+      ],
+    },
+    // One package per row rather than a prose list: the packages column is the only place a
+    // reader can go straight to a registry page, and a name missing from it is a package they
+    // cannot find. `packageMetadata` holds the manifests to the same names.
+    footer: {
+      style: "dark",
+      links: [
+        {
+          title: "Packages",
+          items: [
+            { label: "@nubbin/core", href: "https://www.npmjs.com/package/@nubbin/core" },
+            { label: "@nubbin/react", href: "https://www.npmjs.com/package/@nubbin/react" },
+            { label: "@nubbin/next", href: "https://www.npmjs.com/package/@nubbin/next" },
+            { label: "@nubbin/cli", href: "https://www.npmjs.com/package/@nubbin/cli" },
+            { label: "@nubbin/store-fs", href: "https://www.npmjs.com/package/@nubbin/store-fs" },
+          ],
+        },
+        {
+          title: "Docs",
+          items: [
+            { label: "Getting started", to: "/" },
+            { label: "How it works", to: "/concepts/architecture" },
+            { label: "API reference", to: "/reference/generated/" },
+          ],
+        },
+        {
+          title: "Elsewhere",
+          items: [
+            { label: "nubbin.io", href: "https://nubbin.io" },
+            { label: "GitHub", href: "https://github.com/effekt/nubbin" },
+            { label: "Issues", href: "https://github.com/effekt/nubbin/issues" },
+          ],
+        },
+      ],
+      copyright: "MIT licensed. Your components. Their pages.",
     },
   },
 };

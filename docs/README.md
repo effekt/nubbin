@@ -10,6 +10,9 @@ A page builder that lives inside your codebase. You decide what can go on a page
 blocks; someone else arranges them without touching the code. What they arrange is data, what
 you wrote is the contract, and publishing turns one into an immutable artifact the site serves.
 
+![A terminal publishes a route while the browser beside it changes: two sections swap places,
+revert, and a card is rewritten — all without a rebuild](media/publish-loop.svg)
+
 ## Install
 
 ```bash
@@ -17,8 +20,14 @@ npm install @nubbin/core @nubbin/react @nubbin/next @nubbin/store-fs
 npm install -D @nubbin/cli
 ```
 
-`@nubbin/core` is the contract and depends on nothing. The rest are adapters, and any of them
-can be replaced — bring your own storage, your own framework binding.
+[`@nubbin/core`](https://www.npmjs.com/package/@nubbin/core) is the contract and depends on
+nothing. The rest are adapters and any of them can be replaced — bring your own storage, your own
+framework binding: [`@nubbin/react`](https://www.npmjs.com/package/@nubbin/react),
+[`@nubbin/next`](https://www.npmjs.com/package/@nubbin/next),
+[`@nubbin/store-fs`](https://www.npmjs.com/package/@nubbin/store-fs), and
+[`@nubbin/cli`](https://www.npmjs.com/package/@nubbin/cli) for the terminal.
+
+More about the project at [nubbin.io](https://nubbin.io).
 
 ## Define a block
 
