@@ -6,9 +6,11 @@ status: draft
 
 # API sketch
 
-Pseudocode, not final signatures. The point is the shape and where each concern lives. The
-shipped signatures and behaviour are documented in the reference pages, starting at
-[`reference/authoring/blocks.md`](../reference/authoring/blocks.md); this document keeps the reasoning.
+Pseudocode, not final signatures. The point is the shape and where each concern lives. How the
+shipped surface behaves is argued in the reference pages, starting at
+[`reference/authoring/blocks.md`](../reference/authoring/blocks.md), and every signature it
+involves is written from the sources into [the API reference](../reference/generated/README.md);
+this document keeps the reasoning.
 
 ## At a glance
 
