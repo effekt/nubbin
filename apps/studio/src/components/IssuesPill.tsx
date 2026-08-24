@@ -4,7 +4,10 @@ import "./issuesFlow.css";
 import type { PuckApi } from "@measured/puck";
 import type { RefObject } from "react";
 import { useCallback, useRef } from "react";
+import type { AuthorIssue } from "../nubbin/authorIssue.types";
+import { focusIssueField } from "./focusIssueField";
 import { IssuesDropdown } from "./IssuesDropdown";
+import { inspectorBody } from "./inspectorBody";
 import { patchEditorStatus } from "./patchEditorStatus";
 import { selectPuckNode } from "./selectPuckNode";
 import { useCloseOnEscape } from "./useCloseOnEscape";
@@ -19,7 +22,8 @@ interface IssuesPillProps {
  * the count badged, toggling the dropdown that lists them. It reads everything through the
  * status store, so the overrides that render it never change identity — a publish refusal
  * opens it from the editor's side through the same store. Going to an issue selects the
- * failing node in Puck and closes the panel, since the fix now has the focus. */
+ * failing node in Puck, lands focus on the field its path names once the inspector has
+ * rendered it, and closes the panel — the fix is one keystroke away, per the wireframes. */
 export function IssuesPill({ apiRef }: IssuesPillProps) {
   const { issues, issuesOpen } = useEditorStatus();
   const rootRef = useRef<HTMLDivElement>(null);
@@ -33,10 +37,11 @@ export function IssuesPill({ apiRef }: IssuesPillProps) {
   if (issues.length === 0) {
     return null;
   }
-  const goTo = (nodeId: string) => {
+  const goTo = (issue: AuthorIssue) => {
     const api = apiRef.current;
-    if (api !== undefined) {
-      selectPuckNode(api(), nodeId);
+    const { nodeId } = issue;
+    if (api !== undefined && nodeId !== undefined && selectPuckNode(api(), nodeId)) {
+      void focusIssueField(inspectorBody(document), nodeId, issue.path);
     }
     patchEditorStatus({ issuesOpen: false });
   };

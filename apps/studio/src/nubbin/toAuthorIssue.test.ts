@@ -21,8 +21,16 @@ test("an issue at a node the draft holds names its block and field", () => {
     nodeId: "n1",
     blockName: "Hero",
     fieldLabel: "Headline",
+    path: "headline",
     message: "expected a string",
   });
+});
+
+test("the raw path rides beside the label, and an empty one folds to undefined", () => {
+  const nested = { message: "too long", at: "n1", path: "stats.0.label" };
+  expect(toAuthorIssue(nested, catalog, version).path).toBe("stats.0.label");
+  const pathless = { message: "malformed", at: "n1", path: "" };
+  expect(toAuthorIssue(pathless, catalog, version).path).toBeUndefined();
 });
 
 test("a bounded string past its limit reads as the field's own over-limit line", () => {
@@ -46,6 +54,7 @@ test("an at naming no node keeps the raw path and stays unclickable", () => {
   const issue = { message: "route is taken", at: "/pricing", path: "block" };
   expect(toAuthorIssue(issue, catalog, version)).toEqual({
     fieldLabel: "block",
+    path: "block",
     message: "route is taken",
   });
 });

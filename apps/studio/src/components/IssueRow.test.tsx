@@ -19,7 +19,7 @@ test("names the place and the message, with the way there as a real button", () 
   expect(screen.getByText("Hero — Headline:")).toBeDefined();
   expect(screen.getByText(/Over the 60-character limit/)).toBeDefined();
   fireEvent.click(screen.getByRole("button", { name: "Go to it →" }));
-  expect(onGoTo).toHaveBeenCalledWith("hero");
+  expect(onGoTo).toHaveBeenCalledWith(issue);
 });
 
 test("an issue naming no node keeps its message and drops the button", () => {

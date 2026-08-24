@@ -6,7 +6,7 @@ import { IssueRow } from "./IssueRow";
 
 interface IssuesDropdownProps {
   issues: readonly AuthorIssue[];
-  onGoTo: (nodeId: string) => void;
+  onGoTo: (issue: AuthorIssue) => void;
 }
 
 /** The pill's panel: what stands between the draft and going live, one row each, and the

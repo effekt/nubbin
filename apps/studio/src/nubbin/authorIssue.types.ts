@@ -11,6 +11,9 @@ export interface AuthorIssue {
   readonly blockName?: string | undefined;
   /** The field in author words, or the raw path where no label resolves. */
   readonly fieldLabel?: string | undefined;
+  /** The compiler's own dotted path — `stats.0.label` — kept raw beside the label so the
+   * editor can land focus on the control that renders it. Display reads `fieldLabel`. */
+  readonly path?: string | undefined;
   /** The compiler's own prose for what is wrong. */
   readonly message: string;
 }
