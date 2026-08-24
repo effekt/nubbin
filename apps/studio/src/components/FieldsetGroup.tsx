@@ -26,7 +26,7 @@ export function FieldsetGroup(props: FieldsetGroupProps) {
   const data: Record<string, unknown> =
     typeof value === "object" && value !== null ? { ...value } : {};
   return (
-    <fieldset className="nb-fieldset">
+    <fieldset id={id} className="nb-fieldset">
       {label === undefined ? null : <legend className="nb-fieldset-legend">{label}</legend>}
       {fields.map((child) => {
         const name = leafFieldName(child.path);

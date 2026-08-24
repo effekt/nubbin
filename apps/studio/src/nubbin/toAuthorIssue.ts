@@ -1,6 +1,7 @@
 import type { Catalog, DocumentVersion } from "@nubbin/core";
 import type { AuthorIssue } from "./authorIssue.types";
 import type { WireIssue } from "./isNubbinIssueShape";
+import { nonEmptyPath } from "./nonEmptyPath";
 import { overLimitIssueMessage } from "./overLimitIssueMessage";
 import { toFieldLabel } from "./toFieldLabel";
 
@@ -18,15 +19,16 @@ export function toAuthorIssue(
   version: DocumentVersion,
 ): AuthorIssue {
   const node = issue.at === undefined ? undefined : version.elements[issue.at];
+  const path = nonEmptyPath(issue.path);
   if (node === undefined) {
-    const fieldLabel = issue.path === undefined || issue.path === "" ? undefined : issue.path;
-    return { fieldLabel, message: issue.message };
+    return { fieldLabel: path, path, message: issue.message };
   }
   const entry = catalog[node.block];
   return {
     nodeId: node.id,
     blockName: node.block,
     fieldLabel: toFieldLabel(issue.path, entry),
+    path,
     message: overLimitIssueMessage(issue, entry, node) ?? issue.message,
   };
 }

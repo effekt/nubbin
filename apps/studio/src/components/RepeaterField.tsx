@@ -40,7 +40,7 @@ export function RepeaterField(props: RepeaterFieldProps) {
     onChange(withItemMoved(rows, from, to));
   };
   return (
-    <fieldset className="nb-repeater" aria-label={label}>
+    <fieldset id={id} className="nb-repeater" aria-label={label}>
       <RepeaterHead
         label={label}
         count={rows.length}
