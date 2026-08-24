@@ -163,7 +163,7 @@ reading once. Once it settles, check the artifact rather than the output that pr
 
 ```bash
 npm view @nubbin/core dist-tags
-npm install @nubbin/core@rc     # in an empty directory, then import it
+npm install @nubbin/core        # in an empty directory, then import it
 ```
 
 Installing into a clean directory is the only check that covers the whole path, including

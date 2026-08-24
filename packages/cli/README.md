@@ -5,7 +5,7 @@ pointer, and ask whether anything already live still fits the blocks in your cod
 editor running and no React loaded.
 
 ```bash
-npm install -D @nubbin/cli@rc
+npm install -D @nubbin/cli
 ```
 
 ## The config
@@ -71,8 +71,9 @@ It posts to `/api/nubbin/publish` and `/api/nubbin/unpublish`, which are two rou
 | `1` | refused: the document, the rollback, or a page already live |
 | `2` | the command could not be run as given |
 
-A refusal prints the code it carries — `unknown-block`, `slot-max`, `invalid-props` — so a script
-reading stderr branches on the same names your editor would.
+A refusal prints the code it carries — `unknown-block`, `slot-max`, `invalid-props` — on stderr, so
+a script branches on the same names your editor would. Stdout carries the answer or nothing:
+`HASH=$(nubbin compile /pricing)` captures a hash, never a complaint about why there is not one.
 
 ## In CI
 

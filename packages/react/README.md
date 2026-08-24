@@ -4,7 +4,7 @@ The React render path for Nubbin. It walks a compiled artifact, loads the blocks
 names, resolves the data holes it declares, and renders them.
 
 ```bash
-npm install @nubbin/react@rc
+npm install @nubbin/react
 ```
 
 ```tsx

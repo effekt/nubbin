@@ -13,17 +13,18 @@ const FIXTURE = join(PACKAGE_ROOT, "src", "testing", "projectAt.ts");
 
 interface Ran {
   stdout: string;
+  stderr: string;
   code: number;
 }
 
 /** The binary a consumer runs, in a directory whose config it has to find on its own. */
 const nubbin = async (cwd: string, ...args: string[]): Promise<Ran> => {
   try {
-    const { stdout } = await run(process.execPath, [BIN, ...args], { cwd });
-    return { stdout, code: 0 };
+    const { stdout, stderr } = await run(process.execPath, [BIN, ...args], { cwd });
+    return { stdout, stderr, code: 0 };
   } catch (error) {
-    const failure = error as { stdout?: string; code?: number };
-    return { stdout: failure.stdout ?? "", code: failure.code ?? -1 };
+    const failure = error as { stdout?: string; stderr?: string; code?: number };
+    return { stdout: failure.stdout ?? "", stderr: failure.stderr ?? "", code: failure.code ?? -1 };
   }
 };
 
@@ -49,21 +50,30 @@ describe("the nubbin binary", () => {
     expect(ran.stdout.trim()).toMatch(/^published \/pricing -> [0-9a-f]+$/);
   });
 
-  test("exits 1 on a refusal, printing the code the refusal carries", async () => {
+  test("exits 1 on a refusal, printing the code it carries — to stderr, not stdout", async () => {
     const ran = await nubbin(await project(), "compile", "/unknown-block");
     expect(ran.code).toBe(1);
-    expect(ran.stdout).toContain("unknown-block");
+    expect(ran.stderr).toContain("unknown-block");
+    // The contract a script depends on: stdout carries the answer, or carries nothing.
+    expect(ran.stdout).toBe("");
   });
 
   test("exits 2 with the usage text when given no command", async () => {
     const ran = await nubbin(await project());
     expect(ran.code).toBe(2);
-    expect(ran.stdout).toContain("nubbin <command>");
+    expect(ran.stderr).toContain("nubbin <command>");
+    expect(ran.stdout).toBe("");
   });
 
   test("exits 2 where there is no config to find, naming what it looked for", async () => {
     const ran = await nubbin(await mkdtemp(join(tmpdir(), "nubbin-cli-nocfg-")), "status");
     expect(ran.code).toBe(2);
-    expect(ran.stdout).toContain("nubbin.config.ts");
+    expect(ran.stderr).toContain("nubbin.config.ts");
+  });
+
+  test("a hash on stdout is the whole of stdout, so a script can capture it", async () => {
+    const ran = await nubbin(await project(), "compile", "/pricing");
+    expect(ran.code).toBe(0);
+    expect(ran.stdout.trim()).toMatch(/^\/pricing -> [0-9a-f]+$/);
   });
 });

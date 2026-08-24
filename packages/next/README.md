@@ -4,7 +4,7 @@ The Next.js binding for Nubbin. Reading a page is one pointer read and one artif
 publishing is a pointer move and a single-route invalidation. Neither is a deploy.
 
 ```bash
-npm install @nubbin/next@rc
+npm install @nubbin/next
 ```
 
 ```ts

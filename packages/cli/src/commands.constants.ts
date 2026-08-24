@@ -15,8 +15,8 @@ import { unpublishCommand } from "./unpublishCommand";
 export const COMMANDS: Record<string, CommandEntry> = {
   check: { run: checkCommand, takes: 0 },
   compile: { run: compileCommand, takes: 1 },
-  publish: { run: publishCommand, takes: 1 },
-  rollback: { run: rollbackCommand, takes: 2 },
+  publish: { run: publishCommand, takes: 1, moves: true },
+  rollback: { run: rollbackCommand, takes: 2, moves: true },
   status: { run: statusCommand, takes: 1 },
-  unpublish: { run: unpublishCommand, takes: 1 },
+  unpublish: { run: unpublishCommand, takes: 1, moves: true },
 };

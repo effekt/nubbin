@@ -18,8 +18,10 @@ export interface CommandOutcome {
 
 export type Command = (config: NubbinConfig, args: CommandArgs) => Promise<CommandOutcome>;
 
-/** One command as the bin holds it: what to run, and how many positionals it reads. */
+/** One command as the bin holds it: what to run, what it reads, and whether it can publish. */
 export interface CommandEntry {
   run: Command;
   takes: number;
+  /** Whether `--origin` means anything here — only a command that moves a pointer can use one. */
+  moves?: boolean;
 }
