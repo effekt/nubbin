@@ -7,8 +7,9 @@ status: stable
 # A route remembers what it pointed at
 
 `publish` records the move: the hash it pointed the route at, the document version that compiled
-to it, and when. The store keeps that log **beside the pointer, never inside it**, and hands it
-back through an optional `history(route)`.
+to it, and when. The store keeps that record **beside the pointer, never inside it, and appended
+rather than rewritten** — one line per publish, one log per route — and hands it back through an
+optional `history(route)`.
 
 Only published states appear in it. `publish` is the one operation that moves a pointer, so a
 compile that was never published, and an artifact written but never pointed at, are both absent
@@ -44,6 +45,13 @@ published is also worth keeping.
 log missing an entry, which under-reports what happened; the reverse order would let it claim a
 publish that never went live.
 
+**Appended, never rewritten.** A log held as one JSON array has to be read, extended and written
+back, and that is the shared file this store exists not to have: two publishes of one route race,
+and the loser's entry disappears while both pages really were live. An append writes only the new
+line, so a concurrent publish costs an interleaving at worst and never a lost entry. It is also
+why the log is not bounded in the file — trimming it would mean rewriting it, which is the thing
+being avoided; a store that wants a cap can roll the file the way any log is rolled.
+
 ## What it beat
 
 **Carrying the log inside `RoutePointer`.** One file per route, no new capability for an adapter
@@ -57,11 +65,13 @@ exists, rather than what was live. It also cannot order the results — artifact
 carry no timestamp, so the best available sort is by document version, which says nothing about
 when a version was actually serving.
 
-**Immutable pointer records, linked by hash.** One small file per publish, each naming the one it
-replaced, walkable to the beginning of time. It is the shape the rest of this layer already has,
-and it was rejected for what it implies: unbounded growth in the store, and with it a garbage
-collection question this project has not taken on. A bounded log answers the rollback case
-without opening that.
+**One immutable record per publish, linked by hash.** The shape the rest of this layer already
+has, and walkable to the beginning of time. Growth alone is not the argument against it — the
+store already keeps every artifact forever and collects no garbage. The argument is that
+artifacts *deduplicate*: republishing an unchanged document writes no new file, because the hash
+is the same. A move record carries a timestamp, so it is unique every time and cannot dedupe —
+an hourly republish of an unchanged page would add nothing to the artifacts and a file per hour
+to the records. One log per route answers the same question with one file per route.
 
 **A revision history inside the document.** Every published version kept in the document itself.
 It inflates the one thing that gets read on every publish, and it stores drafts that were never
