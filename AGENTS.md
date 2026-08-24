@@ -101,8 +101,8 @@ which in prose would be a copy of the registry. [`docs/README.md`](docs/README.m
 the reference pages argue how each surface behaves, and the API reference beneath them is written
 from the packages' own sources on every docs build, so naming here which of them are covered
 would be a list going stale beside a generator that cannot.
-[`apps/studio/README.md`](apps/studio/README.md) documents the studio and its integration with
-the demo.
+[`docs/reference/editing/studio.md`](docs/reference/editing/studio.md) documents the studio and
+its integration with the demo.
 
 Read [`docs/concepts/architecture.md`](docs/concepts/architecture.md) for the model and
 [`docs/decisions/`](docs/decisions/README.md) for what is settled. Treat
