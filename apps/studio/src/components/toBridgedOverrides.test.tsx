@@ -12,7 +12,7 @@ function renderPuck(
     <Puck
       config={{ components: { Hero: { fields: {}, render: () => <div /> } } }}
       data={{ content: [{ type: "Hero", props: { id: "hero" } }], root: { props: {} } }}
-      overrides={toBridgedOverrides(apiRef, onPublish)}
+      overrides={toBridgedOverrides(apiRef, onPublish, { route: "/", routes: ["/", "/live"] })}
     />,
   );
 }
@@ -34,4 +34,10 @@ test("the header publish control is the studio's button and triggers the flow", 
   expect(control.tagName).toBe("BUTTON");
   fireEvent.click(control);
   expect(onPublish).toHaveBeenCalledTimes(1);
+});
+
+test("the header carries the Pages switcher beside the publish button", () => {
+  renderPuck({ current: undefined });
+  fireEvent.click(screen.getByRole("button", { name: /Pages/ }));
+  expect(screen.getByRole("link", { name: "/live" }).getAttribute("href")).toBe("/edit/live");
 });
