@@ -17,8 +17,7 @@ export type FieldHintData = {
   revalidate: number;
 };
 
-// Studio treatment for one schema path. Open by design: a consumer may carry keys core does not
-// read, and core reads exactly one — how the field resolves.
+// Studio treatment for one schema path. `core` reads exactly one key — how the field resolves.
 /**
  * How an editing surface should treat one field of a block's schema. `core` reads `data` and
  * decides nothing else about the field.

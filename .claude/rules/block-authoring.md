@@ -26,7 +26,7 @@ export const heroBlock = defineBlock({
 
 // CORRECT — the catalog is the serializable half, and defaults are serializable data
 export const catalog = defineCatalog({
-  Hero: { schema: heroSchema, ui: heroUi, defaults: heroDefaults, docs: heroDocs },
+  Hero: { schema: heroSchema, ui: heroUi, defaults: heroDefaults },
 });
 ```
 
@@ -109,7 +109,7 @@ Artifacts are immutable and content-addressed (invariant 3) — frozen props wer
 
 ### File convention, `docs`, and the tests a block ships
 
-`<Name>.block.ts` beside `<Name>.tsx` registers a block, implicitly, off the file's existence ([`api.md`](../../docs/api.md)). Add `docs: { figma, storybook }` too — one line, cheap. Ships with: the schema's accept/reject test ([`block-schemas.md`](block-schemas.md#checklist)), a test that `defaults` validates, and a component test if props branch the render ([`testing.md`](testing.md)).
+`<Name>.block.ts` beside `<Name>.tsx` registers a block, implicitly, off the file's existence ([`api.md`](../../docs/api.md)). Ships with: the schema's accept/reject test ([`block-schemas.md`](block-schemas.md#checklist)), a test that `defaults` validates, and a component test if props branch the render ([`testing.md`](testing.md)).
 
 ### A block renders one root HTML element
 

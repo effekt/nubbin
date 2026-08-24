@@ -4,7 +4,7 @@ import { takeAtPath } from "./takeAtPath";
 
 /**
  * Splits validated props by `ui.fields[path].data`: absent means static and the value freezes
- * into `props`; `request` or `{ revalidate }` means the value is discarded and a hole records
+ * into `props`; `{ revalidate }` means the value is discarded and a hole records
  * how the field resolves at render. The split is by the full dotted path the hint names, so
  * `cta.label` takes that one leaf and the rest of `cta` stays frozen — the same vocabulary
  * `setAtPath` uses to fill the hole back in at render. Iterating hint paths rather than value

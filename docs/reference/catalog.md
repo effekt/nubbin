@@ -97,8 +97,6 @@ interface BlockUi {
 }
 
 interface FieldHint {
-  label?: string;
-  control?: string;
   data?: FieldHintData;
 }
 ```

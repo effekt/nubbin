@@ -76,7 +76,6 @@ interface Block<Schema extends StandardSchemaV1 = StandardSchemaV1, Component = 
 | `schema` | Any [Standard Schema](https://standardschema.dev). Validation always calls the schema's own `~standard.validate`; a schema that validates asynchronously is refused with an error, because compile and registration are synchronous. |
 | `component` | Opaque to `core`, which imports no rendering library. `@nubbin/react` narrows it. |
 | `version` | Bumped when the schema changes incompatibly. Recorded per block into every artifact — see [`checkRollback`](artifacts.md#checkrollback). |
-| `status` | A deprecated block still resolves and still compiles. The field is data for an editing surface. |
 | `slots` | Declared per name; a slot a document fills without declaring is a compile error (`slot-not-allowed`). |
 
 ## `InferProps`
