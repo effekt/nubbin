@@ -108,15 +108,18 @@ list of what that rules out, and the security and performance case for it, is
 
 ## Preview
 
-The studio is not a re-implementation of the app. The canvas is the real app,
-server-rendered, so what an author sees is what the app renders.
+The studio is not a re-implementation of the app. Preview renders the draft through the
+consumer's own components, server-side, so what an author sees is what the app renders. The
+editing canvas is Puck's shell rendering those same components directly —
+[the decision](../decisions/puck-is-the-iteration-one-editor.md) bounds what that shell
+owns, and the iframe over the running app it stands in for is argued in
+[`studio.md`](studio.md).
 
 There is **one** preview mode, not two. Every page renders through the server catch-all, so
 a draft preview is that same code path given a draft version instead of a published
 artifact. Client-side re-render from a posted tree is impossible for a server component —
-its code never reaches the browser — so the canvas updates **on commit**: the inspector
-holds local state while typing, a committed change is written to the draft store, and the
-canvas re-renders from the server.
+its code never reaches the browser — which is why an iframe canvas can only update **on
+commit**, re-rendered from the server against the saved draft.
 
 See [`studio.md`](studio.md) for the canvas and its delivery surfaces.
 

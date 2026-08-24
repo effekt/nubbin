@@ -33,7 +33,7 @@ A preset is stored as `kind: "preset"`. Why it is not called a template is
 
 | Mode | Consequence |
 |---|---|
-| Route collides with another `Document`'s route | Nothing in the current design rejects it — `Artifact.route` is never checked against `Document.route`. Collision surfaces later, silently, as one document evicting the other on publish. |
+| Route collides with another `Document`'s route | Caught at creation: the studio's create endpoint answers a conflict for a route it already edits, and a malformed route with the compiler's own message. Publishing two documents to one route is still unguarded — `Artifact.route` is never checked against `Document.route`, so one silently evicts the other (route ownership, flow 5). |
 | Route collides with a coded route in the consumer's app | Undetectable by Nubbin — it has no visibility into the app's route tree. Next's file-system routing prefers an explicit route over a catch-all, so the authored page is unreachable with no compile error and no publish error. |
 | Route needs a pattern, not a literal | Real content needs this — a single entry often serves a whole family of URLs off a prefix or param rule, with the remaining segment read at render. Whether authors can create pattern routes is open; the pointer model sketches exact, param and prefix matching ([route pointer](domain-model.md#route-pointer)). |
 | Layout reference is stale or wrong | `layoutId` is not validated against an existing layout `Document` anywhere in the current design. |
@@ -60,7 +60,7 @@ declaration greys out an invalid drop target during drag
 
 | Mode | Consequence |
 |---|---|
-| `slot.min` violated by a delete | The current design does not block it in the editor. Surfaces at publish as a `NubbinError` with a node and a path. |
+| `slot.min` violated by a delete | The editor does not block the delete. Compile runs on the next save, so the violation stands in the editor's issue pill, naming the node, until it is fixed; publish refuses it as a `NubbinError` with a node and a path. |
 | `allow` names a typo'd or renamed block | `createRegistry()` throws, naming every unresolvable entry with its block and slot, so the slot never reaches an author. |
 | A pasted/cloned subtree creates a cycle | Not reachable through normal drag; possible via direct API writes. The flat shape makes it detectable — a cycle can't flatten into a tree, so compile fails rather than looping. |
 | Cross-document composition (copy a node from one open page into another) | Undesigned. The canvas is one iframe over one document at a time ([`studio.md`](studio.md)). |
@@ -71,21 +71,22 @@ declaration greys out an invalid drop target during drag
 `ui.fields`, control chosen by ranked tester
 ([API sketch](api.md#control-resolution-ranked-testers-not-a-keyed-map)).
 
-**Steps:** the inspector holds local edit state while the author types; on debounce or blur it
-commits — `elements[id].props` is written to the draft store — and the canvas, the real app
-in an iframe, reloads from the server against that draft.
+**Steps:** the inspector holds local edit state while the author types; on a debounce the
+whole document folds back into `elements[id].props` and saves to the draft store, with the
+compiler's verdict riding the reply.
 
-**System:** the canvas updates on commit, not as you type — a server component's code never
-ships to the browser, so there is nothing on the client to patch
+**System:** the canvas — Puck rendering the consumer's components directly — repaints as the
+author edits. The iframe canvas updates on commit instead, because a server component's code
+never ships to the browser, so there is nothing on the client to patch
 ([one render path, one preview mode](studio.md#one-render-path-one-preview-mode)).
 
 **Failure modes:**
 
 | Mode | Consequence |
 |---|---|
-| Invalid value against the block's schema | Validated on commit against the field's own sub-schema, and on blur against the whole node — three tiers ([API sketch](api.md#validation-happens-at-three-tiers-not-one)). A draft may still hold invalid values indefinitely: blocking a save mid-edit is hostile, so publish is the gate, not save. |
+| Invalid value against the block's schema | The whole draft compiles on every save and the refusal surfaces in the editor's issue pill — one tier of the three the [API sketch](api.md#validation-happens-at-three-tiers-not-one) describes. A draft may still hold invalid values indefinitely: blocking a save mid-edit is hostile, so publish is the gate, not save. |
 | A field hidden by a discriminated union keeps a stale value | The value must be dropped at compile, not merely hidden in the editor — so a draft can look wider than what actually publishes. |
-| Repeater rows keyed by index | Reordering an array without a stable per-row key re-mounts every row and drops focus. |
+| Repeater rows keyed by index | **Resolved:** rows carry generated keys, stable across a reorder — an index key re-mounts every row on a move and drops focus, which is why the keys ride beside the values instead. |
 | Fields with a `data` hint | Editing props only edits the block's declared parameters — the live-fetched half of its output can't be previewed without a real request round trip. |
 
 ## 4. Preview
