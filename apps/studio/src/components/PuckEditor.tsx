@@ -7,6 +7,7 @@ import type { DocumentVersion } from "@nubbin/core";
 import { catalog } from "demo/src/nubbin/catalog";
 import { registry } from "demo/src/nubbin/registry";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { CONSUMER_VIEWPORTS } from "../nubbin/consumerViewports.constants";
 import { foldPuckChange } from "../nubbin/foldPuckChange";
 import { postDraftSave } from "../nubbin/postDraftSave";
 import type { PublishOutcome } from "../nubbin/publishOutcome.types";
@@ -87,7 +88,13 @@ export function PuckEditor({ route, routes, initialData, initialVersion }: PuckE
           />
         ) : null}
       </div>
-      <Puck config={config} data={data} onChange={onChange} overrides={overrides} />
+      <Puck
+        config={config}
+        data={data}
+        onChange={onChange}
+        overrides={overrides}
+        viewports={CONSUMER_VIEWPORTS}
+      />
     </div>
   );
 }
