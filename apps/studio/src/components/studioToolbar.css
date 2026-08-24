@@ -72,7 +72,9 @@
   white-space: nowrap;
 }
 
-/* The route rides in the specimen's pill: a well capsule, quiet beside the name. */
+/* The page's address rides in the specimen's pill: a well capsule in the specimen's mono
+ * voice, quiet beside the name. As a link it opens the live page, so the pill's border and
+ * ground carry the affordance and hover adds the underline — never hue alone. */
 .nb-tb-docaddr {
   display: inline-flex;
   align-items: center;
@@ -81,9 +83,21 @@
   border-radius: 99px;
   background: var(--nb-well);
   color: var(--nb-dim);
-  font-size: 12px;
+  font-family: ui-monospace, "SF Mono", SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 11.5px;
   font-weight: 600;
   white-space: nowrap;
+  text-decoration: none;
+}
+
+a.nb-tb-docaddr:hover {
+  color: var(--nb-ink);
+  text-decoration: underline;
+}
+
+a.nb-tb-docaddr:focus-visible {
+  outline: 2px solid var(--nb-teal);
+  outline-offset: 1px;
 }
 
 /* The viewport chips: the specimen's segmented row, buttons under `aria-pressed`. */
