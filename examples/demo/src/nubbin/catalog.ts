@@ -47,12 +47,31 @@ import { videoHeroDefaults } from "../blocks/videoHeroDefaults";
  *
  * The two new ones are what a reader watches change: a strip of what is happening now, and the
  * record of what moved. Neither could be frozen at publish and still be true a minute later.
+ *
+ * Every field holding a destination — an href, an image or video URL — carries
+ * `control: "link"`, which the studio renders as its link control. Compile reads none of them.
  */
 export const catalog = defineCatalog({
-  Hero: { schema: heroSchema, defaults: heroDefaults },
-  SplitHero: { schema: splitHeroSchema, defaults: splitHeroDefaults },
-  VideoHero: { schema: videoHeroSchema, defaults: videoHeroDefaults },
-  AnnouncementBar: { schema: announcementBarSchema, defaults: announcementBarDefaults },
+  Hero: {
+    schema: heroSchema,
+    defaults: heroDefaults,
+    ui: { fields: { "cta.href": { control: "link" }, "image.url": { control: "link" } } },
+  },
+  SplitHero: {
+    schema: splitHeroSchema,
+    defaults: splitHeroDefaults,
+    ui: { fields: { "cta.href": { control: "link" }, "image.url": { control: "link" } } },
+  },
+  VideoHero: {
+    schema: videoHeroSchema,
+    defaults: videoHeroDefaults,
+    ui: { fields: { videoUrl: { control: "link" }, "poster.url": { control: "link" } } },
+  },
+  AnnouncementBar: {
+    schema: announcementBarSchema,
+    defaults: announcementBarDefaults,
+    ui: { fields: { href: { control: "link" } } },
+  },
   CountdownBanner: { schema: countdownBannerSchema, defaults: countdownBannerDefaults },
   FeatureGrid: { schema: featureGridSchema, defaults: featureGridDefaults },
   Prose: { schema: proseSchema, defaults: proseDefaults },
@@ -61,16 +80,32 @@ export const catalog = defineCatalog({
     defaults: faqAccordionDefaults,
     ui: { fields: { items: { data: { revalidate: 5 } } } },
   },
-  CtaBanner: { schema: ctaBannerSchema, defaults: ctaBannerDefaults },
+  CtaBanner: {
+    schema: ctaBannerSchema,
+    defaults: ctaBannerDefaults,
+    ui: { fields: { "cta.href": { control: "link" } } },
+  },
   Quote: { schema: quoteSchema, defaults: quoteDefaults },
-  LogoWall: { schema: logoWallSchema, defaults: logoWallDefaults },
+  LogoWall: {
+    schema: logoWallSchema,
+    defaults: logoWallDefaults,
+    ui: { fields: { "items[].imageUrl": { control: "link" } } },
+  },
   StatBand: { schema: statBandSchema, defaults: statBandDefaults },
   PageHeader: { schema: pageHeaderSchema, defaults: pageHeaderDefaults },
-  SiteFooter: { schema: siteFooterSchema, defaults: siteFooterDefaults },
+  SiteFooter: {
+    schema: siteFooterSchema,
+    defaults: siteFooterDefaults,
+    ui: { fields: { "columns[].links[].href": { control: "link" } } },
+  },
   SectionStack: { schema: sectionStackSchema, defaults: sectionStackDefaults },
   Split: { schema: splitSchema, defaults: splitDefaults },
   CardGrid: { schema: cardGridSchema, defaults: cardGridDefaults },
-  Card: { schema: cardSchema, defaults: cardDefaults },
+  Card: {
+    schema: cardSchema,
+    defaults: cardDefaults,
+    ui: { fields: { href: { control: "link" } } },
+  },
   LiveBand: {
     schema: liveBandSchema,
     defaults: liveBandDefaults,

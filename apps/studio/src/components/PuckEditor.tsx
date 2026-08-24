@@ -18,6 +18,7 @@ import { toPaletteGroups } from "../nubbin/toPaletteGroups";
 import { toPuckConfig } from "../nubbin/toPuckConfig";
 import { toSlotConstraintsByBlock } from "../nubbin/toSlotConstraintsByBlock";
 import { toSlotNamesByBlock } from "../nubbin/toSlotNamesByBlock";
+import { ConsumerOriginContext } from "./ConsumerOriginContext";
 import { editorStatusStore } from "./editorStatusStore";
 import { PublishNotice } from "./PublishNotice";
 import { patchEditorStatus } from "./patchEditorStatus";
@@ -30,6 +31,9 @@ interface PuckEditorProps {
   routes: readonly string[];
   initialData: PuckData;
   initialVersion: DocumentVersion;
+  /** The consumer app's origin, read server-side — what a link control's Open affordance
+   * resolves a root-relative path against. */
+  consumerOrigin: string;
 }
 
 /** The editor: stock Puck, controlled, with everything Nubbin-specific arriving through the
@@ -39,7 +43,13 @@ interface PuckEditorProps {
  * its dropdown lists it; a publish refusal opens that dropdown itself. A publish that lands
  * reports inside the header's own panel — steps, timings and the live link — and a rollback
  * that lands confirms above the canvas with the route and the URL the endpoint built. */
-export function PuckEditor({ route, routes, initialData, initialVersion }: PuckEditorProps) {
+export function PuckEditor({
+  route,
+  routes,
+  initialData,
+  initialVersion,
+  consumerOrigin,
+}: PuckEditorProps) {
   const config = useMemo(() => toPuckConfig(catalog, registry), []);
   const palette = useMemo(() => toPaletteGroups(catalog, registry), []);
   const docsByBlock = useMemo(() => toDocsByBlock(catalog, registry), []);
@@ -81,25 +91,27 @@ export function PuckEditor({ route, routes, initialData, initialVersion }: PuckE
     [route, routes, onOutcome, palette, docsByBlock, slotsByBlock],
   );
   return (
-    <div className="nubbin-studio nb-studio-frame">
-      <div className="nubbin-notices">
-        {outcome?.ok === true ? (
-          <PublishNotice
-            route={route}
-            hash={outcome.hash}
-            url={outcome.url}
-            onDismiss={dismissOutcome}
-          />
-        ) : null}
+    <ConsumerOriginContext.Provider value={consumerOrigin}>
+      <div className="nubbin-studio nb-studio-frame">
+        <div className="nubbin-notices">
+          {outcome?.ok === true ? (
+            <PublishNotice
+              route={route}
+              hash={outcome.hash}
+              url={outcome.url}
+              onDismiss={dismissOutcome}
+            />
+          ) : null}
+        </div>
+        <Puck
+          config={config}
+          data={data}
+          onChange={onChange}
+          overrides={overrides}
+          viewports={CONSUMER_VIEWPORTS}
+        />
+        <StudioStatusBar />
       </div>
-      <Puck
-        config={config}
-        data={data}
-        onChange={onChange}
-        overrides={overrides}
-        viewports={CONSUMER_VIEWPORTS}
-      />
-      <StudioStatusBar />
-    </div>
+    </ConsumerOriginContext.Provider>
   );
 }

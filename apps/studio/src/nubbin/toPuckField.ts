@@ -1,6 +1,6 @@
 import type { Field } from "@measured/puck";
-import type { FieldNode } from "@nubbin/core";
 import { directChildFields } from "./directChildFields";
+import type { HintedFieldNode } from "./hintedField.types";
 import { isRichTextField } from "./isRichTextField";
 import { rowFieldOf } from "./rowFieldOf";
 import { toEnumPuckField } from "./toEnumPuckField";
@@ -16,7 +16,7 @@ import { toStringPuckField } from "./toStringPuckField";
  * the description reaches becomes the repeater, an object with described children the
  * fieldset — which is why the whole description rides along — and every other kind
  * renders read-only rather than guessing. */
-export function toPuckField(field: FieldNode, fields: readonly FieldNode[]): Field {
+export function toPuckField(field: HintedFieldNode, fields: readonly HintedFieldNode[]): Field {
   if (field.kind === "string") {
     return toStringPuckField(field);
   }

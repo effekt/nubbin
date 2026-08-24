@@ -1,0 +1,21 @@
+/* The link control's quiet note and Open affordance. The note sits in the muted ink, never
+ * the error tone, because the draft saves either way and the schema judges at publish. The
+ * Open link is underlined so the affordance is not signalled by colour alone. */
+.nubbin-link-note {
+  margin: 4px 0 0;
+  font-size: 11.5px;
+  color: var(--nb-dim);
+}
+
+.nubbin-link-open {
+  display: inline-block;
+  margin-top: 4px;
+  font-size: 11.5px;
+  color: var(--nb-teal);
+  text-decoration: underline;
+}
+
+.nubbin-link-open:focus-visible {
+  outline: 2px solid var(--nb-teal);
+  outline-offset: 1px;
+}

@@ -32,6 +32,7 @@ function renderEditor() {
         root: { props: { title: "home" } },
       }}
       initialVersion={version}
+      consumerOrigin="http://localhost:3100"
     />,
   );
 }

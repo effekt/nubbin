@@ -3,6 +3,7 @@ import type { Block, CatalogEntry } from "@nubbin/core";
 import { zodAdapter } from "@nubbin/core";
 import type { ComponentType } from "react";
 import { isTopLevelFieldPath } from "./isTopLevelFieldPath";
+import { toHintedFields } from "./toHintedFields";
 import { toPuckField } from "./toPuckField";
 import { toPuckRender } from "./toPuckRender";
 import { toSlotField } from "./toSlotField";
@@ -14,7 +15,7 @@ import { toSlotField } from "./toSlotField";
  * because `core` never learns React; the studio knows its registry holds React components. */
 export function toPuckComponentConfig(entry: CatalogEntry, block: Block): ComponentConfig {
   const fields: Record<string, Field> = {};
-  const described = zodAdapter.describe(entry.schema);
+  const described = toHintedFields(zodAdapter.describe(entry.schema), entry.ui);
   for (const field of described) {
     if (isTopLevelFieldPath(field.path)) {
       fields[field.path] = toPuckField(field, described);
