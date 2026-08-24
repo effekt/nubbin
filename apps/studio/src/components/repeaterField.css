@@ -154,3 +154,13 @@
   font-size: 12.5px;
   font-weight: 600;
 }
+
+/* Go-to-it lands on the repeater's or fieldset's own container when a collapsed row keeps
+   the leaf control out of the document. The ring rides plain `:focus`, ReadOnlyField's
+   precedent: the landing is a programmatic focus() after a click on the issue row, which
+   `:focus-visible` is free to ignore — and an invisible landing reads as a broken button. */
+.nb-repeater:focus,
+.nb-fieldset:focus {
+  outline: 2px solid var(--nb-teal);
+  outline-offset: 2px;
+}

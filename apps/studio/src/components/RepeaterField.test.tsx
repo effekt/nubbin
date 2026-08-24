@@ -1,3 +1,4 @@
+import { readFileSync } from "node:fs";
 import { zodAdapter } from "@nubbin/core";
 import { fireEvent, render, screen } from "@testing-library/react";
 import { useState } from "react";
@@ -121,4 +122,10 @@ test("an undescribed row shape renders nothing rather than guessing", () => {
     />,
   );
   expect(container.innerHTML).toBe("");
+});
+
+test("the repeater container Go-to-it lands on carries an explicit :focus ring", () => {
+  const css = readFileSync("src/components/repeaterField.css", "utf8");
+  const rule = css.match(/^\.nb-repeater:focus,\n\.nb-fieldset:focus \{[^}]*\}/m);
+  expect(rule?.[0]).toContain("outline: 2px solid var(--nb-teal)");
 });

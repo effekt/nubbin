@@ -1,3 +1,4 @@
+import { readFileSync } from "node:fs";
 import { zodAdapter } from "@nubbin/core";
 import { fireEvent, render, screen } from "@testing-library/react";
 import { expect, test, vi } from "vitest";
@@ -47,4 +48,10 @@ test("an absent object edits as an empty one and grows keys as the author types"
   const inputs = screen.getAllByRole("textbox");
   fireEvent.change(inputs[0] as Element, { target: { value: "E" } });
   expect(onChange).toHaveBeenCalledWith({ name: "E" });
+});
+
+test("the fieldset container Go-to-it lands on carries an explicit :focus ring", () => {
+  const css = readFileSync("src/components/repeaterField.css", "utf8");
+  const rule = css.match(/^\.nb-repeater:focus,\n\.nb-fieldset:focus \{[^}]*\}/m);
+  expect(rule?.[0]).toContain("outline: 2px solid var(--nb-teal)");
 });
