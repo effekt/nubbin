@@ -40,9 +40,16 @@ jobs:
 
       - run: pnpm install --frozen-lockfile
 
+      # Through turbo rather than `pnpm --filter docs-site run build`, which invokes the
+      # package script directly and builds nothing else. The site's build runs typedoc over
+      # `packages/*/src`, where a sibling's types resolve through its `dist` — so on a fresh
+      # checkout every cross-package import is unresolvable and typedoc reports 26 of them.
+      # `turbo.json` already names the five package builds as this task's dependencies; going
+      # through turbo is what makes the workflow obey them rather than restate them.
+      #
       # `onBrokenLinks: throw` makes this the gate on every link between documents.
       - name: Build the site
-        run: pnpm --filter docs-site run build
+        run: pnpm build --filter=docs-site
 
       # `enablement` moves Pages from serving a branch to serving this workflow's
       # artifact. Declaring it here rather than setting it once by hand keeps the
