@@ -35,11 +35,33 @@ on the run that created them, and therefore true once per version.
 
 The settings there are load-bearing, and each fails quietly if it is wrong:
 
-**No `versioning`, `prerelease` or `prerelease-type`.** Their absence is what makes a version
-stable. `"versioning": "prerelease"` with `"prerelease": true` increments a candidate suffix
-instead of stripping it, and `"prerelease-type"` names the suffix — together they produce
-`rc.8` after `rc.7` and never leave that line. They were deleted to cut `0.1.0`, and the suite
-fails if one comes back. Going back on a candidate line is adding all three again, deliberately.
+**No `versioning`, `prerelease` or `prerelease-type`.** With all three present — `"versioning":
+"prerelease"`, `"prerelease": true`, and `"prerelease-type": "rc"` — every release is `rc.8` after
+`rc.7`, forever. They were deleted to cut `0.1.0`, and the suite fails if one comes back. Going
+back on a candidate line is adding all three again, deliberately.
+
+**Deleting them does not, by itself, leave the candidate line.** Measured when `0.1.0` was cut:
+with the three gone, release-please still proposed a candidate — it bumped the minor digit and
+carried the `rc` suffix across rather than dropping it. A version that leaves the line has to be
+named:
+
+```
+chore(repo): cut 0.1.0 rather than another candidate
+
+Release-As: 0.1.0
+```
+
+**The footer has to survive the squash.** GitHub composes a squash commit from the branch's
+messages as a bulleted body, and a footer folded into a bullet under a `chore` entry is not read —
+the first attempt proposed the same candidate again, with the footer sitting unread in the merge
+commit. Merge with that line as the *entire* squash body:
+
+```bash
+gh pr merge <n> --squash --subject "chore(repo): …" --body "Release-As: 0.1.0"
+```
+
+A `"release-as"` key in the config does the same job and is the wrong tool here: it stays after the
+release it was written for, capping every version that follows at the one it names.
 
 **`"bump-minor-pre-major": true`** — a breaking change carries the prerelease part through a major
 bump rather than resetting it, so a `feat!:` before `1.0.0` moves the minor digit rather than
@@ -111,6 +133,14 @@ Two gates stand in front of the publish job, and they answer different questions
 The second is a poll rather than a read, because `verify` and `release` are triggered by the same
 push and start together. Before it existed, the publish path ran `publishable` and nothing else, so
 a commit failing every test could publish.
+
+**Merging anything else to `main` while a release commit is being verified cancels that
+verification, and the publish then refuses.** `verify` is keyed
+`${{ github.workflow }}-${{ github.ref }}` with `cancel-in-progress`, so the next push to `main`
+kills the run belonging to the release commit; the publish job reads `cancelled`, and nothing
+publishes from a commit that did not pass. It costs a re-run of `verify` on the release commit
+followed by a re-run of the publish job — and a second approval. Land other work before the
+release pull request, or after the publish.
 
 Publishing then waits on the `npm` environment, which restricts deployments to `main` and carries a
 required reviewer. Merging the release pull request proposes a release; approving that deployment

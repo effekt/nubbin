@@ -61,6 +61,11 @@ module scope, and a module that imports React at module scope. The first raises 
 defined` even where React is installed, because the transform emits `React.createElement` and adds
 no import; the second needs React resolvable like any other dependency.
 
+Both fail loudly on purpose. The loader could point the transform at a shim and let module-scope
+JSX evaluate to nothing, which would make React optional everywhere — and would quietly freeze a
+`null` into an artifact where a block's `defaults` held an element. A refusal that names the file
+is the better failure.
+
 ## The commands
 
 | Command | Effect |
