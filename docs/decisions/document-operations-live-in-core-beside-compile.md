@@ -23,8 +23,7 @@ A separate `@nubbin/authoring` package was the close alternative, and its case h
 halves. The weight half — that authoring code burdens consumers who only render — is measured
 dead: a render-only application takes nothing from `core` but types, which erase, so a
 production build of the demo contains none of `core`'s runtime, and pure write functions
-vanish from such a build exactly as `compile` already does
-([#134](https://github.com/effekt/nubbin/issues/134) holds the chunk-by-chunk numbers). The
+vanish from such a build exactly as `compile` already does. The
 surface half — that `core` as contract-plus-authoring is a bigger thing to explain, version
 and support, and that semver binds the export list whether or not it costs bytes — was heard
 and lost: one package owning the definition of a valid write beats a shorter export list.

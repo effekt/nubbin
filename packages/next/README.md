@@ -25,6 +25,5 @@ await publishRoute(store, "/promotions/summer", hash);   // pointer, then revali
 page in the gap, and the publish appears to have silently not happened. A store rejection
 propagates without invalidating, so a failed publish never purges a working page.
 
-**Release candidate.** Requires Next 16 or newer.
-
-<https://effekt.github.io/nubbin/>. MIT.
+Requires Next.js 16 or newer. Read the [Nubbin documentation](https://nubbin.io) for the
+complete Next.js integration reference. MIT.

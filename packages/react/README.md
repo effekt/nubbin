@@ -48,4 +48,4 @@ deliberately left unfrozen; `spec` is `"request"` or `{ revalidate: n }` — exa
 wrote. A node with no holes never calls the resolver. A node that declares holes and gets no
 resolver throws naming the node, rather than rendering a compile-time placeholder to a visitor.
 
-<https://effekt.github.io/nubbin/>. MIT.
+Read the [Nubbin documentation](https://nubbin.io) for the complete renderer reference. MIT.

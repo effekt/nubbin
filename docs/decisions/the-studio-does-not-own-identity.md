@@ -21,8 +21,7 @@ scopes itself to `packages/auth-*`, and
 [`package-boundaries.md`](https://github.com/effekt/nubbin/blob/main/.claude/rules/package-boundaries.md)
 already places auth among the interfaces `core` declares and an adapter implements. No
 `IdentityProvider` interface is declared yet; the publish and edit routes state in their own
-comments that they are unauthenticated on purpose
-([#85](https://github.com/effekt/nubbin/issues/85)).
+comments that they are unauthenticated on purpose.
 
 Built-in users and sessions in the authoring store were rejected: they make Nubbin the owner
 of an account system, a kind of data ownership the architecture refuses for everything that

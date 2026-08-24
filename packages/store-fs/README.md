@@ -36,6 +36,5 @@ where it is.
 It passes a shared `ArtifactStore` contract suite, which is how a replacement adapter proves
 itself equivalent — by execution rather than by inspection.
 
-**Release candidate.**
-
-<https://effekt.github.io/nubbin/>. MIT.
+Read the [Nubbin documentation](https://nubbin.io) for the complete artifact store reference.
+MIT.

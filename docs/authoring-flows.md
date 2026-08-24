@@ -18,8 +18,7 @@ failure modes are open questions rather than settled behavior, and are marked as
 **Steps:** choose a route (a literal path, e.g. `/dispatches/tide-tables`); pick a layout (a
 `Document` with `kind: "layout"`) or none; optionally start from a preset instead of blank.
 A preset is stored as `kind: "preset"`. Why it is not called a template is
-[in the decisions](decisions/a-copy-once-document-is-a-preset-not-a-template.md)
-([#7](https://github.com/effekt/nubbin/issues/7)).
+[in the decisions](decisions/a-copy-once-document-is-a-preset-not-a-template.md).
 
 **System:**
 - Blank start: `Document` created with `head: 1` and no route pointer — that absence, not a
@@ -36,7 +35,7 @@ A preset is stored as `kind: "preset"`. Why it is not called a template is
 |---|---|
 | Route collides with another `Document`'s route | Nothing in the current design rejects it — `Artifact.route` is never checked against `Document.route`. Collision surfaces later, silently, as one document evicting the other on publish. |
 | Route collides with a coded route in the consumer's app | Undetectable by Nubbin — it has no visibility into the app's route tree. Next's file-system routing prefers an explicit route over a catch-all, so the authored page is unreachable with no compile error and no publish error. |
-| Route needs a pattern, not a literal | Real content needs this — a single entry often serves a whole family of URLs off a prefix or param rule, with the remaining segment read at render. Whether authors can create pattern routes is open ([#5](https://github.com/effekt/nubbin/issues/5)); the pointer model sketches exact, param and prefix matching ([route pointer](domain-model.md#route-pointer)). |
+| Route needs a pattern, not a literal | Real content needs this — a single entry often serves a whole family of URLs off a prefix or param rule, with the remaining segment read at render. Whether authors can create pattern routes is open; the pointer model sketches exact, param and prefix matching ([route pointer](domain-model.md#route-pointer)). |
 | Layout reference is stale or wrong | `layoutId` is not validated against an existing layout `Document` anywhere in the current design. |
 
 ## 2. Compose
@@ -125,22 +124,21 @@ an already-validated artifact.
 pointer moves, never a recompile.
 
 **Schedule is not modeled.** There is no `scheduledAt` field, no job runner among the
-adapters, and `store.publish()` is synchronous. Open
-([#8](https://github.com/effekt/nubbin/issues/8)) — but the artifact model makes it
-unusually safe if added, since the artifact is compiled and validated before the schedule is
-set, so firing cannot fail on a surprise validation error.
+adapters, and `store.publish()` is synchronous. The artifact model makes scheduling unusually
+safe to add because the artifact is compiled and validated before the schedule is set, so
+firing cannot fail on a surprise validation error.
 
 **Failure modes:**
 
 | Mode | Consequence |
 |---|---|
 | Compile fails | `NubbinError { code, issues: [{ code, message, at, path }] }`; the document stays on its previous artifact. |
-| Rollback target no longer validates against the current registry | Rollback is a pointer move with no recompile, so frozen props from an older block version could feed a changed component. `checkRollback` compares the artifact's `blockVersions` against the registry live now and returns the verdict, so the caller decides whether drift blocks the swap. A rollback caller that consults it is [#21](https://github.com/effekt/nubbin/issues/21). |
-| A live artifact's block is deleted from the registry | A static block is inert — its data is frozen into the resolved tree, no lookup at render. A request-mode field is not: it needs the registry at request time, so deletion breaks the live page with no republish involved. **Resolved:** `checkCompatibility` runs over every live pointer as the `pnpm guardrail` step of CI and fails it, treating a deleted block as an incompatible version bump. Branch protection is what makes a failing check unmergeable, and is set in repository settings ([#22](https://github.com/effekt/nubbin/issues/22)). |
-| Route ownership | Unpublish a route, let another `Document` claim it, republish the first — the second is silently evicted. Nothing enforces uniqueness of route → documentId, so the eviction is silent ([#12](https://github.com/effekt/nubbin/issues/12)). |
+| Rollback target no longer validates against the current registry | Rollback is a pointer move with no recompile, so frozen props from an older block version could feed a changed component. `checkRollback` compares the artifact's `blockVersions` against the registry live now and returns the verdict, so the caller decides whether drift blocks the swap. |
+| A live artifact's block is deleted from the registry | A static block is inert — its data is frozen into the resolved tree, no lookup at render. A request-mode field is not: it needs the registry at request time, so deletion breaks the live page with no republish involved. **Resolved:** `checkCompatibility` runs over every live pointer as the `pnpm guardrail` step of CI and fails it, treating a deleted block as an incompatible version bump. Branch protection is what makes a failing check unmergeable, and is set in repository settings. |
+| Route ownership | Unpublish a route, let another `Document` claim it, republish the first — the second is silently evicted. Nothing enforces uniqueness of route → documentId, so the eviction is silent. |
 | Concurrent publishes | **Resolved:** route pointers are independently-writable records, one per route, so two publishes to different routes cannot interfere. |
 | `Document.publishedVersion` disagreeing with what is live | **Resolved:** `publishedVersion` is derived on read from the route pointer rather than stored, so there is no second copy to diverge. |
-| Artifact pruning | Rollback depends on the target artifact still existing. Retention must respect a stated rollback window, and `publish()` must reject a missing hash rather than wiring a dead pointer — see [`adapters.md`](https://github.com/effekt/nubbin/blob/main/.claude/rules/adapters.md). No policy is set yet ([#13](https://github.com/effekt/nubbin/issues/13)). |
+| Artifact pruning | Rollback depends on the target artifact still existing. Retention must respect a stated rollback window, and `publish()` must reject a missing hash rather than wiring a dead pointer — see [`adapters.md`](https://github.com/effekt/nubbin/blob/main/.claude/rules/adapters.md). No policy is set yet. |
 
 ## 6. Layouts vs presets
 
@@ -171,7 +169,7 @@ Either way, `Artifact` needs to record a layout dependency the way it already re
 **Trigger:** a second author opens a document already open elsewhere.
 
 The minimum viable answer is a pessimistic lock per `Document`, explicitly unconfirmed as
-sufficient ([#10](https://github.com/effekt/nubbin/issues/10)). Nothing below is designed yet —
+sufficient. Nothing below is designed yet —
 no lock entity, no lock/unlock call on `ArtifactStore`, no session heartbeat. Minimally it
 needs a lock owner, an acquired-at timestamp, and a release condition (explicit close, or a
 heartbeat/TTL for a crashed tab). The second author sees the canvas and inspector render

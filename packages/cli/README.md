@@ -85,3 +85,5 @@ hash, never a warning beside it, and never a complaint about why there is not on
 `nubbin check` reads every route pointer, compares each artifact against the registry it was
 compiled with, and exits `1` when a page that is live depends on a block that changed version or
 left the registry. That makes it a required check on a pull request, not a report someone reads.
+
+Read the [Nubbin documentation](https://nubbin.io) for the complete command reference. MIT.

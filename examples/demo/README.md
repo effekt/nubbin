@@ -1,14 +1,14 @@
 ---
 title: Demo Site
-summary: A reference Next.js app whose components are shaped exactly as Nubbin blocks, and which serves published artifacts through a catch-all
+summary: A reference Next.js app whose components are Nubbin blocks and which serves published artifacts through a catch-all route
 status: reference
 ---
 
 # Demo site
 
 **Bellwether**, a small publication filing dispatches from an estuary, built from components
-whose shape already matches what a block requires. It exists so `defineBlock` has something real
-to register — ordinary application code first, a Nubbin fixture second.
+whose shape matches what a block requires. It gives `defineBlock` ordinary application code to
+register and provides fixtures for Nubbin integrations.
 
 The subject is chosen so composition has something to do. `Split` holds two slots, `CardGrid`
 accepts `Card` and nothing else, and the home page nests four levels: a stack holds a split, a
@@ -21,8 +21,7 @@ artifacts from the fs store; the components themselves know nothing about it.
 
 ## What "block-shaped" means here
 
-Each of the fourteen components in `src/blocks/` follows the constraints a block will need to
-satisfy:
+Each component in `src/blocks/` follows the constraints a block must satisfy:
 
 - **One root element.** A renderer that attaches an id to the DOM node needs exactly one node
   to attach it to.

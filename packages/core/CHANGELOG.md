@@ -12,12 +12,12 @@
 
 ### Bug Fixes
 
-* **cli:** stdout carries the answer, and --origin is taken as given ([#503](https://github.com/effekt/nubbin/issues/503)) ([a2d8ff3](https://github.com/effekt/nubbin/commit/a2d8ff36e3ca8663b5fb296d159d63d7cf3f0cb0))
+* **cli:** stdout carries the answer, and --origin is taken as given ([a2d8ff3](https://github.com/effekt/nubbin/commit/a2d8ff36e3ca8663b5fb296d159d63d7cf3f0cb0))
 
 
 ### Miscellaneous Chores
 
-* **repo:** cut 0.1.0 rather than another candidate ([#502](https://github.com/effekt/nubbin/issues/502)) ([0a9e869](https://github.com/effekt/nubbin/commit/0a9e8694eaeec79fd534ed2a6a00b346d843e4ca))
+* **repo:** cut 0.1.0 rather than another candidate ([0a9e869](https://github.com/effekt/nubbin/commit/0a9e8694eaeec79fd534ed2a6a00b346d843e4ca))
 
 ## [0.1.0-rc.7](https://github.com/effekt/nubbin/compare/core-v0.1.0-rc.6...core-v0.1.0-rc.7) (2026-08-23)
 
@@ -30,18 +30,18 @@
 
 ### Features
 
-* **core:** a document can be composed, not only edited ([#494](https://github.com/effekt/nubbin/issues/494)) ([a4c65f9](https://github.com/effekt/nubbin/commit/a4c65f9082914e4e3dc5ef36517375e8fe7072c4))
-* **core:** one error surface, every refusal keyed by a code ([#497](https://github.com/effekt/nubbin/issues/497)) ([c9d74c7](https://github.com/effekt/nubbin/commit/c9d74c7816fb35f6607b8e57bdd4c25fd03aa2ca))
+* **core:** a document can be composed, not only edited ([a4c65f9](https://github.com/effekt/nubbin/commit/a4c65f9082914e4e3dc5ef36517375e8fe7072c4))
+* **core:** one error surface, every refusal keyed by a code ([c9d74c7](https://github.com/effekt/nubbin/commit/c9d74c7816fb35f6607b8e57bdd4c25fd03aa2ca))
 
 
 ### Bug Fixes
 
-* widen the content address, and make the demo build and serve ([#487](https://github.com/effekt/nubbin/issues/487)) ([c47993d](https://github.com/effekt/nubbin/commit/c47993d15bb09ddfb4baf5bc26a0a25293463244))
+* widen the content address, and make the demo build and serve ([c47993d](https://github.com/effekt/nubbin/commit/c47993d15bb09ddfb4baf5bc26a0a25293463244))
 
 
 ### Code Refactoring
 
-* **core:** remove the published surface nothing reads ([#493](https://github.com/effekt/nubbin/issues/493)) ([8777c70](https://github.com/effekt/nubbin/commit/8777c70acdc6a9e837a7972d577e4b860031195e))
+* **core:** remove the published surface nothing reads ([8777c70](https://github.com/effekt/nubbin/commit/8777c70acdc6a9e837a7972d577e4b860031195e))
 
 ## [0.1.0-rc.6](https://github.com/effekt/nubbin/compare/core-v0.1.0-rc.5...core-v0.1.0-rc.6) (2026-08-19)
 
@@ -53,35 +53,35 @@
 
 ### Features
 
-* **core:** a document has many roots ([#483](https://github.com/effekt/nubbin/issues/483)) ([4abe53e](https://github.com/effekt/nubbin/commit/4abe53e827fb1ef24354a62cd4f2ad4a6be74a0d)), closes [#60](https://github.com/effekt/nubbin/issues/60)
-* **core:** rich text ships as typed data, not markup in a string ([#484](https://github.com/effekt/nubbin/issues/484)) ([28ba770](https://github.com/effekt/nubbin/commit/28ba770ac2fa0832d01ae973e5749e437ccd75f1)), closes [#389](https://github.com/effekt/nubbin/issues/389)
+* **core:** a document has many roots ([4abe53e](https://github.com/effekt/nubbin/commit/4abe53e827fb1ef24354a62cd4f2ad4a6be74a0d))
+* **core:** rich text ships as typed data, not markup in a string ([28ba770](https://github.com/effekt/nubbin/commit/28ba770ac2fa0832d01ae973e5749e437ccd75f1))
 
 
 ### Bug Fixes
 
-* **core:** a data hint addresses a dotted path, not a top-level key ([#482](https://github.com/effekt/nubbin/issues/482)) ([d602f91](https://github.com/effekt/nubbin/commit/d602f9136d8da349621642d783ae558e865e3c4d))
-* **core:** the rich-text compile test builds a document with roots ([#486](https://github.com/effekt/nubbin/issues/486)) ([1975d8a](https://github.com/effekt/nubbin/commit/1975d8adc133b2cf3d6fb24797fbdf6e907bfdf1))
+* **core:** a data hint addresses a dotted path, not a top-level key ([d602f91](https://github.com/effekt/nubbin/commit/d602f9136d8da349621642d783ae558e865e3c4d))
+* **core:** the rich-text compile test builds a document with roots ([1975d8a](https://github.com/effekt/nubbin/commit/1975d8adc133b2cf3d6fb24797fbdf6e907bfdf1))
 
 
 ### Code Refactoring
 
-* **core:** a schema change is a republish, not a migration ([#481](https://github.com/effekt/nubbin/issues/481)) ([8140b14](https://github.com/effekt/nubbin/commit/8140b1472b202cb62743cc88983d8ebae136c334))
+* **core:** a schema change is a republish, not a migration ([8140b14](https://github.com/effekt/nubbin/commit/8140b1472b202cb62743cc88983d8ebae136c334))
 
 ## [0.1.0-rc.5](https://github.com/effekt/nubbin/compare/core-v0.1.0-rc.4...core-v0.1.0-rc.5) (2026-08-19)
 
 
 ### Features
 
-* **core:** a registry change that breaks a live page fails CI ([#476](https://github.com/effekt/nubbin/issues/476)) ([1931dd8](https://github.com/effekt/nubbin/commit/1931dd8384f9199fcba237926f8b9f411f11836c))
-* **repo:** a generated catalog answers "does this already exist" ([#473](https://github.com/effekt/nubbin/issues/473)) ([2d41486](https://github.com/effekt/nubbin/commit/2d414864667d41aa7ce2e055c540c3ceb5491364))
-* the studio edits — select a block, change a field, the preview follows ([#451](https://github.com/effekt/nubbin/issues/451)) ([23fbe05](https://github.com/effekt/nubbin/commit/23fbe0579c99972f0a5903d811f210119e5df510))
-* the studio's first vertical slice — parse, preview, publish ([#436](https://github.com/effekt/nubbin/issues/436)) ([35c79d6](https://github.com/effekt/nubbin/commit/35c79d63100f7036ec43d99170aa9204f7cb3d4c))
+* **core:** a registry change that breaks a live page fails CI ([1931dd8](https://github.com/effekt/nubbin/commit/1931dd8384f9199fcba237926f8b9f411f11836c))
+* **repo:** a generated catalog answers "does this already exist" ([2d41486](https://github.com/effekt/nubbin/commit/2d414864667d41aa7ce2e055c540c3ceb5491364))
+* the studio edits — select a block, change a field, the preview follows ([23fbe05](https://github.com/effekt/nubbin/commit/23fbe0579c99972f0a5903d811f210119e5df510))
+* the studio's first vertical slice — parse, preview, publish ([35c79d6](https://github.com/effekt/nubbin/commit/35c79d63100f7036ec43d99170aa9204f7cb3d4c))
 
 
 ### Bug Fixes
 
-* **core:** a `data` hint on an array-member path is refused at registration ([#223](https://github.com/effekt/nubbin/issues/223)) ([#225](https://github.com/effekt/nubbin/issues/225)) ([7fee54a](https://github.com/effekt/nubbin/commit/7fee54a1fdfe4667bd6542074852057ea481f9b1))
-* **repo:** release-please replaces changesets, and the publishing defects with it ([#477](https://github.com/effekt/nubbin/issues/477)) ([0f160c2](https://github.com/effekt/nubbin/commit/0f160c2e99039227cca6899ddbf43a9f7a859dea))
+* **core:** a `data` hint on an array-member path is refused at registration ([7fee54a](https://github.com/effekt/nubbin/commit/7fee54a1fdfe4667bd6542074852057ea481f9b1))
+* **repo:** release-please replaces changesets, and the publishing defects with it ([0f160c2](https://github.com/effekt/nubbin/commit/0f160c2e99039227cca6899ddbf43a9f7a859dea))
 
 ## 0.1.0-rc.4
 

@@ -9,8 +9,7 @@ status: stable
 Every defect the site's audits found was the theme's, never the documents': syntax
 highlighting below WCAG AA, tables restyled until they lost table semantics, a second `h1`
 on every page from the masthead, mermaid patched in through a CDN script in a layout
-override, and no search — the full list, with scale, is
-[#71](https://github.com/effekt/nubbin/issues/71).
+override, and no search.
 
 So the site is a workspace, `apps/docs`, running Docusaurus over the documents on `main` —
 they live once, [what the site publishes is settled

@@ -58,8 +58,8 @@ no dangling reference is possible. `props` hold only frozen literal values; each
 `holes` records a field the renderer resolves instead, keyed by schema path and carrying the
 [`FieldHintData`](catalog.md#fieldhintdata) that says how — see
 [Holes: what a `data` hint compiles to](compile.md#holes-what-a-data-hint-compiles-to). How a
-hole's value is sourced at render is per-adapter; who may aim one at a data source is the open
-design question [#86](https://github.com/effekt/nubbin/issues/86).
+hole's value is sourced at render is per-adapter. The authorization model for connecting a
+field to a data source remains open.
 
 ## `checkRollback`
 

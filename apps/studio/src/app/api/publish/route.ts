@@ -7,8 +7,7 @@ const BAD_REQUEST = 400;
 
 /**
  * Unauthenticated on purpose: the studio deploys behind the consumer's own gate — a VPN, a
- * reverse proxy, existing auth — which is a supported deployment
- * ([#85](https://github.com/effekt/nubbin/issues/85)). Form-encoded so the preview page can
+ * reverse proxy, existing auth — which is a supported deployment. Form-encoded so the preview page can
  * publish with no client JavaScript.
  */
 export async function POST(request: Request) {

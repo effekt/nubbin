@@ -8,7 +8,7 @@ const UNPROCESSABLE = 422;
 /**
  * One field commit. Rejections are plain text so the inspector can put the compiler's own
  * words beside the field. Unauthenticated like the publish route: the studio deploys behind
- * the consumer's own gate ([#85](https://github.com/effekt/nubbin/issues/85)).
+ * the consumer's own gate.
  *
  * An unknown node is 400 like an unknown route — the same client fault, an edit naming
  * something the drafts do not hold — leaving 422 to mean the one thing it means here: the
