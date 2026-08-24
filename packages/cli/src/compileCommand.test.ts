@@ -19,11 +19,12 @@ describe("compileCommand", () => {
     expect(await readdir(root)).toEqual([]);
   });
 
-  test("prints a key the schema did not keep as a warning, and still succeeds", async () => {
+  test("carries a key the schema did not keep as a warning beside the answer, not inside it", async () => {
     const { config } = await fixtureProject();
     const outcome = await compileCommand(config, { positionals: ["/extra-prop"] });
     expect(outcome.code).toBe(0);
-    expect(outcome.lines.join("\n")).toContain("unknown-prop");
+    expect(outcome.lines).toHaveLength(1);
+    expect(outcome.warnings?.join("\n")).toContain("unknown-prop");
   });
 
   test("lets a refusal through, so the runner can print its code", async () => {

@@ -72,8 +72,9 @@ It posts to `/api/nubbin/publish` and `/api/nubbin/unpublish`, which are two rou
 | `2` | the command could not be run as given |
 
 A refusal prints the code it carries — `unknown-block`, `slot-max`, `invalid-props` — on stderr, so
-a script branches on the same names your editor would. Stdout carries the answer or nothing:
-`HASH=$(nubbin compile /pricing)` captures a hash, never a complaint about why there is not one.
+a script branches on the same names your editor would. Warnings go to stderr too, even when the
+exit is `0`. Stdout carries the answer or nothing: `HASH=$(nubbin compile /pricing)` captures a
+hash, never a warning beside it, and never a complaint about why there is not one.
 
 ## In CI
 

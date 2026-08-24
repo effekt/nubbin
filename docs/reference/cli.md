@@ -117,7 +117,8 @@ until it restarts.
 | `2` | the command could not be run as given | stderr |
 
 Stdout carries the answer or carries nothing, so `HASH=$(nubbin compile /pricing)` captures a hash
-or captures an empty string — never a complaint about why there is no hash.
+or captures an empty string — never a complaint about why there is no hash. A warning a compile
+survived, like `unknown-prop`, goes to stderr even though the exit is `0`.
 
 The split that matters is between `1` and `2`: a usage error means nothing was attempted, and a
 refusal means what was attempted is not legal. They are fixed in different files.
