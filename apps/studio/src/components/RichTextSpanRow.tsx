@@ -21,10 +21,13 @@ interface RichTextSpanRowProps {
 export function RichTextSpanRow(props: RichTextSpanRowProps) {
   const { id, span, readOnly, selected, onSelect, onChange, onRemove, onPaste } = props;
   return (
-    <div className={selected ? "nb-richtext-span nb-richtext-span-selected" : "nb-richtext-span"}>
+    <div
+      id={id}
+      className={selected ? "nb-richtext-span nb-richtext-span-selected" : "nb-richtext-span"}
+    >
       <input
         type="text"
-        id={id}
+        id={`${id}_text`}
         className="nb-richtext-text"
         aria-label="Span text"
         value={span.text}
@@ -42,6 +45,7 @@ export function RichTextSpanRow(props: RichTextSpanRowProps) {
       {span.href === undefined ? null : (
         <input
           type="text"
+          id={`${id}_href`}
           className="nb-richtext-href"
           aria-label="Link target"
           value={span.href}

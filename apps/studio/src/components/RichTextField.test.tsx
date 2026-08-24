@@ -32,6 +32,11 @@ function renderField(value: unknown, onChange: (next: unknown) => void = () => 0
   );
 }
 
+test("the fieldset carries the field's id, so an issue path can land on it", () => {
+  renderField(doc);
+  expect(document.getElementById("body")?.className).toBe("nb-richtext");
+});
+
 test("renders every span's text editable and commits nothing it was not asked to", () => {
   const onChange = vi.fn();
   renderField(doc, onChange);

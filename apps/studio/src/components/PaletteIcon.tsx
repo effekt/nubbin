@@ -23,7 +23,19 @@ const PALETTE_ICONS: Record<string, ReactElement> = {
       <path d="M10 4.5h4.5M10 8h4.5M10 11.5h3" {...STROKE} />
     </>
   ),
+  splithero: (
+    <>
+      <rect x="8.5" y="2.5" width="6" height="8" rx="1" {...STROKE} />
+      <path d="M1.5 4.5h5M1.5 8h5M1.5 11.5h3.5M8.5 13h4" {...STROKE} />
+    </>
+  ),
   header: <path d="M2 4h12M2 8h8M2 12h5" {...STROKE} />,
+  masthead: (
+    <>
+      <rect x="1.5" y="2.5" width="13" height="4" rx="1" {...STROKE} />
+      <path d="M2 9.5h8M2 12.5h5" {...STROKE} />
+    </>
+  ),
   footer: (
     <>
       <path d="M2 3.5h12M2 6.5h8" {...STROKE} />
@@ -31,6 +43,7 @@ const PALETTE_ICONS: Record<string, ReactElement> = {
     </>
   ),
   prose: <path d="M2 3.5h12M2 7h12M2 10.5h8" {...STROKE} />,
+  pricelist: <path d="M2 3.5h7M12 3.5h2M2 7.5h6M11.5 7.5h2.5M2 11.5h7M12 11.5h2" {...STROKE} />,
   faq: <path d="M5.5 6a2.5 2.5 0 1 1 3.4 2.3c-.8.3-.9.9-.9 1.7M8 12.5v.2" {...STROKE} />,
   banner: <rect x="1.5" y="6" width="13" height="4" rx="1" {...STROKE} />,
   card: (
@@ -47,6 +60,26 @@ const PALETTE_ICONS: Record<string, ReactElement> = {
       <rect x="9" y="9" width="5" height="5" rx="1" {...STROKE} strokeWidth={1.4} />
     </>
   ),
+  tag: (
+    <>
+      <path d="M2.5 2.5h4.6l6.4 6.4-4.6 4.6-6.4-6.4Z" {...STROKE} />
+      <circle cx="5.2" cy="5.2" r="1" {...STROKE} strokeWidth={1.3} />
+    </>
+  ),
+  products: (
+    <>
+      <rect x="2" y="2" width="5" height="5" rx="1" {...STROKE} strokeWidth={1.4} />
+      <rect x="9" y="2" width="5" height="5" rx="1" {...STROKE} strokeWidth={1.4} />
+      <rect x="2" y="9" width="5" height="5" rx="1" {...STROKE} strokeWidth={1.4} />
+      <path d="M9.3 9.3h2.4l2.5 2.5-2.4 2.4-2.5-2.5Z" {...STROKE} strokeWidth={1.4} />
+    </>
+  ),
+  logos: (
+    <>
+      <circle cx="4.8" cy="8" r="2.9" {...STROKE} />
+      <rect x="8.8" y="5.1" width="5.8" height="5.8" rx="1.2" {...STROKE} />
+    </>
+  ),
   features: <path d="M8 2.5 9.4 6.6 13.5 8 9.4 9.4 8 13.5 6.6 9.4 2.5 8 6.6 6.6Z" {...STROKE} />,
   band: (
     <>
@@ -54,6 +87,7 @@ const PALETTE_ICONS: Record<string, ReactElement> = {
       <circle cx="8" cy="8" r="1.8" fill="currentColor" />
     </>
   ),
+  stats: <path d="M2 13.5h12M4.5 13.5V9M8 13.5V4.5M11.5 13.5V7" {...STROKE} />,
   feed: (
     <>
       <path d="M2 3.5h12M2 7h12M2 10.5h7" {...STROKE} />

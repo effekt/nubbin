@@ -32,7 +32,7 @@ interface RichTextBlockRowProps {
 export function RichTextBlockRow(props: RichTextBlockRowProps) {
   const { id, block, index, count, readOnly } = props;
   return (
-    <li className="nb-richtext-block">
+    <li id={id} className="nb-richtext-block">
       <div className="nb-richtext-blockhead">
         <SegmentedEnumField
           id={`${id}_kind`}
@@ -53,7 +53,7 @@ export function RichTextBlockRow(props: RichTextBlockRowProps) {
         />
       </div>
       <RichTextSpanList
-        id={id}
+        id={`${id}_spans`}
         spans={block.spans}
         readOnly={readOnly}
         selectedSpan={props.selectedSpan}

@@ -40,7 +40,7 @@ export function RichTextField(props: RichTextFieldProps) {
       onChange(withRichTextSpan(doc, selection.block, selection.span, next));
   };
   return (
-    <fieldset className="nb-richtext" aria-label={label}>
+    <fieldset id={id} className="nb-richtext" aria-label={label}>
       <RichTextToolbar
         span={selected}
         readOnly={readOnly}

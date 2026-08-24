@@ -22,7 +22,7 @@ export function RichTextSpanList(props: RichTextSpanListProps) {
   const { id, spans, readOnly, selectedSpan } = props;
   const rowKeys = useRowKeys(spans.length);
   return (
-    <div className="nb-richtext-spans">
+    <div id={id} className="nb-richtext-spans">
       {spans.map((span, at) => (
         <RichTextSpanRow
           key={rowKeys.keys[at] ?? `pending-${at}`}
