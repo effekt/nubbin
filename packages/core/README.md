@@ -8,7 +8,7 @@ validator, no framework and no node builtin. A build gate fails on any of the th
 claim that it runs in a browser, a worker and a build step is checked rather than asserted.
 
 ```bash
-npm install @nubbin/core@rc
+npm install @nubbin/core
 ```
 
 ```ts

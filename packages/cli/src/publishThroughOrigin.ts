@@ -1,3 +1,4 @@
+import { endpointFor } from "./endpointFor";
 import { UsageError } from "./UsageError";
 
 /**
@@ -13,7 +14,7 @@ export async function publishThroughOrigin(
   action: "publish" | "unpublish",
   body: Record<string, string>,
 ): Promise<void> {
-  const endpoint = new URL(`/api/nubbin/${action}`, origin);
+  const endpoint = endpointFor(origin, action);
   const response = await fetch(endpoint, {
     method: "POST",
     headers: { "content-type": "application/json" },

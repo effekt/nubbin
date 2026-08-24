@@ -52,9 +52,14 @@ application imports the way that application does — extensionless specifiers, 
 TypeScript throughout — and none of that resolves under bare Node.
 
 A block definition carries its component beside its schema, so reaching a registry means loading
-`.tsx` files. JSX is parsed, and nothing more: the call it compiles to is reached by rendering,
-which no command does. **React need not be installed** for any of these commands to run, which is
+`.tsx` files. JSX inside a component's body is parsed and never evaluated — the call it compiles
+to is reached by rendering, which no command does — so **React need not be installed**, which is
 what keeps `check` runnable in a CI job that installs nothing but the CLI.
+
+Two things break that, and both fail loudly rather than silently: a module that *evaluates* JSX at
+module scope, and a module that imports React at module scope. The first raises `React is not
+defined` even where React is installed, because the transform emits `React.createElement` and adds
+no import; the second needs React resolvable like any other dependency.
 
 ## The commands
 
@@ -67,8 +72,9 @@ what keeps `check` runnable in a CI job that installs nothing but the CLI.
 | `status [route]` | what is live, everywhere or at one route |
 | `check` | every live route against the registry as it is now |
 
-A command refuses a positional it does not read. `check` takes none, and answering
-`check /pricing` by checking everything would be a lie told quietly.
+A command refuses an argument it does not read. `check` takes no route, and `--origin` is refused
+by `compile`, `status` and `check` — none of them moves a pointer, so `status --origin http://prod`
+would answer from the local store while looking like it asked the server.
 
 ### `publish`
 
@@ -104,11 +110,14 @@ until it restarts.
 
 ## Exit codes
 
-| Code | Meaning |
-|---|---|
-| `0` | it happened. Warnings may have been printed |
-| `1` | refused: the document, the rollback, or a page already live |
-| `2` | the command could not be run as given |
+| Code | Meaning | Stream |
+|---|---|---|
+| `0` | it happened. Warnings may have been printed | stdout |
+| `1` | refused: the document, the rollback, or a page already live | stderr |
+| `2` | the command could not be run as given | stderr |
+
+Stdout carries the answer or carries nothing, so `HASH=$(nubbin compile /pricing)` captures a hash
+or captures an empty string — never a complaint about why there is no hash.
 
 The split that matters is between `1` and `2`: a usage error means nothing was attempted, and a
 refusal means what was attempted is not legal. They are fixed in different files.

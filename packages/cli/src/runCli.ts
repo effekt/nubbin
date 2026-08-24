@@ -23,6 +23,9 @@ export async function runCli(argv: readonly string[], cwd: string): Promise<Comm
     if (args.positionals.length > entry.takes) {
       throw new UsageError(`${command} reads ${entry.takes} argument(s), and was given more`);
     }
+    if (args.origin !== undefined && entry.moves !== true) {
+      throw new UsageError(`${command} moves no pointer, so --origin would do nothing`);
+    }
     return await entry.run(await resolveConfig(cwd, configPath), args);
   } catch (error) {
     return { lines: formatRefusal(error), code: exitCodeFor(error) };

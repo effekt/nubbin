@@ -11,10 +11,10 @@ Nubbin is deliberately not a general-purpose CMS. It answers one question: how d
 does not write code publish pages from components your application already owns?
 
 ```bash
-npm install @nubbin/core@rc
+npm install @nubbin/core
 ```
 
-The packages are published as release candidates; the studio is not built yet — see
+The packages are published; the studio is not built yet — see
 [Status](#status). A block declares its schema once, and each field decides for itself whether
 it freezes at publish or stays live:
 
@@ -99,7 +99,7 @@ reference back to it. Nubbin is needed to change a page, not to serve one.
 | `@nubbin/react` | The renderer, the block registry, and hole resolution |
 | `@nubbin/cli` | The publish path from a terminal — compile, publish, unpublish, rollback, status, check |
 
-Each is on npm under the `rc` tag; `npm view @nubbin/core dist-tags` is the current answer. Everything is tested against real
+`npm view @nubbin/core dist-tags` is the current answer for what a plain install resolves to. Everything is tested against real
 schemas rather than mocks, and a build gate fails on any `node:` or framework import inside
 `core`, so the claim that it runs anywhere is checked rather than asserted.
 

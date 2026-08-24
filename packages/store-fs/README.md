@@ -5,7 +5,7 @@ file per route, and no aggregate document — so two publishes to different rout
 each other's write, because there is no shared file to read and rewrite.
 
 ```bash
-npm install @nubbin/store-fs@rc
+npm install @nubbin/store-fs
 ```
 
 ```ts

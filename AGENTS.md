@@ -96,8 +96,8 @@ section, and the caller decides what each finding becomes.
 
 ## Status
 
-Every package is published under the `rc` tag — `npm view @nubbin/core dist-tags` for the
-version, which in prose would be a copy of the registry. [`docs/reference/`](docs/README.md)
+Every package is published — `npm view @nubbin/core dist-tags` for the version and the tag,
+which in prose would be a copy of the registry. [`docs/reference/`](docs/README.md)
 documents `core`'s authoring and compile surfaces, the artifact contracts, and the `react`
 and `next` bindings as shipped. **The studio** grows slice by slice against the demo:
 [`apps/studio/README.md`](apps/studio/README.md) is what it does today, and
