@@ -5,7 +5,7 @@ import { countdownBannerSchema } from "./CountdownBanner.schema";
 export const countdownBannerBlock = defineBlock({
   name: "CountdownBanner",
   description: "A dated notice: what is coming, and the moment it arrives.",
-  icon: "band",
+  icon: "clock",
   schema: countdownBannerSchema,
   component: CountdownBanner,
   version: 1,

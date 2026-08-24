@@ -5,7 +5,7 @@ import { announcementBarSchema } from "./AnnouncementBar.schema";
 export const announcementBarBlock = defineBlock({
   name: "AnnouncementBar",
   description: "One line above everything: today's notice, optionally going somewhere.",
-  icon: "banner",
+  icon: "megaphone",
   schema: announcementBarSchema,
   component: AnnouncementBar,
   version: 1,

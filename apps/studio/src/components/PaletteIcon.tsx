@@ -61,6 +61,47 @@ const PALETTE_ICONS: Record<string, ReactElement> = {
     </>
   ),
   stack: <path d="M8 2.5 14 5.5 8 8.5 2 5.5Zm-6 6 6 3 6-3M2 11.2l6 3 6-3" {...STROKE} />,
+  video: (
+    <>
+      <rect x="1.5" y="3" width="13" height="10" rx="1.5" {...STROKE} />
+      <path d="M6.8 5.8 10.2 8l-3.4 2.2Z" {...STROKE} strokeWidth={1.3} />
+    </>
+  ),
+  megaphone: (
+    <>
+      <path d="M2 6.5h2.5L11 3v10L4.5 9.5H2Z" {...STROKE} />
+      <path d="M13 6.2a2.6 2.6 0 0 1 0 3.6" {...STROKE} strokeWidth={1.3} />
+    </>
+  ),
+  clock: (
+    <>
+      <circle cx="8" cy="8" r="5.5" {...STROKE} />
+      <path d="M8 5.2v3l2.1 1.3" {...STROKE} strokeWidth={1.4} />
+    </>
+  ),
+  quote: (
+    <path
+      d="M4 6a1.8 1.8 0 1 1 1.8 1.8c0 1.3-.6 2.1-1.6 2.6M9.2 6A1.8 1.8 0 1 1 11 7.8c0 1.3-.6 2.1-1.6 2.6"
+      {...STROKE}
+    />
+  ),
+  figure: (
+    <>
+      <rect x="2" y="2.5" width="12" height="11" rx="1.5" {...STROKE} />
+      <path d="M4.5 11l2.6-3.2 2 2.2L11 8l2.2 3" {...STROKE} strokeWidth={1.4} />
+      <circle cx="6" cy="5.8" r="1" {...STROKE} strokeWidth={1.3} />
+    </>
+  ),
+  gallery: (
+    <>
+      <path
+        d="M4.5 4.2V4a1.7 1.7 0 0 1 1.7-1.7h6.1A1.7 1.7 0 0 1 14 4v6.1a1.7 1.7 0 0 1-1.7 1.7h-.2"
+        {...STROKE}
+        strokeWidth={1.3}
+      />
+      <rect x="2" y="4.5" width="9.5" height="9.5" rx="1.2" {...STROKE} />
+    </>
+  ),
 };
 
 /** A block's glyph in the palette: a known icon name renders the studio's monoline SVG for
