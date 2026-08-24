@@ -13,7 +13,11 @@ A Next.js application for composing and publishing pages from the demo's block c
 - **Edit** — `/edit/<route>` hosts [Puck](https://puckeditor.com) with a config derived
   from that catalog ([the decision](../../decisions/puck-is-the-iteration-one-editor.md)):
   every block is a palette entry rendered by the demo's own component, `string`, `number`,
-  `boolean` and `enum` props edit in the inspector while other kinds render read-only, and a
+  `boolean` and `enum` props edit in the inspector, an array edits as a repeater — rows
+  under stable generated keys, labelled by their own first string field, reordered by drag
+  or buttons, with add and remove disabled at the schema's bounds and the reason in the
+  control's title — an object as a fieldset recursing per sub-field with the same per-kind
+  controls, only a kind the description cannot reach renders read-only, and a
   slot's `allow` constraint refuses an illegal drop before it lands. Every change — a drop, a
   reorder, a delete, a prop edit — folds back into a Nubbin document and saves to the draft
   store on a debounce; a value the schema refuses still saves, with the compiler's issues in

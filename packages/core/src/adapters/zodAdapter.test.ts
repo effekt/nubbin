@@ -36,6 +36,35 @@ describe("zodAdapter.describe", () => {
     ]);
   });
 
+  test("reports an array's declared bounds, and only declared ones", () => {
+    const fields = zodAdapter.describe(
+      z.object({
+        stats: z
+          .array(z.object({ label: z.string() }))
+          .min(2)
+          .max(4),
+        tags: z.array(z.string()),
+      }),
+    );
+    expect(fields.find((f) => f.path === "stats")).toEqual({
+      path: "stats",
+      kind: "array",
+      optional: false,
+      minItems: 2,
+      maxItems: 4,
+    });
+    expect(fields.find((f) => f.path === "tags")).toEqual({
+      path: "tags",
+      kind: "array",
+      optional: false,
+    });
+  });
+
+  test("reports one declared array bound without inventing the other", () => {
+    const [field] = zodAdapter.describe(z.object({ items: z.array(z.string()).max(8) }));
+    expect(field).toEqual({ path: "items", kind: "array", optional: false, maxItems: 8 });
+  });
+
   test("descends into a nested object using dotted paths", () => {
     expect(paths(z.object({ cta: z.object({ label: z.string(), href: z.string() }) }))).toEqual([
       "cta",

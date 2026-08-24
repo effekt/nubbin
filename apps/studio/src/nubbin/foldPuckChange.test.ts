@@ -25,6 +25,37 @@ test("an edit to an existing node folds without touching Puck's own Data", () =>
   expect(folded.data).toBe(data);
 });
 
+test("array and object props fold through untouched — a nested edit survives the round trip", () => {
+  const statBandPrior: DocumentVersion = {
+    ...prior,
+    roots: ["band"],
+    elements: {
+      band: {
+        id: "band",
+        block: "StatBand",
+        props: {
+          stats: [
+            { value: "6", label: "springs mapped" },
+            { value: "3 mi", label: "of shoreline" },
+          ],
+          tone: "light",
+        },
+      },
+    },
+  };
+  const edited = [
+    { value: "3 mi", label: "of shoreline" },
+    { value: "7", label: "springs mapped", note: { by: "ed." } },
+  ];
+  const data: PuckData = {
+    content: [{ type: "StatBand", props: { id: "band", stats: edited, tone: "light" } }],
+    root: { props: { title: "t" } },
+  };
+  const folded = foldPuckChange(data, statBandPrior, { StatBand: [] });
+  expect(folded.version.elements.band?.props.stats).toEqual(edited);
+  expect(folded.data).toBe(data);
+});
+
 test("a node Puck created gets a minted id, and the returned Data holds it", () => {
   const data: PuckData = {
     content: [
