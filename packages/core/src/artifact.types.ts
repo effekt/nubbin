@@ -47,6 +47,15 @@ export interface Manifest {
   generatedAt: string;
 }
 
+/** One pointer move, recorded by `publish` — only published states, so rollback can trust it. */
+export interface PointerMove {
+  /** What the route was pointed at. */
+  hash: string;
+  /** The document version that compiled to that hash — what a rollback resolves by. */
+  documentVersion: number;
+  movedAt: string;
+}
+
 /** The output layer's whole IO surface. Adapters implement it; core only returns values for it. */
 export interface ArtifactStore {
   read(hash: string): Promise<Artifact | null>;
@@ -55,4 +64,10 @@ export interface ArtifactStore {
   pointer(route: string): Promise<RoutePointer | null>;
   publish(route: string, hash: string): Promise<void>;
   unpublish(route: string): Promise<void>;
+  /**
+   * Every move `publish` made at this route, oldest first, surviving `unpublish`. Optional
+   * because a write-only blob store is still a valid adapter — a caller degrades with a
+   * message rather than requiring it.
+   */
+  history?(route: string): Promise<PointerMove[]>;
 }

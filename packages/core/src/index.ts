@@ -6,6 +6,7 @@ export type {
   ArtifactStore,
   Holes,
   Manifest,
+  PointerMove,
   RoutePointer,
 } from "./artifact.types";
 export type { Block, InferProps, SlotConstraint, UnknownProps } from "./block.types";
