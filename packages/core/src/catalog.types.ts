@@ -83,6 +83,12 @@ export interface CatalogEntry {
    * read through `~standard.jsonSchema`.
    */
   schema: unknown;
+  /**
+   * One line saying what the block is for, shown wherever an editing surface lists blocks. The
+   * serializable twin of `Block.description`, for a studio that fetches the catalog without the
+   * components. Compile never reads it.
+   */
+  description?: string;
   /** Editing hints, keyed by schema path. Omit it and every field is treated as static. */
   ui?: BlockUi;
   /**

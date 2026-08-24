@@ -19,6 +19,26 @@ describe("defineBlock", () => {
     expect(block.component).toBe(Hero);
   });
 
+  test("passes a description through untouched, and leaves an omitted one absent", () => {
+    const described = defineBlock({
+      name: "Hero",
+      description: "The opening statement of a page.",
+      schema: heroSchema,
+      component: Hero,
+      version: 1,
+      slots: {},
+    });
+    expect(described.description).toBe("The opening statement of a page.");
+    const bare = defineBlock({
+      name: "Hero",
+      schema: heroSchema,
+      component: Hero,
+      version: 1,
+      slots: {},
+    });
+    expect(bare.description).toBeUndefined();
+  });
+
   test("rejects a version below 1, because artifacts record the version they compiled against", () => {
     expect(() =>
       defineBlock({ name: "Hero", schema: heroSchema, component: Hero, version: 0, slots: {} }),
