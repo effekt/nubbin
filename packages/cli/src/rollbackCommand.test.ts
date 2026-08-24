@@ -6,6 +6,7 @@ import { z } from "zod";
 import { ExitCode } from "./exitCode.constants";
 import { publishCommand } from "./publishCommand";
 import { rollbackCommand } from "./rollbackCommand";
+import { fixtureDocument } from "./testing/fixtureDocument";
 import { fixtureProject } from "./testing/fixtureProject";
 import { unpublishCommand } from "./unpublishCommand";
 
@@ -63,6 +64,23 @@ describe("rollbackCommand", () => {
     expect(said).toContain(hash);
     expect(said).toContain("Hero");
     expect(await config.store.pointer("/pricing")).toBeNull();
+  });
+
+  test("--to a document version resolves through history and moves the pointer", async () => {
+    const { config } = await fixtureProject();
+    await publishCommand(config, { positionals: ["/pricing"] });
+    const hash = (await config.store.pointer("/pricing"))?.hash ?? "";
+    const versionTwo = {
+      ...fixtureDocument("pricing", {
+        n1: { id: "n1", block: "Hero", props: { title: "New plans" } },
+      }),
+      version: 2,
+    };
+    await publishCommand({ ...config, document: () => versionTwo }, { positionals: ["/pricing"] });
+    const outcome = await rollbackCommand(config, { positionals: ["/pricing"], to: "1" });
+    expect(outcome.code).toBe(0);
+    expect(outcome.lines).toEqual([`rolled back /pricing -> ${hash}`]);
+    expect((await config.store.pointer("/pricing"))?.hash).toBe(hash);
   });
 
   test("refuses when the hash is missing entirely", async () => {

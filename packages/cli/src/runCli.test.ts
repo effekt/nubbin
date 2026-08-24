@@ -41,6 +41,12 @@ describe("runCli", () => {
     expect(outcome.code).toBe(2);
   });
 
+  test("refuses --to on a command that resolves no document version", async () => {
+    const outcome = await runCli(["publish", "/pricing", "--to", "3"], await nowhere());
+    expect(outcome.lines.join("\n")).toMatch(/publish resolves no document version/);
+    expect(outcome.code).toBe(2);
+  });
+
   test("an unknown flag stops the run before any config is loaded", async () => {
     const outcome = await runCli(["publish", "/pricing", "--orgin", "x"], await nowhere());
     expect(outcome.code).toBe(2);

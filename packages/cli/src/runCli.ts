@@ -26,6 +26,9 @@ export async function runCli(argv: readonly string[], cwd: string): Promise<Comm
     if (args.origin !== undefined && entry.moves !== true) {
       throw new UsageError(`${command} moves no pointer, so --origin would do nothing`);
     }
+    if (args.to !== undefined && entry.resolves !== true) {
+      throw new UsageError(`${command} resolves no document version, so --to would do nothing`);
+    }
     return await entry.run(await resolveConfig(cwd, configPath), args);
   } catch (error) {
     return { lines: formatRefusal(error), code: exitCodeFor(error) };

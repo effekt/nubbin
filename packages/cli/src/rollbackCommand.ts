@@ -3,7 +3,7 @@ import type { Command } from "./command.types";
 import { ExitCode } from "./exitCode.constants";
 import { movePointer } from "./movePointer";
 import { outcomeOf } from "./outcomeOf";
-import { requiredArgument } from "./requiredArgument";
+import { resolveRollbackTarget } from "./resolveRollbackTarget";
 import { routeArgument } from "./routeArgument";
 import { UsageError } from "./UsageError";
 
@@ -11,11 +11,12 @@ import { UsageError } from "./UsageError";
  * Point a route back at an artifact already stored — after asking whether the blocks it was
  * compiled against are still the blocks in the registry now. A drifted block is a page that
  * renders wrongly or not at all, so the refusal moves nothing; and an artifact compiled for a
- * different route is never what was meant, however plausible its hash looks.
+ * different route is never what was meant, however plausible its hash looks. The artifact is
+ * named by hash, or by `--to <version>` resolved through the route's history.
  */
 export const rollbackCommand: Command = async (config, args) => {
   const route = routeArgument(args);
-  const hash = requiredArgument(args, 1, "hash");
+  const hash = await resolveRollbackTarget(config, args, route);
   const artifact = await config.store.read(hash);
   if (artifact === null) throw new UsageError(`no artifact stored as ${hash}`);
   if (artifact.route !== route) {
