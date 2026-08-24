@@ -36,6 +36,16 @@ There is no `--force`. A genuine multi-step edit is a script calling `core`'s op
 and saving once — which is what the operations being pure functions is *for*, and what the
 demo's own capture config does with two `moveNode` calls in a row.
 
+## A new node starts from the catalog's defaults
+
+`add` seeds the node it creates with the block's `defaults`, which follows from compiling before
+persisting rather than from taste. A block with a required field and empty props cannot compile,
+so an `add` that seeded nothing would be refused every time, and no order of `add` then `set`
+would ever be legal — the two commands would have no sequence a person could run.
+
+`defaults` is already what a freshly dropped block renders with, and already required to satisfy
+its own schema, so the seed is the one value in the system that is guaranteed to compile.
+
 ## A field resolved per request cannot be set
 
 `set` refuses a path carrying a `data` hint. The value would be written, stored, compiled into a
