@@ -2,28 +2,28 @@ import type { z } from "zod";
 import type { faqAccordionSchema } from "./FaqAccordion.schema";
 
 export const faqAccordionDefaults: z.infer<typeof faqAccordionSchema> = {
-  heading: "Frequently asked questions",
+  heading: "Questions the harbour office gets asked",
   tone: "light",
   items: [
     {
-      question: "Does Tidewell replace our ticket tracker?",
+      question: "Where do the tide times come from?",
       answer:
-        "No — Tidewell reads from the tracker you already use and turns it into one shared schedule. Your team keeps filing tickets exactly where they do today.",
+        "The admiralty tables, corrected against the gauge on the harbour wall. Where the two disagree we print the gauge and say so.",
     },
     {
-      question: "How long does setup take?",
+      question: "How early is the morning dispatch filed?",
       answer:
-        "Most teams import a first workstream and see a working schedule inside an afternoon. Full rollout across a department typically takes a week.",
+        "By six, most days. A dispatch filed after the boats are in is marked as a late edition rather than backdated.",
     },
     {
-      question: "Can clients see a read-only view?",
+      question: "Do you cover the whole estuary?",
       answer:
-        "Yes. Every schedule has a shareable read-only link that updates automatically, so a client never asks for the wrong version again.",
+        "Three miles of it, on foot. Anything past the point comes from the lifeboat station or the reserve wardens, and is credited to them.",
     },
     {
-      question: "What happens to our data if we cancel?",
+      question: "What happens when something we printed turns out to be wrong?",
       answer:
-        "You can export every workstream to a spreadsheet at any time, and your data stays exportable for 90 days after cancellation.",
+        "It is corrected on the page and listed in the changes feed with the time it moved. Nothing is quietly rewritten.",
     },
   ],
 };

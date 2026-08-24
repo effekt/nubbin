@@ -6,10 +6,12 @@ import { proseDefaults } from "./proseDefaults";
 describe("Prose", () => {
   test("renders a link inside a sentence rather than splitting the sentence", () => {
     const { container } = render(<Prose {...proseDefaults} />);
-    const link = screen.getByRole("link", { name: "security page" });
+    const link = screen.getByRole("link", { name: "the dispatches page" });
 
-    expect(link.getAttribute("href")).toBe("/security");
-    expect(link.closest("p")?.textContent).toContain("written up on our security page.");
+    expect(link.getAttribute("href")).toBe("/dispatches");
+    expect(link.closest("p")?.textContent).toContain(
+      "the crossing times on the dispatches page have moved with it.",
+    );
     expect(container.querySelectorAll("p")).toHaveLength(2);
   });
 

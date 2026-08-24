@@ -1,0 +1,221 @@
+{
+  "route": "/",
+  "documentId": "home",
+  "documentVersion": 1,
+  "blockVersions": {
+    "SectionStack": 1,
+    "Hero": 1,
+    "LiveBand": 1,
+    "Split": 1,
+    "CardGrid": 1,
+    "Card": 1,
+    "UpdateFeed": 1,
+    "FaqAccordion": 1,
+    "CtaBanner": 1,
+    "SiteFooter": 1
+  },
+  "tree": [
+    {
+      "id": "stack",
+      "block": "SectionStack",
+      "props": {},
+      "slots": {
+        "sections": [
+          {
+            "id": "hero",
+            "block": "Hero",
+            "props": {
+              "eyebrow": "Read the estuary before you read the forecast",
+              "headline": "The water tells you first",
+              "body": "Bellwether reads the estuary every morning — tides, wind, the ferry, the birds — and writes down what changed.",
+              "tone": "dark",
+              "cta": {
+                "label": "Read this morning's dispatches",
+                "href": "/dispatches"
+              },
+              "image": {
+                "url": "/hero-board.svg",
+                "alt": "A tide board at the harbour, chalked with the day's high and low water"
+              }
+            }
+          },
+          {
+            "id": "live",
+            "block": "LiveBand",
+            "props": {
+              "label": "On now"
+            },
+            "holes": {
+              "items": {
+                "revalidate": 5
+              }
+            }
+          },
+          {
+            "id": "split",
+            "block": "Split",
+            "props": {
+              "ratio": "wide-start"
+            },
+            "slots": {
+              "start": [
+                {
+                  "id": "grid",
+                  "block": "CardGrid",
+                  "props": {
+                    "heading": "This morning's dispatches",
+                    "columns": "two"
+                  },
+                  "slots": {
+                    "cards": [
+                      {
+                        "id": "card-tides",
+                        "block": "Card",
+                        "props": {
+                          "title": "Tide tables corrected for Whitstable",
+                          "summary": "The published table ran four minutes fast all spring. Here is the corrected set.",
+                          "href": "/dispatches/tide-tables",
+                          "meta": "Field notes",
+                          "badge": "updated"
+                        }
+                      },
+                      {
+                        "id": "card-ferry",
+                        "block": "Card",
+                        "props": {
+                          "title": "The ferry holds to winter hours",
+                          "summary": "No change until the equinox, whatever the timetable board says.",
+                          "href": "/dispatches/fog-week",
+                          "meta": "Crossings",
+                          "badge": "new"
+                        }
+                      },
+                      {
+                        "id": "card-terns",
+                        "block": "Card",
+                        "props": {
+                          "title": "Terns back on the shingle bank",
+                          "summary": "Eleven days earlier than last year, and the wardens have roped the north end.",
+                          "href": "/dispatches/fog-week",
+                          "meta": "Shoreline",
+                          "badge": "new"
+                        }
+                      }
+                    ]
+                  }
+                }
+              ],
+              "end": [
+                {
+                  "id": "updates",
+                  "block": "UpdateFeed",
+                  "props": {
+                    "heading": "Recent changes"
+                  },
+                  "holes": {
+                    "entries": {
+                      "revalidate": 5
+                    }
+                  }
+                }
+              ]
+            }
+          },
+          {
+            "id": "faq",
+            "block": "FaqAccordion",
+            "props": {
+              "heading": "Questions the harbour office gets asked",
+              "tone": "light"
+            },
+            "holes": {
+              "items": {
+                "revalidate": 5
+              }
+            }
+          },
+          {
+            "id": "cta",
+            "block": "CtaBanner",
+            "props": {
+              "heading": "The morning read, before the boats go out",
+              "body": "One dispatch a day, filed by six. Corrections reach the page the moment we know about them.",
+              "tone": "dark",
+              "cta": {
+                "label": "See what changed today",
+                "href": "/live"
+              }
+            }
+          },
+          {
+            "id": "footer",
+            "block": "SiteFooter",
+            "props": {
+              "tagline": "Dispatches from three miles of shoreline, filed by six each morning.",
+              "tone": "dark",
+              "columns": [
+                {
+                  "heading": "Read",
+                  "links": [
+                    {
+                      "label": "Dispatches",
+                      "href": "/dispatches"
+                    },
+                    {
+                      "label": "On now",
+                      "href": "/live"
+                    },
+                    {
+                      "label": "Tide tables",
+                      "href": "/dispatches/tide-tables"
+                    }
+                  ]
+                },
+                {
+                  "heading": "The paper",
+                  "links": [
+                    {
+                      "label": "Who writes this",
+                      "href": "/#"
+                    },
+                    {
+                      "label": "Corrections",
+                      "href": "/#"
+                    },
+                    {
+                      "label": "Contact",
+                      "href": "/#"
+                    }
+                  ]
+                },
+                {
+                  "heading": "Elsewhere",
+                  "links": [
+                    {
+                      "label": "Harbour office",
+                      "href": "/#"
+                    },
+                    {
+                      "label": "Lifeboat station",
+                      "href": "/#"
+                    },
+                    {
+                      "label": "Bird reserve",
+                      "href": "/#"
+                    }
+                  ]
+                }
+              ],
+              "legal": "© 2026 Bellwether. Printed when the tide allows."
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "meta": {
+    "title": "Bellwether — dispatches from the estuary"
+  },
+  "compiledWith": "0.1.0",
+  "hash": "5a9ff9a7b17b8951"
+}

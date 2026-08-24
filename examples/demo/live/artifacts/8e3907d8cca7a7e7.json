@@ -1,0 +1,185 @@
+{
+  "route": "/dispatches/tide-tables",
+  "documentId": "tide-tables",
+  "documentVersion": 1,
+  "blockVersions": {
+    "SectionStack": 1,
+    "PageHeader": 1,
+    "Split": 1,
+    "Prose": 2,
+    "CardGrid": 1,
+    "Card": 1,
+    "CtaBanner": 1,
+    "SiteFooter": 1
+  },
+  "tree": [
+    {
+      "id": "stack",
+      "block": "SectionStack",
+      "props": {},
+      "slots": {
+        "sections": [
+          {
+            "id": "header",
+            "block": "PageHeader",
+            "props": {
+              "eyebrow": "Field notes",
+              "headline": "Tide tables corrected for Whitstable",
+              "body": "The published table ran four minutes fast all spring.",
+              "tone": "dark"
+            }
+          },
+          {
+            "id": "split",
+            "block": "Split",
+            "props": {
+              "ratio": "wide-start"
+            },
+            "slots": {
+              "start": [
+                {
+                  "id": "body",
+                  "block": "Prose",
+                  "props": {
+                    "heading": "Four minutes fast, all spring",
+                    "tone": "light",
+                    "body": [
+                      {
+                        "kind": "paragraph",
+                        "spans": [
+                          {
+                            "text": "The printed table has run four minutes ahead of the water since March. Four minutes is nothing on a beach and a great deal on a slipway, which is why the oyster boats noticed and nobody else did."
+                          }
+                        ]
+                      },
+                      {
+                        "kind": "paragraph",
+                        "spans": [
+                          {
+                            "text": "The corrected set is below. The ferry reads the same table, so the crossing times on "
+                          },
+                          {
+                            "text": "the dispatches page",
+                            "href": "/dispatches"
+                          },
+                          {
+                            "text": " have moved with it."
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                }
+              ],
+              "end": [
+                {
+                  "id": "related",
+                  "block": "CardGrid",
+                  "props": {
+                    "heading": "Related",
+                    "columns": "two"
+                  },
+                  "slots": {
+                    "cards": [
+                      {
+                        "id": "card-ferry",
+                        "block": "Card",
+                        "props": {
+                          "title": "The ferry holds to winter hours",
+                          "summary": "The crossing reads the same table, four minutes and all.",
+                          "href": "/dispatches/fog-week",
+                          "meta": "Crossings",
+                          "badge": "new"
+                        }
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          },
+          {
+            "id": "cta",
+            "block": "CtaBanner",
+            "props": {
+              "heading": "Corrections reach the page before they reach print",
+              "body": "One dispatch a day, filed by six. Corrections reach the page the moment we know about them.",
+              "tone": "dark",
+              "cta": {
+                "label": "See what changed today",
+                "href": "/live"
+              }
+            }
+          },
+          {
+            "id": "footer",
+            "block": "SiteFooter",
+            "props": {
+              "tagline": "Dispatches from three miles of shoreline, filed by six each morning.",
+              "tone": "dark",
+              "columns": [
+                {
+                  "heading": "Read",
+                  "links": [
+                    {
+                      "label": "Dispatches",
+                      "href": "/dispatches"
+                    },
+                    {
+                      "label": "On now",
+                      "href": "/live"
+                    },
+                    {
+                      "label": "Tide tables",
+                      "href": "/dispatches/tide-tables"
+                    }
+                  ]
+                },
+                {
+                  "heading": "The paper",
+                  "links": [
+                    {
+                      "label": "Who writes this",
+                      "href": "/#"
+                    },
+                    {
+                      "label": "Corrections",
+                      "href": "/#"
+                    },
+                    {
+                      "label": "Contact",
+                      "href": "/#"
+                    }
+                  ]
+                },
+                {
+                  "heading": "Elsewhere",
+                  "links": [
+                    {
+                      "label": "Harbour office",
+                      "href": "/#"
+                    },
+                    {
+                      "label": "Lifeboat station",
+                      "href": "/#"
+                    },
+                    {
+                      "label": "Bird reserve",
+                      "href": "/#"
+                    }
+                  ]
+                }
+              ],
+              "legal": "© 2026 Bellwether. Printed when the tide allows."
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "meta": {
+    "title": "Tide tables corrected — Bellwether"
+  },
+  "compiledWith": "0.1.0",
+  "hash": "8e3907d8cca7a7e7"
+}

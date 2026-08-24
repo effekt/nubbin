@@ -1,0 +1,113 @@
+{
+  "route": "/live",
+  "documentId": "live",
+  "documentVersion": 1,
+  "blockVersions": {
+    "SectionStack": 1,
+    "LiveBand": 1,
+    "UpdateFeed": 1,
+    "SiteFooter": 1
+  },
+  "tree": [
+    {
+      "id": "stack",
+      "block": "SectionStack",
+      "props": {},
+      "slots": {
+        "sections": [
+          {
+            "id": "band",
+            "block": "LiveBand",
+            "props": {
+              "label": "On the water now"
+            },
+            "holes": {
+              "items": {
+                "revalidate": 5
+              }
+            }
+          },
+          {
+            "id": "updates",
+            "block": "UpdateFeed",
+            "props": {
+              "heading": "Changed since the last edition"
+            },
+            "holes": {
+              "entries": {
+                "revalidate": 5
+              }
+            }
+          },
+          {
+            "id": "footer",
+            "block": "SiteFooter",
+            "props": {
+              "tagline": "Dispatches from three miles of shoreline, filed by six each morning.",
+              "tone": "dark",
+              "columns": [
+                {
+                  "heading": "Read",
+                  "links": [
+                    {
+                      "label": "Dispatches",
+                      "href": "/dispatches"
+                    },
+                    {
+                      "label": "On now",
+                      "href": "/live"
+                    },
+                    {
+                      "label": "Tide tables",
+                      "href": "/dispatches/tide-tables"
+                    }
+                  ]
+                },
+                {
+                  "heading": "The paper",
+                  "links": [
+                    {
+                      "label": "Who writes this",
+                      "href": "/#"
+                    },
+                    {
+                      "label": "Corrections",
+                      "href": "/#"
+                    },
+                    {
+                      "label": "Contact",
+                      "href": "/#"
+                    }
+                  ]
+                },
+                {
+                  "heading": "Elsewhere",
+                  "links": [
+                    {
+                      "label": "Harbour office",
+                      "href": "/#"
+                    },
+                    {
+                      "label": "Lifeboat station",
+                      "href": "/#"
+                    },
+                    {
+                      "label": "Bird reserve",
+                      "href": "/#"
+                    }
+                  ]
+                }
+              ],
+              "legal": "© 2026 Bellwether. Printed when the tide allows."
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "meta": {
+    "title": "Live — Bellwether"
+  },
+  "compiledWith": "0.1.0",
+  "hash": "fa3c7d133011d10f"
+}
