@@ -14,6 +14,14 @@ does not write code publish pages from components your application already owns?
 npm install @nubbin/core
 ```
 
+![A terminal publishing a page while a browser shows it change: the card shelf and the changes
+feed trade places, revert, and one card is rewritten — each edit a single nubbin publish, with no
+deploy and no restart](docs/media/publish-loop.svg)
+
+Every frame of that is a real session: the same page at the same scroll offset, `moveNode` and
+`setNodeProp` applied before publishing, and a compatibility check refusing a block version that
+four live pages depend on.
+
 The packages are published; the studio is not built yet — see
 [Status](#status). A block declares its schema once, and each field decides for itself whether
 it freezes at publish or stays live:

@@ -13,10 +13,10 @@ vi.mock("./fetchNowPayload", () => ({
 }));
 
 const context = {
-  route: "/live/pulse",
-  nodeId: "stats",
-  block: "StatBand",
-  path: "stats",
+  route: "/live",
+  nodeId: "band",
+  block: "LiveBand",
+  path: "items",
   spec: { revalidate: 5 },
 } as const;
 
@@ -32,7 +32,7 @@ describe("resolveDemoHole", () => {
     await resolveDemoHole(context);
     const [file, line] = vi.mocked(appendHoleLog).mock.calls[0] ?? [];
     expect(file).toMatch(/[/\\]\.nubbin[/\\]hole-log\.txt$/);
-    expect(line).toBe("/live/pulse stats stats");
+    expect(line).toBe("/live band items");
     expect(vi.mocked(appendHoleLog).mock.invocationCallOrder[0]).toBeLessThan(
       vi.mocked(fetchNowPayload).mock.invocationCallOrder[0] ?? 0,
     );
@@ -45,8 +45,8 @@ describe("resolveDemoHole", () => {
 
   test("shapes the payload for the field it was asked about", async () => {
     expect(await resolveDemoHole(context)).toEqual([
-      { value: "7", label: "times /api/now has answered" },
-      { value: "2026-08-01T00:00:00.000Z", label: "resolved for this request" },
+      { text: "The estuary has been read 7 times", at: "00:00" },
+      { text: "Ferry holding to the winter timetable", at: "00:00" },
     ]);
   });
 

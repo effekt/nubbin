@@ -1,5 +1,5 @@
-import type { DocumentVersion } from "@nubbin/core";
-import { addNode, compile, moveNode, removeNode, setNodeProp } from "@nubbin/core";
+import type { DocumentVersion, Node } from "@nubbin/core";
+import { addNode, compile, moveNode, NubbinError, removeNode, setNodeProp } from "@nubbin/core";
 import { afterAll, beforeAll, describe, expect, test } from "vitest";
 import { fixtureRoutes } from "../fixtures/fixtureRoutes";
 import { catalog } from "../src/nubbin/catalog";
@@ -9,16 +9,16 @@ import { type DemoServer, startDemoServer } from "./startDemoServer";
 
 /** Its own port, so a developer's `pnpm dev` on 3000 neither answers these requests nor breaks. */
 const PORT = 3123;
-/** `/about` rather than `/`: a leaf route, and one no other assertion in this file republishes. */
-const ROUTE = "/about";
-/** A fixture the publish script deliberately leaves unpublished, so the build never saw it. */
-const FRESH_ROUTE = "/promotions/flash";
-/** The one fixture carrying holes of both kinds. */
-const HOLE_ROUTE = "/live/pulse";
+/** A leaf route rather than `/`, and one no other assertion in this file republishes. */
+const ROUTE = "/dispatches/tide-tables";
+/** The fixture `fixtures:publish` deliberately leaves unpublished, so the build never saw it. */
+const FRESH_ROUTE = "/dispatches/late-edition";
+/** The page that is holes and nothing else: both of its fields resolve per request. */
+const HOLE_ROUTE = "/live";
 /** The fixture carrying `FaqAccordion`, the one block with a client component inside it. */
 const INTERACTIVE_ROUTE = "/";
-/** No fixture backs this one: its document is composed here, from the operations alone. */
-const COMPOSED_ROUTE = "/promotions/flash";
+/** Borrows `FRESH_ROUTE`'s address, never its fixture: its document is composed here. */
+const COMPOSED_ROUTE = "/dispatches/late-edition";
 
 /** An empty page — the state an author starts from, before a single block is placed. */
 const emptyPage = (): DocumentVersion => ({
@@ -29,6 +29,13 @@ const emptyPage = (): DocumentVersion => ({
   meta: { title: "Composed by the operations" },
   createdAt: "2026-01-01T00:00:00Z",
   createdBy: "e2e",
+});
+
+/** A node of `block` under a freshly minted id, carrying the catalog's own defaults. */
+const seeded = (block: keyof typeof catalog): Node => ({
+  id: crypto.randomUUID(),
+  block,
+  props: { ...(catalog[block]?.defaults ?? {}) },
 });
 
 /**
@@ -202,28 +209,20 @@ describe("the publish loop, end to end", () => {
   // rewrite a `DocumentVersion`; only this proves what they produce can be compiled, stored and
   // rendered.
   test("a document composed from the operations alone compiles, publishes and serves", async () => {
-    const heroId = crypto.randomUUID();
-    const footerId = crypto.randomUUID();
-    const doomed = crypto.randomUUID();
+    const header = seeded("PageHeader");
+    const grid = seeded("CardGrid");
+    const card = seeded("Card");
+    const footer = seeded("SiteFooter");
+    const doomed = seeded("CtaBanner");
 
-    let page = addNode(emptyPage(), "stack", "sections", {
-      id: heroId,
-      block: "PageHeader",
-      props: { ...(catalog.PageHeader?.defaults ?? {}) },
-    });
-    page = addNode(page, "stack", "sections", {
-      id: doomed,
-      block: "CtaBanner",
-      props: { ...(catalog.CtaBanner?.defaults ?? {}) },
-    });
-    page = addNode(page, "stack", "sections", {
-      id: footerId,
-      block: "SiteFooter",
-      props: { ...(catalog.SiteFooter?.defaults ?? {}) },
-    });
-    page = setNodeProp(page, heroId, "headline", "Written by an operation");
-    page = moveNode(page, footerId, "stack", "sections", 0);
-    page = removeNode(page, doomed);
+    let page = addNode(emptyPage(), "stack", "sections", header);
+    page = addNode(page, "stack", "sections", doomed);
+    page = addNode(page, "stack", "sections", grid);
+    page = addNode(page, grid.id, "cards", card);
+    page = addNode(page, "stack", "sections", footer);
+    page = setNodeProp(page, header.id, "headline", "Written by an operation");
+    page = moveNode(page, footer.id, "stack", "sections", 0);
+    page = removeNode(page, doomed.id);
 
     await publishThroughServer(COMPOSED_ROUTE, page);
     const served = await get(COMPOSED_ROUTE);
@@ -231,16 +230,34 @@ describe("the publish loop, end to end", () => {
     expect(served.status).toBe(200);
     expect(served.body).toContain("Written by an operation");
     // The move put the footer first and the removal took the banner out — both readable in the
-    // order the renderer stamped the nodes it walked.
+    // order the renderer stamped the nodes it walked. The card proves the nested add: a child
+    // placed in a grid's slot by the same operation the top level used, walked and stamped.
     const stamps = [...served.body.matchAll(/data-nubbin-node="([^"]+)"/g)].map((hit) => hit[1]);
-    expect(stamps).toContain(footerId);
-    expect(stamps.indexOf(footerId)).toBeLessThan(stamps.indexOf(heroId));
-    expect(stamps).not.toContain(doomed);
+    expect(stamps).toContain(footer.id);
+    expect(stamps.indexOf(footer.id)).toBeLessThan(stamps.indexOf(header.id));
+    expect(stamps).toContain(card.id);
+    expect(stamps).not.toContain(doomed.id);
   });
 
-  // `/promotions/flash` is the fixture the publish script leaves alone, and two tests above
-  // borrow it. Handing it back unpublished keeps them independent of each other's order and of
-  // the last run's outcome.
+  // `CardGrid.cards` declares `allow: ["Card"]`, and the refusal is the compiler's rather than
+  // the operation's: `addNode` deliberately lets a document be illegal between two edits that
+  // end legal. Remove the allow list from `CardGrid.block.ts` and this compiles clean — which
+  // is exactly the regression the assertion exists to catch, and it names the offender.
+  test("composing a foreign block into CardGrid.cards is refused by name at compile", () => {
+    const grid = seeded("CardGrid");
+    const stray = seeded("CtaBanner");
+    let page = addNode(emptyPage(), "stack", "sections", grid);
+    page = addNode(page, grid.id, "cards", seeded("Card"));
+    page = addNode(page, grid.id, "cards", stray);
+
+    const attempt = () => compile(page, catalog, registry, COMPOSED_ROUTE);
+    expect(attempt).toThrowError(NubbinError);
+    expect(attempt).toThrowError(/"CtaBanner" is not allowed in slots\.cards of "CardGrid"/);
+  });
+
+  // `/dispatches/late-edition` is the fixture `fixtures:publish` leaves alone, and three tests
+  // above borrow its address. Handing it back unpublished keeps them independent of each
+  // other's order and of the last run's outcome.
   afterAll(async () => {
     await unpublishThroughServer(FRESH_ROUTE).catch(() => undefined);
   });
@@ -251,8 +268,10 @@ describe("the publish loop, end to end", () => {
     await publishThroughServer(HOLE_ROUTE);
     const page = await get(HOLE_ROUTE);
     expect(page.status).toBe(200);
-    // `demoHoleValue` shapes `StatBand.stats` into rows whose label is this sentence, and the
-    // artifact carries no value for it — so seeing it served means the resolver ran.
-    expect(page.body).toContain("times /api/now has answered");
+    // `demoHoleValue` shapes `LiveBand.items` and `UpdateFeed.entries` into rows carrying these
+    // sentences, and the artifact holds no value for either field — so each sentence served
+    // means the resolver ran for that block, not merely that some hole somewhere resolved.
+    expect(page.body).toContain("The estuary has been read");
+    expect(page.body).toContain("times since the server started");
   });
 });

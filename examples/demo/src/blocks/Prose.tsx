@@ -11,7 +11,7 @@ const TONE_BODY = { light: "text-marine/70", dark: "text-canvas/75" } as const;
 
 export function Prose({ heading, tone, body }: ProseProps) {
   return (
-    <section data-nubbin-block="Prose" className={`${TONE_SURFACE[tone]} px-6 py-24`}>
+    <section data-nubbin-block="Prose" className={`${TONE_SURFACE[tone]} px-6 py-14`}>
       <div className="mx-auto max-w-3xl">
         <h2 className="text-3xl font-semibold tracking-tight">{heading}</h2>
         {richTextRuns(body).map((run, index) => (

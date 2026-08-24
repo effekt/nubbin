@@ -21,11 +21,10 @@ The schema is hand-written against `@standard-schema/spec`, so
 ## What forced it
 
 Every text field a block declares is one opaque string, and a sentence that links a word inside
-itself has nowhere to put the link. The reference pages this repository publishes lose content
-to exactly that: `examples/demo/src/app/reference/about/page.tsx` carries an anchor to
-`/security` inside a sentence, and `examples/demo/src/app/reference/security/page.tsx` carries
-an anchor to `/changelog` and a `<strong>` clause inside two more. A page builder whose own
-reference site cannot be composed from its blocks has answered the question already.
+itself has nowhere to put the link. An author writing that repairs to the harbour wall begin on
+Monday, with those five words linking to the piece about them, cannot express it as a string
+prop: they are made to choose between the link and the sentence. A page builder whose own site
+cannot be composed from its blocks has answered the question already.
 
 ## What it beat
 

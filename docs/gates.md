@@ -75,7 +75,17 @@ wired in by existing, and a deleted one is a deleted file rather than a silently
 CI splits the same set in two. One job runs the two remaining zero-dependency scripts against a bare
 checkout; the second installs the workspace and runs lint, typecheck, the suites, build, the
 compatibility guardrail, pinning, boundaries, duplication, dead code, type coverage and the
-publishable gates.
+publishable gates. That second job keeps turbo's cache directory between runs, which is safe for
+the reason turbo's cache is safe at all: a task's hash covers its inputs, so a restored entry
+replays only what running the task would have produced. On a pull request the typecheck and
+test gates carry `--affected` and skip the packages a change cannot reach; a push to `main` runs
+everything, because a release publishes on the conclusion of that run and a filtered one would
+vouch for code it never looked at.
+
+**The build step is never filtered.** `--affected` selects packages by where a changed file sits,
+which cannot see a task whose inputs are somewhere else: the documentation site declares `docs/`
+as an input, so a documentation-only change reaches no package and would skip the build that
+change is most likely to break. The cache is what makes running it anyway cheap.
 
 **Three gates stay out of `verify`.** The two worktree gates stay out for the reason that makes them
 worth having: a CI checkout is clean, so a run there would report nothing and read as a pass.
@@ -92,7 +102,9 @@ which is the difference that matters. The gate it replaces printed a tick descri
 it had not computed, so "present in CI" read as "enforced in CI" for a comparison that never ran.
 
 `pnpm publishable` is the release subset — the gates that read the artifact a consumer would install
-rather than the source. Run it before publishing anything; `verify` includes it. The tarball install
+rather than the source. Run it before publishing anything; `verify` includes it. Its build is
+scoped to `packages/*` for the same reason the subset exists: publint, attw and the tarball install
+read nothing outside them, so it builds no application. The tarball install
 is its own vitest project, `release`, because its verdict depends on the registry: no cache key can
 see that, so it is invoked directly and is registered as no turbo task, and a green run of it can
 never be replayed.

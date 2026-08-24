@@ -21,7 +21,7 @@ export function CtaBanner({ heading, body, tone, cta }: CtaBannerProps) {
   const styles = TONE_STYLES[tone];
   return (
     <section data-nubbin-block="CtaBanner" className={`${styles.section} border-brass/30 border-y`}>
-      <div className="mx-auto flex max-w-4xl flex-col items-center gap-6 px-6 py-20 text-center">
+      <div className="mx-auto flex max-w-4xl flex-col items-center gap-6 px-6 py-14 text-center">
         <h2 className="text-balance text-3xl font-semibold tracking-tight">{heading}</h2>
         <p className={`max-w-xl text-lg ${styles.body}`}>{body}</p>
         <a

@@ -2,33 +2,33 @@ import type { z } from "zod";
 import type { siteFooterSchema } from "./SiteFooter.schema";
 
 export const siteFooterDefaults: z.infer<typeof siteFooterSchema> = {
-  tagline: "One schedule. Read the same way by everyone on the team.",
+  tagline: "Dispatches from three miles of shoreline, filed by six each morning.",
   tone: "dark",
   columns: [
     {
-      heading: "Product",
+      heading: "Read",
       links: [
-        { label: "Features", href: "/#features" },
-        { label: "Pricing", href: "/pricing" },
-        { label: "Changelog", href: "/#" },
+        { label: "Dispatches", href: "/dispatches" },
+        { label: "On now", href: "/live" },
+        { label: "Tide tables", href: "/dispatches/tide-tables" },
       ],
     },
     {
-      heading: "Company",
+      heading: "The paper",
       links: [
-        { label: "About", href: "/#" },
-        { label: "Careers", href: "/#" },
+        { label: "Who writes this", href: "/#" },
+        { label: "Corrections", href: "/#" },
         { label: "Contact", href: "/#" },
       ],
     },
     {
-      heading: "Resources",
+      heading: "Elsewhere",
       links: [
-        { label: "Documentation", href: "/#" },
-        { label: "Support", href: "/#" },
-        { label: "Status", href: "/#" },
+        { label: "Harbour office", href: "/#" },
+        { label: "Lifeboat station", href: "/#" },
+        { label: "Bird reserve", href: "/#" },
       ],
     },
   ],
-  legal: "© 2026 Tidewell. All rights reserved.",
+  legal: "© 2026 Bellwether. Printed when the tide allows.",
 };
