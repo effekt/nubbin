@@ -6,7 +6,9 @@ import { countdownBannerBlock } from "../blocks/CountdownBanner.block";
 import { ctaBannerBlock } from "../blocks/CtaBanner.block";
 import { faqAccordionBlock } from "../blocks/FaqAccordion.block";
 import { featureGridBlock } from "../blocks/FeatureGrid.block";
+import { galleryBlock } from "../blocks/Gallery.block";
 import { heroBlock } from "../blocks/Hero.block";
+import { imageFigureBlock } from "../blocks/ImageFigure.block";
 import { liveBandBlock } from "../blocks/LiveBand.block";
 import { logoWallBlock } from "../blocks/LogoWall.block";
 import { pageHeaderBlock } from "../blocks/PageHeader.block";
@@ -36,6 +38,8 @@ export const BLOCKS: Block[] = [
   faqAccordionBlock,
   ctaBannerBlock,
   quoteBlock,
+  imageFigureBlock,
+  galleryBlock,
   logoWallBlock,
   statBandBlock,
   pageHeaderBlock,

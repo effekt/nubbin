@@ -2,6 +2,7 @@ import type { DocumentVersion } from "@nubbin/core";
 import { cardDefaults } from "../src/blocks/cardDefaults";
 import { cardGridDefaults } from "../src/blocks/cardGridDefaults";
 import { featureGridDefaults } from "../src/blocks/featureGridDefaults";
+import { galleryDefaults } from "../src/blocks/galleryDefaults";
 import { pageHeaderDefaults } from "../src/blocks/pageHeaderDefaults";
 import { siteFooterDefaults } from "../src/blocks/siteFooterDefaults";
 import { splitHeroDefaults } from "../src/blocks/splitHeroDefaults";
@@ -17,7 +18,7 @@ export const dispatches: DocumentVersion = {
       id: "stack",
       block: "SectionStack",
       props: {},
-      slots: { sections: ["header", "featured", "grid", "stats", "beats", "footer"] },
+      slots: { sections: ["header", "featured", "grid", "sketchbook", "stats", "beats", "footer"] },
     },
     header: {
       id: "header",
@@ -98,6 +99,11 @@ export const dispatches: DocumentVersion = {
         summary: "The eastern arm closes to walkers for six weeks. The slipway stays open.",
         meta: "Harbour",
       },
+    },
+    sketchbook: {
+      id: "sketchbook",
+      block: "Gallery",
+      props: { ...galleryDefaults, heading: "From the sketchbook", layout: "strip" },
     },
     stats: {
       id: "stats",

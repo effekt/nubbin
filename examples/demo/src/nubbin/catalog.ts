@@ -13,8 +13,12 @@ import { faqAccordionSchema } from "../blocks/FaqAccordion.schema";
 import { featureGridSchema } from "../blocks/FeatureGrid.schema";
 import { faqAccordionDefaults } from "../blocks/faqAccordionDefaults";
 import { featureGridDefaults } from "../blocks/featureGridDefaults";
+import { gallerySchema } from "../blocks/Gallery.schema";
+import { galleryDefaults } from "../blocks/galleryDefaults";
 import { heroSchema } from "../blocks/Hero.schema";
 import { heroDefaults } from "../blocks/heroDefaults";
+import { imageFigureSchema } from "../blocks/ImageFigure.schema";
+import { imageFigureDefaults } from "../blocks/imageFigureDefaults";
 import { liveBandSchema } from "../blocks/LiveBand.schema";
 import { logoWallSchema } from "../blocks/LogoWall.schema";
 import { liveBandDefaults } from "../blocks/liveBandDefaults";
@@ -86,6 +90,16 @@ export const catalog = defineCatalog({
     ui: { fields: { "cta.href": { control: "link" } } },
   },
   Quote: { schema: quoteSchema, defaults: quoteDefaults },
+  ImageFigure: {
+    schema: imageFigureSchema,
+    defaults: imageFigureDefaults,
+    ui: { fields: { "image.url": { control: "link" } } },
+  },
+  Gallery: {
+    schema: gallerySchema,
+    defaults: galleryDefaults,
+    ui: { fields: { "items[].url": { control: "link" } } },
+  },
   LogoWall: {
     schema: logoWallSchema,
     defaults: logoWallDefaults,

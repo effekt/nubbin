@@ -15,6 +15,8 @@ export const blockRegistry = defineRegistry({
   FaqAccordion: () => import("../blocks/FaqAccordion").then((module) => module.FaqAccordion),
   CtaBanner: () => import("../blocks/CtaBanner").then((module) => module.CtaBanner),
   Quote: () => import("../blocks/Quote").then((module) => module.Quote),
+  ImageFigure: () => import("../blocks/ImageFigure").then((module) => module.ImageFigure),
+  Gallery: () => import("../blocks/Gallery").then((module) => module.Gallery),
   LogoWall: () => import("../blocks/LogoWall").then((module) => module.LogoWall),
   StatBand: () => import("../blocks/StatBand").then((module) => module.StatBand),
   PageHeader: () => import("../blocks/PageHeader").then((module) => module.PageHeader),
