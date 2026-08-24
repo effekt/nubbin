@@ -31,6 +31,10 @@ export interface FieldNode {
   members?: readonly string[];
   /** The schema's own upper bound on a `string` field's length, when it declares one. */
   maxLength?: number;
+  /** The schema's own lower bound on an `array` field's row count, when it declares one. */
+  minItems?: number;
+  /** The schema's own upper bound on an `array` field's row count, when it declares one. */
+  maxItems?: number;
 }
 
 /** The contract for reading a schema's field structure — what `defineCatalog` resolves hint
