@@ -60,6 +60,7 @@ porting them into the suite first would be a rewrite thrown away twice.
 | `tests/trackedFiles.test.mjs` | the corpus every assertion above reads is what git would publish, and nothing else |
 | `tests/release/packagesInstallFromTarball.test.mjs` | every package packs with no `catalog:`, `workspace:` or `link:` specifier surviving, installs from its own tarball into an empty project, and imports |
 | `examples/demo/guardrail/liveCompatibility.test.ts` | no block a page already published depends on has changed version or left the registry — the product guardrail, run against a committed artifact store |
+| `examples/demo/e2e/*.test.ts` | the publish loop against a running server, asserted on served bytes — one file drives it through `core` directly, the other through the `nubbin` binary a consumer installs |
 | `scripts/check-prose.mjs` | claims resting on a corpus no reader can open; references to what a thing used to be; promises of future work; filler |
 | `scripts/check-a11y.mjs` | an `img` with no `alt`; alt that is a filename or names the medium; a click handler on a plain element; positive `tabIndex`; an `a` with no `href`; a focus outline removed with nothing in its place |
 | `scripts/check-release-tag.mjs` | a prerelease version cannot be published to the `latest` dist-tag |
@@ -95,6 +96,14 @@ rather than the source. Run it before publishing anything; `verify` includes it.
 is its own vitest project, `release`, because its verdict depends on the registry: no cache key can
 see that, so it is invoked directly and is registered as no turbo task, and a green run of it can
 never be replayed.
+
+**Two rows above run against a server rather than against files, and neither is in `verify`.**
+The `e2e` project starts the demo on its own port and reads what it serves, so its verdict depends
+on a port, a build and a store — none of which a task hash can see, which is why it is a turbo task
+nowhere and why a cache could only replay a pass about a server that never ran. `pnpm e2e` invokes
+it, building the demo's dependencies first because one of them is the executable it spawns. **No CI
+workflow runs it**, so what it covers — the loading of a consumer's TypeScript config, and the
+whole `--origin` path — is protected on a developer's machine and nowhere else.
 
 **One row above is not a repository invariant.** The compatibility guardrail is a product
 feature — the claim that merging cannot break a page already live — held to the same standard as
