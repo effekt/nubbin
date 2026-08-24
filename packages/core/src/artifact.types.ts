@@ -166,8 +166,9 @@ export interface PointerMove {
  * repeated `write` as a no-op and a repeated `publish` as an ordinary one so a retried publish
  * succeeds, and by writing each pointer whole — two publishes racing for one route must leave one
  * of them intact, never a blend. `@nubbin/store-fs` is the reference implementation, and
- * `packages/store-fs/src/testing/runArtifactStoreContract.ts` is the suite every implementation
- * is expected to pass.
+ * `runArtifactStoreContract` from `@nubbin/store-fs/testing` is the suite every implementation is
+ * expected to pass — call it with a factory for your store and the guarantees above are executed
+ * rather than read. It needs vitest, which the package declares as an optional peer.
  *
  * @example
  * ```ts

@@ -131,7 +131,7 @@ either. [Running the studio](reference/editing/studio.md) covers what it saves a
 | [`concepts/architecture.md`](concepts/architecture.md) | How the contract/content/output split and the compile-at-publish pipeline fit together. **Start here.** | stable |
 | [`concepts/domain-model.md`](concepts/domain-model.md) | Every entity, what owns it, and where it lives across the three layers | draft |
 | [`concepts/authoring-flows.md`](concepts/authoring-flows.md) | What an author does step by step, and the failure modes each flow carries | draft |
-| [`concepts/studio.md`](concepts/studio.md) | How the self-hosted canvas, cross-iframe drag, and preview are architected | draft |
+| [`concepts/studio.md`](concepts/studio.md) | How the self-hosted canvas, cross-iframe drag, and preview are architected | stable |
 | [`concepts/api.md`](concepts/api.md) | The shape of `defineBlock` through compile and render, and where UI hints live | draft |
 | **Reference — authoring** | | |
 | [`reference/authoring/blocks.md`](reference/authoring/blocks.md) | `defineBlock` and `createRegistry` as shipped — what registration rejects, and what an artifact records about a block | reference |
