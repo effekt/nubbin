@@ -8,6 +8,7 @@
 import { existsSync, readdirSync, readFileSync } from "node:fs";
 import { dirname, join, relative, resolve } from "node:path";
 import { describe, expect, it } from "vitest";
+import { isDeliberatelyAbsent } from "../scripts/danglingFileRefs.mjs";
 import { REPO_ROOT } from "./support/repoRoot.mjs";
 import { trackedFiles } from "./support/trackedFiles.mjs";
 
@@ -61,7 +62,14 @@ function unnamedTableColumns(text) {
 function brokenCrossLink(file, target, anchor, anchorsByFile) {
   if (!target.endsWith(".md")) return "";
   const resolved = resolve(dirname(file), target);
-  if (!existsSync(resolved)) return `link to missing file: ${target}`;
+  // A generated page is absent from a clean checkout on purpose — the docs build writes it and
+  // `.gitignore` keeps it out — so `existsSync` alone would fail a link that resolves for every
+  // reader. Same question `danglingFileRefs` asks of a file named in a code span, same answer.
+  if (!existsSync(resolved)) {
+    return isDeliberatelyAbsent(relative(REPO_ROOT, resolved), REPO_ROOT)
+      ? ""
+      : `link to missing file: ${target}`;
+  }
   const anchors = anchorsByFile.get(resolved);
   if (anchor && anchors && !anchors.has(anchor)) {
     return `link to missing anchor: ${target}#${anchor}`;
