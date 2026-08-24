@@ -44,6 +44,7 @@ nubbin publish /pricing                     # compile, write the artifact, then 
 nubbin unpublish /pricing                   # drop the pointer; the artifact stays where it is
 nubbin rollback /pricing 9f2c1a8e4b7d0356   # point the route back at an artifact already stored
 nubbin rollback /pricing --to 3             # the same, naming the document version instead
+nubbin show /pricing                        # the document as authored — ids, blocks, slots
 nubbin history /pricing                     # what the route has pointed at, newest first
 nubbin status                               # every live route, or one of them
 nubbin check                                # every live route against the registry as it is now

@@ -4,6 +4,7 @@ import { compileCommand } from "./compileCommand";
 import { historyCommand } from "./historyCommand";
 import { publishCommand } from "./publishCommand";
 import { rollbackCommand } from "./rollbackCommand";
+import { showCommand } from "./showCommand";
 import { statusCommand } from "./statusCommand";
 import { unpublishCommand } from "./unpublishCommand";
 
@@ -19,6 +20,7 @@ export const COMMANDS: Record<string, CommandEntry> = {
   history: { run: historyCommand, takes: 1 },
   publish: { run: publishCommand, takes: 1, moves: true },
   rollback: { run: rollbackCommand, takes: 2, moves: true, resolves: true },
+  show: { run: showCommand, takes: 1 },
   status: { run: statusCommand, takes: 1 },
   unpublish: { run: unpublishCommand, takes: 1, moves: true },
 };

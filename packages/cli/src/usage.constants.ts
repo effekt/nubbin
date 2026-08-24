@@ -6,6 +6,7 @@ export const USAGE = `nubbin <command> [arguments]
   unpublish <route>          drop the route's pointer; the artifact stays where it is
   rollback <route> <hash>    point the route back at an artifact already in the store
   history <route>            what the route has pointed at, newest first
+  show <route>               the document as authored: ids, blocks, and the slots they sit in
   status [route]             what is live, everywhere or at one route
   check                      every live route against the registry as it is now
   help                       this text, as an answer rather than a complaint

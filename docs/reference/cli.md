@@ -81,6 +81,7 @@ is the better failure.
 | `unpublish <route>` | drops the pointer. The artifact stays readable |
 | `rollback <route> <hash>` | checks an artifact already in the store against the registry, then points the route at it. `--to <version>` names a document version instead, resolved through the history |
 | `history <route>` | what the route has pointed at, newest first, with the document version and time of each move |
+| `show <route>` | the document as authored — every id, the block it holds, and the slot it sits in. Compiles nothing, so a document the registry would refuse still shows its ids |
 | `status [route]` | what is live, everywhere or at one route |
 | `check` | every live route against the registry as it is now |
 | `help` | the usage text, on stdout and exiting `0` — asking for it succeeds |

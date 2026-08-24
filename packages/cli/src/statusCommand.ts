@@ -1,6 +1,6 @@
 import type { Command } from "./command.types";
-import { ExitCode } from "./exitCode.constants";
 import { formatPointer } from "./formatPointer";
+import { listingOf } from "./listingOf";
 
 /**
  * What is live, read from the pointers and nothing else — no document is loaded and nothing is
@@ -16,9 +16,6 @@ export const statusCommand: Command = async (config, args) => {
   const pointers = manifest.routes
     .filter((pointer) => route === undefined || pointer.route === route)
     .sort((a, b) => a.route.localeCompare(b.route));
-  const lines =
-    pointers.length === 0
-      ? [route === undefined ? "nothing is live" : `nothing is live at ${route}`]
-      : pointers.map(formatPointer);
-  return { lines, code: ExitCode.Done };
+  const empty = route === undefined ? "nothing is live" : `nothing is live at ${route}`;
+  return listingOf(pointers.map(formatPointer), empty);
 };
