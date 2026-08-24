@@ -27,8 +27,15 @@ export default {
   // imports a bare plugin specifier relative to its own location in the store, where
   // nothing this workspace depends on is reachable.
   plugin: [
+    // Resolved rather than named: pnpm isolates each package, and TypeDoc imports a bare
+    // specifier relative to its own location in the store, where nothing this workspace
+    // depends on is reachable.
     import.meta.resolve("typedoc-plugin-markdown"),
-    import.meta.resolve("./typedocFrontmatter.mjs"),
+    // A relative path, which TypeDoc resolves against this file. Resolving it the way the
+    // package above is resolved would bake an absolute `file://` URL into the config, and
+    // knip reads this file to find what it depends on — a URL is not a specifier it can
+    // follow, so the plugin read as an unresolved import.
+    "./typedocFrontmatter.mjs",
   ],
   // The breadcrumb duplicates navigation Docusaurus already draws, and putting it above the
   // page title is what hid the heading from the sidebar in the first place.
