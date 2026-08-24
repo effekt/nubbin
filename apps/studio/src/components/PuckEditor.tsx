@@ -10,7 +10,6 @@ import { useCallback, useMemo, useRef, useState } from "react";
 import type { AuthorIssue } from "../nubbin/authorIssue.types";
 import { foldPuckChange } from "../nubbin/foldPuckChange";
 import { postDraftSave } from "../nubbin/postDraftSave";
-import { postPublish } from "../nubbin/postPublish";
 import type { PublishOutcome } from "../nubbin/publishOutcome.types";
 import type { PuckData } from "../nubbin/puckData.types";
 import { toAuthorIssues } from "../nubbin/toAuthorIssues";
@@ -35,8 +34,9 @@ interface PuckEditorProps {
  * config derived from the demo's catalog and registry. Each change folds back into a Nubbin
  * draft and posts debounced to the draft endpoint. A refusal — the save's or the publish's —
  * shows above the canvas in author words, one clickable line per issue, and clicking one
- * selects the failing block; a publish that lands confirms with the route and links the
- * live page at the URL the endpoint built. */
+ * selects the failing block; a publish that lands reports inside the header's own panel —
+ * steps, timings and the live link — and a rollback that lands confirms above the canvas
+ * with the route and the URL the endpoint built. */
 export function PuckEditor({ route, routes, initialData, initialVersion }: PuckEditorProps) {
   const config = useMemo(() => toPuckConfig(catalog, registry), []);
   const blockSlots = useMemo(() => toSlotNamesByBlock(registry), []);
@@ -58,12 +58,9 @@ export function PuckEditor({ route, routes, initialData, initialVersion }: PuckE
     save(folded.version);
   };
   const dismissOutcome = useCallback(() => setOutcome(undefined), []);
-  const onPublish = useCallback(() => {
-    void postPublish(route).then(setOutcome);
-  }, [route]);
   const overrides = useMemo(
-    () => toBridgedOverrides(puckApi, onPublish, { route, routes }),
-    [onPublish, route, routes],
+    () => toBridgedOverrides(puckApi, { route, routes }, setOutcome),
+    [route, routes],
   );
   const onSelect = (nodeId: string) => {
     const api = puckApi.current;

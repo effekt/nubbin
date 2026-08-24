@@ -1,18 +1,23 @@
 import type { PuckApi } from "@measured/puck";
 import { Puck } from "@measured/puck";
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
-import { expect, test, vi } from "vitest";
+import { afterEach, expect, test, vi } from "vitest";
 import { toBridgedOverrides } from "./toBridgedOverrides";
 
-function renderPuck(
-  apiRef: { current: (() => PuckApi) | undefined },
-  onPublish: () => void = () => undefined,
-) {
+afterEach(() => {
+  vi.unstubAllGlobals();
+});
+
+function renderPuck(apiRef: { current: (() => PuckApi) | undefined }) {
   return render(
     <Puck
       config={{ components: { Hero: { fields: {}, render: () => <div /> } } }}
       data={{ content: [{ type: "Hero", props: { id: "hero" } }], root: { props: {} } }}
-      overrides={toBridgedOverrides(apiRef, onPublish, { route: "/", routes: ["/", "/live"] })}
+      overrides={toBridgedOverrides(
+        apiRef,
+        { route: "/", routes: ["/", "/live"] },
+        () => undefined,
+      )}
     />,
   );
 }
@@ -27,13 +32,28 @@ test("the bridge hands Puck's API out of the provider, ids resolvable", async ()
   expect(selector).toMatchObject({ index: 0 });
 });
 
-test("the header publish control is the studio's button and triggers the flow", () => {
-  const onPublish = vi.fn();
-  renderPuck({ current: undefined }, onPublish);
+test("the header publish control is the studio's button and posts the publish", async () => {
+  const calls: string[] = [];
+  vi.stubGlobal("fetch", (url: string) => {
+    calls.push(url);
+    return Promise.resolve(
+      Response.json({ ok: true, hash: "abc123", url: "http://localhost:3000/" }),
+    );
+  });
+  renderPuck({ current: undefined });
   const control = screen.getByRole("button", { name: "Publish" });
   expect(control.tagName).toBe("BUTTON");
   fireEvent.click(control);
-  expect(onPublish).toHaveBeenCalledTimes(1);
+  await waitFor(() => {
+    expect(calls).toContain("/api/publish");
+  });
+});
+
+test("the header carries the history chevron as its own closed disclosure", () => {
+  renderPuck({ current: undefined });
+  const toggle = screen.getByRole("button", { name: "Publish history and rollback" });
+  expect(toggle.tagName).toBe("BUTTON");
+  expect(toggle.getAttribute("aria-expanded")).toBe("false");
 });
 
 test("the header carries the Pages switcher beside the publish button", () => {

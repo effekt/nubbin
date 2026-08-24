@@ -62,18 +62,22 @@ test("a refused publish lists the issues in author words, each a button", async 
   fireEvent.click(line);
 });
 
-test("a publish that lands confirms with the route and links the live page", async () => {
+test("a publish that lands reports inside the header's panel and links the live page", async () => {
   vi.stubGlobal("fetch", () =>
-    Promise.resolve(Response.json({ ok: true, hash: "abc123", url: "http://localhost:3000/" })),
+    Promise.resolve(
+      Response.json({
+        ok: true,
+        hash: "abc123",
+        url: "http://localhost:3000/",
+        timings: { compileMs: 12, writeMs: 3, moveMs: 285 },
+      }),
+    ),
   );
   renderEditor();
   fireEvent.click(screen.getByRole("button", { name: "Publish" }));
-  // Wait on the text, not the role: Puck mounts its own empty status region for drag
-  // announcements, and findByRole("status") can resolve to that one before the notice lands.
-  await screen.findByText(/abc123/);
-  const statuses = screen.getAllByRole("status");
-  expect(statuses.some((status) => status.textContent?.includes("abc123"))).toBe(true);
-  expect(screen.getByRole("link", { name: "view the live page" }).getAttribute("href")).toBe(
+  await screen.findByText("Switched the live page over");
+  expect(screen.getByText("0.3s")).toBeDefined();
+  expect(screen.getByRole("link", { name: "View live ↗" }).getAttribute("href")).toBe(
     "http://localhost:3000/",
   );
 });

@@ -40,25 +40,36 @@ function memoryStore(): ArtifactStore {
 test("publishing writes the artifact, then moves the pointer through the given mover", async () => {
   const store = memoryStore();
   const moved: Array<{ route: string; hash: string }> = [];
-  const hash = await publishDraft(store, "/", async (route, pointedAt) => {
+  const published = await publishDraft(store, "/", async (route, pointedAt) => {
     // The consumer's handler runs against the same store the studio wrote into.
     await store.publish(route, pointedAt);
     moved.push({ route, hash: pointedAt });
   });
-  expect(hash).toBeDefined();
-  expect(moved).toEqual([{ route: "/", hash }]);
-  const artifact = hash === undefined ? null : await store.read(hash);
+  expect(published).toBeDefined();
+  expect(moved).toEqual([{ route: "/", hash: published?.hash }]);
+  const artifact = published === undefined ? null : await store.read(published.hash);
   expect(artifact?.route).toBe("/");
+});
+
+test("each step's timing is measured, whole milliseconds the server actually saw", async () => {
+  const store = memoryStore();
+  const published = await publishDraft(store, "/", (route, hash) => store.publish(route, hash));
+  const timings = published?.timings;
+  expect(timings).toBeDefined();
+  for (const ms of Object.values(timings ?? {})) {
+    expect(Number.isInteger(ms)).toBe(true);
+    expect(ms).toBeGreaterThanOrEqual(0);
+  }
 });
 
 test("a route with no draft publishes nothing and moves no pointer", async () => {
   const store = memoryStore();
   const moved: string[] = [];
-  const hash = await publishDraft(store, "/no-such-route", (route) => {
+  const published = await publishDraft(store, "/no-such-route", (route) => {
     moved.push(route);
     return Promise.resolve();
   });
-  expect(hash).toBeUndefined();
+  expect(published).toBeUndefined();
   expect(moved).toEqual([]);
 });
 
