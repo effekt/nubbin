@@ -1,12 +1,17 @@
 import type { Field } from "@measured/puck";
 import type { FieldNode } from "@nubbin/core";
+import { toBoundedTextPuckField } from "./toBoundedTextPuckField";
 import { toReadOnlyPuckField } from "./toReadOnlyPuckField";
 
 /** One schema field as Puck's inspector edits it — the same `zodAdapter` description the
  * old inspector read, mapped kind by kind: `string→text`, `number→number`, `boolean→radio`,
- * `enum→select`. Every other kind renders read-only rather than guessing at a control. */
+ * `enum→select`. A string whose schema bounds its length gets the bounded control — counter
+ * and over-limit line — and every other kind renders read-only rather than guessing. */
 export function toPuckField(field: FieldNode): Field {
   if (field.kind === "string") {
+    if (field.maxLength !== undefined) {
+      return toBoundedTextPuckField(field, field.maxLength);
+    }
     return { type: "text", label: field.path };
   }
   if (field.kind === "number") {

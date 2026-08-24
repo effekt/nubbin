@@ -6,8 +6,7 @@ import "./puckTheme.css";
 import type { DocumentVersion } from "@nubbin/core";
 import { catalog } from "demo/src/nubbin/catalog";
 import { registry } from "demo/src/nubbin/registry";
-import { useCallback, useMemo, useRef, useState } from "react";
-import type { AuthorIssue } from "../nubbin/authorIssue.types";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { foldPuckChange } from "../nubbin/foldPuckChange";
 import { postDraftSave } from "../nubbin/postDraftSave";
 import type { PublishOutcome } from "../nubbin/publishOutcome.types";
@@ -15,9 +14,9 @@ import type { PuckData } from "../nubbin/puckData.types";
 import { toAuthorIssues } from "../nubbin/toAuthorIssues";
 import { toPuckConfig } from "../nubbin/toPuckConfig";
 import { toSlotNamesByBlock } from "../nubbin/toSlotNamesByBlock";
-import { IssuesPanel } from "./IssuesPanel";
+import { editorStatusStore } from "./editorStatusStore";
 import { PublishNotice } from "./PublishNotice";
-import { selectPuckNode } from "./selectPuckNode";
+import { patchEditorStatus } from "./patchEditorStatus";
 import { toBridgedOverrides } from "./toBridgedOverrides";
 import { useDebouncedCallback } from "./useDebouncedCallback";
 
@@ -33,21 +32,25 @@ interface PuckEditorProps {
 /** The editor: stock Puck, controlled, with everything Nubbin-specific arriving through the
  * config derived from the demo's catalog and registry. Each change folds back into a Nubbin
  * draft and posts debounced to the draft endpoint. A refusal — the save's or the publish's —
- * shows above the canvas in author words, one clickable line per issue, and clicking one
- * selects the failing block; a publish that lands reports inside the header's own panel —
- * steps, timings and the live link — and a rollback that lands confirms above the canvas
- * with the route and the URL the endpoint built. */
+ * lands in the editor status store in author words, where the header's pill counts it and
+ * its dropdown lists it; a publish refusal opens that dropdown itself. A publish that lands
+ * reports inside the header's own panel — steps, timings and the live link — and a rollback
+ * that lands confirms above the canvas with the route and the URL the endpoint built. */
 export function PuckEditor({ route, routes, initialData, initialVersion }: PuckEditorProps) {
   const config = useMemo(() => toPuckConfig(catalog, registry), []);
   const blockSlots = useMemo(() => toSlotNamesByBlock(registry), []);
   const prior = useRef(initialVersion);
   const puckApi = useRef<(() => PuckApi) | undefined>(undefined);
   const [data, setData] = useState(initialData);
-  const [saveIssues, setSaveIssues] = useState<readonly AuthorIssue[] | undefined>(undefined);
   const [outcome, setOutcome] = useState<PublishOutcome | undefined>(undefined);
+  useEffect(() => {
+    // A client-side route switch keeps the module alive, so the previous draft's status
+    // must not carry over. First load assumes changes: the store starts unpublished.
+    editorStatusStore.set({ issues: [], issuesOpen: false, published: false });
+  }, []);
   const save = useDebouncedCallback((version: DocumentVersion) => {
     void postDraftSave(route, version).then((raw) =>
-      setSaveIssues(raw === undefined ? undefined : toAuthorIssues(raw, catalog, version)),
+      patchEditorStatus({ issues: raw === undefined ? [] : toAuthorIssues(raw, catalog, version) }),
     );
   }, SAVE_DELAY_MS);
   const onChange = (next: Data) => {
@@ -55,31 +58,26 @@ export function PuckEditor({ route, routes, initialData, initialVersion }: PuckE
     prior.current = folded.version;
     setData(folded.data);
     setOutcome(undefined);
+    patchEditorStatus({ published: false });
     save(folded.version);
   };
   const dismissOutcome = useCallback(() => setOutcome(undefined), []);
-  const overrides = useMemo(
-    () => toBridgedOverrides(puckApi, { route, routes }, setOutcome),
-    [route, routes],
-  );
-  const onSelect = (nodeId: string) => {
-    const api = puckApi.current;
-    if (api !== undefined) {
-      selectPuckNode(api(), nodeId);
+  const onOutcome = useCallback((next: PublishOutcome) => {
+    setOutcome(next);
+    if (!next.ok) {
+      patchEditorStatus({
+        issues: toAuthorIssues(next.issues, catalog, prior.current),
+        issuesOpen: true,
+      });
     }
-  };
-  const refused = outcome !== undefined && !outcome.ok;
-  const issues = refused ? toAuthorIssues(outcome.issues, catalog, prior.current) : saveIssues;
+  }, []);
+  const overrides = useMemo(
+    () => toBridgedOverrides(puckApi, { route, routes }, onOutcome),
+    [route, routes, onOutcome],
+  );
   return (
     <div className="nubbin-studio">
       <div className="nubbin-notices">
-        {issues !== undefined && issues.length > 0 ? (
-          <IssuesPanel
-            heading={refused ? "Publishing was refused" : "This draft has issues"}
-            issues={issues}
-            onSelect={onSelect}
-          />
-        ) : null}
         {outcome?.ok === true ? (
           <PublishNotice
             route={route}

@@ -3,6 +3,8 @@
 import type { Overrides, PuckApi } from "@measured/puck";
 import type { RefObject } from "react";
 import type { PublishOutcome } from "../nubbin/publishOutcome.types";
+import { FieldsWithCallout } from "./FieldsWithCallout";
+import { IssuesPill } from "./IssuesPill";
 import { PublishControl } from "./PublishControl";
 import { PuckApiBridge } from "./PuckApiBridge";
 import { RouteSwitcher } from "./RouteSwitcher";
@@ -13,10 +15,13 @@ import { RouteSwitcher } from "./RouteSwitcher";
  * inside Puck's provider. `headerActions` drops the children Puck hands it — Puck 0.20.2's
  * own header Publish control renders as a `div` with a click handler, which a keyboard
  * cannot reliably reach or press — and renders the studio's chrome instead: the Pages
- * switcher naming the document being edited, then the split publish control, which owns
- * the publish call and its in-panel report and hands refusals and rollback outcomes up
- * through `onOutcome`. The editor memoises the result — the ref, callback, route and list
- * are stable per page load — so Puck never sees a new overrides object per keystroke.
+ * switcher naming the document being edited, the issues pill with its dropdown, then the
+ * split publish control, which owns the publish call and its in-panel report and hands
+ * refusals and rollback outcomes up through `onOutcome`. `fields` tops the inspector with
+ * the selected block's callout. The editor memoises the result — the ref, callback, route
+ * and list are stable per page load — so Puck never sees a new overrides object per
+ * keystroke; everything that changes underneath (the pill's count, the publish label, the
+ * callout) flows through the editor status store instead.
  */
 export function toBridgedOverrides(
   apiRef: RefObject<(() => PuckApi) | undefined>,
@@ -27,9 +32,11 @@ export function toBridgedOverrides(
     headerActions: () => (
       <>
         <RouteSwitcher route={pages.route} routes={pages.routes} />
+        <IssuesPill apiRef={apiRef} />
         <PublishControl route={pages.route} onOutcome={onOutcome} />
       </>
     ),
+    fields: ({ children }) => <FieldsWithCallout>{children}</FieldsWithCallout>,
     puck: ({ children }) => (
       <>
         <PuckApiBridge apiRef={apiRef} />

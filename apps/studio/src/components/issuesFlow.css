@@ -1,0 +1,162 @@
+/* The issue-fixing hardware — pill, dropdown, inspector callout and the bounded field's
+ * counter — in the same voice as puckTheme.css, split out only for the file-length gate.
+ * It adds the bad-tone tokens the palette lacked; each pair is computed against the ground
+ * it lands on: bad-ink on bad-tint 6.10:1, bad on white 5.26:1, white on bad 5.26:1 —
+ * all pass AA, and no state below leans on the colour alone. */
+
+.nubbin-studio {
+  --nb-bad: #bf411d;
+  --nb-bad-ink: #9a3516;
+  --nb-bad-tint: #f9e8e0;
+}
+
+/* The pill stands where the header's publish hardware lives: amber-toned, bordered so it
+ * survives forced-colors mode, its count in a badge the label reads through. */
+.nubbin-issues {
+  position: relative;
+  display: inline-flex;
+}
+
+.nubbin-issues-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 14px;
+  background: var(--nb-bad-tint);
+  border: 1px solid var(--nb-bad);
+  border-radius: 999px;
+  color: var(--nb-bad-ink);
+  font-size: 12.5px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.nubbin-issues-pill:focus {
+  outline: none;
+}
+
+.nubbin-issues-pill:focus-visible {
+  outline: 2px solid var(--nb-teal);
+  outline-offset: 2px;
+}
+
+.nubbin-issues-count {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 5px;
+  background: var(--nb-bad);
+  border-radius: 999px;
+  color: #ffffff;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+/* The dropdown reuses the publish panel's floating-card treatment (.nubbin-history draws
+ * it); these rules only shape what is particular to issues. */
+.nubbin-issues .nubbin-history {
+  min-width: 420px;
+  white-space: normal;
+}
+
+.nubbin-issues-row {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  padding: 7px 4px;
+  border-top: 1px solid var(--nb-line-soft);
+}
+
+.nubbin-issues-row > span[aria-hidden] {
+  color: var(--nb-bad);
+  font-weight: 700;
+}
+
+.nubbin-issues-subject {
+  font-weight: 600;
+}
+
+.nubbin-issues-row button {
+  margin-left: auto;
+  padding: 3px 10px;
+  background: var(--nb-well);
+  border: 1px solid var(--nb-line);
+  border-radius: 6px;
+  color: var(--nb-teal);
+  font-size: 11.5px;
+  font-weight: 600;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.nubbin-issues-row button:hover {
+  background: var(--nb-teal-tint);
+  border-color: var(--nb-teal);
+}
+
+.nubbin-issues-footer {
+  margin: 8px 0 0;
+  padding-top: 8px;
+  border-top: 1px solid var(--nb-line-soft);
+  color: var(--nb-dim);
+}
+
+/* The inspector callout sits at the top of the fields panel, toned but text-first. */
+.nubbin-inspector-callout {
+  margin: 10px 12px 0;
+  padding: 8px 10px;
+  background: var(--nb-bad-tint);
+  border: 1px solid var(--nb-bad);
+  border-radius: 6px;
+  color: var(--nb-bad-ink);
+  font-size: 12.5px;
+}
+
+/* The bounded text field: the stock input's look, a live counter, and — over the bound —
+ * the message beside it with the border toned to match. The words carry the state; the
+ * colour only underlines them. Focus keeps the browser's own visible ring recoloured,
+ * never removed. */
+.nubbin-bounded-input {
+  width: 100%;
+  padding: 8px;
+  background: #ffffff;
+  border: 1px solid var(--nb-line);
+  border-radius: 4px;
+  color: var(--nb-ink);
+  font-size: 14px;
+}
+
+.nubbin-bounded-input:focus-visible {
+  outline: 2px solid var(--nb-teal);
+  outline-offset: 1px;
+}
+
+.nubbin-bounded-over .nubbin-bounded-input {
+  border-color: var(--nb-bad);
+}
+
+.nubbin-bounded-meta {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  margin-top: 4px;
+  font-size: 11.5px;
+}
+
+.nubbin-bounded-counter {
+  margin-left: auto;
+  color: var(--nb-dim);
+  font-variant-numeric: tabular-nums;
+}
+
+.nubbin-bounded-over .nubbin-bounded-counter {
+  color: var(--nb-bad);
+  font-weight: 700;
+}
+
+.nubbin-bounded-message {
+  margin: 0;
+  color: var(--nb-bad);
+}

@@ -11,10 +11,11 @@ interface PublishNoticeProps {
   onDismiss: () => void;
 }
 
-/** The confirmation a publish earns: the route, the hash the store now points at, and the
- * one link that proves it — the live page, at the URL the publish response built from the
- * consumer-origin seam it alone holds. It leaves on its own after a moment, and sooner on
- * the close button — a confirmation that has been read is in the way. */
+/** The confirmation a rollback earns — the only outcome that still reaches this strip, since
+ * a publish reports inside the header's own panel: the route, the hash the pointer moved
+ * back to, and the one link that proves it — the live page, at the URL the endpoint built
+ * from the consumer-origin seam it alone holds. It leaves on its own after a moment, and
+ * sooner on the close button — a confirmation that has been read is in the way. */
 export function PublishNotice({ route, hash, url, onDismiss }: PublishNoticeProps) {
   useEffect(() => {
     const timer = setTimeout(onDismiss, AUTO_DISMISS_MS);
@@ -23,7 +24,7 @@ export function PublishNotice({ route, hash, url, onDismiss }: PublishNoticeProp
   return (
     <p role="status" className="flex items-baseline gap-2 bg-canvas px-4 py-2 text-marine text-sm">
       <span className="min-w-0">
-        Published <strong>{route}</strong> as <code>{hash}</code> —{" "}
+        Rolled back <strong>{route}</strong> to <code>{hash}</code> —{" "}
         <a className="text-teal underline underline-offset-4" href={url}>
           view the live page
         </a>

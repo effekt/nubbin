@@ -15,7 +15,9 @@ test("a constrained slot carries its allow list, and its scalars their controls"
   const cardGrid = config.components.CardGrid;
   expect(cardGrid?.fields?.cards).toEqual({ type: "slot", allow: ["Card"] });
   const hero = config.components.Hero;
-  expect(hero?.fields?.headline).toMatchObject({ type: "text" });
+  // The headline's schema bounds its length, so it wears the bounded custom control.
+  expect(hero?.fields?.headline).toMatchObject({ type: "custom" });
+  expect(hero?.fields?.eyebrow).toMatchObject({ type: "text" });
 });
 
 test("a catalog block the registry does not hold stops the derivation by name", () => {
