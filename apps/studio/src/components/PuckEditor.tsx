@@ -56,6 +56,7 @@ export function PuckEditor({ route, initialData, initialVersion }: PuckEditorPro
     setOutcome(undefined);
     save(folded.version);
   };
+  const dismissOutcome = useCallback(() => setOutcome(undefined), []);
   const onPublish = useCallback(() => {
     void postPublish(route).then(setOutcome);
   }, [route]);
@@ -79,7 +80,12 @@ export function PuckEditor({ route, initialData, initialVersion }: PuckEditorPro
           />
         ) : null}
         {outcome?.ok === true ? (
-          <PublishNotice route={route} hash={outcome.hash} url={outcome.url} />
+          <PublishNotice
+            route={route}
+            hash={outcome.hash}
+            url={outcome.url}
+            onDismiss={dismissOutcome}
+          />
         ) : null}
       </div>
       <Puck config={config} data={data} onChange={onChange} overrides={overrides} />
