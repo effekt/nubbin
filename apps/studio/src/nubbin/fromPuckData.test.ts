@@ -37,6 +37,29 @@ test("puck data round-trips back to itself through the draft", () => {
   expect(toPuckData(fromPuckData(data, lateEdition))).toStrictEqual(data);
 });
 
+test("all four meta fields round-trip through root.props", () => {
+  const meta = {
+    title: "Late edition",
+    description: "The evening dispatch, held for the tide table.",
+    robots: "noindex, nofollow",
+    canonical: "https://bellwether.test/late-edition",
+  };
+  const version = { ...lateEdition, meta };
+  const data = toPuckData(version);
+  expect(data.root.props).toStrictEqual(meta);
+  expect(fromPuckData(data, version).meta).toStrictEqual(meta);
+});
+
+test("an optional meta field emptied in the editor folds back to absent", () => {
+  const version = {
+    ...lateEdition,
+    meta: { ...lateEdition.meta, description: "Standing description" },
+  };
+  const data = toPuckData(version);
+  data.root.props = { ...data.root.props, description: "", robots: "" };
+  expect(fromPuckData(data, version).meta).toStrictEqual({ title: lateEdition.meta.title });
+});
+
 test("a puck insert produces the document addNode would have", () => {
   const edited = fromPuckData(withCardInserted(toPuckData(lateEdition)), lateEdition, () => "n-1");
   const viaAddNode = addNode(lateEdition, "grid", "cards", {

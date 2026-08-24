@@ -106,3 +106,35 @@ test("docs links render for the selected block declaring them, and not otherwise
     expect(screen.queryByRole("link", { name: "Open in Figma" })).toBeNull();
   });
 });
+
+test("the page note shows while nothing is selected and stands down for a block", async () => {
+  const apiRef: { current: (() => PuckApi) | undefined } = { current: undefined };
+  render(
+    <Puck
+      config={{ components: { Hero: { fields: {}, render: () => <div /> } } }}
+      data={{ content: [{ type: "Hero", props: { id: "hero" } }], root: { props: {} } }}
+      overrides={{
+        fields: ({ children }) => <FieldsWithCallout>{children}</FieldsWithCallout>,
+        puck: ({ children }) => (
+          <>
+            <PuckApiBridge apiRef={apiRef} />
+            {children}
+          </>
+        ),
+      }}
+    />,
+  );
+  expect(screen.getByText(/These fields describe the page itself/)).toBeDefined();
+  await waitFor(() => {
+    expect(apiRef.current).toBeDefined();
+  });
+  act(() => {
+    const api = apiRef.current;
+    if (api !== undefined) {
+      selectPuckNode(api(), "hero");
+    }
+  });
+  await waitFor(() => {
+    expect(screen.queryByText(/These fields describe the page itself/)).toBeNull();
+  });
+});

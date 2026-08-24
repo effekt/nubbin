@@ -3,6 +3,7 @@
 import { type Data, Puck, type PuckApi } from "@measured/puck";
 import "@measured/puck/puck.css";
 import "./puckTheme.css";
+import "./canvasOverlay.css";
 import type { DocumentVersion } from "@nubbin/core";
 import { catalog } from "demo/src/nubbin/catalog";
 import { registry } from "demo/src/nubbin/registry";

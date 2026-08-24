@@ -29,3 +29,15 @@ test("absent root props keep the prior title", () => {
 test("a non-string field is dropped, not carried", () => {
   expect(toDocumentMeta({ title: "T", description: 7 }, prior)).toStrictEqual({ title: "T" });
 });
+
+test("an emptied optional field folds back to absent, never to an empty string", () => {
+  const emptied = { title: "T", description: "", robots: "", canonical: "" };
+  expect(toDocumentMeta(emptied, prior)).toStrictEqual({ title: "T" });
+});
+
+test("an emptied optional field stays absent even when the prior draft carried one", () => {
+  const carried: DocumentMeta = { title: "T", description: "Old", canonical: "https://old.test/" };
+  expect(toDocumentMeta({ title: "T", description: "", canonical: "" }, carried)).toStrictEqual({
+    title: "T",
+  });
+});
