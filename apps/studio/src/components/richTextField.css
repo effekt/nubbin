@@ -1,0 +1,136 @@
+/* The wireframes' RichTextControl in puckTheme.css's voice: a fixed toolbar of mark
+ * toggles over blocks rendered as bordered cards, spans as rows within them. A pressed
+ * toggle is told by fill, border and weight together — never hue alone — and every
+ * control keeps a visible focus ring. Tokens cascade from `.nubbin-studio`. */
+
+.nb-richtext {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  /* A fieldset's default min-inline-size is min-content, which lets long prose push the
+   * whole inspector into a horizontal scroll. */
+  min-inline-size: 0;
+}
+
+.nb-richtext-toolbar {
+  display: flex;
+  gap: 4px;
+  margin-bottom: 6px;
+}
+
+.nb-richtext-toolbar button {
+  min-width: 28px;
+  padding: 3px 8px;
+  background: var(--nb-well);
+  border: 1px solid var(--nb-line);
+  border-radius: 8px;
+  color: var(--nb-ink);
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.nb-richtext-toolbar button[aria-pressed="true"] {
+  background: var(--nb-ink);
+  border-color: var(--nb-ink);
+  color: var(--nb-well);
+  font-weight: 700;
+}
+
+.nb-richtext-toolbar button:disabled {
+  color: var(--nb-mute);
+  cursor: default;
+}
+
+.nb-richtext-toolbar button:focus-visible {
+  outline: 2px solid var(--nb-teal);
+  outline-offset: 1px;
+}
+
+.nb-richtext-blocks {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 8px;
+}
+
+.nb-richtext-blocks,
+.nb-richtext-block,
+.nb-richtext-spans,
+.nb-richtext-span {
+  /* Grid and flex children default to min-width auto, and a text input's intrinsic width
+   * would otherwise push the inspector into a horizontal scroll. */
+  min-width: 0;
+}
+
+.nb-richtext-block {
+  padding: 8px;
+  border: 1px solid var(--nb-line);
+  border-radius: 10px;
+  background: var(--nb-well);
+}
+
+.nb-richtext-blockhead {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+
+.nb-richtext-blockhead .nb-seg-field {
+  min-inline-size: 0;
+}
+
+.nb-richtext-spans {
+  display: grid;
+  gap: 4px;
+}
+
+.nb-richtext-span {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px;
+  border-radius: 8px;
+}
+
+.nb-richtext-span-selected {
+  outline: 1px solid var(--nb-teal);
+}
+
+.nb-richtext-text {
+  flex: 1;
+  min-width: 0;
+}
+
+.nb-richtext-href {
+  flex: 0 1 40%;
+  min-width: 0;
+}
+
+.nb-richtext-add {
+  display: flex;
+  gap: 6px;
+  margin-top: 6px;
+}
+
+.nb-richtext-add button,
+.nb-richtext-addspan {
+  padding: 3px 10px;
+  background: var(--nb-well);
+  border: 1px solid var(--nb-line);
+  border-radius: 8px;
+  color: var(--nb-teal);
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.nb-richtext-add button:focus-visible,
+.nb-richtext-addspan:focus-visible {
+  outline: 2px solid var(--nb-teal);
+  outline-offset: 1px;
+}

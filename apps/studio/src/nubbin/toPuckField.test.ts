@@ -1,5 +1,8 @@
 import type { FieldNode } from "@nubbin/core";
+import { render, screen } from "@testing-library/react";
+import { createElement } from "react";
 import { expect, test } from "vitest";
+import { richTextFieldNodes } from "./richTextFieldNodes";
 import { toPuckField } from "./toPuckField";
 
 const node = (kind: FieldNode["kind"], members?: readonly string[]): FieldNode =>
@@ -97,4 +100,26 @@ test("every kind the description cannot reach into falls back to the read-only c
   for (const kind of ["array", "object", "union", "unknown"] as const) {
     expect(toPuckField(node(kind), []).type).toBe("custom");
   }
+});
+
+test("an array whose described shape is core's rich text becomes the rich-text control", () => {
+  const arrayField: FieldNode = { path: "body", kind: "array", optional: false };
+  const fields: FieldNode[] = [
+    arrayField,
+    ...richTextFieldNodes.map((held) => ({ ...held, path: `body${held.path}` })),
+  ];
+  const built = toPuckField(arrayField, fields);
+  expect(built.type).toBe("custom");
+  expect(built.label).toBe("body");
+  if (built.type !== "custom") return;
+  render(
+    createElement(built.render, {
+      id: "body",
+      name: "body",
+      field: built,
+      value: [],
+      onChange: () => 0,
+    }),
+  );
+  expect(screen.getByRole("toolbar", { name: "Text style" })).toBeDefined();
 });

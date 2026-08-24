@@ -71,3 +71,39 @@ test("a node Puck created gets a minted id, and the returned Data holds it", () 
   expect(folded.data).not.toBe(data);
   expect(folded.data.content[1]?.props.id).toBe(mintedId);
 });
+
+test("a rich text edit folds through as the typed data it is, never a string", () => {
+  const prosePrior: DocumentVersion = {
+    ...prior,
+    roots: ["note"],
+    elements: {
+      note: {
+        id: "note",
+        block: "Prose",
+        props: {
+          heading: "Corrections",
+          body: [{ kind: "paragraph", spans: [{ text: "The old table." }] }],
+        },
+      },
+    },
+  };
+  const edited = [
+    {
+      kind: "paragraph",
+      spans: [
+        { text: "The corrected table is " },
+        { text: "final", marks: ["strong"] },
+        { text: ", see ", marks: [] },
+        { text: "the notice", href: "/notice" },
+      ],
+    },
+    { kind: "listItem", spans: [{ text: "posted at the office" }] },
+  ];
+  const data: PuckData = {
+    content: [{ type: "Prose", props: { id: "note", heading: "Corrections", body: edited } }],
+    root: { props: { title: "t" } },
+  };
+  const folded = foldPuckChange(data, prosePrior, { Prose: [] });
+  expect(folded.version.elements.note?.props.body).toEqual(edited);
+  expect(typeof folded.version.elements.note?.props.body).not.toBe("string");
+});

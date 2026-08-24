@@ -33,6 +33,8 @@ export { defineCatalog } from "./defineCatalog";
 export type { DocumentMeta, DocumentVersion, Node } from "./document.types";
 export type { FieldKind, FieldNode, SchemaAdapter } from "./field.types";
 export { formatCompatibilityReport } from "./formatCompatibilityReport";
+export { isRichTextBlockKind } from "./isRichTextBlockKind";
+export { isRichTextMark } from "./isRichTextMark";
 export { moveNode } from "./moveNode";
 export { NubbinError } from "./NubbinError";
 export { NubbinIssueCode } from "./NubbinIssueCode";
@@ -42,6 +44,7 @@ export { refuse } from "./refuse";
 export type { Registry } from "./registry.types";
 export { removeNode } from "./removeNode";
 export { richText } from "./richText";
+export { RICH_TEXT_BLOCK_KINDS, RICH_TEXT_MARKS } from "./richText.constants";
 export type {
   RichText,
   RichTextBlock,

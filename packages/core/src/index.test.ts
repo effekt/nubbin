@@ -5,6 +5,8 @@ test("the published surface exports exactly the documented API", async () => {
   expect(surface).toEqual([
     "NubbinError",
     "NubbinIssueCode",
+    "RICH_TEXT_BLOCK_KINDS",
+    "RICH_TEXT_MARKS",
     "addNode",
     "checkCompatibility",
     "checkRollback",
@@ -13,6 +15,8 @@ test("the published surface exports exactly the documented API", async () => {
     "defineBlock",
     "defineCatalog",
     "formatCompatibilityReport",
+    "isRichTextBlockKind",
+    "isRichTextMark",
     "moveNode",
     "parseMatchKind",
     "refuse",

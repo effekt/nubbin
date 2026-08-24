@@ -1,9 +1,11 @@
 "use client";
 
 import { directChildFields } from "../nubbin/directChildFields";
+import { isRichTextField } from "../nubbin/isRichTextField";
 import { leafFieldName } from "../nubbin/leafFieldName";
 import { FieldsetGroup } from "./FieldsetGroup";
 import { RepeaterField } from "./RepeaterField";
+import { RichTextField } from "./RichTextField";
 import { ScalarFieldControl } from "./ScalarFieldControl";
 import type { SubFieldProps } from "./subField.types";
 
@@ -23,6 +25,18 @@ export function SubFieldControl(props: SubFieldProps) {
         readOnly={readOnly}
         onChange={onChange}
         renderField={SubFieldControl}
+      />
+    );
+  }
+  if (field.kind === "array" && isRichTextField(field, fields)) {
+    return (
+      <RichTextField
+        id={id}
+        label={leafFieldName(field.path)}
+        field={field}
+        value={value}
+        readOnly={readOnly}
+        onChange={onChange}
       />
     );
   }
