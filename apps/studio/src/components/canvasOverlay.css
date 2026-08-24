@@ -1,0 +1,94 @@
+/* The canvas overlays — selection ring, action bar, drop indicators — in the studio's
+ * committed look, tokens and treatment from the canonical design artifact
+ * (https://claude.ai/code/artifact/0226aad8-3310-41be-99ce-4c89991793af): selection wears
+ * the one orange spend, drop targets the teal, both over a white halo so either reads on a
+ * light or a dark block. Puck portals these overlays into the preview iframe's own
+ * document, where the `.nubbin-studio` wrapper and its tokens do not exist — so every rule
+ * here is unscoped and the tokens are declared locally, prefixed to stay clear of the
+ * consumer page's own variables. AutoFrame mirrors this sheet into the iframe; a Puck
+ * upgrade that renames a class degrades to Puck's styling, never to broken layout. */
+
+:root {
+  --nb-ov-sel: #bf411d;
+  --nb-ov-sel-glow: rgba(191, 65, 29, 0.14);
+  --nb-ov-teal: #0e5a6b;
+  --nb-ov-teal-light: #4fb3c7;
+  --nb-ov-panel: #ffffff;
+  --nb-ov-line: #d3dbda;
+  --nb-ov-well: #f1f4f3;
+  --nb-ov-ink: #0b2b33;
+  --nb-ov-dim: #55696e;
+  --nb-ov-halo: rgba(255, 255, 255, 0.6);
+}
+
+/* The selected block: the specimen's rust ring with its soft glow, haloed in white so the
+ * ring reads over the demo's navy blocks as clearly as over its cream ones. */
+[class*="_DraggableComponent--isSelected_"]
+  > [class^="_DraggableComponent-overlayWrapper_"]
+  > [class^="_DraggableComponent-overlay_"] {
+  outline-color: var(--nb-ov-sel);
+  box-shadow:
+    0 0 0 2px var(--nb-ov-halo),
+    0 0 0 6px var(--nb-ov-sel-glow);
+}
+
+/* Hover stays teal — the working accent — so it never reads as selection. */
+[class*="_DraggableComponent--hover_"]
+  > [class^="_DraggableComponent-overlayWrapper_"]
+  > [class^="_DraggableComponent-overlay_"] {
+  outline-color: var(--nb-ov-teal-light);
+  background: rgba(79, 179, 199, 0.14);
+}
+
+[class^="_DraggableComponent_"]:focus-visible > [class^="_DraggableComponent-overlayWrapper_"] {
+  outline: 1px solid var(--nb-ov-teal);
+}
+
+/* The action bar as the specimen's chip: a white pill of actions, the block's name riding
+ * in it as the rust tag. Puck's default bar already carries the label, so the skin is the
+ * whole change. */
+[class^="_ActionBar_"] {
+  background: var(--nb-ov-panel);
+  border: 1px solid var(--nb-ov-line);
+  border-radius: 99px;
+  padding: 2px;
+  min-height: 0;
+  box-shadow:
+    0 1px 2px rgba(11, 43, 51, 0.1),
+    0 10px 28px rgba(11, 43, 51, 0.07);
+}
+
+[class^="_ActionBar-label_"] {
+  background: var(--nb-ov-sel);
+  color: #ffffff;
+  font-weight: 700;
+  border-radius: 99px;
+  padding: 2px 9px;
+  margin-inline: 2px;
+}
+
+[class^="_ActionBar-action_"] {
+  color: var(--nb-ov-dim);
+  border-radius: 99px;
+  padding: 4px 7px;
+  margin-inline: 2px;
+}
+
+[class^="_ActionBar-action_"]:hover {
+  background: var(--nb-ov-well);
+  color: var(--nb-ov-ink);
+}
+
+/* The zone a drag can land in: the specimen's dashed teal slot ring on its faint tint,
+ * over the same white halo. Puck marks the destination's outline and background
+ * `!important`, so the colour moves by redefining the azure tokens its rule reads — the
+ * parent chrome keeps puckTheme.css's own remap, which sits on `.nubbin-studio` and wins
+ * there. */
+:root {
+  --puck-color-azure-04: var(--nb-ov-teal);
+  --puck-color-azure-09: #a9d8e2;
+}
+
+[class*="_DropZone--isDestination_"] {
+  box-shadow: 0 0 0 2px var(--nb-ov-halo);
+}
