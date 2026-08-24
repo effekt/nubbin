@@ -24,7 +24,7 @@ export function SiteFooter({ tagline, tone, columns, legal }: SiteFooterProps) {
               <h3 className="text-sm font-semibold uppercase tracking-wide">{column.heading}</h3>
               <ul className="mt-4 space-y-2">
                 {column.links.map((link) => (
-                  <li key={link.href}>
+                  <li key={`${link.label}:${link.href}`}>
                     <a href={link.href} className="text-sm hover:underline">
                       {link.label}
                     </a>

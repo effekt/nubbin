@@ -1,6 +1,7 @@
 import type { DocumentVersion } from "@nubbin/core";
 import { cardDefaults } from "../src/blocks/cardDefaults";
 import { cardGridDefaults } from "../src/blocks/cardGridDefaults";
+import { featureGridDefaults } from "../src/blocks/featureGridDefaults";
 import { pageHeaderDefaults } from "../src/blocks/pageHeaderDefaults";
 import { siteFooterDefaults } from "../src/blocks/siteFooterDefaults";
 
@@ -14,7 +15,7 @@ export const dispatches: DocumentVersion = {
       id: "stack",
       block: "SectionStack",
       props: {},
-      slots: { sections: ["header", "grid", "footer"] },
+      slots: { sections: ["header", "grid", "beats", "footer"] },
     },
     header: {
       id: "header",
@@ -84,6 +85,16 @@ export const dispatches: DocumentVersion = {
         title: "Repairs to the harbour wall begin Monday",
         summary: "The eastern arm closes to walkers for six weeks. The slipway stays open.",
         meta: "Harbour",
+      },
+    },
+    beats: {
+      id: "beats",
+      block: "FeatureGrid",
+      props: {
+        ...featureGridDefaults,
+        heading: "The beats every dispatch files under",
+        tone: "dark",
+        columns: 4,
       },
     },
     footer: { id: "footer", block: "SiteFooter", props: siteFooterDefaults },
