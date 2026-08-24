@@ -23,3 +23,6 @@ also: publishing `docs/` alone, which is the boundary that arrived by accident.
 
 The duplication gate follows this surface rather than lagging it, since one claim having one
 home is a property of what is published.
+
+What a sidebar offers is a separate question from what exists at a URL, and it is answered by
+[The site navigates less than it publishes](the-site-navigates-less-than-it-publishes.md).
