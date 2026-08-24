@@ -154,11 +154,16 @@ performs one.
 configured per package, on a page that exists only once the package does — so the token exchange
 for a name npm has never seen returns a 404, pnpm falls back to no credentials, and the registry
 answers the unauthenticated `PUT` with another 404 rather than disclosing whether the name exists.
-Cutting a release that introduces a package publishes the rest and stops there — recoverably,
-because the publish step sends only what the registry is missing at the version. For a name npm
+Cutting a release that introduces a package publishes the rest and stops there. For a name npm
 has seen before but cannot yet authenticate, configuring its trusted publisher and re-running the
-failed publish job sends the stranded package alone. For a name npm has never seen, the bootstrap
-below is the publish.
+failed publish job sends the stranded package alone.
+
+**A re-run replays the workflow file from its own commit, not from `main`.** So that recovery
+works only where the run being re-run already had the per-package publish step; a release cut
+before it refuses again, with the message that release had, however the workflow reads now. A
+package stranded by such a release is published by the bootstrap below, which is the same act
+performed for a different reason. For a name npm has never seen, the bootstrap is the only
+publish there can be.
 
 The bootstrap is one authenticated publish by a person:
 
