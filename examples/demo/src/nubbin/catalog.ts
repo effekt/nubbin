@@ -24,18 +24,26 @@ import { logoWallSchema } from "../blocks/LogoWall.schema";
 import { liveBandDefaults } from "../blocks/liveBandDefaults";
 import { logoWallDefaults } from "../blocks/logoWallDefaults";
 import { pageHeaderSchema } from "../blocks/PageHeader.schema";
+import { priceListSchema } from "../blocks/PriceList.schema";
+import { productCardSchema } from "../blocks/ProductCard.schema";
+import { productGridSchema } from "../blocks/ProductGrid.schema";
 import { proseSchema } from "../blocks/Prose.schema";
 import { pageHeaderDefaults } from "../blocks/pageHeaderDefaults";
+import { priceListDefaults } from "../blocks/priceListDefaults";
+import { productCardDefaults } from "../blocks/productCardDefaults";
+import { productGridDefaults } from "../blocks/productGridDefaults";
 import { proseDefaults } from "../blocks/proseDefaults";
 import { quoteSchema } from "../blocks/Quote.schema";
 import { quoteDefaults } from "../blocks/quoteDefaults";
 import { sectionStackSchema } from "../blocks/SectionStack.schema";
 import { siteFooterSchema } from "../blocks/SiteFooter.schema";
+import { siteHeaderSchema } from "../blocks/SiteHeader.schema";
 import { splitSchema } from "../blocks/Split.schema";
 import { splitHeroSchema } from "../blocks/SplitHero.schema";
 import { statBandSchema } from "../blocks/StatBand.schema";
 import { sectionStackDefaults } from "../blocks/sectionStackDefaults";
 import { siteFooterDefaults } from "../blocks/siteFooterDefaults";
+import { siteHeaderDefaults } from "../blocks/siteHeaderDefaults";
 import { splitDefaults } from "../blocks/splitDefaults";
 import { splitHeroDefaults } from "../blocks/splitHeroDefaults";
 import { statBandDefaults } from "../blocks/statBandDefaults";
@@ -129,5 +137,17 @@ export const catalog = defineCatalog({
     schema: updateFeedSchema,
     defaults: updateFeedDefaults,
     ui: { fields: { entries: { data: { revalidate: 5 } } } },
+  },
+  ProductCard: {
+    schema: productCardSchema,
+    defaults: productCardDefaults,
+    ui: { fields: { href: { control: "link" }, "image.url": { control: "link" } } },
+  },
+  ProductGrid: { schema: productGridSchema, defaults: productGridDefaults },
+  PriceList: { schema: priceListSchema, defaults: priceListDefaults },
+  SiteHeader: {
+    schema: siteHeaderSchema,
+    defaults: siteHeaderDefaults,
+    ui: { fields: { "links[].href": { control: "link" } } },
   },
 });
