@@ -8,7 +8,9 @@ import { prefixedRoute } from "../nubbin/prefixedRoute";
 import type { PublishOutcome } from "../nubbin/publishOutcome.types";
 import { toIconByBlock } from "../nubbin/toIconByBlock";
 import { BlockPalette } from "./BlockPalette";
+import { CanvasActionBar } from "./CanvasActionBar";
 import { FieldsWithCallout } from "./FieldsWithCallout";
+import { FrameLoadedProbe } from "./FrameLoadedProbe";
 import { IssuesPill } from "./IssuesPill";
 import { PublishControl } from "./PublishControl";
 import { PuckApiBridge } from "./PuckApiBridge";
@@ -47,6 +49,14 @@ export function toBridgedOverrides(
 ): Partial<Overrides> {
   const icons = toIconByBlock(palette);
   return {
+    actionBar: ({ label, parentAction, children }) => (
+      <CanvasActionBar label={label} parentAction={parentAction}>
+        {children}
+      </CanvasActionBar>
+    ),
+    iframe: ({ document, children }) => (
+      <FrameLoadedProbe document={document}>{children}</FrameLoadedProbe>
+    ),
     drawer: () => <BlockPalette groups={palette} apiRef={apiRef} />,
     outline: () => <StudioOutline icons={icons} slotsByBlock={slotsByBlock} />,
     header: ({ actions }) => (

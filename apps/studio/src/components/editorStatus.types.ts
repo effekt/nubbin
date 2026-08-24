@@ -13,4 +13,10 @@ export interface EditorStatus {
   /** When the draft last reached the endpoint, ISO-8601 — absent until a save lands, and
    * cleared by each edit, so the status bar never claims a save it cannot prove. */
   readonly savedAt?: string | undefined;
+  /** Whether the preview iframe has handed Puck its document — absent until it has, so
+   * the status bar stays silent about a preview it has never seen render. */
+  readonly frameLoaded?: boolean | undefined;
+  /** How the last draft-save round trip ended: `true` when the endpoint could not be
+   * reached at all — absent until a round trip has settled either way. */
+  readonly saveFailed?: boolean | undefined;
 }

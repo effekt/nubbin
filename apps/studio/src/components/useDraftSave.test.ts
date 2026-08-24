@@ -39,3 +39,29 @@ test("a refused save carries the endpoint's words as an issue, and still stamps 
   });
   expect(editorStatusStore.get().savedAt).toBeDefined();
 });
+
+test("a save that never reaches the endpoint marks the round trip failed, not saved", async () => {
+  vi.useFakeTimers();
+  vi.stubGlobal("fetch", () => Promise.reject(new Error("connection refused")));
+  const { result } = renderHook(() => useDraftSave("/"));
+  result.current(blankDraft("/"));
+  vi.advanceTimersByTime(600);
+  vi.useRealTimers();
+  await waitFor(() => {
+    expect(editorStatusStore.get().saveFailed).toBe(true);
+  });
+  expect(editorStatusStore.get().savedAt).toBeUndefined();
+});
+
+test("a save that lands clears a failure the round trip before it left", async () => {
+  vi.useFakeTimers();
+  editorStatusStore.set({ issues: [], issuesOpen: false, published: false, saveFailed: true });
+  vi.stubGlobal("fetch", () => Promise.resolve(Response.json({ ok: true })));
+  const { result } = renderHook(() => useDraftSave("/"));
+  result.current(blankDraft("/"));
+  vi.advanceTimersByTime(600);
+  vi.useRealTimers();
+  await waitFor(() => {
+    expect(editorStatusStore.get().saveFailed).toBe(false);
+  });
+});
