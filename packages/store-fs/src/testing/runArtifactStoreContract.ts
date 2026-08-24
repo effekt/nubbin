@@ -1,6 +1,7 @@
 import type { ArtifactStore } from "@nubbin/core";
 import { describe, expect, test } from "vitest";
 import { artifactFixture } from "./artifactFixture";
+import { runHistoryContract } from "./runHistoryContract";
 import { runPointerRaceContract } from "./runPointerRaceContract";
 
 /**
@@ -68,5 +69,6 @@ export function runArtifactStoreContract(
     });
 
     runPointerRaceContract(makeStore);
+    runHistoryContract(makeStore);
   });
 }

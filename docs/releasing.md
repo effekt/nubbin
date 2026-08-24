@@ -114,8 +114,12 @@ passes `--tag` explicitly and why the field is absent from every manifest.
 
 **A publisher treats "already on the registry" as success.** `pnpm publish` skips such a package
 and exits 0; its own `--force` flag documents the behaviour it overrides. So a green release run is
-not evidence that anything was sent. The workflow reads the registry *before* publishing and fails
-on a version that is already there, which turns that silence into a named error.
+not evidence that anything was sent. The workflow reads the registry *before* publishing, package
+by package: one already at the version is skipped by name and never sent again, the ones the
+registry is missing become the publish set, and a run in which nothing is missing fails with the
+version named. The silence becomes a logged skip or a red build — never a green no-op. Refusing
+over the whole set was rejected: a publish can land partially, and a re-run then refuses over the
+packages that landed, stranding the one that did not.
 
 ## Publishing from CI
 
@@ -150,7 +154,16 @@ performs one.
 configured per package, on a page that exists only once the package does — so the token exchange
 for a name npm has never seen returns a 404, pnpm falls back to no credentials, and the registry
 answers the unauthenticated `PUT` with another 404 rather than disclosing whether the name exists.
-Cutting a release that introduces a package publishes the rest and stops there.
+Cutting a release that introduces a package publishes the rest and stops there. For a name npm
+has seen before but cannot yet authenticate, configuring its trusted publisher and re-running the
+failed publish job sends the stranded package alone.
+
+**A re-run replays the workflow file from its own commit, not from `main`.** So that recovery
+works only where the run being re-run already had the per-package publish step; a release cut
+before it refuses again, with the message that release had, however the workflow reads now. A
+package stranded by such a release is published by the bootstrap below, which is the same act
+performed for a different reason. For a name npm has never seen, the bootstrap is the only
+publish there can be.
 
 The bootstrap is one authenticated publish by a person:
 

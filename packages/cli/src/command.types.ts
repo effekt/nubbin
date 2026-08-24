@@ -5,6 +5,8 @@ export interface CommandArgs {
   positionals: readonly string[];
   /** A running application to publish through, instead of moving the pointer from here. */
   origin?: string;
+  /** A document version to resolve through the route's history, instead of naming a hash. */
+  to?: string;
 }
 
 /**
@@ -31,4 +33,6 @@ export interface CommandEntry {
   takes: number;
   /** Whether `--origin` means anything here — only a command that moves a pointer can use one. */
   moves?: boolean;
+  /** Whether `--to` means anything here — only a command that resolves through history reads one. */
+  resolves?: boolean;
 }
