@@ -3,7 +3,7 @@
   "private": true,
   "version": "0.1.0",
   "type": "module",
-  "description": "The Nubbin editor's first vertical slice: parse a catalog, preview a draft, publish an artifact.",
+  "description": "The Nubbin editor: compose a page from a catalog, publish it, and roll it back.",
   "scripts": {
     "dev": "next dev --port 3001",
     "build": "next build",

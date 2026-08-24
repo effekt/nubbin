@@ -26,6 +26,23 @@ A Next.js application for composing and publishing pages from the demo's block c
   `api/nubbin/publish` handler — the pointer must move inside the process that serves the
   page, or that process keeps answering from its cache. `/api/artifact/<route>` hands back
   the compiled JSON instead, for carrying to any store.
+- **Route** — `/api/routes` lists what the store holds and mints a route that is not there
+  yet, so a page can begin in the editor rather than as a fixture someone commits first. A new
+  route opens on a blank document rather than a copy of another page.
+- **Recall** — `/api/history/<route>` is the moves that route has made, newest first, read
+  through the store's optional `history`. `/api/rollback` points the route back at one of
+  them, and refuses when it cannot: it runs `checkRollback` first, so an artifact whose blocks
+  have moved on since it was written is named rather than served. That is the same refusal the
+  command line makes, from the same function.
+
+The inspector reports what the compiler refused. An issue names the block it came from and
+selects it on the canvas, so a message about a field on a node deep in a slot is a click rather
+than a search — the compiler answers in paths, and a path is only useful to an author once
+something turns it into a place.
+
+Canvas widths are the consumer's own breakpoints. They are read from the binding seam rather
+than invented for the editor, so an author checking a layout at `md` is checking the width the
+consumer's stylesheet actually breaks at.
 
 Drafts start as the demo's committed fixtures. A committed edit writes to a gitignored
 `.drafts/` directory beside the app, with one file per route. Drafts survive a restart, while
