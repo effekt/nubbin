@@ -7,6 +7,7 @@ import { sectionStackSchema } from "./SectionStack.schema";
 export const sectionStackBlock = defineBlock({
   name: "SectionStack",
   description: "The page root, stacking its child sections top to bottom.",
+  icon: "🧱",
   schema: sectionStackSchema,
   component: SectionStack,
   version: 1,
