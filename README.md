@@ -99,4 +99,4 @@ Follow the [Contributor Covenant](CODE_OF_CONDUCT.md), and report vulnerabilitie
 
 ## License
 
-Nubbin is licensed under the [MIT License](LICENSE). The core contract and compiler remain open source; commercial products may charge for hosted infrastructure and operational services.
+Nubbin is licensed under the [MIT License](LICENSE). Everything in this repository is MIT.
