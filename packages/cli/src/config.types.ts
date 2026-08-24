@@ -11,6 +11,13 @@ export type DocumentLoader = (
   route: string,
 ) => DocumentVersion | null | Promise<DocumentVersion | null>;
 
+/**
+ * Where an edited document goes. `document` in the other direction, and optional for the same
+ * reason `document` is a function: the consumer owns where a document lives, and one who only
+ * publishes fixtures never writes one back. Absent, the editing commands refuse and name it.
+ */
+export type DocumentWriter = (route: string, version: DocumentVersion) => void | Promise<void>;
+
 /** Everything the publish path needs from a consumer, and nothing about their framework. */
 export interface NubbinConfig {
   catalog: Catalog;
@@ -18,4 +25,5 @@ export interface NubbinConfig {
   registry: Registry;
   store: ArtifactStore;
   document: DocumentLoader;
+  save?: DocumentWriter;
 }

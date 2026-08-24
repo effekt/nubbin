@@ -1,6 +1,6 @@
 import type { Command } from "./command.types";
-import { ExitCode } from "./exitCode.constants";
 import { formatMove } from "./formatMove";
+import { listingOf } from "./listingOf";
 import { routeArgument } from "./routeArgument";
 import { routeHistory } from "./routeHistory";
 
@@ -12,7 +12,5 @@ import { routeHistory } from "./routeHistory";
 export const historyCommand: Command = async (config, args) => {
   const route = routeArgument(args);
   const moves = await routeHistory(config, route, "there is no history to list");
-  const lines =
-    moves.length === 0 ? [`no publish of ${route} is recorded`] : moves.map(formatMove).reverse();
-  return { lines, code: ExitCode.Done };
+  return listingOf(moves.map(formatMove).reverse(), `no publish of ${route} is recorded`);
 };

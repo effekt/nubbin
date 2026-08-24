@@ -7,6 +7,12 @@ export interface CommandArgs {
   origin?: string;
   /** A document version to resolve through the route's history, instead of naming a hash. */
   to?: string;
+  /** The node whose slot receives what `add` and `move` place. */
+  parent?: string;
+  /** Which slot on that parent. */
+  slot?: string;
+  /** Where in the slot; absent means the end. */
+  index?: number;
 }
 
 /**
@@ -35,4 +41,6 @@ export interface CommandEntry {
   moves?: boolean;
   /** Whether `--to` means anything here — only a command that resolves through history reads one. */
   resolves?: boolean;
+  /** Whether `--parent`, `--slot` and `--index` mean anything here — only a command that places a node in a slot reads them. */
+  places?: boolean;
 }
