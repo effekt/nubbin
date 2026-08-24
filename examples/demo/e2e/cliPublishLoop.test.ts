@@ -43,8 +43,9 @@ describe("the publish loop, driven by the CLI", () => {
       const { stdout } = await run(process.execPath, [NUBBIN, ...args], { cwd: DEMO_ROOT, env });
       return { out: stdout.trim(), code: 0 };
     } catch (error) {
-      const failure = error as { stdout?: string; code?: number };
-      return { out: (failure.stdout ?? "").trim(), code: failure.code ?? -1 };
+      // A refusal is written to stderr, which is the contract a script capturing stdout relies on.
+      const failure = error as { stdout?: string; stderr?: string; code?: number };
+      return { out: (failure.stderr ?? failure.stdout ?? "").trim(), code: failure.code ?? -1 };
     }
   };
 
