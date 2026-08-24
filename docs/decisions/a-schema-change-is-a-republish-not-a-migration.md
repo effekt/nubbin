@@ -13,8 +13,8 @@ that document and publish it again.
 
 Published pages are untouched by this. An artifact's props were validated and frozen against
 the version they compiled with, and a static block performs no lookup at render, so it goes on
-serving; [`checkRollback`](../reference/artifacts.md#checkrollback) and
-[`checkCompatibility`](../reference/artifacts.md#checkcompatibility) already refuse the two
+serving; [`checkRollback`](../reference/publishing/artifacts.md#checkrollback) and
+[`checkCompatibility`](../reference/publishing/artifacts.md#checkcompatibility) already refuse the two
 operations that would put a stale document in front of a visitor. Rewriting a corpus is an
 adapter concern and the tools are in `core` already —
 [document operations](document-operations-live-in-core-beside-compile.md) sit beside `compile`

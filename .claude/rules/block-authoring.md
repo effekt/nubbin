@@ -58,7 +58,7 @@ export const buttonBlock = defineBlock({ name: "Button", schema: buttonSchema, c
 export const ctaBannerBlock = defineBlock({ name: "CtaBanner", schema: ctaBannerSchema, component: CtaBanner });
 ```
 
-[`domain-model.md`](../../docs/domain-model.md): "registering a `Button` as a block is the shape of misuse to warn against." The failure it prevents is authors rebuilding a design system inside the CMS — once primitives are placeable, a variant-per-name sprawl of hand-built buttons and cards accumulates, none of it the real component and none of it reviewed as code. **Gate:** none — registration is implicit off the file convention below; this is a review judgment.
+[`domain-model.md`](../../docs/concepts/domain-model.md): "registering a `Button` as a block is the shape of misuse to warn against." The failure it prevents is authors rebuilding a design system inside the CMS — once primitives are placeable, a variant-per-name sprawl of hand-built buttons and cards accumulates, none of it the real component and none of it reviewed as code. **Gate:** none — registration is implicit off the file convention below; this is a review judgment.
 
 ### Props must be serializable — never `ReactNode` in a schema
 
@@ -109,7 +109,7 @@ Artifacts are immutable and content-addressed (invariant 3) — frozen props wer
 
 ### File convention, `docs`, and the tests a block ships
 
-`<Name>.block.ts` beside `<Name>.tsx` registers a block, implicitly, off the file's existence ([`api.md`](../../docs/api.md)). Ships with: the schema's accept/reject test ([`block-schemas.md`](block-schemas.md#checklist)), a test that `defaults` validates, and a component test if props branch the render ([`testing.md`](testing.md)).
+`<Name>.block.ts` beside `<Name>.tsx` registers a block, implicitly, off the file's existence ([`api.md`](../../docs/concepts/api.md)). Ships with: the schema's accept/reject test ([`block-schemas.md`](block-schemas.md#checklist)), a test that `defaults` validates, and a component test if props branch the render ([`testing.md`](testing.md)).
 
 ### A block renders one root HTML element
 

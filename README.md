@@ -48,7 +48,7 @@ export const heroBlock = defineBlock({
 });
 ```
 
-Use catalog field hints to keep a value live instead of freezing it when you publish. See the [`defineBlock` and catalog reference](docs/reference/blocks.md) for the complete authoring model.
+Use catalog field hints to keep a value live instead of freezing it when you publish. See the [`defineBlock` and catalog reference](docs/reference/authoring/blocks.md) for the complete authoring model.
 
 ## Why Nubbin
 
@@ -84,9 +84,9 @@ Use these resources to understand Nubbin, integrate it, or follow its developmen
 |---|---|
 | [Nubbin documentation](https://nubbin.io) | Published guides, concepts, and reference documentation |
 | [Documentation index](docs/README.md) | Repository documentation and suggested reading order |
-| [Architecture](docs/architecture.md) | The contract, content, and artifact model |
+| [Architecture](docs/concepts/architecture.md) | The contract, content, and artifact model |
 | [Decisions](docs/decisions/README.md) | Settled design choices, rejected alternatives, and boundaries |
-| [Domain model](docs/domain-model.md) | Entities, ownership, and relationships |
+| [Domain model](docs/concepts/domain-model.md) | Entities, ownership, and relationships |
 | [Studio guide](apps/studio/README.md) | Running and integrating the editor application |
 
 Generated `CATALOG.md` files beside each package list its exports and their source files.

@@ -22,7 +22,7 @@ cheap to add and a page needs a route. That claim stands on its own reasoning, a
 who disagrees has something to push against.
 
 This standard is held in review rather than by a script —
-[the decision](decisions/vendor-references-are-a-review-concern-not-a-gate.md) records
+[the decision](../decisions/vendor-references-are-a-review-concern-not-a-gate.md) records
 why.
 
 **Examples must be self-contained.** Scaffold a clean Next.js application with the

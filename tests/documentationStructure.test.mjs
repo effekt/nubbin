@@ -1,11 +1,11 @@
 // Structural integrity for documentation: links resolve, anchors exist, fences balance, table
-// headers are named, and every top-level document is in the index.
+// headers are named, and every document beneath `docs/` is reachable from its index.
 //
 // Documentation rots differently from code. A stale sentence compiles, passes every lint, and
 // reads as authoritative — the only signal is a reader acting on it. These are the failures a
 // machine can see; terminology drift is the other half, and lives in `scripts/check-prose.mjs`.
 
-import { existsSync, readdirSync, readFileSync } from "node:fs";
+import { existsSync, readFileSync } from "node:fs";
 import { dirname, join, relative, resolve } from "node:path";
 import { describe, expect, it } from "vitest";
 import { isDeliberatelyAbsent } from "../scripts/danglingFileRefs.mjs";
@@ -119,8 +119,12 @@ describe("the detectors", () => {
   });
 
   it("sees a link to an anchor a real document does not carry", () => {
-    const problems = danglingLinks(INDEX, "see [x](./gates.md#no-such-heading)", anchorsByFile);
-    expect(problems).toEqual(["link to missing anchor: ./gates.md#no-such-heading"]);
+    const problems = danglingLinks(
+      INDEX,
+      "see [x](./contributing/gates.md#no-such-heading)",
+      anchorsByFile,
+    );
+    expect(problems).toEqual(["link to missing anchor: ./contributing/gates.md#no-such-heading"]);
   });
 });
 
@@ -143,12 +147,20 @@ describe("every tracked document", () => {
 });
 
 describe("the docs index", () => {
-  it("names every top-level document beside it", () => {
+  // Every document a reader can open is reachable from the index. Recursive since the tree
+  // groups by subject: a page added to `reference/publishing/` is as unreachable as one added
+  // beside the index used to be. Two exclusions, each covered another way — `decisions/` is
+  // linked as a directory through its own README, and `reference/generated/` is written by the
+  // docs build, where a row per page would be a hand-maintained copy of a directory listing.
+  it("names every document beneath it", () => {
     const indexText = bodies.get(INDEX) ?? "";
-    const onDisk = readdirSync(join(REPO_ROOT, "docs"))
-      .filter((name) => name.endsWith(".md") && name !== "README.md")
+    const onDisk = markdown
+      .map((file) => relative(join(REPO_ROOT, "docs"), file))
+      .filter((rel) => !rel.startsWith("..") && rel !== "README.md")
+      .filter((rel) => !rel.startsWith("decisions/") && !rel.startsWith("reference/generated/"))
+      .filter((rel) => !rel.endsWith("/README.md"))
       .sort();
-    expect(onDisk.length).toBeGreaterThan(0);
-    expect(onDisk.filter((name) => !indexText.includes(`(${name})`))).toEqual([]);
+    expect(onDisk.length).toBeGreaterThan(10);
+    expect(onDisk.filter((rel) => !indexText.includes(`(${rel})`))).toEqual([]);
   });
 });

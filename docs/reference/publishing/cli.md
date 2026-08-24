@@ -9,16 +9,16 @@ status: reference
 This page describes the shipped surface of `@nubbin/cli`: the config a consumer writes, the
 commands, and the codes the process exits with. Why the publish path ships as a
 command line at all, and what this package is not allowed to decide, is
-[its own decision](../decisions/publishing-has-a-driver-that-is-not-an-editor.md).
+[its own decision](../../decisions/publishing-has-a-driver-that-is-not-an-editor.md).
 
 The package installs a `nubbin` executable and exports `defineConfig`. Nothing else in the
 repository imports it.
 
 ## `defineConfig`
 
-[`defineConfig`](generated/cli/functions/defineConfig.md) is identity at runtime. It
+[`defineConfig`](../generated/cli/functions/defineConfig.md) is identity at runtime. It
 exists so a config file is checked against
-[`NubbinConfig`](generated/cli/interfaces/NubbinConfig.md) as it is written, rather than
+[`NubbinConfig`](../generated/cli/interfaces/NubbinConfig.md) as it is written, rather than
 at the moment a publish fails.
 
 **`registry` is the compile-side one** — blocks with their schemas, and the source of the
@@ -34,7 +34,7 @@ rather than guessed at.
 edited document, and a config without one refuses them while everything else keeps working. Why
 it is a hook on the config rather than a store interface in `core` is argued in
 [an edited document goes back where it came
-from](../decisions/an-edited-document-goes-back-where-it-came-from.md).
+from](../../decisions/an-edited-document-goes-back-where-it-came-from.md).
 
 ## Finding the config
 
@@ -119,7 +119,7 @@ than guessing which was meant.
 document operations, and put the result back through the config's `save` — a config without one
 refuses them and names it. The whole shape is
 [an edited document goes back where it came
-from](../decisions/an-edited-document-goes-back-where-it-came-from.md); what a command adds to
+from](../../decisions/an-edited-document-goes-back-where-it-came-from.md); what a command adds to
 the operation it wraps:
 
 - **`add` mints the id** with `crypto.randomUUID()` and prints it after the arrow, so
@@ -145,7 +145,7 @@ the operation it wraps:
 Every move `publish` made at the route, newest first, each line carrying the hash, the document
 version that compiled to it, and when it went live. Unpublishing erases nothing, and only
 published states appear — the model is
-[A route remembers what it pointed at](../decisions/a-route-remembers-what-it-pointed-at.md).
+[A route remembers what it pointed at](../../decisions/a-route-remembers-what-it-pointed-at.md).
 
 `history(route)` is optional on `ArtifactStore`, so a store that keeps no history is answered
 with a refusal naming the gap — and `rollback --to`, which resolves through the same record,
@@ -166,7 +166,7 @@ until it restarts.
 
 `--origin <url>` posts to the application instead, at `/api/nubbin/publish` and
 `/api/nubbin/unpublish` — the two handlers [`publishRoute` and
-`unpublishRoute`](next.md#publishroute-and-unpublishroute) exist to implement.
+`unpublishRoute`](../rendering/next.md#publishroute-and-unpublishroute) exist to implement.
 
 ## Exit codes
 

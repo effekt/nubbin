@@ -9,7 +9,7 @@ status: stable
 Writing a document is a pure function over a `DocumentVersion`: `core` exports it beside
 `compile`, it takes a version and returns a new one, and the editor calls it exactly as a
 script would. `setNodeProp` is the first; the shipped shape is in
-[the compile reference](../reference/compile.md#setnodeprop-and-setatpath).
+[the compile reference](../reference/publishing/compile.md#setnodeprop-and-setatpath).
 
 The studio has to write documents, and nothing said where the writes lived. With the studio
 as the only planned caller, the default home was inside it — which turns every write into an
