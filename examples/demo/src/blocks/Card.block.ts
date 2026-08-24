@@ -6,6 +6,7 @@ import { cardSchema } from "./Card.schema";
  * notices moving on a page, which is what the `badge` pill makes visible. */
 export const cardBlock = defineBlock({
   name: "Card",
+  description: "One linked card for a CardGrid cell: title, summary, meta and a badge.",
   schema: cardSchema,
   component: Card,
   version: 1,

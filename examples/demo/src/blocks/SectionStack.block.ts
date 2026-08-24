@@ -6,6 +6,7 @@ import { sectionStackSchema } from "./SectionStack.schema";
  * sections is past the point where a marketing page reads as one. */
 export const sectionStackBlock = defineBlock({
   name: "SectionStack",
+  description: "The page root, stacking its child sections top to bottom.",
   schema: sectionStackSchema,
   component: SectionStack,
   version: 1,

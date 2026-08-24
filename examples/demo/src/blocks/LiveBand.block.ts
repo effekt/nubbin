@@ -4,6 +4,8 @@ import { liveBandSchema } from "./LiveBand.schema";
 
 export const liveBandBlock = defineBlock({
   name: "LiveBand",
+  description:
+    "A strip of what is happening right now, resolved on each request rather than frozen at publish.",
   schema: liveBandSchema,
   component: LiveBand,
   version: 1,
