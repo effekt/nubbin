@@ -42,13 +42,47 @@ jobs:
   # there is no path by which one prints its failure and exits 0.
   code:
     runs-on: ubuntu-latest
+    env:
+      # One cache directory for every turbo invocation in this job — the environment form of
+      # `--cache-dir`, which as a flag could not reach the turbo runs inside `pnpm guardrail`
+      # and `pnpm publishable`. The actions/cache step below persists it between runs.
+      TURBO_CACHE_DIR: .turbo/cache
+      # `--affected` on pull requests only. A push to `main` runs unfiltered, and that is a
+      # hard constraint rather than an optimisation left on the table: release.yml refuses to
+      # publish unless this workflow passed for the exact commit it is publishing, so the run
+      # on `main` has to be a complete one. Filtered there, a release could publish on the
+      # strength of a check that skipped most of the repository.
+      TURBO_AFFECTED: ${{ github.event_name == 'pull_request' && '--affected' || '' }}
+      # What `--affected` diffs against. Left to its default, turbo looks for a local `main`,
+      # which a pull-request checkout does not have.
+      TURBO_SCM_BASE: ${{ github.event.pull_request.base.sha || '' }}
     steps:
       - uses: actions/checkout@v7
+        with:
+          # `--affected` needs history back to the merge-base to compute its diff; a depth-1
+          # checkout has none, and turbo then treats every package as affected — safe, but a
+          # full run on every pull request. Pushes to `main` run unfiltered anyway, so they
+          # keep the shallow clone.
+          fetch-depth: ${{ github.event_name == 'pull_request' && '0' || '1' }}
 
       - uses: pnpm/setup@v2
         with:
           cache: true
           install: false
+
+      # Persisting the turbo cache across runs is safe because turbo hashes every task's
+      # inputs — sources, resolved dependencies, the task definition — into the key it stores
+      # under. A restored entry can only replay what running the task would have produced; a
+      # stale one is a missed key, never a wrong artifact. The commit SHA makes each run save
+      # its own snapshot, and restore-keys let a near miss start from the closest previous
+      # run instead of cold.
+      - uses: actions/cache@v6
+        with:
+          path: .turbo/cache
+          key: turbo-${{ runner.os }}-${{ hashFiles('pnpm-lock.yaml') }}-${{ github.sha }}
+          restore-keys: |
+            turbo-${{ runner.os }}-${{ hashFiles('pnpm-lock.yaml') }}-
+            turbo-${{ runner.os }}-
 
       - run: pnpm install --frozen-lockfile
 
@@ -56,14 +90,26 @@ jobs:
         run: pnpm exec biome check .
 
       - name: Typecheck
-        run: pnpm typecheck
+        run: pnpm typecheck $TURBO_AFFECTED
 
       # Package suites plus the `repo` project: documentation structure, file references, prose
       # duplication, plan files, rule files, one unit per file, schema depth, junk-drawer
       # filenames, peer dependencies, package metadata, the version stamp and the skills lockfile.
+      #
+      # Written out rather than `pnpm test`, because the affected filter belongs to the turbo
+      # half only: the `repo` project reads the repository as data, so it always runs in full.
       - name: Test
-        run: pnpm test
+        run: |
+          pnpm exec turbo run test $TURBO_AFFECTED
+          pnpm exec vitest run --project repo
 
+      # The one place this job builds the applications. `pnpm publishable` below builds only
+      # the packages, because publint, attw and the tarball install read nothing else.
+      # Unfiltered, unlike the steps above. `--affected` selects packages by where a file sits,
+      # so it cannot see a task whose inputs live elsewhere: `docs-site#build` declares
+      # `$TURBO_ROOT$/docs/**`, and a documentation-only change would scope to the root package
+      # and never build the site — surfacing on `main`, which is the side of the gate a release
+      # reads. The cache makes this cheap: unchanged packages replay rather than rebuild.
       - name: Build
         run: pnpm build
 
