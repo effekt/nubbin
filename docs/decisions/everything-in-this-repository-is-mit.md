@@ -14,6 +14,14 @@ improving something MIT, with no assignment to sign and no part of what they tou
 Licensing one package differently was rejected for that alone: it would put a contributor in the
 position of reading a licence header before deciding whether a fix is worth writing.
 
+There is no second edition of the editor. What runs behind any deployment is what this
+repository builds, and an integration around it — identity, storage, somewhere to put an asset —
+is written against the same adapter interfaces by whoever needs one. That is what
+[the studio does not own identity](the-studio-does-not-own-identity.md) and
+[artifacts are immutable](artifacts-are-immutable-and-content-addressed.md) leave open on
+purpose. A feature held back for one integration would have to be held back from the interface
+every integration shares, which is the shape those decisions already refuse.
+
 **A published manifest is reconnaissance.** A public repository publishes its lockfile, which
 names the authentication library, the provider SDKs, and the versions of both. Between an
 advisory and a patch that is a list of exactly what to try, and a scanner reads it without
