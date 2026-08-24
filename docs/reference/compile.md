@@ -19,11 +19,13 @@ function compile(
   catalog: Catalog,
   registry: Registry,
   route: string,
-): Artifact;
+): CompileResult;
 ```
 
-Validates one document version and serializes it into an [`Artifact`](artifacts.md#artifact).
-It throws `NubbinError` on any failure and performs no IO — reading the document and writing
+Validates one document version and serializes it into an [`Artifact`](artifacts.md#artifact),
+returned beside the issues that did not stop one existing. A fault raises `NubbinError`; an
+`unknown-prop` is reported rather than raised, so a document carrying one still compiles and
+the caller decides what to do about it. It performs no IO — reading the document and writing
 the artifact belong to adapters.
 
 Validation runs in two passes, and the second runs only if the first found nothing —
@@ -82,7 +84,7 @@ const version: DocumentVersion = {
   createdBy: "docs",
 };
 
-const artifact = compile(version, catalog, registry, "/dispatches");
+const { artifact } = compile(version, catalog, registry, "/dispatches");
 
 artifact.tree[0]?.props; // { title: "T" }  — static fields, frozen
 artifact.tree[0]?.holes; // { price: { revalidate: 60 } }  — resolved at render instead
