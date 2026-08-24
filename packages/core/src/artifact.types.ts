@@ -162,10 +162,10 @@ export interface PointerMove {
  * pointer per route, which is the only thing that moves.
  *
  * Callers order the two: `write` the artifact, then `publish` the route at its hash. An
- * implementation holds up its half by making absence a value rather than a failure, by treating a
- * repeated `write` or `publish` as a no-op so a retried publish succeeds, and by writing each
- * pointer whole — two publishes racing for one route must leave one of them intact, never a
- * blend. `@nubbin/store-fs` is the reference implementation, and
+ * implementation holds up its half by making absence a value rather than a failure, by taking a
+ * repeated `write` as a no-op and a repeated `publish` as an ordinary one so a retried publish
+ * succeeds, and by writing each pointer whole — two publishes racing for one route must leave one
+ * of them intact, never a blend. `@nubbin/store-fs` is the reference implementation, and
  * `packages/store-fs/src/testing/runArtifactStoreContract.ts` is the suite every implementation
  * is expected to pass.
  *
@@ -244,7 +244,10 @@ export interface ArtifactStore {
    *
    * @param route - The route to serve. It is validated on the way through `parseMatchKind`.
    * @param hash - The artifact to serve there. It has to be written first.
-   * @returns Nothing. Publishing the same route and hash twice is a no-op.
+   * @returns Nothing. Publishing the same route and hash twice succeeds and leaves the route
+   *   where it already pointed, which is what makes a retry safe — it is not a no-op. The pointer
+   *   is rewritten and a store keeping history records a second move, since what is deduplicated
+   *   is the artifact rather than the act of publishing.
    * @throws NubbinError with `code` `NubbinIssueCode.InvalidRoute` when the route is not
    * addressable, from `parseMatchKind`. An implementation also rejects a hash it holds no
    * artifact for, so no pointer can name one that was never written — `@nubbin/store-fs` refuses
