@@ -5,6 +5,7 @@ import { featureGridDefaults } from "../src/blocks/featureGridDefaults";
 import { pageHeaderDefaults } from "../src/blocks/pageHeaderDefaults";
 import { siteFooterDefaults } from "../src/blocks/siteFooterDefaults";
 import { splitHeroDefaults } from "../src/blocks/splitHeroDefaults";
+import { statBandDefaults } from "../src/blocks/statBandDefaults";
 
 /** The page an editor reorders: cards in a slot, and the order of that slot is the whole edit. */
 export const dispatches: DocumentVersion = {
@@ -16,7 +17,7 @@ export const dispatches: DocumentVersion = {
       id: "stack",
       block: "SectionStack",
       props: {},
-      slots: { sections: ["header", "featured", "grid", "beats", "footer"] },
+      slots: { sections: ["header", "featured", "grid", "stats", "beats", "footer"] },
     },
     header: {
       id: "header",
@@ -97,6 +98,11 @@ export const dispatches: DocumentVersion = {
         summary: "The eastern arm closes to walkers for six weeks. The slipway stays open.",
         meta: "Harbour",
       },
+    },
+    stats: {
+      id: "stats",
+      block: "StatBand",
+      props: { ...statBandDefaults, heading: "What the filing adds up to", tone: "light" },
     },
     beats: {
       id: "beats",

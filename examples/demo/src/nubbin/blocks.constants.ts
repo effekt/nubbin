@@ -8,12 +8,15 @@ import { faqAccordionBlock } from "../blocks/FaqAccordion.block";
 import { featureGridBlock } from "../blocks/FeatureGrid.block";
 import { heroBlock } from "../blocks/Hero.block";
 import { liveBandBlock } from "../blocks/LiveBand.block";
+import { logoWallBlock } from "../blocks/LogoWall.block";
 import { pageHeaderBlock } from "../blocks/PageHeader.block";
 import { proseBlock } from "../blocks/Prose.block";
+import { quoteBlock } from "../blocks/Quote.block";
 import { sectionStackBlock } from "../blocks/SectionStack.block";
 import { siteFooterBlock } from "../blocks/SiteFooter.block";
 import { splitBlock } from "../blocks/Split.block";
 import { splitHeroBlock } from "../blocks/SplitHero.block";
+import { statBandBlock } from "../blocks/StatBand.block";
 import { updateFeedBlock } from "../blocks/UpdateFeed.block";
 import { videoHeroBlock } from "../blocks/VideoHero.block";
 
@@ -32,6 +35,9 @@ export const BLOCKS: Block[] = [
   proseBlock,
   faqAccordionBlock,
   ctaBannerBlock,
+  quoteBlock,
+  logoWallBlock,
+  statBandBlock,
   pageHeaderBlock,
   siteFooterBlock,
   sectionStackBlock,
