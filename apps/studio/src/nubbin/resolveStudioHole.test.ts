@@ -1,16 +1,16 @@
-import { statBandSchema } from "demo/src/blocks/StatBand.schema";
+import { liveBandSchema } from "demo/src/blocks/LiveBand.schema";
 import { expect, test } from "vitest";
 import { resolveStudioHole } from "./resolveStudioHole";
 
-test("a StatBand stats hole resolves to a value the block's real schema accepts", async () => {
-  const stats = await resolveStudioHole({
+test("a LiveBand items hole resolves to a value the block's real schema accepts", async () => {
+  const items = await resolveStudioHole({
     route: "/",
-    nodeId: "stats",
-    block: "StatBand",
-    path: "stats",
+    nodeId: "live",
+    block: "LiveBand",
+    path: "items",
     spec: { revalidate: 60 },
   });
-  const parsed = statBandSchema.safeParse({ tone: "light", stats });
+  const parsed = liveBandSchema.safeParse({ label: "Right now", items });
   expect(parsed.success).toBe(true);
 });
 

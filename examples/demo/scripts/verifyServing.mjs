@@ -1,12 +1,12 @@
 #!/usr/bin/env node
 
 // Proves, against a running `next start`, the three claims Phase 2.11 exists to settle: a route
-// published after the build serves without a deploy, unpublishing makes it a server 404, and the
-// two hole kinds refresh on their declared schedules.
+// published after the build serves without a deploy, unpublishing makes it a server 404, and a
+// hole refreshes on its declared schedule.
 //
 // Every assertion reads the served bytes. A pointer in the store says nothing about what the
-// server returns — `revalidatePath` invalidates only the process that runs it, which is why
-// `publishLive.ts` publishes over HTTP and why this script cannot import the store to check.
+// server returns — `revalidatePath` invalidates only the process that runs it, which is why the
+// CLI is given `--origin` here and why this script cannot import the store to check.
 //
 // Run it against a built server: `pnpm build && pnpm --filter demo fixtures:publish &&
 // pnpm --filter demo build && pnpm --filter demo start`, then `pnpm --filter demo serve:verify`.
@@ -21,7 +21,7 @@ import { readFile } from "node:fs/promises";
 const ORIGIN = process.env.DEMO_ORIGIN ?? "http://127.0.0.1:3000";
 const OK = 200;
 const NOT_FOUND = 404;
-/** Eight samples two seconds apart spans more than one FaqAccordion interval (`revalidate: 5`). */
+/** Eight samples two seconds apart spans more than one UpdateFeed interval (`revalidate: 5`). */
 const HOLE_SAMPLES = 8;
 const HOLE_SAMPLE_PAUSE_MS = 2_000;
 const HOLE_LOG = new URL("../.nubbin/hole-log.txt", import.meta.url);
@@ -39,12 +39,13 @@ async function get(path) {
   };
 }
 
-/** Through the package script, so the route to the publisher lives in one place. */
+/** Through the package's `nubbin` script, so the route to the CLI lives in one place. */
 function publishLive(route, stamp) {
-  const args = ["run", "publish:live", route, ...(stamp === undefined ? [] : [stamp])];
-  const run = spawnSync("pnpm", args, { encoding: "utf8" });
+  const args = ["run", "nubbin", "publish", route, "--origin", ORIGIN];
+  const env = stamp === undefined ? process.env : { ...process.env, STAMP: stamp };
+  const run = spawnSync("pnpm", args, { encoding: "utf8", env });
   if (run.status !== 0) {
-    throw new Error(`publish:live ${route} failed: ${run.stdout ?? ""}${run.stderr ?? ""}`);
+    throw new Error(`nubbin publish ${route} failed: ${run.stdout ?? ""}${run.stderr ?? ""}`);
   }
 }
 
@@ -59,8 +60,8 @@ async function post(path, payload) {
   }
 }
 
-/** Anchored on each block's own visible copy, so reordering the fixture cannot swap them. */
-const CACHED_AT = /When was this answer cached\?\s*(\d{4}-\d{2}-\d{2}T[\d:.]+Z)/;
+/** Anchored on the block's own visible copy, so reordering the fixture cannot swap it. */
+const SERVED_COUNT = /Answered (\d+) times since the server started/;
 
 /**
  * Rendered text only: `<script>` blocks removed, then tags stripped. Dropping the scripts keeps
@@ -87,15 +88,17 @@ function readMatch(body, pattern, what) {
 }
 
 async function baselineServes() {
-  const summer = await get("/promotions/summer");
-  const isPassing = summer.status === OK && summer.body.includes('data-nubbin-node="hero"');
-  record("1 prerendered route serves its stamped tree", isPassing, `status ${summer.status}`);
+  const home = await get("/");
+  const isPassing = home.status === OK && home.body.includes('data-nubbin-node="hero"');
+  record("1 prerendered route serves its stamped tree", isPassing, `status ${home.status}`);
 }
 
 async function publishWithoutDeploy() {
-  const before = await get("/promotions/flash");
-  publishLive("/promotions/flash");
-  const after = await get("/promotions/flash");
+  // Arranged rather than assumed: a previous run can have left the route published.
+  await post("/api/nubbin/unpublish", { route: "/dispatches/late-edition" });
+  const before = await get("/dispatches/late-edition");
+  publishLive("/dispatches/late-edition");
+  const after = await get("/dispatches/late-edition");
   const isPassing = before.status === NOT_FOUND && after.status === OK;
   record(
     "2 published after the build, no deploy",
@@ -105,36 +108,40 @@ async function publishWithoutDeploy() {
 }
 
 async function unpublishIsAServerNotFound() {
-  await post("/api/nubbin/unpublish", { route: "/promotions/flash" });
-  const after = await get("/promotions/flash");
+  await post("/api/nubbin/unpublish", { route: "/dispatches/late-edition" });
+  const after = await get("/dispatches/late-edition");
   record("3 unpublish is a server 404", after.status === NOT_FOUND, `status ${after.status}`);
 }
 
 async function revalidateHitsOnlyOneRoute() {
   const stamp = `r${process.pid}`;
-  const otherBefore = await get("/promotions/summer");
-  publishLive("/promotions/winter", stamp);
-  const winter = await get("/promotions/winter");
-  const otherAfter = await get("/promotions/summer");
+  const otherBefore = await get("/dispatches");
+  publishLive("/dispatches/tide-tables", stamp);
+  const tides = await get("/dispatches/tide-tables");
+  const otherAfter = await get("/dispatches");
   // Rendered text on the untouched route, not raw bytes. Every route renders on demand, and two
   // renders of one unchanged page stream their RSC payload in different `self.__next_f.push`
   // chunks — same length, same content, different split points. Comparing bodies measured
   // whether the page was cached; comparing what it rendered measures what this claims to.
   const isPassing =
-    winter.body.includes(stamp) && renderedText(otherAfter.body) === renderedText(otherBefore.body);
-  record("4 revalidate hits exactly the published route", isPassing, `${stamp} in winter only`);
+    tides.body.includes(stamp) && renderedText(otherAfter.body) === renderedText(otherBefore.body);
+  record(
+    "4 revalidate hits exactly the published route",
+    isPassing,
+    `${stamp} in tide-tables only`,
+  );
 }
 
 /**
  * Sampled rather than compared pairwise. Two adjacent requests can legitimately straddle a refresh
- * boundary, so "identical across two GETs" fails at random on a working system. What separates the
- * two hole kinds is the shape: a per-request hole takes a new value every time, an interval hole
- * repeats itself and still moves.
+ * boundary, so "identical across two GETs" fails at random on a working system. The shape is the
+ * claim: an interval hole repeats itself between refreshes and still moves across them, which is
+ * what tells `revalidate: 5` from both a frozen value and a per-request one.
  */
 async function holesRefreshOnTheirOwnSchedules() {
   const cached = [];
   for (let sample = 0; sample < HOLE_SAMPLES; sample += 1) {
-    cached.push(readMatch((await get("/live/pulse")).body, CACHED_AT, "the cached value"));
+    cached.push(readMatch((await get("/live")).body, SERVED_COUNT, "the served count"));
     await sleep(HOLE_SAMPLE_PAUSE_MS);
   }
   const distinct = new Set(cached).size;
@@ -154,11 +161,11 @@ async function holesRefreshOnTheirOwnSchedules() {
  */
 async function aPublishedPageIsCachedUntilRepublished() {
   const stamp = `c${process.pid}`;
-  await get("/about");
-  const warm = await get("/about");
-  publishLive("/about", stamp);
-  const regenerated = await get("/about");
-  const settled = await get("/about");
+  await get("/dispatches/tide-tables");
+  const warm = await get("/dispatches/tide-tables");
+  publishLive("/dispatches/tide-tables", stamp);
+  const regenerated = await get("/dispatches/tide-tables");
+  const settled = await get("/dispatches/tide-tables");
   const isPassing =
     warm.cache === "HIT" && regenerated.body.includes(stamp) && settled.cache === "HIT";
   record(
@@ -171,8 +178,7 @@ async function aPublishedPageIsCachedUntilRepublished() {
 async function staticPropsTriggerNoFetch() {
   const log = await readFile(HOLE_LOG, "utf8").catch(() => "");
   const lines = log.split("\n").filter((line) => line.trim() !== "");
-  const isPassing =
-    lines.some((line) => line.startsWith("/live/pulse")) && !log.includes("/promotions/");
+  const isPassing = lines.some((line) => line.startsWith("/live ")) && !log.includes("/dispatches");
   record("6 a static prop triggers no fetch", isPassing, `${lines.length} hole-log line(s)`);
 }
 

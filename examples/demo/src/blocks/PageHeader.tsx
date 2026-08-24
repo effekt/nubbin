@@ -9,7 +9,7 @@ const TONE_BODY = { light: "text-marine/70", dark: "text-canvas/75" } as const;
 /** A Hero without its action and image — kept separate rather than loosening Hero's schema. */
 export function PageHeader({ eyebrow, headline, body, tone }: PageHeaderProps) {
   return (
-    <section data-nubbin-block="PageHeader" className={`${TONE_SURFACE[tone]} px-6 py-24`}>
+    <section data-nubbin-block="PageHeader" className={`${TONE_SURFACE[tone]} px-6 py-14`}>
       <div className="mx-auto max-w-3xl">
         <p className={`text-sm font-semibold uppercase tracking-wide ${TONE_ACCENT[tone]}`}>
           {eyebrow}

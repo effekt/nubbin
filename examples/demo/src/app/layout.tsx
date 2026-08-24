@@ -3,9 +3,9 @@ import type { ReactNode } from "react";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Tidewell — one schedule, read the same way by everyone",
+  title: "Bellwether — dispatches from the estuary",
   description:
-    "Tidewell turns scattered planning docs into one schedule everyone on the team reads the same way.",
+    "Three miles of shoreline, walked and written down every morning: tides, wind, crossings, birds.",
 };
 
 export default function RootLayout({ children }: { children: ReactNode }) {

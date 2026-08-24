@@ -2,7 +2,7 @@ import { mkdtempSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { NubbinError } from "@nubbin/core";
-import { about } from "demo/fixtures/about";
+import { home } from "demo/fixtures/home";
 import { beforeEach, expect, test } from "vitest";
 import { commitDraftEdit } from "./commitDraftEdit";
 import { compileDraft } from "./compileDraft";
@@ -13,24 +13,24 @@ beforeEach(() => {
 });
 
 test("a committed edit changes what the route compiles to", () => {
-  const before = compileDraft("/about");
-  const outcome = commitDraftEdit("/about", "hero", "headline", "A new headline");
+  const before = compileDraft("/");
+  const outcome = commitDraftEdit("/", "hero", "headline", "A new headline");
   const hash = "missing" in outcome ? undefined : outcome.hash;
   expect(hash).not.toBe(before?.hash);
-  expect(compileDraft("/about")?.hash).toBe(hash);
+  expect(compileDraft("/")?.hash).toBe(hash);
 });
 
 test("edits accumulate: a second commit keeps the first", () => {
-  commitDraftEdit("/about", "hero", "headline", "First");
-  commitDraftEdit("/about", "hero", "eyebrow", "Second");
-  const draft = readDraft("/about");
+  commitDraftEdit("/", "hero", "headline", "First");
+  commitDraftEdit("/", "hero", "eyebrow", "Second");
+  const draft = readDraft("/");
   expect(draft?.elements.hero?.props.headline).toBe("First");
   expect(draft?.elements.hero?.props.eyebrow).toBe("Second");
 });
 
 test("an edit that fails validation throws and keeps nothing", () => {
-  expect(() => commitDraftEdit("/about", "hero", "cta.href", 7)).toThrow(NubbinError);
-  expect(readDraft("/about")).toBe(about);
+  expect(() => commitDraftEdit("/", "hero", "cta.href", 7)).toThrow(NubbinError);
+  expect(readDraft("/")).toBe(home);
 });
 
 test("an unknown route commits nothing", () => {
@@ -40,6 +40,6 @@ test("an unknown route commits nothing", () => {
 });
 
 test("an unknown node commits nothing and keeps the draft untouched", () => {
-  expect(commitDraftEdit("/about", "nope", "headline", "x")).toEqual({ missing: "node" });
-  expect(readDraft("/about")).toBe(about);
+  expect(commitDraftEdit("/", "nope", "headline", "x")).toEqual({ missing: "node" });
+  expect(readDraft("/")).toBe(home);
 });

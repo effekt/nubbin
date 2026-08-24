@@ -30,16 +30,16 @@ or bad defaults are silent at every later point. Derived from
 import { defineCatalog } from "@nubbin/core";
 import { z } from "zod";
 
-const statBandSchema = z.object({
-  heading: z.string(),
-  stats: z.array(z.object({ label: z.string(), value: z.string() })),
+const liveBandSchema = z.object({
+  label: z.string(),
+  items: z.array(z.object({ text: z.string(), at: z.string() })),
 });
 
 export const catalog = defineCatalog({
-  StatBand: {
-    schema: statBandSchema,
-    defaults: { heading: "By the numbers", stats: [] },
-    ui: { fields: { stats: { data: { revalidate: 60 } } } },
+  LiveBand: {
+    schema: liveBandSchema,
+    defaults: { label: "On now", items: [] },
+    ui: { fields: { items: { data: { revalidate: 60 } } } },
   },
 });
 ```

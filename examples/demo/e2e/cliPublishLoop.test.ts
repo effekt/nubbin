@@ -5,9 +5,10 @@ import { type DemoServer, startDemoServer } from "./startDemoServer";
 
 const run = promisify(execFile);
 
-/** Its own port, and its own route: the other e2e file republishes `/about` and `/`. */
+/** Its own port, and its own route: the other e2e file republishes `/`, `/live`, and the
+ * `/dispatches/…` leaves — `/dispatches` itself is claimed by nothing there. */
 const PORT = 3124;
-const ROUTE = "/security";
+const ROUTE = "/dispatches";
 const DEMO_ROOT = new URL("..", import.meta.url).pathname;
 /** The built executable itself: the `.bin` symlink only exists once a build has already run. */
 const NUBBIN = new URL("../../../packages/cli/dist/bin.js", import.meta.url).pathname;

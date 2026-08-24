@@ -26,6 +26,14 @@
     },
     "typecheck": {
       "dependsOn": ["^build"]
+    },
+    "fixtures:publish": {
+      "dependsOn": ["^build"],
+      "cache": false
+    },
+    "live:record": {
+      "dependsOn": ["^build"],
+      "cache": false
     }
   }
 }

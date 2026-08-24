@@ -1,7 +1,9 @@
 import { defineCatalog } from "@nubbin/core";
-import { changelogListSchema } from "../blocks/ChangelogList.schema";
+import { cardSchema } from "../blocks/Card.schema";
+import { cardGridSchema } from "../blocks/CardGrid.schema";
 import { ctaBannerSchema } from "../blocks/CtaBanner.schema";
-import { changelogListDefaults } from "../blocks/changelogListDefaults";
+import { cardDefaults } from "../blocks/cardDefaults";
+import { cardGridDefaults } from "../blocks/cardGridDefaults";
 import { ctaBannerDefaults } from "../blocks/ctaBannerDefaults";
 import { faqAccordionSchema } from "../blocks/FaqAccordion.schema";
 import { featureGridSchema } from "../blocks/FeatureGrid.schema";
@@ -9,43 +11,33 @@ import { faqAccordionDefaults } from "../blocks/faqAccordionDefaults";
 import { featureGridDefaults } from "../blocks/featureGridDefaults";
 import { heroSchema } from "../blocks/Hero.schema";
 import { heroDefaults } from "../blocks/heroDefaults";
-import { logoWallSchema } from "../blocks/LogoWall.schema";
-import { logoWallDefaults } from "../blocks/logoWallDefaults";
+import { liveBandSchema } from "../blocks/LiveBand.schema";
+import { liveBandDefaults } from "../blocks/liveBandDefaults";
 import { pageHeaderSchema } from "../blocks/PageHeader.schema";
-import { planTiersSchema } from "../blocks/PlanTiers.schema";
-import { profileGridSchema } from "../blocks/ProfileGrid.schema";
 import { proseSchema } from "../blocks/Prose.schema";
 import { pageHeaderDefaults } from "../blocks/pageHeaderDefaults";
-import { planTiersDefaults } from "../blocks/planTiersDefaults";
-import { profileGridDefaults } from "../blocks/profileGridDefaults";
 import { proseDefaults } from "../blocks/proseDefaults";
 import { sectionStackSchema } from "../blocks/SectionStack.schema";
 import { siteFooterSchema } from "../blocks/SiteFooter.schema";
-import { statBandSchema } from "../blocks/StatBand.schema";
+import { splitSchema } from "../blocks/Split.schema";
 import { sectionStackDefaults } from "../blocks/sectionStackDefaults";
 import { siteFooterDefaults } from "../blocks/siteFooterDefaults";
-import { statBandDefaults } from "../blocks/statBandDefaults";
-import { testimonialQuoteSchema } from "../blocks/TestimonialQuote.schema";
-import { testimonialQuoteDefaults } from "../blocks/testimonialQuoteDefaults";
+import { splitDefaults } from "../blocks/splitDefaults";
+import { updateFeedSchema } from "../blocks/UpdateFeed.schema";
+import { updateFeedDefaults } from "../blocks/updateFeedDefaults";
 
 /**
  * The serializable half of the split — what a studio would fetch to build its palette and
- * inspector. Two fields carry a `data` hint, and those are the only two the compiler turns
+ * inspector. Three fields carry a `data` hint, and those are the only three the compiler turns
  * into holes; every other field freezes into the artifact.
+ *
+ * The two new ones are what a reader watches change: a strip of what is happening now, and the
+ * record of what moved. Neither could be frozen at publish and still be true a minute later.
  */
 export const catalog = defineCatalog({
   Hero: { schema: heroSchema, defaults: heroDefaults },
-  LogoWall: { schema: logoWallSchema, defaults: logoWallDefaults },
   FeatureGrid: { schema: featureGridSchema, defaults: featureGridDefaults },
-  PlanTiers: { schema: planTiersSchema, defaults: planTiersDefaults },
   Prose: { schema: proseSchema, defaults: proseDefaults },
-  ProfileGrid: { schema: profileGridSchema, defaults: profileGridDefaults },
-  StatBand: {
-    schema: statBandSchema,
-    defaults: statBandDefaults,
-    ui: { fields: { stats: { data: { revalidate: 5 } } } },
-  },
-  TestimonialQuote: { schema: testimonialQuoteSchema, defaults: testimonialQuoteDefaults },
   FaqAccordion: {
     schema: faqAccordionSchema,
     defaults: faqAccordionDefaults,
@@ -53,7 +45,19 @@ export const catalog = defineCatalog({
   },
   CtaBanner: { schema: ctaBannerSchema, defaults: ctaBannerDefaults },
   PageHeader: { schema: pageHeaderSchema, defaults: pageHeaderDefaults },
-  ChangelogList: { schema: changelogListSchema, defaults: changelogListDefaults },
   SiteFooter: { schema: siteFooterSchema, defaults: siteFooterDefaults },
   SectionStack: { schema: sectionStackSchema, defaults: sectionStackDefaults },
+  Split: { schema: splitSchema, defaults: splitDefaults },
+  CardGrid: { schema: cardGridSchema, defaults: cardGridDefaults },
+  Card: { schema: cardSchema, defaults: cardDefaults },
+  LiveBand: {
+    schema: liveBandSchema,
+    defaults: liveBandDefaults,
+    ui: { fields: { items: { data: { revalidate: 5 } } } },
+  },
+  UpdateFeed: {
+    schema: updateFeedSchema,
+    defaults: updateFeedDefaults,
+    ui: { fields: { entries: { data: { revalidate: 5 } } } },
+  },
 });

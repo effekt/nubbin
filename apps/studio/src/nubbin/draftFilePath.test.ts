@@ -8,7 +8,7 @@ afterEach(() => {
 });
 
 test("keeps the path separator out of the filename, so routes cannot nest", () => {
-  expect(basename(draftFilePath("/promotions/summer"))).not.toContain("/");
+  expect(basename(draftFilePath("/dispatches/tide-tables"))).not.toContain("/");
 });
 
 test("distinct routes land on distinct files, including the root", () => {
@@ -18,5 +18,5 @@ test("distinct routes land on distinct files, including the root", () => {
 
 test("every draft file lives directly inside the drafts directory", () => {
   process.env.NUBBIN_STUDIO_DRAFTS = "/tmp/nubbin-drafts-test";
-  expect(dirname(draftFilePath("/about"))).toBe(draftsDir());
+  expect(dirname(draftFilePath("/live"))).toBe(draftsDir());
 });

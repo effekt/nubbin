@@ -2,8 +2,8 @@ import type { z } from "zod";
 import type { ctaBannerSchema } from "./CtaBanner.schema";
 
 export const ctaBannerDefaults: z.infer<typeof ctaBannerSchema> = {
-  heading: "Ready to chart a clearer course?",
-  body: "Start a free trial today — no credit card, and your first workstream is live in minutes.",
+  heading: "The morning read, before the boats go out",
+  body: "One dispatch a day, filed by six. Corrections reach the page the moment we know about them.",
   tone: "dark",
-  cta: { label: "Start a free trial", href: "/pricing" },
+  cta: { label: "See what changed today", href: "/live" },
 };
