@@ -1,5 +1,6 @@
 import type { Artifact, ArtifactStore, RoutePointer } from "@nubbin/core";
 import { artifactPath } from "./artifactPath";
+import { fsHistory } from "./fsHistory";
 import { fsManifest } from "./fsManifest";
 import { fsPublish } from "./fsPublish";
 import { fsUnpublish } from "./fsUnpublish";
@@ -19,5 +20,6 @@ export function createFsArtifactStore(root: string): ArtifactStore {
     manifest: () => fsManifest(root),
     publish: (route, hash) => fsPublish(root, route, hash),
     unpublish: (route) => fsUnpublish(root, route),
+    history: (route) => fsHistory(root, route),
   };
 }
