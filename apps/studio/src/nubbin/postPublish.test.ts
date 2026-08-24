@@ -15,20 +15,43 @@ test("posts the route form-encoded and reads the hash off the followed redirect"
     });
     return Promise.resolve(landed);
   });
-  await expect(postPublish("/")).resolves.toBe("published abc123");
+  await expect(postPublish("/")).resolves.toEqual({ ok: true, route: "/", hash: "abc123" });
   const [url, init] = calls[0] ?? [];
   expect(url).toBe("/api/publish");
   expect(String(init?.body)).toBe("route=%2F");
 });
 
-test("a refusal resolves to the endpoint's own text", async () => {
+test("a landing URL naming no hash still confirms", async () => {
+  vi.stubGlobal("fetch", () => {
+    const landed = new Response("<html></html>", { status: 200 });
+    Object.defineProperty(landed, "url", { value: "http://localhost:3001/preview" });
+    return Promise.resolve(landed);
+  });
+  await expect(postPublish("/")).resolves.toEqual({ ok: true, route: "/" });
+});
+
+test("a compiler refusal comes back as its issues, raw", async () => {
+  const issues = [{ code: "invalid-props", message: "expected a string", at: "n1", path: "x" }];
+  vi.stubGlobal("fetch", () =>
+    Promise.resolve(Response.json({ ok: false, issues }, { status: 422 })),
+  );
+  await expect(postPublish("/")).resolves.toEqual({ ok: false, issues });
+});
+
+test("a plain-text refusal becomes one issue carrying the text", async () => {
   vi.stubGlobal("fetch", () =>
     Promise.resolve(new Response("no draft for /nowhere", { status: 400 })),
   );
-  await expect(postPublish("/nowhere")).resolves.toBe("no draft for /nowhere");
+  await expect(postPublish("/nowhere")).resolves.toEqual({
+    ok: false,
+    issues: [{ message: "no draft for /nowhere" }],
+  });
 });
 
 test("an empty refusal still yields a message", async () => {
   vi.stubGlobal("fetch", () => Promise.resolve(new Response("", { status: 500 })));
-  await expect(postPublish("/")).resolves.toBe("publish rejected (500)");
+  await expect(postPublish("/")).resolves.toEqual({
+    ok: false,
+    issues: [{ message: "publish rejected (500)" }],
+  });
 });
