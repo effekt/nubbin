@@ -1,13 +1,13 @@
 ---
 title: The Command Line
-summary: The @nubbin/cli surface as shipped — the config file it resolves, the six commands, and what each exit code means
+summary: The @nubbin/cli surface as shipped — the config file it resolves, the commands, and what each exit code means
 status: reference
 ---
 
 # The command line
 
-This page describes the shipped surface of `@nubbin/cli`: the config a consumer writes, the six
-commands that read it, and the codes the process exits with. Why the publish path ships as a
+This page describes the shipped surface of `@nubbin/cli`: the config a consumer writes, the
+commands, and the codes the process exits with. Why the publish path ships as a
 command line at all, and what this package is not allowed to decide, is
 [its own decision](../decisions/publishing-has-a-driver-that-is-not-an-editor.md).
 
@@ -71,6 +71,7 @@ no import; the second needs React resolvable like any other dependency.
 | `rollback <route> <hash>` | checks an artifact already in the store against the registry, then points the route at it |
 | `status [route]` | what is live, everywhere or at one route |
 | `check` | every live route against the registry as it is now |
+| `help` | the usage text, on stdout and exiting `0` — asking for it succeeds |
 
 A command refuses an argument it does not read. `check` takes no route, and `--origin` is refused
 by `compile`, `status` and `check` — none of them moves a pointer, so `status --origin http://prod`

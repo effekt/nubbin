@@ -44,6 +44,7 @@ nubbin unpublish /pricing                   # drop the pointer; the artifact sta
 nubbin rollback /pricing 9f2c1a8e4b7d0356   # point the route back at an artifact already stored
 nubbin status                               # every live route, or one of them
 nubbin check                                # every live route against the registry as it is now
+nubbin help                                 # this list, as an answer rather than an error
 ```
 
 `--config <path>` names a config instead of searching for one.
