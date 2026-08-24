@@ -1,11 +1,11 @@
-import type { FieldNode } from "@nubbin/core";
 import type { ComponentType } from "react";
+import type { HintedFieldNode } from "../nubbin/hintedField.types";
 
 /** What one nested control receives: the described field it edits, the whole description
  * so a container can find its children, and the value with its write-back. */
 export interface SubFieldProps {
-  field: FieldNode;
-  fields: readonly FieldNode[];
+  field: HintedFieldNode;
+  fields: readonly HintedFieldNode[];
   id: string;
   value: unknown;
   readOnly: boolean;

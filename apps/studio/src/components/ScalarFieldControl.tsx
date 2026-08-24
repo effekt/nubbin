@@ -1,10 +1,12 @@
 "use client";
 
 import { asStringValue } from "../nubbin/asStringValue";
+import { isLinkField } from "../nubbin/isLinkField";
 import { leafFieldName } from "../nubbin/leafFieldName";
 import { BooleanSubField } from "./BooleanSubField";
 import { BoundedTextField } from "./BoundedTextField";
 import { EnumSubField } from "./EnumSubField";
+import { LinkTextField } from "./LinkTextField";
 import { NumberInputField } from "./NumberInputField";
 import { PlainTextField } from "./PlainTextField";
 import { ReadOnlyField } from "./ReadOnlyField";
@@ -16,6 +18,16 @@ import type { SubFieldProps } from "./subField.types";
 export function ScalarFieldControl({ field, id, value, readOnly, onChange }: SubFieldProps) {
   const label = leafFieldName(field.path);
   const common = { id, label, readOnly };
+  if (isLinkField(field)) {
+    return (
+      <LinkTextField
+        {...common}
+        max={field.maxLength}
+        value={asStringValue(value)}
+        onChange={onChange}
+      />
+    );
+  }
   if (field.kind === "string" && field.maxLength !== undefined) {
     return (
       <BoundedTextField

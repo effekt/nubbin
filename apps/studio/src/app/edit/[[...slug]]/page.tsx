@@ -1,6 +1,7 @@
 import { routeFromSlug } from "@nubbin/next";
 import { notFound } from "next/navigation";
 import { PuckEditor } from "../../../components/PuckEditor";
+import { consumerOrigin } from "../../../nubbin/consumerOrigin";
 import { listEditableRoutes } from "../../../nubbin/listEditableRoutes";
 import { readDraft } from "../../../nubbin/readDraft";
 import { toPuckData } from "../../../nubbin/toPuckData";
@@ -29,6 +30,7 @@ export default async function Page({ params }: { params: Promise<{ slug?: string
         routes={listEditableRoutes()}
         initialData={toPuckData(draft)}
         initialVersion={draft}
+        consumerOrigin={consumerOrigin()}
       />
     </>
   );

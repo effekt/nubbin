@@ -2,7 +2,7 @@
 
 import "./issuesFlow.css";
 import { FieldLabel } from "@measured/puck";
-import { overLimitLine } from "../nubbin/overLimitLine";
+import { BoundedTextMeta } from "./BoundedTextMeta";
 
 interface BoundedTextFieldProps {
   id: string;
@@ -38,14 +38,7 @@ export function BoundedTextField({
           readOnly={readOnly}
           onChange={(event) => onChange(event.currentTarget.value)}
         />
-        <div className="nubbin-bounded-meta">
-          {isOver ? (
-            <p className="nubbin-bounded-message">{overLimitLine(max, text.length)}</p>
-          ) : null}
-          <span className="nubbin-bounded-counter">
-            {text.length}/{max}
-          </span>
-        </div>
+        <BoundedTextMeta max={max} length={text.length} />
       </div>
     </FieldLabel>
   );

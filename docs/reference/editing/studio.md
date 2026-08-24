@@ -18,7 +18,12 @@ A Next.js application for composing and publishing pages from the demo's block c
   or buttons, with add and remove disabled at the schema's bounds and the reason in the
   control's title — an object as a fieldset recursing per sub-field with the same per-kind
   controls, only a kind the description cannot reach renders read-only, and a
-  slot's `allow` constraint refuses an illegal drop before it lands. Every change — a drop, a
+  slot's `allow` constraint refuses an illegal drop before it lands. A string whose
+  catalog entry hints `control: "link"` gets the link control at any depth: an absolute
+  http(s) URL or a root-relative path shows an Open link — relative paths resolve against
+  the consumer origin, since the studio's own origin is not where the pages serve — and
+  anything else shows a quiet note, in the muted ink rather than the error tone, because
+  the value still saves either way. Every change — a drop, a
   reorder, a delete, a prop edit — folds back into a Nubbin document and saves to the draft
   store on a debounce; a value the schema refuses still saves, with the compiler's issues in
   the reply, because publish is the gate rather than save. Resting on a palette row floats
