@@ -67,8 +67,11 @@ test("a publish that lands confirms with the route and links the live page", asy
   );
   renderEditor();
   fireEvent.click(screen.getByRole("button", { name: "Publish" }));
-  const status = await screen.findByRole("status");
-  expect(status.textContent).toContain("abc123");
+  // Wait on the text, not the role: Puck mounts its own empty status region for drag
+  // announcements, and findByRole("status") can resolve to that one before the notice lands.
+  await screen.findByText(/abc123/);
+  const statuses = screen.getAllByRole("status");
+  expect(statuses.some((status) => status.textContent?.includes("abc123"))).toBe(true);
   expect(screen.getByRole("link", { name: "view the live page" }).getAttribute("href")).toBe(
     "http://localhost:3000/",
   );
