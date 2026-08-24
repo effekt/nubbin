@@ -77,10 +77,15 @@ checkout; the second installs the workspace and runs lint, typecheck, the suites
 compatibility guardrail, pinning, boundaries, duplication, dead code, type coverage and the
 publishable gates. That second job keeps turbo's cache directory between runs, which is safe for
 the reason turbo's cache is safe at all: a task's hash covers its inputs, so a restored entry
-replays only what running the task would have produced. On a pull request the turbo-run gates
-carry `--affected` and skip the packages a change cannot reach; a push to `main` runs everything,
-because a release publishes on the conclusion of that run and a filtered one would vouch for code
-it never looked at.
+replays only what running the task would have produced. On a pull request the typecheck and
+test gates carry `--affected` and skip the packages a change cannot reach; a push to `main` runs
+everything, because a release publishes on the conclusion of that run and a filtered one would
+vouch for code it never looked at.
+
+**The build step is never filtered.** `--affected` selects packages by where a changed file sits,
+which cannot see a task whose inputs are somewhere else: the documentation site declares `docs/`
+as an input, so a documentation-only change reaches no package and would skip the build that
+change is most likely to break. The cache is what makes running it anyway cheap.
 
 **Three gates stay out of `verify`.** The two worktree gates stay out for the reason that makes them
 worth having: a CI checkout is clean, so a run there would report nothing and read as a pass.

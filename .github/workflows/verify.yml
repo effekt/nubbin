@@ -105,8 +105,13 @@ jobs:
 
       # The one place this job builds the applications. `pnpm publishable` below builds only
       # the packages, because publint, attw and the tarball install read nothing else.
+      # Unfiltered, unlike the steps above. `--affected` selects packages by where a file sits,
+      # so it cannot see a task whose inputs live elsewhere: `docs-site#build` declares
+      # `$TURBO_ROOT$/docs/**`, and a documentation-only change would scope to the root package
+      # and never build the site — surfacing on `main`, which is the side of the gate a release
+      # reads. The cache makes this cheap: unchanged packages replay rather than rebuild.
       - name: Build
-        run: pnpm build $TURBO_AFFECTED
+        run: pnpm build
 
       # The compatibility guardrail, and the reason it is a step of its own rather than a row in
       # `pnpm test`: its verdict depends on the contents of an artifact store, and the whole point
