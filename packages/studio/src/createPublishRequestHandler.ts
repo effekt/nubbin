@@ -1,3 +1,4 @@
+import { noDraftResponse } from "./noDraftResponse";
 import { nubbinRefusalResponse } from "./nubbinRefusalResponse";
 import type { PublishRequestHandlerOptions } from "./publishRequestHandlerOptions.types";
 import { respondToNubbinError } from "./respondToNubbinError";
@@ -15,7 +16,7 @@ export function createPublishRequestHandler(options: PublishRequestHandlerOption
       async () => {
         const published = await options.publish(route);
         if (published === undefined) {
-          return new Response(`no draft for ${route}`, { status: BAD_REQUEST });
+          return noDraftResponse(route, BAD_REQUEST);
         }
         const { hash, timings } = published;
         if (request.headers.get("accept")?.includes("application/json") === true) {

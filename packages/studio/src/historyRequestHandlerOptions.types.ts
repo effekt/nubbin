@@ -1,7 +1,8 @@
 import type { HistoryOperation } from "./historyOperation.types";
+import type { RoutedRequestHandlerOptions } from "./routedRequestHandlerOptions.types";
 
 /** Host seams required by the framework-neutral history handler. */
-export interface HistoryRequestHandlerOptions<Context> {
-  readonly route: (context: Context) => string | Promise<string>;
-  readonly history: HistoryOperation;
-}
+export type HistoryRequestHandlerOptions<Context> = RoutedRequestHandlerOptions<
+  Context,
+  Awaited<ReturnType<HistoryOperation>>
+>;

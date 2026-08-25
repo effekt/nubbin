@@ -5,7 +5,7 @@ test("resolves the host route and serializes its history reply", async () => {
   const routes: string[] = [];
   const GET = createHistoryRequestHandler<{ slug?: string }>({
     route: (context) => `/${context.slug ?? ""}`,
-    history: (route) => {
+    load: (route) => {
       routes.push(route);
       return {
         current: "abc123",
@@ -26,7 +26,7 @@ test("resolves the host route and serializes its history reply", async () => {
 test("supports asynchronous host route resolution and history lookup", async () => {
   const GET = createHistoryRequestHandler<Promise<string>>({
     route: async (context) => `/${await context}`,
-    history: async () => ({ current: null, moves: null, total: 0 }),
+    load: async () => ({ current: null, moves: null, total: 0 }),
   });
   const response = await GET(
     new Request("https://studio.test/api/history"),

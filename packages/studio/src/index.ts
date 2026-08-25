@@ -1,7 +1,10 @@
+export type { ArtifactOperation } from "./artifactOperation.types";
+export type { ArtifactRequestHandlerOptions } from "./artifactRequestHandlerOptions.types";
 export type { AuthorIssue } from "./authorIssue.types";
 /** The React context type exposed by the optional consumer-origin entry. */
 export type ConsumerOriginContextType =
   typeof import("./ConsumerOriginContext").ConsumerOriginContext;
+export { createArtifactRequestHandler } from "./createArtifactRequestHandler";
 export { createDraftSaveRequestHandler } from "./createDraftSaveRequestHandler";
 export { createHistoryRequestHandler } from "./createHistoryRequestHandler";
 export { createPublishRequestHandler } from "./createPublishRequestHandler";
