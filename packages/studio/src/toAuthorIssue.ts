@@ -1,5 +1,5 @@
 import type { Catalog, DocumentVersion } from "@nubbin/core";
-import type { AuthorIssue } from "@nubbin/studio";
+import type { AuthorIssue } from "./authorIssue.types";
 import type { WireIssue } from "./isNubbinIssueShape";
 import { nonEmptyPath } from "./nonEmptyPath";
 import { overLimitIssueMessage } from "./overLimitIssueMessage";
