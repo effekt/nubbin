@@ -5,8 +5,12 @@ test("the published surface exports exactly the documented API", async () => {
     "createStatusStore",
     "defineStudioConfig",
     "editorStatusStore",
+    "foldPuckChange",
+    "fromPuckData",
+    "isPuckSlotValue",
     "patchEditorStatus",
     "toDocsByBlock",
+    "toPuckData",
     "toSlotConstraintsByBlock",
     "toSlotNamesByBlock",
   ]);

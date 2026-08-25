@@ -1,6 +1,6 @@
-import { home } from "demo/fixtures/home";
-import { lateEdition } from "demo/fixtures/lateEdition";
 import { expect, test } from "vitest";
+import { home } from "../../../examples/demo/fixtures/home";
+import { lateEdition } from "../../../examples/demo/fixtures/lateEdition";
 import { toPuckData } from "./toPuckData";
 
 test("content holds the roots in roots order", () => {

@@ -1,10 +1,10 @@
 import { routeFromSlug } from "@nubbin/next";
+import { toPuckData } from "@nubbin/studio";
 import { notFound } from "next/navigation";
 import { ConfiguredPuckEditor } from "../../../components/ConfiguredPuckEditor";
 import { consumerOrigin } from "../../../nubbin/consumerOrigin";
 import { listEditableRoutes } from "../../../nubbin/listEditableRoutes";
 import { readDraft } from "../../../nubbin/readDraft";
-import { toPuckData } from "../../../nubbin/toPuckData";
 
 /** Every request re-reads the draft file, so a reload serves what the last save wrote. */
 export const dynamic = "force-dynamic";
