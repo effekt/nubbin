@@ -1,8 +1,8 @@
 import { editorStatusStore } from "@nubbin/studio";
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { afterEach, expect, test, vi } from "vitest";
+import { testStudioOperations } from "../testing/testStudioOperations";
 import { PublishControl } from "./PublishControl";
-import { testStudioOperations } from "./testStudioOperations";
 
 afterEach(() => {
   vi.unstubAllGlobals();

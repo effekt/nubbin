@@ -4,6 +4,7 @@ export type ConsumerOriginContextType =
   typeof import("./ConsumerOriginContext").ConsumerOriginContext;
 export type { StatusStore } from "./createStatusStore";
 export { createStatusStore } from "./createStatusStore";
+export { createStudioHttpClient } from "./createStudioHttpClient";
 export { defineStudioConfig } from "./defineStudioConfig";
 export type { EditorStatus } from "./editorStatus.types";
 export { editorStatusStore } from "./editorStatusStore";
@@ -24,6 +25,8 @@ export type PuckAdapter = typeof import("./puckAdapter").puckAdapter;
 export type { PuckComponentData, PuckData } from "./puckData.types";
 export type { StudioConfig, StudioEditorConfig, StudioViewport } from "./studioConfig.types";
 export type { StudioDraftSaver, StudioEditorProps } from "./studioEditorProps.types";
+export type { StudioHttpClient } from "./studioHttpClient.types";
+export type { StudioHttpClientOptions } from "./studioHttpClientOptions.types";
 export type { StudioOperations } from "./studioOperations.types";
 export { toAuthorIssues } from "./toAuthorIssues";
 export { toDocsByBlock } from "./toDocsByBlock";

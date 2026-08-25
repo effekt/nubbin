@@ -1,13 +1,11 @@
 "use client";
 
-import { toAuthorIssues } from "@nubbin/studio";
+import { createStudioHttpClient, toAuthorIssues } from "@nubbin/studio";
 import studioConfig from "@nubbin/studio-config";
 import type { ComponentProps } from "react";
-import { getHistory } from "../nubbin/getHistory";
-import { postDraftSave } from "../nubbin/postDraftSave";
-import { postPublish } from "../nubbin/postPublish";
-import { postRollback } from "../nubbin/postRollback";
 import { PuckEditor } from "./PuckEditor";
+
+const client = createStudioHttpClient();
 
 type ConfiguredPuckEditorProps = Omit<
   ComponentProps<typeof PuckEditor>,
@@ -20,9 +18,9 @@ export function ConfiguredPuckEditor(props: ConfiguredPuckEditorProps) {
     <PuckEditor
       {...props}
       config={studioConfig}
-      operations={{ publish: postPublish, history: getHistory, rollback: postRollback }}
+      operations={client}
       saveDraft={async (route, version) => {
-        const raw = await postDraftSave(route, version);
+        const raw = await client.saveDraft(route, version);
         return raw === undefined ? undefined : toAuthorIssues(raw, studioConfig.catalog, version);
       }}
     />
