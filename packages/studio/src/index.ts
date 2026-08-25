@@ -3,6 +3,7 @@ export type { AuthorIssue } from "./authorIssue.types";
 export type ConsumerOriginContextType =
   typeof import("./ConsumerOriginContext").ConsumerOriginContext;
 export { createDraftSaveRequestHandler } from "./createDraftSaveRequestHandler";
+export { createHistoryRequestHandler } from "./createHistoryRequestHandler";
 export { createPublishRequestHandler } from "./createPublishRequestHandler";
 export { createRollbackRequestHandler } from "./createRollbackRequestHandler";
 export type { CreateRouteOperation } from "./createRouteOperation.types";
@@ -17,7 +18,9 @@ export { editorStatusStore } from "./editorStatusStore";
 export type { FoldedPuckChange } from "./foldPuckChange";
 export { foldPuckChange } from "./foldPuckChange";
 export { fromPuckData } from "./fromPuckData";
+export type { HistoryOperation } from "./historyOperation.types";
 export type { HistoryReply } from "./historyReply.types";
+export type { HistoryRequestHandlerOptions } from "./historyRequestHandlerOptions.types";
 export { humanizeFieldPath } from "./humanizeFieldPath";
 export { isDocumentVersionShape } from "./isDocumentVersionShape";
 export { isPuckSlotValue } from "./isPuckSlotValue";

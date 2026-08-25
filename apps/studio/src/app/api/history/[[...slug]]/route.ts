@@ -1,4 +1,5 @@
 import { routeFromSlug } from "@nubbin/next";
+import { createHistoryRequestHandler } from "@nubbin/studio";
 import { historyPayload } from "../../../../nubbin/historyPayload";
 import { studioStore } from "../../../../nubbin/studioStore";
 
@@ -9,7 +10,7 @@ import { studioStore } from "../../../../nubbin/studioStore";
  * name, never a crash on an absent method. Unauthenticated like its siblings: the studio
  * deploys behind the consumer's own gate.
  */
-export async function GET(_request: Request, context: { params: Promise<{ slug?: string[] }> }) {
-  const { slug } = await context.params;
-  return Response.json(await historyPayload(studioStore(), routeFromSlug(slug)));
-}
+export const GET = createHistoryRequestHandler<{ params: Promise<{ slug?: string[] }> }>({
+  route: async ({ params }) => routeFromSlug((await params).slug),
+  history: (route) => historyPayload(studioStore(), route),
+});
