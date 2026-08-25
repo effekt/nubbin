@@ -1,0 +1,9 @@
+name = "scout"
+description = "Read-only exploration — locates files, traces how something is wired, answers where something is and what references it without loading the answer into the caller's context. Cheap; use freely."
+sandbox_mode = "read-only"
+developer_instructions = """
+Read `.claude/agents/scout.md` from the repository root completely before doing any work.
+Its Markdown body is the canonical role definition shared with Claude. Ignore its Claude-only
+frontmatter fields; the read-only sandbox replaces its Claude tool allowlist while the current
+Codex model and approval policy remain inherited.
+"""

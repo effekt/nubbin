@@ -20,7 +20,9 @@ import { REPO_ROOT } from "./support/repoRoot.mjs";
 
 const REQUIRED = ["source", "sourceType", "skillPath", "contentHash"];
 const lock = JSON.parse(readFileSync(join(REPO_ROOT, "skills-lock.json"), "utf8"));
-const hasSkillsOnDisk = existsSync(join(REPO_ROOT, ".agents", "skills"));
+const hasSkillsOnDisk = Object.keys(lock.skills).some((name) =>
+  existsSync(join(REPO_ROOT, ".agents", "skills", name)),
+);
 
 describe("the digest", () => {
   it("changes when content moves between two files", () => {

@@ -62,6 +62,7 @@ porting them into the suite first would be a rewrite thrown away twice.
 | `tests/coreVersionStamp.test.mjs` | `NUBBIN_VERSION`, stamped into every artifact, matches the published version |
 | `tests/releaseConfiguration.test.mjs` | release-please releases every publishable package, at the version it is at, as one linked group |
 | `tests/skillsLock.test.mjs` | `skills-lock.json` is one a reinstall could use, and — where the skills are on disk — agrees with them by name and by a hash over every file in each skill directory |
+| `tests/codexParity.test.mjs` | every tracked Claude skill and agent has a Codex adapter, Codex receives the same routed rules, and its edit and subagent hooks are present |
 | `tests/trackedFiles.test.mjs` | the corpus every assertion above reads is what git would publish, and nothing else |
 | `tests/release/packagesInstallFromTarball.test.mjs` | every package packs with no `catalog:`, `workspace:` or `link:` specifier surviving, installs from its own tarball into an empty project, and imports |
 | `examples/demo/guardrail/liveCompatibility.test.ts` | no block a page already published depends on has changed version or left the registry — the product guardrail, run against a committed artifact store |
@@ -101,10 +102,11 @@ instead, at agent dispatch and at pre-push, and reports without blocking because
 whose file it found. `check-release-tag.mjs` runs only on the release path: every local version is a
 prerelease, so including it in `verify` would fail every run on every machine.
 
-**Half of `tests/skillsLock.test.mjs` cannot run in CI**, because `.agents/` is ignored the way
-`node_modules` is and a runner has no skills installed. That half is *skipped*, and vitest says so —
-which is the difference that matters. The gate it replaces printed a tick describing a content hash
-it had not computed, so "present in CI" read as "enforced in CI" for a comparison that never ran.
+**Half of `tests/skillsLock.test.mjs` cannot run in CI**, because the third-party directories under
+`.agents/skills/` are ignored the way `node_modules` is and a runner has none installed. That half
+is *skipped*, and vitest says so — which is the difference that matters. The gate it replaces
+printed a tick describing a content hash it had not computed, so "present in CI" read as "enforced
+in CI" for a comparison that never ran.
 
 `pnpm publishable` is the release subset — the gates that read the artifact a consumer would install
 rather than the source. Run it before publishing anything; `verify` includes it. Its build is

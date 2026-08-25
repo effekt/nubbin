@@ -85,6 +85,9 @@ carries instead is where the generated ones are:
 | What a package exports, and what each unit is for | The `CATALOG.md` beside it — `packages/core/CATALOG.md` and its siblings |
 | Which rules, agents and skills exist, and when each applies | `.claude/CATALOG.md` |
 
+The `paths` frontmatter under `.claude/rules/` is routing, not catalog metadata. Before editing,
+match every candidate path against it and read each matching rule completely.
+
 `scripts/catalog.mjs` writes both from the declarations and frontmatter they describe, and
 `pnpm install` runs it — so they are on disk after the install any checkout already performs,
 and gitignored, so they never conflict. They are files to open, not context that arrives: no

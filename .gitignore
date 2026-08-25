@@ -36,8 +36,12 @@ report/
 # Skills the CLI installs into the project. The content is third-party and not ours to
 # redistribute, so it is ignored the way node_modules is — skills-lock.json is committed
 # instead, and records the source, path and content hash needed to reinstall the same set.
-# The skills written here are ours and stay tracked, one exception each.
-/.agents/
+# The skills written here are ours and stay tracked, one exception on each agent surface.
+/.agents/skills/*
+!/.agents/skills/decision/
+!/.agents/skills/issue/
+!/.agents/skills/querying-github/
+!/.agents/skills/worktree/
 /.claude/skills/*
 !/.claude/skills/decision/
 !/.claude/skills/issue/
