@@ -23,6 +23,10 @@
     ".": {
       "types": "./dist/index.d.ts",
       "import": "./dist/index.js"
+    },
+    "./react": {
+      "types": "./dist/useEditorStatus.d.ts",
+      "import": "./dist/useEditorStatus.js"
     }
   },
   "files": [
@@ -40,7 +44,12 @@
     "@nubbin/core": "workspace:*",
     "@nubbin/react": "workspace:*"
   },
+  "peerDependencies": {
+    "react": ">=19.0.0"
+  },
   "devDependencies": {
+    "@types/react": "catalog:",
+    "react": "catalog:",
     "tsup": "catalog:",
     "typescript": "catalog:",
     "vitest": "catalog:",

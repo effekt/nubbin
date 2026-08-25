@@ -5,6 +5,8 @@ catalog, registries, documents, live-data resolver, canvas widths, storage, and 
 the application being edited. Its editor projections derive documentation and slot metadata from
 that same catalog and registry, so hosting applications do not maintain parallel UI configuration.
 The package also owns the small external status store shared by the canvas and editor chrome.
+React consumers import hooks from `@nubbin/studio/react`; the default entry remains free of
+React-only exports for server-side configuration and publishing code.
 
 ```bash
 npm install @nubbin/studio

@@ -2,6 +2,7 @@
 
 import "./publishControl.css";
 import { patchEditorStatus } from "@nubbin/studio";
+import { useEditorStatus } from "@nubbin/studio/react";
 import { useCallback, useRef, useState } from "react";
 import { postPublish } from "../nubbin/postPublish";
 import { publishLabel } from "../nubbin/publishLabel";
@@ -10,7 +11,6 @@ import { PublishButton } from "./PublishButton";
 import { PublishPanel, type PublishView } from "./PublishPanel";
 import { useCloseOnEscape } from "./useCloseOnEscape";
 import { useCloseOnOutsideClick } from "./useCloseOnOutsideClick";
-import { useEditorStatus } from "./useEditorStatus";
 
 interface PublishControlProps {
   route: string;

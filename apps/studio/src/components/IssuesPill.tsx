@@ -3,6 +3,7 @@
 import "./issuesFlow.css";
 import type { PuckApi } from "@measured/puck";
 import { type AuthorIssue, patchEditorStatus } from "@nubbin/studio";
+import { useEditorStatus } from "@nubbin/studio/react";
 import type { RefObject } from "react";
 import { useCallback, useRef } from "react";
 import { focusIssueField } from "./focusIssueField";
@@ -11,7 +12,6 @@ import { inspectorBody } from "./inspectorBody";
 import { selectPuckNode } from "./selectPuckNode";
 import { useCloseOnEscape } from "./useCloseOnEscape";
 import { useCloseOnOutsideClick } from "./useCloseOnOutsideClick";
-import { useEditorStatus } from "./useEditorStatus";
 
 interface IssuesPillProps {
   apiRef: RefObject<(() => PuckApi) | undefined>;
