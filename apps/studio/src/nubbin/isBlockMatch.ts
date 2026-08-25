@@ -1,4 +1,4 @@
-import type { PaletteBlock } from "./paletteGroup.types";
+import type { PaletteBlock } from "@nubbin/studio";
 
 /**
  * Whether one palette block survives the search: a case-insensitive substring match against

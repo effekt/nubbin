@@ -14,6 +14,7 @@ export type { HistoryReply } from "./historyReply.types";
 export { humanizeFieldPath } from "./humanizeFieldPath";
 export { isPuckSlotValue } from "./isPuckSlotValue";
 export { overLimitLine } from "./overLimitLine";
+export type { PaletteBlock, PaletteGroup } from "./paletteGroup.types";
 export { patchEditorStatus } from "./patchEditorStatus";
 export type { PublishOutcome, PublishSuccess } from "./publishOutcome.types";
 export type { PublishTimings } from "./publishTimings.types";
@@ -23,6 +24,8 @@ export type { StudioDraftSaver, StudioEditorProps } from "./studioEditorProps.ty
 export type { StudioOperations } from "./studioOperations.types";
 export { toAuthorIssues } from "./toAuthorIssues";
 export { toDocsByBlock } from "./toDocsByBlock";
+export { toIconByBlock } from "./toIconByBlock";
+export { toPaletteGroups } from "./toPaletteGroups";
 export { toPuckData } from "./toPuckData";
 export { toSlotConstraintsByBlock } from "./toSlotConstraintsByBlock";
 export { toSlotNamesByBlock } from "./toSlotNamesByBlock";

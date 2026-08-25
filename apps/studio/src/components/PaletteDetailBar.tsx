@@ -1,6 +1,6 @@
 "use client";
 
-import type { PaletteBlock } from "../nubbin/paletteGroup.types";
+import type { PaletteBlock } from "@nubbin/studio";
 
 /** The card's reserved footer strip: one fixed-height instructional line that never reacts
  * to hover — the list above must not move a pixel as the pointer travels rows, so nothing

@@ -1,7 +1,7 @@
 import { Puck } from "@measured/puck";
+import type { PaletteBlock } from "@nubbin/studio";
 import { fireEvent, render, screen } from "@testing-library/react";
 import { expect, test, vi } from "vitest";
-import type { PaletteBlock } from "../nubbin/paletteGroup.types";
 import { PaletteItem } from "./PaletteItem";
 
 const hero = { name: "Hero", description: "The opening statement of a page.", icon: "hero" };

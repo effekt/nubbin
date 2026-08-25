@@ -1,7 +1,7 @@
 "use client";
 
 import { Drawer } from "@measured/puck";
-import type { PaletteBlock } from "../nubbin/paletteGroup.types";
+import type { PaletteBlock } from "@nubbin/studio";
 import "./paletteItem.css";
 import { PaletteIcon } from "./PaletteIcon";
 

@@ -1,10 +1,10 @@
 import { Puck, type PuckApi } from "@measured/puck";
 import { createRegistry, defineBlock, defineCatalog } from "@nubbin/core";
+import { toPaletteGroups } from "@nubbin/studio";
 import { act, fireEvent, render, screen } from "@testing-library/react";
 import type { RefObject } from "react";
 import { expect, test, vi } from "vitest";
 import { z } from "zod";
-import { toPaletteGroups } from "../nubbin/toPaletteGroups";
 import { BlockPalette } from "./BlockPalette";
 import { PREVIEW_SHOW_DELAY_MS } from "./hoverPreview.constants";
 import { PuckApiBridge } from "./PuckApiBridge";

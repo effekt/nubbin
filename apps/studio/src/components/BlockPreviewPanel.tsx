@@ -1,8 +1,8 @@
 "use client";
 
+import type { PaletteBlock } from "@nubbin/studio";
 import { type RefObject, useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
-import type { PaletteBlock } from "../nubbin/paletteGroup.types";
 import {
   PREVIEW_HEADER_ALLOWANCE_PX,
   PREVIEW_PANEL_GAP_PX,

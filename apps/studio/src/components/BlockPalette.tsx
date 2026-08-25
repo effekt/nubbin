@@ -1,8 +1,8 @@
 "use client";
 
 import type { PuckApi } from "@measured/puck";
+import type { PaletteBlock, PaletteGroup } from "@nubbin/studio";
 import { type RefObject, useRef, useState } from "react";
-import type { PaletteBlock, PaletteGroup } from "../nubbin/paletteGroup.types";
 import { toBlockCount } from "../nubbin/toBlockCount";
 import { toMatchingGroups } from "../nubbin/toMatchingGroups";
 import { withToggled } from "../nubbin/withToggled";
