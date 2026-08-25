@@ -17,6 +17,7 @@ export type { PublishOutcome, PublishSuccess } from "./publishOutcome.types";
 export type { PublishTimings } from "./publishTimings.types";
 export type { PuckComponentData, PuckData } from "./puckData.types";
 export type { StudioConfig, StudioEditorConfig, StudioViewport } from "./studioConfig.types";
+export type { StudioDraftSaver, StudioEditorProps } from "./studioEditorProps.types";
 export type { StudioOperations } from "./studioOperations.types";
 export { toDocsByBlock } from "./toDocsByBlock";
 export { toPuckData } from "./toPuckData";

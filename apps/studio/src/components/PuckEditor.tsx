@@ -4,20 +4,17 @@ import { type Data, Puck, type PuckApi } from "@measured/puck";
 import "@measured/puck/puck.css";
 import "./puckTheme.css";
 import "./canvasOverlay.css";
-import type { DocumentVersion } from "@nubbin/core";
-import type { PublishOutcome, StudioOperations } from "@nubbin/studio";
+import type { PublishOutcome, StudioEditorProps } from "@nubbin/studio";
 import {
-  type AuthorIssue,
   editorStatusStore,
   foldPuckChange,
-  type PuckData,
   patchEditorStatus,
-  type StudioEditorConfig,
   toDocsByBlock,
   toSlotConstraintsByBlock,
   toSlotNamesByBlock,
 } from "@nubbin/studio";
 import { ConsumerOriginContext } from "@nubbin/studio/consumer-origin";
+import { useDraftSave } from "@nubbin/studio/draft-save";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { toAuthorIssues } from "../nubbin/toAuthorIssues";
 import { toPaletteGroups } from "../nubbin/toPaletteGroups";
@@ -25,25 +22,6 @@ import { toPuckConfig } from "../nubbin/toPuckConfig";
 import { OutcomeNotice } from "./OutcomeNotice";
 import { StudioStatusBar } from "./StudioStatusBar";
 import { toBridgedOverrides } from "./toBridgedOverrides";
-import { useDraftSave } from "./useDraftSave";
-
-export interface PuckEditorProps {
-  config: StudioEditorConfig;
-  route: string;
-  routes: readonly string[];
-  initialData: PuckData;
-  initialVersion: DocumentVersion;
-  /** The consumer app's origin, read server-side — what a link control's Open affordance
-   * resolves a root-relative path against. */
-  consumerOrigin: string;
-  /** Persists one folded draft through the host application's storage boundary. The editor
-   * owns debouncing and status; the host owns transport, authentication, and persistence. */
-  saveDraft: (
-    route: string,
-    version: DocumentVersion,
-  ) => Promise<readonly AuthorIssue[] | undefined>;
-  operations: StudioOperations;
-}
 
 /** The editor: stock Puck, controlled, with everything Nubbin-specific arriving through the
  * config derived from the deployment's catalog and registry. Each change folds back into a Nubbin
@@ -61,7 +39,7 @@ export function PuckEditor({
   consumerOrigin,
   saveDraft,
   operations,
-}: PuckEditorProps) {
+}: StudioEditorProps) {
   const config = useMemo(() => toPuckConfig(studioConfig.catalog, studioConfig.registry), []);
   const palette = useMemo(() => toPaletteGroups(studioConfig.catalog, studioConfig.registry), []);
   const docsByBlock = useMemo(() => toDocsByBlock(studioConfig.catalog, studioConfig.registry), []);

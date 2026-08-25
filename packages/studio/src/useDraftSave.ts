@@ -1,7 +1,8 @@
 "use client";
 
 import type { DocumentVersion } from "@nubbin/core";
-import { type AuthorIssue, patchEditorStatus } from "@nubbin/studio";
+import { patchEditorStatus } from "./patchEditorStatus";
+import type { StudioDraftSaver } from "./studioEditorProps.types";
 import { useDebouncedCallback } from "./useDebouncedCallback";
 
 const SAVE_DELAY_MS = 500;
@@ -15,10 +16,7 @@ const SAVE_DELAY_MS = 500;
  */
 export function useDraftSave(
   route: string,
-  saveDraft: (
-    route: string,
-    version: DocumentVersion,
-  ) => Promise<readonly AuthorIssue[] | undefined>,
+  saveDraft: StudioDraftSaver,
 ): (version: DocumentVersion) => void {
   return useDebouncedCallback((version: DocumentVersion) => {
     void saveDraft(route, version).then(

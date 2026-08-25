@@ -28,6 +28,10 @@
       "types": "./dist/useEditorStatus.d.ts",
       "import": "./dist/useEditorStatus.js"
     },
+    "./draft-save": {
+      "types": "./dist/useDraftSave.d.ts",
+      "import": "./dist/useDraftSave.js"
+    },
     "./consumer-origin": {
       "types": "./dist/ConsumerOriginContext.d.ts",
       "import": "./dist/ConsumerOriginContext.js"
@@ -52,7 +56,9 @@
     "react": ">=19.0.0"
   },
   "devDependencies": {
+    "@testing-library/react": "catalog:",
     "@types/react": "catalog:",
+    "happy-dom": "catalog:",
     "react": "catalog:",
     "tsup": "catalog:",
     "typescript": "catalog:",
