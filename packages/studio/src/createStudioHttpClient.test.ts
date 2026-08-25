@@ -23,6 +23,19 @@ test("uses a configured origin and host-owned fetch for draft saves", async () =
   );
 });
 
+test("creates routes through the same configured boundary", async () => {
+  const request = vi.fn<typeof fetch>(() =>
+    Promise.resolve(Response.json({ route: "/new" }, { status: 201 })),
+  );
+  const client = createStudioHttpClient({ baseUrl: "https://studio.example", fetch: request });
+
+  await expect(client.createRoute("/new")).resolves.toEqual({ ok: true, route: "/new" });
+  expect(request).toHaveBeenCalledWith(
+    "https://studio.example/api/routes",
+    expect.objectContaining({ method: "POST", body: JSON.stringify({ route: "/new" }) }),
+  );
+});
+
 test("speaks the publish and rollback outcome contract", async () => {
   const request = vi
     .fn<typeof fetch>()
