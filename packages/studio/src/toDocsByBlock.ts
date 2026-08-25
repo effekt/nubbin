@@ -1,11 +1,6 @@
 import type { Catalog, Registry } from "@nubbin/core";
 
-/**
- * Every block's docs links, keyed by block name, from the same pair the palette is built
- * from. Links are read from the registry's block first and the catalog entry second — the
- * demo writes them beside `defineBlock`, but a studio holding only the serializable half
- * still gets them. A block declaring none is absent, so the inspector renders nothing for it.
- */
+/** Projects each catalog block's documentation links for the editor inspector. */
 export function toDocsByBlock(
   catalog: Catalog,
   registry: Registry,

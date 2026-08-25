@@ -1,8 +1,6 @@
 import type { Registry, SlotConstraint } from "@nubbin/core";
 
-/** Every block's declared slots with their constraints, keyed by block name — what the
- * outline needs to name a node's areas and say how full each is against its `max`. Derived
- * from the registry, where the constraints already live. */
+/** Projects every block's slot constraints for the editor outline. */
 export function toSlotConstraintsByBlock(
   registry: Registry,
 ): Record<string, Record<string, SlotConstraint>> {
