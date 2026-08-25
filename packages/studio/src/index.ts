@@ -2,6 +2,8 @@ export type { AuthorIssue } from "./authorIssue.types";
 /** The React context type exposed by the optional consumer-origin entry. */
 export type ConsumerOriginContextType =
   typeof import("./ConsumerOriginContext").ConsumerOriginContext;
+export type { CreateRouteOperation } from "./createRouteOperation.types";
+export { createRouteRequestHandler } from "./createRouteRequestHandler";
 export type { StatusStore } from "./createStatusStore";
 export { createStatusStore } from "./createStatusStore";
 export { createStudioHttpClient } from "./createStudioHttpClient";
