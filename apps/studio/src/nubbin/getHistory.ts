@@ -1,4 +1,4 @@
-import type { HistoryReply } from "./historyReply.types";
+import type { HistoryReply } from "@nubbin/studio";
 import { parseHistoryReply } from "./parseHistoryReply";
 import { prefixedRoute } from "./prefixedRoute";
 

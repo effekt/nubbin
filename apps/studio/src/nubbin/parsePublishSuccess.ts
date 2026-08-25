@@ -1,5 +1,5 @@
+import type { PublishOutcome } from "@nubbin/studio";
 import { parseTimings } from "./parseTimings";
-import type { PublishOutcome } from "./publishOutcome.types";
 
 /**
  * An ok publish reply as an outcome: the endpoint's `{ok: true, hash, url, timings}` JSON,

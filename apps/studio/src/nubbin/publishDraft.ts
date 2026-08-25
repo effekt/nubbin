@@ -1,7 +1,7 @@
 import type { ArtifactStore } from "@nubbin/core";
+import type { PublishTimings } from "@nubbin/studio";
 import { compileDraft } from "./compileDraft";
 import { movePointerThroughOrigin } from "./movePointerThroughOrigin";
-import type { PublishTimings } from "./publishTimings.types";
 import { timedMs } from "./timedMs";
 
 /**

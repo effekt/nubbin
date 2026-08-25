@@ -1,6 +1,6 @@
 "use client";
 
-import type { HistoryReply } from "../nubbin/historyReply.types";
+import type { HistoryReply } from "@nubbin/studio";
 import { HistoryRow } from "./HistoryRow";
 
 interface HistoryMovesProps {

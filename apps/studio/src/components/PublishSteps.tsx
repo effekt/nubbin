@@ -1,7 +1,7 @@
 "use client";
 
+import type { PublishTimings } from "@nubbin/studio";
 import { formatSeconds } from "../nubbin/formatSeconds";
-import type { PublishTimings } from "../nubbin/publishTimings.types";
 
 interface PublishStepsProps {
   timings: PublishTimings | undefined;

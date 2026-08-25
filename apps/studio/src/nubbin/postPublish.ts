@@ -1,6 +1,6 @@
+import type { PublishOutcome } from "@nubbin/studio";
 import { parsePublishRefusal } from "./parsePublishRefusal";
 import { parsePublishSuccess } from "./parsePublishSuccess";
-import type { PublishOutcome } from "./publishOutcome.types";
 
 /** The client half of a publish: the route posted form-encoded to the studio's publish
  * endpoint, asking for JSON — the same endpoint the preview page's no-JavaScript form posts,

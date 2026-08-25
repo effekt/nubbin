@@ -5,6 +5,7 @@ import "@measured/puck/puck.css";
 import "./puckTheme.css";
 import "./canvasOverlay.css";
 import type { DocumentVersion } from "@nubbin/core";
+import type { PublishOutcome, StudioOperations } from "@nubbin/studio";
 import {
   type AuthorIssue,
   editorStatusStore,
@@ -18,8 +19,6 @@ import {
 } from "@nubbin/studio";
 import { ConsumerOriginContext } from "@nubbin/studio/consumer-origin";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import type { PublishOutcome } from "../nubbin/publishOutcome.types";
-import type { StudioOperations } from "../nubbin/studioOperations.types";
 import { toAuthorIssues } from "../nubbin/toAuthorIssues";
 import { toPaletteGroups } from "../nubbin/toPaletteGroups";
 import { toPuckConfig } from "../nubbin/toPuckConfig";

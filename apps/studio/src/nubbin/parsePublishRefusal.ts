@@ -1,4 +1,4 @@
-import type { PublishOutcome } from "./publishOutcome.types";
+import type { PublishOutcome } from "@nubbin/studio";
 
 /**
  * A non-ok publish reply as issues: the endpoint's `{ok: false, issues}` JSON when the

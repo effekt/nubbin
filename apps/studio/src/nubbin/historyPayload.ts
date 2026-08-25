@@ -1,5 +1,5 @@
 import type { ArtifactStore } from "@nubbin/core";
-import type { HistoryReply } from "./historyReply.types";
+import type { HistoryReply } from "@nubbin/studio";
 import { latestMoves } from "./latestMoves";
 
 /**

@@ -1,4 +1,4 @@
-import type { PublishOutcome } from "../nubbin/publishOutcome.types";
+import type { PublishOutcome } from "@nubbin/studio";
 import { PublishNotice } from "./PublishNotice";
 
 interface OutcomeNoticeProps {
