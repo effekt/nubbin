@@ -35,6 +35,7 @@ function renderEditor() {
       }}
       initialVersion={version}
       consumerOrigin="http://localhost:3100"
+      saveDraft={() => Promise.resolve(undefined)}
     />,
   );
 }
