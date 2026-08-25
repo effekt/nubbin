@@ -4,6 +4,7 @@ import studioConfig from "@nubbin/studio-config";
 import { cleanup, fireEvent, render, screen } from "@testing-library/react";
 import { afterEach, expect, test, vi } from "vitest";
 import { PuckEditor } from "./PuckEditor";
+import { testStudioOperations } from "./testStudioOperations";
 
 afterEach(() => {
   cleanup();
@@ -36,6 +37,7 @@ function renderEditor() {
       initialVersion={version}
       consumerOrigin="http://localhost:3100"
       saveDraft={() => Promise.resolve(undefined)}
+      operations={testStudioOperations}
     />,
   );
 }

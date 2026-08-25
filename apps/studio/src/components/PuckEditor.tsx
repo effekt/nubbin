@@ -19,10 +19,11 @@ import {
 import { ConsumerOriginContext } from "@nubbin/studio/consumer-origin";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import type { PublishOutcome } from "../nubbin/publishOutcome.types";
+import type { StudioOperations } from "../nubbin/studioOperations.types";
 import { toAuthorIssues } from "../nubbin/toAuthorIssues";
 import { toPaletteGroups } from "../nubbin/toPaletteGroups";
 import { toPuckConfig } from "../nubbin/toPuckConfig";
-import { PublishNotice } from "./PublishNotice";
+import { OutcomeNotice } from "./OutcomeNotice";
 import { StudioStatusBar } from "./StudioStatusBar";
 import { toBridgedOverrides } from "./toBridgedOverrides";
 import { useDraftSave } from "./useDraftSave";
@@ -42,6 +43,7 @@ export interface PuckEditorProps {
     route: string,
     version: DocumentVersion,
   ) => Promise<readonly AuthorIssue[] | undefined>;
+  operations: StudioOperations;
 }
 
 /** The editor: stock Puck, controlled, with everything Nubbin-specific arriving through the
@@ -59,6 +61,7 @@ export function PuckEditor({
   initialVersion,
   consumerOrigin,
   saveDraft,
+  operations,
 }: PuckEditorProps) {
   const config = useMemo(() => toPuckConfig(studioConfig.catalog, studioConfig.registry), []);
   const palette = useMemo(() => toPaletteGroups(studioConfig.catalog, studioConfig.registry), []);
@@ -70,8 +73,6 @@ export function PuckEditor({
   const [data, setData] = useState(initialData);
   const [outcome, setOutcome] = useState<PublishOutcome | undefined>(undefined);
   useEffect(() => {
-    // A client-side route switch keeps the module alive, so the previous draft's status
-    // must not carry over. First load assumes changes: the store starts unpublished.
     editorStatusStore.set({ issues: [], issuesOpen: false, published: false });
   }, []);
   const save = useDraftSave(route, saveDraft);
@@ -80,8 +81,6 @@ export function PuckEditor({
     prior.current = folded.version;
     setData(folded.data);
     setOutcome(undefined);
-    // The new keystrokes are not saved yet, so the autosave note stands down until the
-    // debounced save lands again.
     patchEditorStatus({ published: false, savedAt: undefined });
     save(folded.version);
   };
@@ -97,21 +96,22 @@ export function PuckEditor({
   }, []);
   const overrides = useMemo(
     () =>
-      toBridgedOverrides(puckApi, { route, routes }, onOutcome, palette, docsByBlock, slotsByBlock),
-    [route, routes, onOutcome, palette, docsByBlock, slotsByBlock],
+      toBridgedOverrides(
+        puckApi,
+        { route, routes },
+        operations,
+        onOutcome,
+        palette,
+        docsByBlock,
+        slotsByBlock,
+      ),
+    [route, routes, operations, onOutcome, palette, docsByBlock, slotsByBlock],
   );
   return (
     <ConsumerOriginContext.Provider value={consumerOrigin}>
       <div className="nubbin-studio nb-studio-frame">
         <div className="nubbin-notices">
-          {outcome?.ok === true ? (
-            <PublishNotice
-              route={route}
-              hash={outcome.hash}
-              url={outcome.url}
-              onDismiss={dismissOutcome}
-            />
-          ) : null}
+          <OutcomeNotice outcome={outcome} onDismiss={dismissOutcome} />
         </div>
         <Puck
           config={config}

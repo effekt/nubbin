@@ -3,6 +3,7 @@ import { Puck } from "@measured/puck";
 import { editorStatusStore } from "@nubbin/studio";
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { afterEach, expect, test, vi } from "vitest";
+import { testStudioOperations } from "./testStudioOperations";
 import { toBridgedOverrides } from "./toBridgedOverrides";
 
 afterEach(() => {
@@ -18,6 +19,7 @@ function renderPuck(apiRef: { current: (() => PuckApi) | undefined }) {
       overrides={toBridgedOverrides(
         apiRef,
         { route: "/", routes: ["/", "/live"] },
+        testStudioOperations,
         () => undefined,
         [{ title: "Content", blocks: [{ name: "Hero", description: "The opening statement." }] }],
         {},

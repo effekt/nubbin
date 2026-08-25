@@ -1,6 +1,7 @@
 import { render, screen } from "@testing-library/react";
 import { afterEach, expect, test, vi } from "vitest";
 import { PublishPanel } from "./PublishPanel";
+import { testStudioOperations } from "./testStudioOperations";
 
 afterEach(() => {
   vi.unstubAllGlobals();
@@ -19,6 +20,7 @@ function renderPanel(view: "history" | "publishing" | "published") {
     <PublishPanel
       view={view}
       route="/"
+      operations={testStudioOperations}
       landed={view === "published" ? landed : undefined}
       onOutcome={vi.fn()}
       onShowHistory={vi.fn()}

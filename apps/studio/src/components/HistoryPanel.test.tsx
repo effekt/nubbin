@@ -1,6 +1,7 @@
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { afterEach, expect, test, vi } from "vitest";
 import { HistoryPanel } from "./HistoryPanel";
+import { testStudioOperations } from "./testStudioOperations";
 
 afterEach(() => {
   vi.unstubAllGlobals();
@@ -17,7 +18,7 @@ const reply = {
 
 test("the panel loads the route's history and renders the rows", async () => {
   vi.stubGlobal("fetch", () => Promise.resolve(Response.json(reply)));
-  render(<HistoryPanel route="/" onOutcome={vi.fn()} />);
+  render(<HistoryPanel route="/" operations={testStudioOperations} onOutcome={vi.fn()} />);
   expect(screen.getByText("Loading history…")).toBeTruthy();
   await waitFor(() => {
     expect(screen.getAllByRole("listitem")).toHaveLength(2);
@@ -26,7 +27,7 @@ test("the panel loads the route's history and renders the rows", async () => {
 
 test("a failed load says so instead of reading as an empty log", async () => {
   vi.stubGlobal("fetch", () => Promise.reject(new Error("refused")));
-  render(<HistoryPanel route="/" onOutcome={vi.fn()} />);
+  render(<HistoryPanel route="/" operations={testStudioOperations} onOutcome={vi.fn()} />);
   await waitFor(() => {
     expect(screen.getByRole("alert").textContent).toBe("History could not be loaded.");
   });
@@ -43,7 +44,7 @@ test("a confirmed rollback posts the endpoint and hands the outcome up", async (
       : Promise.resolve(Response.json(reply));
   });
   const onOutcome = vi.fn();
-  render(<HistoryPanel route="/" onOutcome={onOutcome} />);
+  render(<HistoryPanel route="/" operations={testStudioOperations} onOutcome={onOutcome} />);
   await waitFor(() => {
     expect(screen.getByRole("button", { name: "Roll back" })).toBeTruthy();
   });

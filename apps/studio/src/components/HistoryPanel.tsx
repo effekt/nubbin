@@ -1,14 +1,14 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { getHistory } from "../nubbin/getHistory";
 import type { HistoryReply } from "../nubbin/historyReply.types";
-import { postRollback } from "../nubbin/postRollback";
 import type { PublishOutcome } from "../nubbin/publishOutcome.types";
+import type { StudioOperations } from "../nubbin/studioOperations.types";
 import { HistoryMoves } from "./HistoryMoves";
 
 interface HistoryPanelProps {
   route: string;
+  operations: StudioOperations;
   onOutcome: (outcome: PublishOutcome) => void;
 }
 
@@ -16,11 +16,11 @@ interface HistoryPanelProps {
  * and a rollback posts to the endpoint and hands whatever came back, landed or refused,
  * to the same outcome flow a publish reports through. A load that failed says so in words
  * rather than showing an empty log that reads as "never published". */
-export function HistoryPanel({ route, onOutcome }: HistoryPanelProps) {
+export function HistoryPanel({ route, operations, onOutcome }: HistoryPanelProps) {
   const [reply, setReply] = useState<HistoryReply | "loading" | "failed">("loading");
   useEffect(() => {
     let stale = false;
-    void getHistory(route).then((loaded) => {
+    void operations.history(route).then((loaded) => {
       if (!stale) {
         setReply(loaded ?? "failed");
       }
@@ -28,9 +28,9 @@ export function HistoryPanel({ route, onOutcome }: HistoryPanelProps) {
     return () => {
       stale = true;
     };
-  }, [route]);
+  }, [route, operations]);
   const rollBack = (hash: string) => {
-    void postRollback(route, hash).then(onOutcome);
+    void operations.rollback(route, hash).then(onOutcome);
   };
   return (
     <div className="nubbin-history">
