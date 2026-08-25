@@ -9,6 +9,7 @@ import {
   editorStatusStore,
   foldPuckChange,
   patchEditorStatus,
+  toAuthorIssues,
   toDocsByBlock,
   toSlotConstraintsByBlock,
   toSlotNamesByBlock,
@@ -16,7 +17,6 @@ import {
 import { ConsumerOriginContext } from "@nubbin/studio/consumer-origin";
 import { useDraftSave } from "@nubbin/studio/draft-save";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { toAuthorIssues } from "../nubbin/toAuthorIssues";
 import { toPaletteGroups } from "../nubbin/toPaletteGroups";
 import { toPuckConfig } from "../nubbin/toPuckConfig";
 import { OutcomeNotice } from "./OutcomeNotice";

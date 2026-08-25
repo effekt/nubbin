@@ -1,12 +1,12 @@
 "use client";
 
+import { toAuthorIssues } from "@nubbin/studio";
 import studioConfig from "@nubbin/studio-config";
 import type { ComponentProps } from "react";
 import { getHistory } from "../nubbin/getHistory";
 import { postDraftSave } from "../nubbin/postDraftSave";
 import { postPublish } from "../nubbin/postPublish";
 import { postRollback } from "../nubbin/postRollback";
-import { toAuthorIssues } from "../nubbin/toAuthorIssues";
 import { PuckEditor } from "./PuckEditor";
 
 type ConfiguredPuckEditorProps = Omit<

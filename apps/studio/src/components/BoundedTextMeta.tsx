@@ -1,7 +1,7 @@
 "use client";
 
 import "./issuesFlow.css";
-import { overLimitLine } from "../nubbin/overLimitLine";
+import { overLimitLine } from "@nubbin/studio";
 
 interface BoundedTextMetaProps {
   max: number;
