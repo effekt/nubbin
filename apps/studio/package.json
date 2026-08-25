@@ -17,6 +17,7 @@
     "@nubbin/next": "workspace:*",
     "@nubbin/react": "workspace:*",
     "@nubbin/store-fs": "workspace:*",
+    "@nubbin/studio": "workspace:*",
     "demo": "workspace:*",
     "next": "catalog:",
     "react": "catalog:",

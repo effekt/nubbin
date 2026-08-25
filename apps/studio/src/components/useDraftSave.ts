@@ -1,7 +1,7 @@
 "use client";
 
 import type { DocumentVersion } from "@nubbin/core";
-import { catalog } from "demo/src/nubbin/catalog";
+import studioConfig from "@nubbin/studio-config";
 import { postDraftSave } from "../nubbin/postDraftSave";
 import { toAuthorIssues } from "../nubbin/toAuthorIssues";
 import { patchEditorStatus } from "./patchEditorStatus";
@@ -21,7 +21,7 @@ export function useDraftSave(route: string): (version: DocumentVersion) => void 
     void postDraftSave(route, version).then(
       (raw) =>
         patchEditorStatus({
-          issues: raw === undefined ? [] : toAuthorIssues(raw, catalog, version),
+          issues: raw === undefined ? [] : toAuthorIssues(raw, studioConfig.catalog, version),
           savedAt: new Date().toISOString(),
           saveFailed: false,
         }),

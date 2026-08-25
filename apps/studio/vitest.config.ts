@@ -1,3 +1,4 @@
+import { fileURLToPath } from "node:url";
 import { defineConfig } from "vitest/config";
 
 /** tsconfig carries Next's `"jsx": "preserve"`, so block components imported through the
@@ -13,5 +14,8 @@ import { defineConfig } from "vitest/config";
  * `render` in one file leaves the first tree mounted and every `getByRole` finds two. */
 export default defineConfig({
   oxc: { jsx: { runtime: "automatic" } },
+  resolve: {
+    alias: { "@nubbin/studio-config": fileURLToPath(new URL("nubbin.config.ts", import.meta.url)) },
+  },
   test: { environment: "happy-dom", globals: true, include: ["**/*.test.{ts,tsx}"] },
 });

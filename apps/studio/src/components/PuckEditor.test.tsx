@@ -1,7 +1,7 @@
 import type { DocumentVersion } from "@nubbin/core";
+import studioConfig from "@nubbin/studio-config";
 import { fireEvent, render, screen } from "@testing-library/react";
 import { afterEach, expect, test, vi } from "vitest";
-import { CONSUMER_VIEWPORTS } from "../nubbin/consumerViewports.constants";
 import { editorStatusStore } from "./editorStatusStore";
 import { PuckEditor } from "./PuckEditor";
 
@@ -96,7 +96,7 @@ test("the viewport chips are the consumer's breakpoints, not Puck's invented thr
   // Puck's viewport buttons live in the editor chrome, not the canvas iframe, so the unit
   // test can see them. Each button's title carries the viewport's label, which proves the
   // viewports prop reached Puck; the chip's visible text is the icon string — the same name.
-  for (const viewport of CONSUMER_VIEWPORTS) {
+  for (const viewport of studioConfig.viewports) {
     expect(screen.getByTitle(`Switch to ${String(viewport.label)} viewport`)).toBeDefined();
   }
   expect(screen.queryByTitle("Switch to Small viewport")).toBeNull();

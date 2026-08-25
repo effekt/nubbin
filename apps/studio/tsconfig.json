@@ -3,6 +3,9 @@
   "compilerOptions": {
     "noEmit": true,
     "allowJs": false,
+    "paths": {
+      "@nubbin/studio-config": ["./nubbin.config.ts"]
+    },
     "plugins": [{ "name": "next" }]
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],

@@ -1,6 +1,5 @@
 import type { Artifact } from "@nubbin/core";
-import { catalog } from "demo/src/nubbin/catalog";
-import { registry } from "demo/src/nubbin/registry";
+import studioConfig from "@nubbin/studio-config";
 import { compileVersion } from "./compileVersion";
 import { toBlockPreviewVersion } from "./toBlockPreviewVersion";
 
@@ -9,8 +8,11 @@ import { toBlockPreviewVersion } from "./toBlockPreviewVersion";
  * would publish as. `undefined` for a name the catalog does not hold — the page's 404 —
  * rather than a refusal, because an unknown name is an address, not an authoring fault. */
 export function blockPreviewArtifact(block: string): Artifact | undefined {
-  if (catalog[block] === undefined) {
+  if (studioConfig.catalog[block] === undefined) {
     return undefined;
   }
-  return compileVersion(toBlockPreviewVersion(block, catalog, registry), `/block-preview/${block}`);
+  return compileVersion(
+    toBlockPreviewVersion(block, studioConfig.catalog, studioConfig.registry),
+    `/block-preview/${block}`,
+  );
 }

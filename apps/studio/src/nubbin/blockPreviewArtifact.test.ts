@@ -1,9 +1,8 @@
 import { Renderer } from "@nubbin/react";
-import { blockRegistry } from "demo/src/nubbin/blockRegistry";
+import studioConfig from "@nubbin/studio-config";
 import { renderToStaticMarkup } from "react-dom/server";
 import { expect, test } from "vitest";
 import { blockPreviewArtifact } from "./blockPreviewArtifact";
-import { resolveStudioHole } from "./resolveStudioHole";
 
 test("Hero's artifact renders to the real block's HTML, defaults and all", async () => {
   const artifact = blockPreviewArtifact("Hero");
@@ -12,7 +11,11 @@ test("Hero's artifact renders to the real block's HTML, defaults and all", async
     return;
   }
   const html = renderToStaticMarkup(
-    await Renderer({ artifact, registry: blockRegistry, resolveHole: resolveStudioHole }),
+    await Renderer({
+      artifact,
+      registry: studioConfig.blockRegistry,
+      resolveHole: studioConfig.resolveHole,
+    }),
   );
   expect(html).toContain("The water tells you first");
 });

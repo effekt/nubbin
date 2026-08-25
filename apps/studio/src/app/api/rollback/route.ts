@@ -1,5 +1,5 @@
 import { checkRollback } from "@nubbin/core";
-import { registry } from "demo/src/nubbin/registry";
+import studioConfig from "@nubbin/studio-config";
 import { consumerOrigin } from "../../../nubbin/consumerOrigin";
 import { movePointerThroughOrigin } from "../../../nubbin/movePointerThroughOrigin";
 import { parseRollback } from "../../../nubbin/parseRollback";
@@ -33,9 +33,9 @@ export async function POST(request: Request) {
       status: BAD_REQUEST,
     });
   }
-  const verdict = checkRollback(artifact, registry);
+  const verdict = checkRollback(artifact, studioConfig.registry);
   if (!verdict.compatible) {
-    const issues = toDriftIssues(verdict.drifted, artifact.blockVersions, registry);
+    const issues = toDriftIssues(verdict.drifted, artifact.blockVersions, studioConfig.registry);
     return Response.json({ ok: false, issues }, { status: UNPROCESSABLE });
   }
   await movePointerThroughOrigin(route, hash);

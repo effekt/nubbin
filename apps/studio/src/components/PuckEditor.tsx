@@ -5,10 +5,8 @@ import "@measured/puck/puck.css";
 import "./puckTheme.css";
 import "./canvasOverlay.css";
 import type { DocumentVersion } from "@nubbin/core";
-import { catalog } from "demo/src/nubbin/catalog";
-import { registry } from "demo/src/nubbin/registry";
+import studioConfig from "@nubbin/studio-config";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { CONSUMER_VIEWPORTS } from "../nubbin/consumerViewports.constants";
 import { foldPuckChange } from "../nubbin/foldPuckChange";
 import type { PublishOutcome } from "../nubbin/publishOutcome.types";
 import type { PuckData } from "../nubbin/puckData.types";
@@ -37,7 +35,7 @@ interface PuckEditorProps {
 }
 
 /** The editor: stock Puck, controlled, with everything Nubbin-specific arriving through the
- * config derived from the demo's catalog and registry. Each change folds back into a Nubbin
+ * config derived from the deployment's catalog and registry. Each change folds back into a Nubbin
  * draft and posts debounced to the draft endpoint. A refusal — the save's or the publish's —
  * lands in the editor status store in author words, where the header's pill counts it and
  * its dropdown lists it; a publish refusal opens that dropdown itself. A publish that lands
@@ -50,11 +48,11 @@ export function PuckEditor({
   initialVersion,
   consumerOrigin,
 }: PuckEditorProps) {
-  const config = useMemo(() => toPuckConfig(catalog, registry), []);
-  const palette = useMemo(() => toPaletteGroups(catalog, registry), []);
-  const docsByBlock = useMemo(() => toDocsByBlock(catalog, registry), []);
-  const blockSlots = useMemo(() => toSlotNamesByBlock(registry), []);
-  const slotsByBlock = useMemo(() => toSlotConstraintsByBlock(registry), []);
+  const config = useMemo(() => toPuckConfig(studioConfig.catalog, studioConfig.registry), []);
+  const palette = useMemo(() => toPaletteGroups(studioConfig.catalog, studioConfig.registry), []);
+  const docsByBlock = useMemo(() => toDocsByBlock(studioConfig.catalog, studioConfig.registry), []);
+  const blockSlots = useMemo(() => toSlotNamesByBlock(studioConfig.registry), []);
+  const slotsByBlock = useMemo(() => toSlotConstraintsByBlock(studioConfig.registry), []);
   const prior = useRef(initialVersion);
   const puckApi = useRef<(() => PuckApi) | undefined>(undefined);
   const [data, setData] = useState(initialData);
@@ -80,7 +78,7 @@ export function PuckEditor({
     setOutcome(next);
     if (!next.ok) {
       patchEditorStatus({
-        issues: toAuthorIssues(next.issues, catalog, prior.current),
+        issues: toAuthorIssues(next.issues, studioConfig.catalog, prior.current),
         issuesOpen: true,
       });
     }
@@ -108,7 +106,7 @@ export function PuckEditor({
           data={data}
           onChange={onChange}
           overrides={overrides}
-          viewports={CONSUMER_VIEWPORTS}
+          viewports={studioConfig.viewports}
         />
         <StudioStatusBar />
       </div>
