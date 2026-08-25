@@ -1,2 +1,2 @@
 export { defineStudioConfig } from "./defineStudioConfig";
-export type { StudioConfig, StudioViewport } from "./studioConfig.types";
+export type { StudioConfig, StudioEditorConfig, StudioViewport } from "./studioConfig.types";

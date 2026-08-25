@@ -1,6 +1,6 @@
 import { routeFromSlug } from "@nubbin/next";
 import { notFound } from "next/navigation";
-import { PuckEditor } from "../../../components/PuckEditor";
+import { ConfiguredPuckEditor } from "../../../components/ConfiguredPuckEditor";
 import { consumerOrigin } from "../../../nubbin/consumerOrigin";
 import { listEditableRoutes } from "../../../nubbin/listEditableRoutes";
 import { readDraft } from "../../../nubbin/readDraft";
@@ -25,7 +25,7 @@ export default async function Page({ params }: { params: Promise<{ slug?: string
   return (
     <>
       <h1 className="sr-only">Editing {route}</h1>
-      <PuckEditor
+      <ConfiguredPuckEditor
         route={route}
         routes={listEditableRoutes()}
         initialData={toPuckData(draft)}

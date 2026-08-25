@@ -20,3 +20,6 @@ export interface StudioConfig {
   artifactStoreDir: string;
   consumerOrigin: string;
 }
+
+/** The editor-facing portion of a Studio binding used to construct the visual editor. */
+export type StudioEditorConfig = Pick<StudioConfig, "catalog" | "registry" | "viewports">;

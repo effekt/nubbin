@@ -5,7 +5,7 @@ import "@measured/puck/puck.css";
 import "./puckTheme.css";
 import "./canvasOverlay.css";
 import type { DocumentVersion } from "@nubbin/core";
-import studioConfig from "@nubbin/studio-config";
+import type { StudioEditorConfig } from "@nubbin/studio";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { foldPuckChange } from "../nubbin/foldPuckChange";
 import type { PublishOutcome } from "../nubbin/publishOutcome.types";
@@ -24,7 +24,8 @@ import { StudioStatusBar } from "./StudioStatusBar";
 import { toBridgedOverrides } from "./toBridgedOverrides";
 import { useDraftSave } from "./useDraftSave";
 
-interface PuckEditorProps {
+export interface PuckEditorProps {
+  config: StudioEditorConfig;
   route: string;
   routes: readonly string[];
   initialData: PuckData;
@@ -42,6 +43,7 @@ interface PuckEditorProps {
  * reports inside the header's own panel — steps, timings and the live link — and a rollback
  * that lands confirms above the canvas with the route and the URL the endpoint built. */
 export function PuckEditor({
+  config: studioConfig,
   route,
   routes,
   initialData,

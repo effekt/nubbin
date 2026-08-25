@@ -1,11 +1,12 @@
 import type { DocumentVersion } from "@nubbin/core";
 import studioConfig from "@nubbin/studio-config";
-import { fireEvent, render, screen } from "@testing-library/react";
+import { cleanup, fireEvent, render, screen } from "@testing-library/react";
 import { afterEach, expect, test, vi } from "vitest";
 import { editorStatusStore } from "./editorStatusStore";
 import { PuckEditor } from "./PuckEditor";
 
 afterEach(() => {
+  cleanup();
   vi.unstubAllGlobals();
   editorStatusStore.set({ issues: [], issuesOpen: false, published: false });
 });
@@ -25,6 +26,7 @@ const version: DocumentVersion = {
 function renderEditor() {
   return render(
     <PuckEditor
+      config={studioConfig}
       route="/"
       routes={["/"]}
       initialData={{
