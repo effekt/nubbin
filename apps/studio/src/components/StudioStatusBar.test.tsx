@@ -1,6 +1,6 @@
+import { editorStatusStore } from "@nubbin/studio";
 import { act, render, screen } from "@testing-library/react";
 import { afterEach, expect, test, vi } from "vitest";
-import { editorStatusStore } from "./editorStatusStore";
 import { StudioStatusBar } from "./StudioStatusBar";
 
 afterEach(() => {

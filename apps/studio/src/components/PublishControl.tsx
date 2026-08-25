@@ -1,13 +1,13 @@
 "use client";
 
 import "./publishControl.css";
+import { patchEditorStatus } from "@nubbin/studio";
 import { useCallback, useRef, useState } from "react";
 import { postPublish } from "../nubbin/postPublish";
 import { publishLabel } from "../nubbin/publishLabel";
 import type { PublishOutcome, PublishSuccess } from "../nubbin/publishOutcome.types";
 import { PublishButton } from "./PublishButton";
 import { PublishPanel, type PublishView } from "./PublishPanel";
-import { patchEditorStatus } from "./patchEditorStatus";
 import { useCloseOnEscape } from "./useCloseOnEscape";
 import { useCloseOnOutsideClick } from "./useCloseOnOutsideClick";
 import { useEditorStatus } from "./useEditorStatus";

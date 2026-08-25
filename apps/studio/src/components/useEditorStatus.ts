@@ -1,8 +1,7 @@
 "use client";
 
+import { type EditorStatus, editorStatusStore } from "@nubbin/studio";
 import { useSyncExternalStore } from "react";
-import type { EditorStatus } from "./editorStatus.types";
-import { editorStatusStore } from "./editorStatusStore";
 
 /**
  * The header chrome's read on the editor's status, live: re-renders exactly the component

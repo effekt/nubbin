@@ -2,13 +2,12 @@
 
 import "./issuesFlow.css";
 import type { PuckApi } from "@measured/puck";
+import { type AuthorIssue, patchEditorStatus } from "@nubbin/studio";
 import type { RefObject } from "react";
 import { useCallback, useRef } from "react";
-import type { AuthorIssue } from "../nubbin/authorIssue.types";
 import { focusIssueField } from "./focusIssueField";
 import { IssuesDropdown } from "./IssuesDropdown";
 import { inspectorBody } from "./inspectorBody";
-import { patchEditorStatus } from "./patchEditorStatus";
 import { selectPuckNode } from "./selectPuckNode";
 import { useCloseOnEscape } from "./useCloseOnEscape";
 import { useCloseOnOutsideClick } from "./useCloseOnOutsideClick";

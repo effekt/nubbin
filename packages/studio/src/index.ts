@@ -1,4 +1,10 @@
+export type { AuthorIssue } from "./authorIssue.types";
+export type { StatusStore } from "./createStatusStore";
+export { createStatusStore } from "./createStatusStore";
 export { defineStudioConfig } from "./defineStudioConfig";
+export type { EditorStatus } from "./editorStatus.types";
+export { editorStatusStore } from "./editorStatusStore";
+export { patchEditorStatus } from "./patchEditorStatus";
 export type { StudioConfig, StudioEditorConfig, StudioViewport } from "./studioConfig.types";
 export { toDocsByBlock } from "./toDocsByBlock";
 export { toSlotConstraintsByBlock } from "./toSlotConstraintsByBlock";
