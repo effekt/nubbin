@@ -43,6 +43,7 @@
   "devDependencies": {
     "tsup": "catalog:",
     "typescript": "catalog:",
-    "vitest": "catalog:"
+    "vitest": "catalog:",
+    "zod": "catalog:"
   }
 }

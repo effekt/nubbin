@@ -5,17 +5,19 @@ import "@measured/puck/puck.css";
 import "./puckTheme.css";
 import "./canvasOverlay.css";
 import type { DocumentVersion } from "@nubbin/core";
-import type { StudioEditorConfig } from "@nubbin/studio";
+import {
+  type StudioEditorConfig,
+  toDocsByBlock,
+  toSlotConstraintsByBlock,
+  toSlotNamesByBlock,
+} from "@nubbin/studio";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { foldPuckChange } from "../nubbin/foldPuckChange";
 import type { PublishOutcome } from "../nubbin/publishOutcome.types";
 import type { PuckData } from "../nubbin/puckData.types";
 import { toAuthorIssues } from "../nubbin/toAuthorIssues";
-import { toDocsByBlock } from "../nubbin/toDocsByBlock";
 import { toPaletteGroups } from "../nubbin/toPaletteGroups";
 import { toPuckConfig } from "../nubbin/toPuckConfig";
-import { toSlotConstraintsByBlock } from "../nubbin/toSlotConstraintsByBlock";
-import { toSlotNamesByBlock } from "../nubbin/toSlotNamesByBlock";
 import { ConsumerOriginContext } from "./ConsumerOriginContext";
 import { editorStatusStore } from "./editorStatusStore";
 import { PublishNotice } from "./PublishNotice";
