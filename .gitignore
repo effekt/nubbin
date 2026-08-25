@@ -71,3 +71,5 @@ scripts/vendor-terms.txt
 
 # Reference pages typedoc writes from the packages' sources on every docs build.
 /docs/reference/generated/
+
+next-env.d.ts
