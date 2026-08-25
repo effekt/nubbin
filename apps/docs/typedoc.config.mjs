@@ -18,6 +18,7 @@ export default {
     "../../packages/next",
     "../../packages/react",
     "../../packages/store-fs",
+    "../../packages/studio",
   ],
   packageOptions: {
     entryPoints: ["src/index.ts"],

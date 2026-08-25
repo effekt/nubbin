@@ -1,18 +1,12 @@
-import { join } from "node:path";
+import studioConfig from "@nubbin/studio-config";
 
 /**
- * Where the studio's artifact store lives: the demo's own `.nubbin`, reached from the
- * studio's cwd (`apps/studio`), because this studio edits the demo site and publishing must
- * move the pointers the demo serves from. A consumer points this at wherever their app's
- * store lives.
+ * Where this Studio deployment's artifact store lives. The deployment config supplies the
+ * ordinary value; the environment override keeps parallel tests isolated.
  *
  * The environment override exists for the same reason `NUBBIN_STUDIO_DRAFTS` does: tests
- * run in parallel files that must not share one directory — and must never write the demo's
- * real store; the studio itself never sets it.
+ * run in parallel files that must not share one directory; the studio itself never sets it.
  */
 export function storeDir(): string {
-  return (
-    process.env.NUBBIN_STUDIO_STORE ??
-    join(process.cwd(), "..", "..", "examples", "demo", ".nubbin")
-  );
+  return process.env.NUBBIN_STUDIO_STORE ?? studioConfig.artifactStoreDir;
 }

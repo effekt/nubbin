@@ -96,6 +96,7 @@ Each package owns one part of the integration:
 | [`@nubbin/next`](packages/next/README.md) | Next.js route resolution, publishing, and cache invalidation |
 | [`@nubbin/store-fs`](packages/store-fs/README.md) | Filesystem implementation of the artifact store |
 | [`@nubbin/cli`](packages/cli/README.md) | Compile, publish, roll back, and compatibility commands |
+| [`@nubbin/studio`](packages/studio/README.md) | Public configuration contract for a self-hosted Studio |
 
 ## Resources
 

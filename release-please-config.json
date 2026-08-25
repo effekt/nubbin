@@ -21,13 +21,16 @@
     },
     "packages/store-fs": {
       "component": "store-fs"
+    },
+    "packages/studio": {
+      "component": "studio"
     }
   },
   "plugins": [
     {
       "type": "linked-versions",
       "groupName": "nubbin",
-      "components": ["cli", "core", "next", "react", "store-fs"],
+      "components": ["cli", "core", "next", "react", "store-fs", "studio"],
       "merge": false
     }
   ]

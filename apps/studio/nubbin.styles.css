@@ -1,0 +1,4 @@
+/* Styles belong to the consumer binding, not Studio. Replace these imports with the
+   stylesheet and source paths of the application whose components Studio renders. */
+@import "../../examples/demo/src/app/globals.css";
+@source "../../examples/demo/src";

@@ -4,7 +4,7 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   title: "Nubbin studio",
-  description: "Parse the demo's blocks, preview its drafts, and publish them as artifacts.",
+  description: "Compose, preview, and publish pages from an application's Nubbin config.",
 };
 
 export default function RootLayout({ children }: { children: ReactNode }) {

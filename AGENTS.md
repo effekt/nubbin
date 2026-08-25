@@ -23,6 +23,7 @@ packages/
   next/       @nubbin/next       — catch-all route, preview route, draft resolution
   store-fs/   @nubbin/store-fs   — reference storage adapter
   cli/        @nubbin/cli        — compile, publish, roll back and check, from a terminal
+  studio/     @nubbin/studio     — public configuration contract for a self-hosted Studio
 apps/
   studio/     the editor — pulled and run alongside your app, never a hosted service
 ```

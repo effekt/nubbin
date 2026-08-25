@@ -1,4 +1,4 @@
-import { catalog } from "demo/src/nubbin/catalog";
+import studioConfig from "@nubbin/studio-config";
 import { BlockFields } from "../components/BlockFields";
 import { listEditableRoutes } from "../nubbin/listEditableRoutes";
 import { prefixedRoute } from "../nubbin/prefixedRoute";
@@ -37,7 +37,7 @@ export default function Page() {
           Blocks
         </h2>
         <div className="mt-3 flex flex-col gap-4">
-          {Object.entries(catalog).map(([name, entry]) => (
+          {Object.entries(studioConfig.catalog).map(([name, entry]) => (
             <BlockFields key={name} name={name} entry={entry} />
           ))}
         </div>

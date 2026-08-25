@@ -22,7 +22,8 @@
         "@nubbin/core#build",
         "@nubbin/next#build",
         "@nubbin/react#build",
-        "@nubbin/store-fs#build"
+        "@nubbin/store-fs#build",
+        "@nubbin/studio#build"
       ],
       "inputs": ["$TURBO_DEFAULT$", "$TURBO_ROOT$/docs/**"],
       "outputs": ["dist/**", ".next/**", "!.next/cache/**"]

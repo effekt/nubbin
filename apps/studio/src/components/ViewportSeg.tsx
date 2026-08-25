@@ -1,7 +1,7 @@
 "use client";
 
 import { usePuck } from "@measured/puck";
-import { CONSUMER_VIEWPORTS } from "../nubbin/consumerViewports.constants";
+import studioConfig from "@nubbin/studio-config";
 
 /** The toolbar's viewport chips, the specimen's segmented row over the consumer's own
  * breakpoints: each chip sets the canvas width through Puck's public `setUi`, and the
@@ -12,7 +12,7 @@ export function ViewportSeg() {
   const viewports = appState.ui.viewports;
   return (
     <fieldset className="nb-tb-seg" aria-label="Canvas width">
-      {CONSUMER_VIEWPORTS.map((viewport) => (
+      {studioConfig.viewports.map((viewport) => (
         <button
           key={viewport.width}
           type="button"

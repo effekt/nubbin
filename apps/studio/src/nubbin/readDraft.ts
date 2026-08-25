@@ -1,5 +1,5 @@
 import type { DocumentVersion } from "@nubbin/core";
-import { fixtureRoutes } from "demo/fixtures/fixtureRoutes";
+import studioConfig from "@nubbin/studio-config";
 import { draftFilePath } from "./draftFilePath";
 import { readDraftFile } from "./readDraftFile";
 
@@ -9,6 +9,8 @@ import { readDraftFile } from "./readDraftFile";
  * `fixtureRoutes` is a plain object and an untrusted route like `"constructor"` would
  * otherwise read its prototype rather than a fixture. */
 export function readDraft(route: string): DocumentVersion | undefined {
-  const fixture = Object.hasOwn(fixtureRoutes, route) ? fixtureRoutes[route] : undefined;
+  const fixture = Object.hasOwn(studioConfig.seedDocuments, route)
+    ? studioConfig.seedDocuments[route]
+    : undefined;
   return readDraftFile(draftFilePath(route)) ?? fixture;
 }

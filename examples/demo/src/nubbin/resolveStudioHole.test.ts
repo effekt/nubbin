@@ -1,5 +1,5 @@
-import { liveBandSchema } from "demo/src/blocks/LiveBand.schema";
 import { expect, test } from "vitest";
+import { liveBandSchema } from "../blocks/LiveBand.schema";
 import { resolveStudioHole } from "./resolveStudioHole";
 
 test("a LiveBand items hole resolves to a value the block's real schema accepts", async () => {
@@ -10,8 +10,7 @@ test("a LiveBand items hole resolves to a value the block's real schema accepts"
     path: "items",
     spec: { revalidate: 60 },
   });
-  const parsed = liveBandSchema.safeParse({ label: "Right now", items });
-  expect(parsed.success).toBe(true);
+  expect(liveBandSchema.safeParse({ label: "Right now", items }).success).toBe(true);
 });
 
 test("a hole no resolver covers is a loud failure, not a silent blank", async () => {

@@ -96,13 +96,13 @@ the artifact the studio wrote. A route never published is a real 404 there.
 
 ## The seam to the consumer
 
-The studio reaches its catalog, registry, blocks and stylesheet through a workspace
-dependency on `demo`, compiled from source via `transpilePackages`. `src/nubbin/` is the
-whole binding — store path, draft state, the Puck config and data adapters, the consumer
-origin the publish goes through, hole resolution — and is what a consumer would replace to
-point the studio at their own app. One of those seams is an environment variable rather than
-code: `NUBBIN_CONSUMER_ORIGIN` is the origin of the application the studio publishes into —
-the pointer move runs against it, and the publish response builds the live page's link from
-it, so it is the one variable naming that address. The artifact store's directory is code in
-the same binding — `storeDir` reaches the demo's own `.nubbin` — and the `NUBBIN_STUDIO_STORE`
-override exists so parallel test files never share one directory.
+`nubbin.config.ts` is the deployment boundary. It supplies the catalog, compile registry,
+lazy render registry, initial documents, live-data resolver, canvas widths, artifact-store
+directory, and consumer origin. `nubbin.styles.css` imports the consumer's stylesheet and
+names any source path its CSS compiler must scan. Studio source imports neither the demo nor
+another consumer directly.
+
+`NUBBIN_CONSUMER_ORIGIN` overrides the configured application origin. Pointer moves run
+against that origin, and publish responses build live-page links from it. Likewise,
+`NUBBIN_STUDIO_STORE` overrides the configured artifact-store directory so parallel tests
+never share one directory.

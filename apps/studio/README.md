@@ -10,6 +10,11 @@ pnpm --filter studio dev     # http://localhost:3001
 pnpm --filter demo dev       # http://localhost:3000 — serves what the studio publishes
 ```
 
+`nubbin.config.ts` is the deployment boundary. It supplies the catalog, compile registry,
+lazy render registry, initial documents, live-data resolver, canvas widths, artifact-store
+directory, and consumer origin. `nubbin.styles.css` supplies the consumer stylesheet and
+Tailwind source path. Studio source imports neither the demo nor another consumer directly.
+
 Everything else — what saves when, which prop kinds the inspector edits, and the seam a
 consumer replaces to point this at their own application — is documented at
 [Running the Studio](https://effekt.github.io/nubbin/reference/editing/studio), written from
