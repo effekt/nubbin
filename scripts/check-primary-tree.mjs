@@ -110,6 +110,26 @@ async function hook() {
   }
 }
 
+/** Codex starts the subagent before this hook runs, so context is added to that agent directly. */
+function codexHook() {
+  try {
+    const root = primaryWorktreeRoot(OWN_DIR);
+    if (root === null) return;
+    const entries = statusEntries(root);
+    if (entries.length === 0) return;
+    process.stdout.write(
+      JSON.stringify({
+        hookSpecificOutput: {
+          hookEventName: "SubagentStart",
+          additionalContext: report(root, entries),
+        },
+      }),
+    );
+  } catch {
+    // A subagent is worth more than a report about it.
+  }
+}
+
 /** What was examined and how much of it, so a quiet run is distinguishable from an absent one. */
 function check() {
   const root = primaryWorktreeRoot(OWN_DIR);
@@ -130,5 +150,6 @@ function check() {
   console.log("it cannot tell which session wrote them, and yours may not be the one that can.");
 }
 
-if (process.argv.includes("--hook")) await hook();
+if (process.argv.includes("--codex-hook")) codexHook();
+else if (process.argv.includes("--hook")) await hook();
 else check();

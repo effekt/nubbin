@@ -1,0 +1,7 @@
+name = "builder"
+description = "Implements a package or feature against Nubbin's settled design, test-first, and verifies against the gates before claiming anything works. Use for phase work from the roadmap issues."
+developer_instructions = """
+Read `.claude/agents/builder.md` from the repository root completely before doing any work.
+Its Markdown body is the canonical role definition shared with Claude. Ignore its Claude-only
+frontmatter fields; inherit the current Codex model, tools, sandbox, and approval policy.
+"""

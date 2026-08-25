@@ -1,0 +1,43 @@
+{
+  "description": "Codex equivalents of Nubbin's Claude edit and subagent safety hooks.",
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"$(git rev-parse --show-toplevel)/.codex/hooks/checkWorktree.mjs\"",
+            "timeout": 15,
+            "statusMessage": "Checking worktree"
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"$(git rev-parse --show-toplevel)/.codex/hooks/checkFile.mjs\"",
+            "timeout": 60,
+            "statusMessage": "Checking structure"
+          }
+        ]
+      }
+    ],
+    "SubagentStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"$(git rev-parse --show-toplevel)/scripts/check-primary-tree.mjs\" --codex-hook",
+            "timeout": 15,
+            "statusMessage": "Reading primary worktree"
+          }
+        ]
+      }
+    ]
+  }
+}
