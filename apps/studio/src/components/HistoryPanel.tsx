@@ -1,9 +1,7 @@
 "use client";
 
+import type { HistoryReply, PublishOutcome, StudioOperations } from "@nubbin/studio";
 import { useEffect, useState } from "react";
-import type { HistoryReply } from "../nubbin/historyReply.types";
-import type { PublishOutcome } from "../nubbin/publishOutcome.types";
-import type { StudioOperations } from "../nubbin/studioOperations.types";
 import { HistoryMoves } from "./HistoryMoves";
 
 interface HistoryPanelProps {

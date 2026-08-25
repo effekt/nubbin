@@ -1,6 +1,6 @@
+import type { PublishOutcome } from "@nubbin/studio";
 import { parsePublishRefusal } from "./parsePublishRefusal";
 import { parsePublishSuccess } from "./parsePublishSuccess";
-import type { PublishOutcome } from "./publishOutcome.types";
 
 /**
  * The client half of a rollback: the route and target hash posted as JSON to the studio's

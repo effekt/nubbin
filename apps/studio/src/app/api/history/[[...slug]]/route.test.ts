@@ -2,10 +2,10 @@ import { mkdtempSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { createFsArtifactStore } from "@nubbin/store-fs";
+import type { HistoryReply } from "@nubbin/studio";
 import { home } from "demo/fixtures/home";
 import { beforeEach, expect, test } from "vitest";
 import { compileVersion } from "../../../../nubbin/compileVersion";
-import type { HistoryReply } from "../../../../nubbin/historyReply.types";
 import { GET } from "./route";
 
 function get(slug?: string[]) {

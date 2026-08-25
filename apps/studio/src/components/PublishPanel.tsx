@@ -1,7 +1,6 @@
 "use client";
 
-import type { PublishOutcome, PublishSuccess } from "../nubbin/publishOutcome.types";
-import type { StudioOperations } from "../nubbin/studioOperations.types";
+import type { PublishOutcome, PublishSuccess, StudioOperations } from "@nubbin/studio";
 import { HistoryPanel } from "./HistoryPanel";
 import { LiveStrip } from "./LiveStrip";
 import { PublishSteps } from "./PublishSteps";

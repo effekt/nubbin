@@ -1,4 +1,4 @@
-import type { PublishTimings } from "./publishTimings.types";
+import type { PublishTimings } from "@nubbin/studio";
 
 /**
  * Judges a publish reply's `timings` member — three numbers or nothing. `undefined` for any
