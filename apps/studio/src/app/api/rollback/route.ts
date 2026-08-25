@@ -1,8 +1,8 @@
 import { checkRollback } from "@nubbin/core";
+import { parseRollbackRequest } from "@nubbin/studio";
 import studioConfig from "@nubbin/studio-config";
 import { consumerOrigin } from "../../../nubbin/consumerOrigin";
 import { movePointerThroughOrigin } from "../../../nubbin/movePointerThroughOrigin";
-import { parseRollback } from "../../../nubbin/parseRollback";
 import { studioStore } from "../../../nubbin/studioStore";
 import { toDriftIssues } from "../../../nubbin/toDriftIssues";
 
@@ -19,7 +19,7 @@ const UNPROCESSABLE = 422;
  * Unauthenticated like its siblings: the studio deploys behind the consumer's own gate.
  */
 export async function POST(request: Request) {
-  const rollback = parseRollback(await request.json().catch(() => undefined));
+  const rollback = parseRollbackRequest(await request.json().catch(() => undefined));
   if (rollback === undefined) {
     return new Response("malformed rollback", { status: BAD_REQUEST });
   }

@@ -1,6 +1,6 @@
 import { NubbinError } from "@nubbin/core";
+import { parseRouteCreateRequest } from "@nubbin/studio";
 import { createDraft } from "../../../nubbin/createDraft";
-import { parseRouteCreate } from "../../../nubbin/parseRouteCreate";
 
 const CREATED = 201;
 const BAD_REQUEST = 400;
@@ -15,7 +15,7 @@ const CONFLICT = 409;
  */
 export async function POST(request: Request) {
   const body: unknown = await request.json().catch(() => undefined);
-  const create = parseRouteCreate(body);
+  const create = parseRouteCreateRequest(body);
   if (create === undefined) {
     return new Response("malformed create", { status: BAD_REQUEST });
   }
