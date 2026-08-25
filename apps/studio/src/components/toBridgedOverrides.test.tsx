@@ -3,7 +3,7 @@ import { Puck } from "@measured/puck";
 import { editorStatusStore } from "@nubbin/studio";
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { afterEach, expect, test, vi } from "vitest";
-import { testStudioOperations } from "./testStudioOperations";
+import { testStudioOperations } from "../testing/testStudioOperations";
 import { toBridgedOverrides } from "./toBridgedOverrides";
 
 afterEach(() => {

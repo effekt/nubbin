@@ -3,8 +3,8 @@ import { editorStatusStore } from "@nubbin/studio";
 import studioConfig from "@nubbin/studio-config";
 import { cleanup, fireEvent, render, screen } from "@testing-library/react";
 import { afterEach, expect, test, vi } from "vitest";
+import { testStudioOperations } from "../testing/testStudioOperations";
 import { PuckEditor } from "./PuckEditor";
-import { testStudioOperations } from "./testStudioOperations";
 
 afterEach(() => {
   cleanup();
