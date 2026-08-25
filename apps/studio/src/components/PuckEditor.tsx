@@ -6,6 +6,7 @@ import "./puckTheme.css";
 import "./canvasOverlay.css";
 import type { DocumentVersion } from "@nubbin/core";
 import {
+  type AuthorIssue,
   editorStatusStore,
   foldPuckChange,
   type PuckData,
@@ -35,6 +36,12 @@ export interface PuckEditorProps {
   /** The consumer app's origin, read server-side — what a link control's Open affordance
    * resolves a root-relative path against. */
   consumerOrigin: string;
+  /** Persists one folded draft through the host application's storage boundary. The editor
+   * owns debouncing and status; the host owns transport, authentication, and persistence. */
+  saveDraft: (
+    route: string,
+    version: DocumentVersion,
+  ) => Promise<readonly AuthorIssue[] | undefined>;
 }
 
 /** The editor: stock Puck, controlled, with everything Nubbin-specific arriving through the
@@ -51,6 +58,7 @@ export function PuckEditor({
   initialData,
   initialVersion,
   consumerOrigin,
+  saveDraft,
 }: PuckEditorProps) {
   const config = useMemo(() => toPuckConfig(studioConfig.catalog, studioConfig.registry), []);
   const palette = useMemo(() => toPaletteGroups(studioConfig.catalog, studioConfig.registry), []);
@@ -66,7 +74,7 @@ export function PuckEditor({
     // must not carry over. First load assumes changes: the store starts unpublished.
     editorStatusStore.set({ issues: [], issuesOpen: false, published: false });
   }, []);
-  const save = useDraftSave(route);
+  const save = useDraftSave(route, saveDraft);
   const onChange = (next: Data) => {
     const folded = foldPuckChange(next, prior.current, blockSlots);
     prior.current = folded.version;

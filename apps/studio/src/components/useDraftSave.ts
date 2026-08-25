@@ -1,10 +1,7 @@
 "use client";
 
 import type { DocumentVersion } from "@nubbin/core";
-import { patchEditorStatus } from "@nubbin/studio";
-import studioConfig from "@nubbin/studio-config";
-import { postDraftSave } from "../nubbin/postDraftSave";
-import { toAuthorIssues } from "../nubbin/toAuthorIssues";
+import { type AuthorIssue, patchEditorStatus } from "@nubbin/studio";
 import { useDebouncedCallback } from "./useDebouncedCallback";
 
 const SAVE_DELAY_MS = 500;
@@ -16,12 +13,18 @@ const SAVE_DELAY_MS = 500;
  * only once it truly is. A round trip that never reaches the endpoint marks the save
  * failed instead, which is the status bar's proof the preview is unreachable.
  */
-export function useDraftSave(route: string): (version: DocumentVersion) => void {
+export function useDraftSave(
+  route: string,
+  saveDraft: (
+    route: string,
+    version: DocumentVersion,
+  ) => Promise<readonly AuthorIssue[] | undefined>,
+): (version: DocumentVersion) => void {
   return useDebouncedCallback((version: DocumentVersion) => {
-    void postDraftSave(route, version).then(
-      (raw) =>
+    void saveDraft(route, version).then(
+      (issues) =>
         patchEditorStatus({
-          issues: raw === undefined ? [] : toAuthorIssues(raw, studioConfig.catalog, version),
+          issues: issues ?? [],
           savedAt: new Date().toISOString(),
           saveFailed: false,
         }),
