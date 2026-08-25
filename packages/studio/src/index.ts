@@ -3,6 +3,7 @@ export type { AuthorIssue } from "./authorIssue.types";
 export type ConsumerOriginContextType =
   typeof import("./ConsumerOriginContext").ConsumerOriginContext;
 export { createDraftSaveRequestHandler } from "./createDraftSaveRequestHandler";
+export { createPublishRequestHandler } from "./createPublishRequestHandler";
 export type { CreateRouteOperation } from "./createRouteOperation.types";
 export { createRouteRequestHandler } from "./createRouteRequestHandler";
 export type { StatusStore } from "./createStatusStore";
@@ -25,7 +26,9 @@ export { parseDraftSaveRequest } from "./parseDraftSaveRequest";
 export { parseRollbackRequest } from "./parseRollbackRequest";
 export { parseRouteCreateRequest } from "./parseRouteCreateRequest";
 export { patchEditorStatus } from "./patchEditorStatus";
+export type { PublishedDraft, PublishOperation } from "./publishOperation.types";
 export type { PublishOutcome, PublishSuccess } from "./publishOutcome.types";
+export type { PublishRequestHandlerOptions } from "./publishRequestHandlerOptions.types";
 export type { PublishTimings } from "./publishTimings.types";
 export type { RouteCreateOutcome } from "./routeCreateOutcome.types";
 export type { SaveDraftOperation } from "./saveDraftOperation.types";
