@@ -1,5 +1,5 @@
+import type { PaletteGroup } from "@nubbin/studio";
 import { isBlockMatch } from "./isBlockMatch";
-import type { PaletteGroup } from "./paletteGroup.types";
 
 /**
  * The palette's groups narrowed to a search: each group keeps only the blocks the query

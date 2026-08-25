@@ -13,6 +13,8 @@ test("the published surface exports exactly the documented API", async () => {
     "patchEditorStatus",
     "toAuthorIssues",
     "toDocsByBlock",
+    "toIconByBlock",
+    "toPaletteGroups",
     "toPuckData",
     "toSlotConstraintsByBlock",
     "toSlotNamesByBlock",

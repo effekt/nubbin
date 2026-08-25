@@ -2,11 +2,10 @@
 
 import type { Overrides, PuckApi } from "@measured/puck";
 import type { SlotConstraint } from "@nubbin/core";
-import type { PublishOutcome, StudioOperations } from "@nubbin/studio";
+import type { PaletteGroup, PublishOutcome, StudioOperations } from "@nubbin/studio";
+import { toIconByBlock } from "@nubbin/studio";
 import type { RefObject } from "react";
-import type { PaletteGroup } from "../nubbin/paletteGroup.types";
 import { prefixedRoute } from "../nubbin/prefixedRoute";
-import { toIconByBlock } from "../nubbin/toIconByBlock";
 import { BlockPalette } from "./BlockPalette";
 import { CanvasActionBar } from "./CanvasActionBar";
 import { FieldsWithCallout } from "./FieldsWithCallout";

@@ -1,4 +1,4 @@
-import type { PaletteGroup } from "./paletteGroup.types";
+import type { PaletteGroup } from "@nubbin/studio";
 
 /** How many blocks the palette holds across every group — the number the search field's
  * placeholder quotes, counted from the unfiltered catalog so it never shrinks mid-search. */

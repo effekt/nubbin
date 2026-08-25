@@ -1,7 +1,7 @@
 "use client";
 
 import { Drawer } from "@measured/puck";
-import type { PaletteBlock, PaletteGroup } from "../nubbin/paletteGroup.types";
+import type { PaletteBlock, PaletteGroup } from "@nubbin/studio";
 import { PaletteItem } from "./PaletteItem";
 
 /** One category of the palette: a disclosure header — a real button carrying

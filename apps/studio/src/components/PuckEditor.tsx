@@ -11,13 +11,13 @@ import {
   patchEditorStatus,
   toAuthorIssues,
   toDocsByBlock,
+  toPaletteGroups,
   toSlotConstraintsByBlock,
   toSlotNamesByBlock,
 } from "@nubbin/studio";
 import { ConsumerOriginContext } from "@nubbin/studio/consumer-origin";
 import { useDraftSave } from "@nubbin/studio/draft-save";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { toPaletteGroups } from "../nubbin/toPaletteGroups";
 import { toPuckConfig } from "../nubbin/toPuckConfig";
 import { OutcomeNotice } from "./OutcomeNotice";
 import { StudioStatusBar } from "./StudioStatusBar";

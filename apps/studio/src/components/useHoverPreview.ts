@@ -1,7 +1,7 @@
 "use client";
 
+import type { PaletteBlock } from "@nubbin/studio";
 import { useCallback, useEffect, useRef, useState } from "react";
-import type { PaletteBlock } from "../nubbin/paletteGroup.types";
 import { PREVIEW_HIDE_DELAY_MS, PREVIEW_SHOW_DELAY_MS } from "./hoverPreview.constants";
 
 /** What the preview panel shows, derived from what the palette says is pointed at: the
