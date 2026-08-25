@@ -1,8 +1,8 @@
 import { type AuthorIssue, editorStatusStore } from "@nubbin/studio";
+import { useDraftSave } from "@nubbin/studio/draft-save";
 import { renderHook, waitFor } from "@testing-library/react";
 import { afterEach, expect, test, vi } from "vitest";
 import { blankDraft } from "../nubbin/blankDraft";
-import { useDraftSave } from "./useDraftSave";
 
 afterEach(() => {
   vi.useRealTimers();
