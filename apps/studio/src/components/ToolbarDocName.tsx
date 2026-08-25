@@ -1,9 +1,9 @@
 "use client";
 
 import { usePuck } from "@measured/puck";
+import { ConsumerOriginContext } from "@nubbin/studio/consumer-origin";
 import { useContext } from "react";
 import { titleFromRoute } from "../nubbin/titleFromRoute";
-import { ConsumerOriginContext } from "./ConsumerOriginContext";
 import { toDocAddress } from "./toDocAddress";
 
 /** The toolbar's document identity, as the specimen writes it: the page's own title

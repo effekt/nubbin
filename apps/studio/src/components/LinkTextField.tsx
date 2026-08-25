@@ -3,13 +3,13 @@
 import "./issuesFlow.css";
 import "./linkField.css";
 import { FieldLabel } from "@measured/puck";
+import { ConsumerOriginContext } from "@nubbin/studio/consumer-origin";
 import { useContext } from "react";
 import { linkNoteLine } from "../nubbin/linkNoteLine";
 import { openLinkLabel } from "../nubbin/openLinkLabel";
 import { toLinkKind } from "../nubbin/toLinkKind";
 import { toOpenHref } from "../nubbin/toOpenHref";
 import { BoundedTextMeta } from "./BoundedTextMeta";
-import { ConsumerOriginContext } from "./ConsumerOriginContext";
 
 interface LinkTextFieldProps {
   id: string;

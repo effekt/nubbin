@@ -27,6 +27,10 @@
     "./react": {
       "types": "./dist/useEditorStatus.d.ts",
       "import": "./dist/useEditorStatus.js"
+    },
+    "./consumer-origin": {
+      "types": "./dist/ConsumerOriginContext.d.ts",
+      "import": "./dist/ConsumerOriginContext.js"
     }
   },
   "files": [
