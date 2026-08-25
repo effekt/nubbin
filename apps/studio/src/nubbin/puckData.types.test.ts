@@ -1,6 +1,6 @@
 import type { ComponentData, Data, DefaultComponents } from "@measured/puck";
+import type { PuckComponentData, PuckData } from "@nubbin/studio";
 import { describe, expect, it } from "vitest";
-import type { PuckComponentData, PuckData } from "./puckData.types";
 
 /** The local mirror exists to keep `unknown` where Puck writes `any`; these are the
  * compile-time proofs that mirror and original stay the same shape. Each helper is an

@@ -7,6 +7,8 @@ import "./canvasOverlay.css";
 import type { DocumentVersion } from "@nubbin/core";
 import {
   editorStatusStore,
+  foldPuckChange,
+  type PuckData,
   patchEditorStatus,
   type StudioEditorConfig,
   toDocsByBlock,
@@ -15,9 +17,7 @@ import {
 } from "@nubbin/studio";
 import { ConsumerOriginContext } from "@nubbin/studio/consumer-origin";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { foldPuckChange } from "../nubbin/foldPuckChange";
 import type { PublishOutcome } from "../nubbin/publishOutcome.types";
-import type { PuckData } from "../nubbin/puckData.types";
 import { toAuthorIssues } from "../nubbin/toAuthorIssues";
 import { toPaletteGroups } from "../nubbin/toPaletteGroups";
 import { toPuckConfig } from "../nubbin/toPuckConfig";

@@ -1,8 +1,8 @@
 import { addNode } from "@nubbin/core";
-import { fixtureRoutes } from "demo/fixtures/fixtureRoutes";
-import { lateEdition } from "demo/fixtures/lateEdition";
-import { cardDefaults } from "demo/src/blocks/cardDefaults";
 import { expect, test } from "vitest";
+import { fixtureRoutes } from "../../../examples/demo/fixtures/fixtureRoutes";
+import { lateEdition } from "../../../examples/demo/fixtures/lateEdition";
+import { cardDefaults } from "../../../examples/demo/src/blocks/cardDefaults";
 import { fromPuckData } from "./fromPuckData";
 import { isPuckSlotValue } from "./isPuckSlotValue";
 import type { PuckComponentData, PuckData } from "./puckData.types";

@@ -1,7 +1,6 @@
 import type { SlotConstraint } from "@nubbin/core";
-import { isPuckSlotValue } from "./isPuckSlotValue";
+import { isPuckSlotValue, type PuckComponentData } from "@nubbin/studio";
 import type { OutlineNode } from "./outlineNode.types";
-import type { PuckComponentData } from "./puckData.types";
 
 /**
  * The outline's tree, from Puck's data and the registry's slot declarations: each block

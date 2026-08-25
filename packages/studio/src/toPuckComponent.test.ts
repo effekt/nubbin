@@ -1,5 +1,5 @@
-import { lateEdition } from "demo/fixtures/lateEdition";
 import { expect, test } from "vitest";
+import { lateEdition } from "../../../examples/demo/fixtures/lateEdition";
 import { toPuckComponent } from "./toPuckComponent";
 
 test("a leaf node maps block to type and keeps its props", () => {
