@@ -1,6 +1,8 @@
 import { parseDraftHttpReply } from "./parseDraftHttpReply";
 import { parseHistoryHttpReply } from "./parseHistoryHttpReply";
 import { parsePublishHttpReply } from "./parsePublishHttpReply";
+import { parseRouteCreateHttpReply } from "./parseRouteCreateHttpReply";
+import { postHttpJson } from "./postHttpJson";
 import type { StudioHttpClient } from "./studioHttpClient.types";
 import type { StudioHttpClientOptions } from "./studioHttpClientOptions.types";
 
@@ -12,12 +14,12 @@ export function createStudioHttpClient(options: StudioHttpClientOptions = {}): S
     ((input: RequestInfo | URL, init?: RequestInit) => globalThis.fetch(input, init));
   const baseUrl = (options.baseUrl ?? "").replace(/\/$/, "");
   return {
+    async createRoute(route) {
+      const response = await postHttpJson(request, `${baseUrl}/api/routes`, { route });
+      return parseRouteCreateHttpReply(response.ok, response.status, await response.text());
+    },
     async saveDraft(route, version) {
-      const response = await request(`${baseUrl}/api/draft`, {
-        method: "POST",
-        headers: { "content-type": "application/json" },
-        body: JSON.stringify({ route, version }),
-      });
+      const response = await postHttpJson(request, `${baseUrl}/api/draft`, { route, version });
       if (!response.ok) {
         const text = await response.text();
         return [{ message: text === "" ? `save rejected (${response.status})` : text }];
@@ -33,11 +35,7 @@ export function createStudioHttpClient(options: StudioHttpClientOptions = {}): S
       return parsePublishHttpReply(route, response, await response.text());
     },
     async rollback(route, hash) {
-      const response = await request(`${baseUrl}/api/rollback`, {
-        method: "POST",
-        headers: { "content-type": "application/json" },
-        body: JSON.stringify({ route, hash }),
-      });
+      const response = await postHttpJson(request, `${baseUrl}/api/rollback`, { route, hash });
       return parsePublishHttpReply(route, response, await response.text());
     },
     async history(route) {

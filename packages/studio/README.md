@@ -8,6 +8,10 @@ The package also owns the small external status store shared by the canvas and e
 React consumers import hooks from `@nubbin/studio/react`; the default entry remains free of
 React-only exports for server-side configuration and publishing code.
 
+`createStudioHttpClient()` supplies the draft, route, publish, history, and rollback transport.
+It defaults to same-origin endpoints. Pass `baseUrl` for a separately hosted Studio, or a wrapped
+`fetch` to attach the host's credentials, authorization headers, tracing, and retry policy.
+
 ```bash
 npm install @nubbin/studio
 ```

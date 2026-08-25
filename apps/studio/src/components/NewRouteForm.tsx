@@ -1,7 +1,7 @@
 "use client";
 
 import { useId, useState } from "react";
-import { postRouteCreate } from "../nubbin/postRouteCreate";
+import { studioHttpClient } from "../nubbin/studioHttpClient";
 
 interface NewRouteFormProps {
   onCreated: (route: string) => void;
@@ -18,9 +18,9 @@ export function NewRouteForm({ onCreated }: NewRouteFormProps) {
   const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const route = String(new FormData(event.currentTarget).get("route") ?? "");
-    void postRouteCreate(route).then((outcome) =>
-      outcome.ok ? onCreated(outcome.route) : setError(outcome.message),
-    );
+    void studioHttpClient
+      .createRoute(route)
+      .then((outcome) => (outcome.ok ? onCreated(outcome.route) : setError(outcome.message)));
   };
   return (
     <form className="nubbin-pages-form" onSubmit={onSubmit}>
