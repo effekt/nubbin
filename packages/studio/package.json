@@ -24,6 +24,10 @@
       "types": "./dist/index.d.ts",
       "import": "./dist/index.js"
     },
+    "./puck": {
+      "types": "./dist/puckAdapter.d.ts",
+      "import": "./dist/puckAdapter.js"
+    },
     "./react": {
       "types": "./dist/useEditorStatus.d.ts",
       "import": "./dist/useEditorStatus.js"
@@ -49,6 +53,7 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
+    "@measured/puck": "catalog:",
     "@nubbin/core": "workspace:*",
     "@nubbin/react": "workspace:*"
   },

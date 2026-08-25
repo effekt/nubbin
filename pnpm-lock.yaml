@@ -433,6 +433,9 @@ importers:
 
   packages/studio:
     dependencies:
+      '@measured/puck':
+        specifier: 'catalog:'
+        version: 0.20.2(@types/react@19.2.17)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
       '@nubbin/core':
         specifier: workspace:*
         version: link:../core

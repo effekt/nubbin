@@ -1,7 +1,7 @@
 import type { Config } from "@measured/puck";
 import type { Catalog, Registry } from "@nubbin/core";
+import { puckAdapter } from "@nubbin/studio/puck";
 import { toPuckComponentConfig } from "./toPuckComponentConfig";
-import { toPuckRootConfig } from "./toPuckRootConfig";
 
 /** The whole Puck config, derived: one component per catalog block, each built by
  * `toPuckComponentConfig` from the pair the demo already maintains — the catalog for schema
@@ -22,6 +22,6 @@ export function toPuckConfig(catalog: Catalog, registry: Registry): Config {
   }
   return {
     components,
-    root: toPuckRootConfig(),
+    root: puckAdapter.rootConfig(),
   };
 }

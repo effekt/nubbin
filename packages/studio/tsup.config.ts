@@ -3,6 +3,7 @@ import { defineConfig } from "tsup";
 export default defineConfig({
   entry: [
     "src/index.ts",
+    "src/puckAdapter.ts",
     "src/useDraftSave.ts",
     "src/useEditorStatus.ts",
     "src/ConsumerOriginContext.ts",
