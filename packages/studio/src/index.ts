@@ -2,6 +2,7 @@ export type { AuthorIssue } from "./authorIssue.types";
 /** The React context type exposed by the optional consumer-origin entry. */
 export type ConsumerOriginContextType =
   typeof import("./ConsumerOriginContext").ConsumerOriginContext;
+export { createDraftSaveRequestHandler } from "./createDraftSaveRequestHandler";
 export type { CreateRouteOperation } from "./createRouteOperation.types";
 export { createRouteRequestHandler } from "./createRouteRequestHandler";
 export type { StatusStore } from "./createStatusStore";
@@ -27,6 +28,7 @@ export { patchEditorStatus } from "./patchEditorStatus";
 export type { PublishOutcome, PublishSuccess } from "./publishOutcome.types";
 export type { PublishTimings } from "./publishTimings.types";
 export type { RouteCreateOutcome } from "./routeCreateOutcome.types";
+export type { SaveDraftOperation } from "./saveDraftOperation.types";
 /** The adapter type exposed by the optional Puck entry; this type-only edge keeps the default
  * runtime entry free of Puck while making every published source entry visible to graph checks. */
 export type PuckAdapter = typeof import("./puckAdapter").puckAdapter;

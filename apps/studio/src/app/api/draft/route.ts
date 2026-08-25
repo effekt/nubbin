@@ -1,8 +1,5 @@
-import { NubbinError } from "@nubbin/core";
-import { parseDraftSaveRequest } from "@nubbin/studio";
+import { createDraftSaveRequestHandler } from "@nubbin/studio";
 import { saveDraft } from "../../../nubbin/saveDraft";
-
-const BAD_REQUEST = 400;
 
 /**
  * One whole-document save. The editor is controlled, so the draft must hold exactly what
@@ -14,22 +11,6 @@ const BAD_REQUEST = 400;
  * An unknown route is 400 like a malformed body — the same client fault, a save naming a
  * route the drafts do not hold.
  */
-export async function POST(request: Request) {
-  const body: unknown = await request.json().catch(() => undefined);
-  const save = parseDraftSaveRequest(body);
-  if (save === undefined) {
-    return new Response("malformed save", { status: BAD_REQUEST });
-  }
-  try {
-    const outcome = saveDraft(save.route, save.version);
-    if ("missing" in outcome) {
-      return new Response(`no draft for ${save.route}`, { status: BAD_REQUEST });
-    }
-    return Response.json({ ok: true });
-  } catch (error) {
-    if (error instanceof NubbinError) {
-      return Response.json({ ok: false, issues: error.issues });
-    }
-    throw error;
-  }
-}
+export const POST = createDraftSaveRequestHandler((route, version) =>
+  "missing" in saveDraft(route, version) ? "missing" : "saved",
+);
