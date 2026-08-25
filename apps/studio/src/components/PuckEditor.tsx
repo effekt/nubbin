@@ -13,6 +13,7 @@ import {
   toSlotConstraintsByBlock,
   toSlotNamesByBlock,
 } from "@nubbin/studio";
+import { ConsumerOriginContext } from "@nubbin/studio/consumer-origin";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { foldPuckChange } from "../nubbin/foldPuckChange";
 import type { PublishOutcome } from "../nubbin/publishOutcome.types";
@@ -20,7 +21,6 @@ import type { PuckData } from "../nubbin/puckData.types";
 import { toAuthorIssues } from "../nubbin/toAuthorIssues";
 import { toPaletteGroups } from "../nubbin/toPaletteGroups";
 import { toPuckConfig } from "../nubbin/toPuckConfig";
-import { ConsumerOriginContext } from "./ConsumerOriginContext";
 import { PublishNotice } from "./PublishNotice";
 import { StudioStatusBar } from "./StudioStatusBar";
 import { toBridgedOverrides } from "./toBridgedOverrides";
