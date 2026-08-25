@@ -18,6 +18,9 @@ export type { PaletteBlock, PaletteGroup } from "./paletteGroup.types";
 export { patchEditorStatus } from "./patchEditorStatus";
 export type { PublishOutcome, PublishSuccess } from "./publishOutcome.types";
 export type { PublishTimings } from "./publishTimings.types";
+/** The adapter type exposed by the optional Puck entry; this type-only edge keeps the default
+ * runtime entry free of Puck while making every published source entry visible to graph checks. */
+export type PuckAdapter = typeof import("./puckAdapter").puckAdapter;
 export type { PuckComponentData, PuckData } from "./puckData.types";
 export type { StudioConfig, StudioEditorConfig, StudioViewport } from "./studioConfig.types";
 export type { StudioDraftSaver, StudioEditorProps } from "./studioEditorProps.types";
