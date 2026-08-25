@@ -1,6 +1,6 @@
+import { isDocumentVersionShape } from "@nubbin/studio";
 import { expect, test } from "vitest";
 import { blankDraft } from "./blankDraft";
-import { isDocumentVersionShape } from "./isDocumentVersionShape";
 
 test("a blank draft is a well-formed empty document named after its route", () => {
   const version = blankDraft("/spring-sale");

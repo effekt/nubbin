@@ -1,5 +1,5 @@
 import { NubbinError } from "@nubbin/core";
-import { parseDraftSave } from "../../../nubbin/parseDraftSave";
+import { parseDraftSaveRequest } from "@nubbin/studio";
 import { saveDraft } from "../../../nubbin/saveDraft";
 
 const BAD_REQUEST = 400;
@@ -16,7 +16,7 @@ const BAD_REQUEST = 400;
  */
 export async function POST(request: Request) {
   const body: unknown = await request.json().catch(() => undefined);
-  const save = parseDraftSave(body);
+  const save = parseDraftSaveRequest(body);
   if (save === undefined) {
     return new Response("malformed save", { status: BAD_REQUEST });
   }
