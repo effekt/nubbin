@@ -1,7 +1,7 @@
 "use client";
 
+import { patchEditorStatus } from "@nubbin/studio";
 import { type ReactNode, useEffect } from "react";
-import { patchEditorStatus } from "./patchEditorStatus";
 
 /**
  * The `iframe` override's only job beyond passing the preview through: Puck hands it the

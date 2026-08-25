@@ -1,5 +1,5 @@
+import type { AuthorIssue } from "@nubbin/studio";
 import { expect, test } from "vitest";
-import type { AuthorIssue } from "../nubbin/authorIssue.types";
 import { toStatusSegments } from "./toStatusSegments";
 
 const issue: AuthorIssue = { blockName: "Hero", message: "The headline is over its limit." };

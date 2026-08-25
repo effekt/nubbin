@@ -1,4 +1,4 @@
-import type { AuthorIssue } from "./authorIssue.types";
+import type { AuthorIssue } from "@nubbin/studio";
 
 /**
  * The half of an issue that names where it lives — `Hero — Headline` — for the row that sets

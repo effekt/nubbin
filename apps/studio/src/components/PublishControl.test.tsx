@@ -1,6 +1,6 @@
+import { editorStatusStore } from "@nubbin/studio";
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { afterEach, expect, test, vi } from "vitest";
-import { editorStatusStore } from "./editorStatusStore";
 import { PublishControl } from "./PublishControl";
 
 afterEach(() => {

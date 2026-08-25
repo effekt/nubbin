@@ -1,6 +1,6 @@
+import { editorStatusStore } from "@nubbin/studio";
 import { act, renderHook } from "@testing-library/react";
 import { afterEach, expect, test } from "vitest";
-import { editorStatusStore } from "./editorStatusStore";
 import { useEditorStatus } from "./useEditorStatus";
 
 afterEach(() => {

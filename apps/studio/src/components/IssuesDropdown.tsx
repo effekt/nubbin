@@ -1,6 +1,6 @@
 "use client";
 
-import type { AuthorIssue } from "../nubbin/authorIssue.types";
+import type { AuthorIssue } from "@nubbin/studio";
 import { issuesHeading } from "../nubbin/issuesHeading";
 import { IssueRow } from "./IssueRow";
 

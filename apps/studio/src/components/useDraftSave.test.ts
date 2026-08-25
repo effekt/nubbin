@@ -1,7 +1,7 @@
+import { editorStatusStore } from "@nubbin/studio";
 import { renderHook, waitFor } from "@testing-library/react";
 import { afterEach, expect, test, vi } from "vitest";
 import { blankDraft } from "../nubbin/blankDraft";
-import { editorStatusStore } from "./editorStatusStore";
 import { useDraftSave } from "./useDraftSave";
 
 afterEach(() => {

@@ -1,5 +1,5 @@
 import type { Catalog, DocumentVersion } from "@nubbin/core";
-import type { AuthorIssue } from "./authorIssue.types";
+import type { AuthorIssue } from "@nubbin/studio";
 import { isNubbinIssueShape } from "./isNubbinIssueShape";
 import { toAuthorIssue } from "./toAuthorIssue";
 import { toIssueList } from "./toIssueList";

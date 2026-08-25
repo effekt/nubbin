@@ -6,6 +6,8 @@ import "./puckTheme.css";
 import "./canvasOverlay.css";
 import type { DocumentVersion } from "@nubbin/core";
 import {
+  editorStatusStore,
+  patchEditorStatus,
   type StudioEditorConfig,
   toDocsByBlock,
   toSlotConstraintsByBlock,
@@ -19,9 +21,7 @@ import { toAuthorIssues } from "../nubbin/toAuthorIssues";
 import { toPaletteGroups } from "../nubbin/toPaletteGroups";
 import { toPuckConfig } from "../nubbin/toPuckConfig";
 import { ConsumerOriginContext } from "./ConsumerOriginContext";
-import { editorStatusStore } from "./editorStatusStore";
 import { PublishNotice } from "./PublishNotice";
-import { patchEditorStatus } from "./patchEditorStatus";
 import { StudioStatusBar } from "./StudioStatusBar";
 import { toBridgedOverrides } from "./toBridgedOverrides";
 import { useDraftSave } from "./useDraftSave";

@@ -1,6 +1,6 @@
+import { editorStatusStore } from "@nubbin/studio";
 import { act, fireEvent, render, screen } from "@testing-library/react";
 import { afterEach, expect, test } from "vitest";
-import { editorStatusStore } from "./editorStatusStore";
 import { IssuesPill } from "./IssuesPill";
 
 const issues = [

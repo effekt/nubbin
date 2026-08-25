@@ -1,4 +1,4 @@
-import type { EditorStatus } from "./editorStatus.types";
+import type { EditorStatus } from "@nubbin/studio";
 import type { StatusSegment } from "./statusSegment.types";
 import { toPreviewSegment } from "./toPreviewSegment";
 

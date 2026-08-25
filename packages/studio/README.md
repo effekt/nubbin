@@ -4,6 +4,7 @@ The public configuration contract for a self-hosted Nubbin Studio. It binds the 
 catalog, registries, documents, live-data resolver, canvas widths, storage, and origin owned by
 the application being edited. Its editor projections derive documentation and slot metadata from
 that same catalog and registry, so hosting applications do not maintain parallel UI configuration.
+The package also owns the small external status store shared by the canvas and editor chrome.
 
 ```bash
 npm install @nubbin/studio
