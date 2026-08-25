@@ -6,6 +6,7 @@ import type { RefObject } from "react";
 import type { PaletteGroup } from "../nubbin/paletteGroup.types";
 import { prefixedRoute } from "../nubbin/prefixedRoute";
 import type { PublishOutcome } from "../nubbin/publishOutcome.types";
+import type { StudioOperations } from "../nubbin/studioOperations.types";
 import { toIconByBlock } from "../nubbin/toIconByBlock";
 import { BlockPalette } from "./BlockPalette";
 import { CanvasActionBar } from "./CanvasActionBar";
@@ -42,6 +43,7 @@ import { StudioToolbar } from "./StudioToolbar";
 export function toBridgedOverrides(
   apiRef: RefObject<(() => PuckApi) | undefined>,
   pages: { route: string; routes: readonly string[] },
+  operations: StudioOperations,
   onOutcome: (outcome: PublishOutcome) => void,
   palette: readonly PaletteGroup[],
   docsByBlock: Record<string, Record<string, string>>,
@@ -68,7 +70,7 @@ export function toBridgedOverrides(
           Preview
         </a>
         <IssuesPill apiRef={apiRef} />
-        <PublishControl route={pages.route} onOutcome={onOutcome} />
+        <PublishControl route={pages.route} operations={operations} onOutcome={onOutcome} />
       </>
     ),
     fields: ({ children }) => (

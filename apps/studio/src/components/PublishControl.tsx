@@ -4,9 +4,9 @@ import "./publishControl.css";
 import { patchEditorStatus } from "@nubbin/studio";
 import { useEditorStatus } from "@nubbin/studio/react";
 import { useCallback, useRef, useState } from "react";
-import { postPublish } from "../nubbin/postPublish";
 import { publishLabel } from "../nubbin/publishLabel";
 import type { PublishOutcome, PublishSuccess } from "../nubbin/publishOutcome.types";
+import type { StudioOperations } from "../nubbin/studioOperations.types";
 import { PublishButton } from "./PublishButton";
 import { PublishPanel, type PublishView } from "./PublishPanel";
 import { useCloseOnEscape } from "./useCloseOnEscape";
@@ -14,6 +14,7 @@ import { useCloseOnOutsideClick } from "./useCloseOnOutsideClick";
 
 interface PublishControlProps {
   route: string;
+  operations: StudioOperations;
   onOutcome: (outcome: PublishOutcome) => void;
 }
 
@@ -24,7 +25,7 @@ interface PublishControlProps {
  * route's history with a guarded way back. Escape closes and hands focus to the chevron; a
  * click elsewhere closes without stealing focus from where it landed; a rollback's outcome
  * closes the panel and reports through the same flow. */
-export function PublishControl({ route, onOutcome }: PublishControlProps) {
+export function PublishControl({ route, operations, onOutcome }: PublishControlProps) {
   const { published } = useEditorStatus();
   const [view, setView] = useState<PublishView | "closed">("closed");
   const [landed, setLanded] = useState<PublishSuccess | undefined>(undefined);
@@ -38,7 +39,7 @@ export function PublishControl({ route, onOutcome }: PublishControlProps) {
   useCloseOnOutsideClick(view !== "closed", rootRef, () => setView("closed"));
   const publish = () => {
     setView("publishing");
-    void postPublish(route).then((outcome) => {
+    void operations.publish(route).then((outcome) => {
       if (outcome.ok) {
         setLanded(outcome);
         setView("published");
@@ -70,6 +71,7 @@ export function PublishControl({ route, onOutcome }: PublishControlProps) {
         <PublishPanel
           view={view}
           route={route}
+          operations={operations}
           landed={landed}
           onOutcome={settle}
           onShowHistory={() => setView("history")}
