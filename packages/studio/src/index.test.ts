@@ -4,6 +4,7 @@ test("the published surface exports exactly the documented API", async () => {
   expect(Object.keys(await import("./index")).sort()).toEqual([
     "createDraftSaveRequestHandler",
     "createPublishRequestHandler",
+    "createRollbackRequestHandler",
     "createRouteRequestHandler",
     "createStatusStore",
     "createStudioHttpClient",

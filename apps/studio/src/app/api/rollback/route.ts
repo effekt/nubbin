@@ -1,13 +1,5 @@
-import { checkRollback } from "@nubbin/core";
-import { parseRollbackRequest } from "@nubbin/studio";
-import studioConfig from "@nubbin/studio-config";
-import { consumerOrigin } from "../../../nubbin/consumerOrigin";
-import { movePointerThroughOrigin } from "../../../nubbin/movePointerThroughOrigin";
-import { studioStore } from "../../../nubbin/studioStore";
-import { toDriftIssues } from "../../../nubbin/toDriftIssues";
-
-const BAD_REQUEST = 400;
-const UNPROCESSABLE = 422;
+import { createRollbackRequestHandler } from "@nubbin/studio";
+import { rollbackArtifact } from "../../../nubbin/rollbackArtifact";
 
 /**
  * Rollback is a pointer move: the target artifact already sits in the store, so nothing
@@ -18,26 +10,4 @@ const UNPROCESSABLE = 422;
  * artifact compiled for another route is refused however plausible the hash looks.
  * Unauthenticated like its siblings: the studio deploys behind the consumer's own gate.
  */
-export async function POST(request: Request) {
-  const rollback = parseRollbackRequest(await request.json().catch(() => undefined));
-  if (rollback === undefined) {
-    return new Response("malformed rollback", { status: BAD_REQUEST });
-  }
-  const { route, hash } = rollback;
-  const artifact = await studioStore().read(hash);
-  if (artifact === null) {
-    return new Response(`no artifact ${hash}`, { status: BAD_REQUEST });
-  }
-  if (artifact.route !== route) {
-    return new Response(`${hash} was compiled for ${artifact.route}, not ${route}`, {
-      status: BAD_REQUEST,
-    });
-  }
-  const verdict = checkRollback(artifact, studioConfig.registry);
-  if (!verdict.compatible) {
-    const issues = toDriftIssues(verdict.drifted, artifact.blockVersions, studioConfig.registry);
-    return Response.json({ ok: false, issues }, { status: UNPROCESSABLE });
-  }
-  await movePointerThroughOrigin(route, hash);
-  return Response.json({ ok: true, hash, url: new URL(route, consumerOrigin()).href });
-}
+export const POST = createRollbackRequestHandler(rollbackArtifact);

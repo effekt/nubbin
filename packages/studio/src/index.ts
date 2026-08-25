@@ -4,6 +4,7 @@ export type ConsumerOriginContextType =
   typeof import("./ConsumerOriginContext").ConsumerOriginContext;
 export { createDraftSaveRequestHandler } from "./createDraftSaveRequestHandler";
 export { createPublishRequestHandler } from "./createPublishRequestHandler";
+export { createRollbackRequestHandler } from "./createRollbackRequestHandler";
 export type { CreateRouteOperation } from "./createRouteOperation.types";
 export { createRouteRequestHandler } from "./createRouteRequestHandler";
 export type { StatusStore } from "./createStatusStore";
@@ -30,6 +31,8 @@ export type { PublishedDraft, PublishOperation } from "./publishOperation.types"
 export type { PublishOutcome, PublishSuccess } from "./publishOutcome.types";
 export type { PublishRequestHandlerOptions } from "./publishRequestHandlerOptions.types";
 export type { PublishTimings } from "./publishTimings.types";
+export type { RollbackOperation } from "./rollbackOperation.types";
+export type { RollbackOutcome } from "./rollbackOutcome.types";
 export type { RouteCreateOutcome } from "./routeCreateOutcome.types";
 export type { SaveDraftOperation } from "./saveDraftOperation.types";
 /** The adapter type exposed by the optional Puck entry; this type-only edge keeps the default
