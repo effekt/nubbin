@@ -1,18 +1,18 @@
 "use client";
 
 import { usePuck } from "@measured/puck";
-import studioConfig from "@nubbin/studio-config";
+import type { StudioViewport } from "./studioConfig.types";
 
 /** The toolbar's viewport chips, the specimen's segmented row over the consumer's own
  * breakpoints: each chip sets the canvas width through Puck's public `setUi`, and the
  * canvas re-zooms itself exactly as it does for its own controls. The pressed chip is told
  * by `aria-pressed` and shown by fill and weight, never hue alone. */
-export function ViewportSeg() {
+export function ViewportSeg({ viewports: configured }: { viewports: readonly StudioViewport[] }) {
   const { appState, dispatch } = usePuck();
   const viewports = appState.ui.viewports;
   return (
     <fieldset className="nb-tb-seg" aria-label="Canvas width">
-      {studioConfig.viewports.map((viewport) => (
+      {configured.map((viewport) => (
         <button
           key={viewport.width}
           type="button"

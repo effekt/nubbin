@@ -8,12 +8,13 @@ import {
   patchEditorStatus,
   toAuthorIssues,
 } from "@nubbin/studio";
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { ConsumerOriginContext } from "./ConsumerOriginContext";
 import type { StudioEditorPresentation } from "./studioEditorPresentation.types";
 import type { StudioEditorProps } from "./studioEditorProps.types";
 import { useDraftSave } from "./useDraftSave";
 import { useStudioEditorProjections } from "./useStudioEditorProjections";
+import { useStudioOverrides } from "./useStudioOverrides";
 
 export interface AssembledStudioEditorProps extends StudioEditorProps {
   readonly puckConfig: Config;
@@ -65,20 +66,17 @@ export function StudioEditor({
     },
     [catalog],
   );
-  const overrides = useMemo(
-    () =>
-      presentation.overrides({
-        apiRef: puckApi,
-        route,
-        routes,
-        operations,
-        onOutcome,
-        palette,
-        docsByBlock,
-        slotsByBlock,
-      }),
-    [presentation, route, routes, operations, onOutcome, palette, docsByBlock, slotsByBlock],
-  );
+  const overrides = useStudioOverrides(presentation, {
+    apiRef: puckApi,
+    route,
+    routes,
+    viewports: studioConfig.viewports,
+    operations,
+    onOutcome,
+    palette,
+    docsByBlock,
+    slotsByBlock,
+  });
   return (
     <ConsumerOriginContext.Provider value={consumerOrigin}>
       <div className="nubbin-studio nb-studio-frame">

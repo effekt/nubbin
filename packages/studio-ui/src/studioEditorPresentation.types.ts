@@ -2,12 +2,14 @@ import type { Overrides, PuckApi } from "@measured/puck";
 import type { SlotConstraint } from "@nubbin/core";
 import type { PaletteGroup, PublishOutcome, StudioOperations } from "@nubbin/studio";
 import type { ReactNode, RefObject } from "react";
+import type { StudioViewport } from "./studioConfig.types";
 
 /** Values supplied to a host's editor chrome without exposing Studio's internal state machine. */
 export interface StudioEditorChromeContext {
   readonly apiRef: RefObject<(() => PuckApi) | undefined>;
   readonly route: string;
   readonly routes: readonly string[];
+  readonly viewports: readonly StudioViewport[];
   readonly operations: StudioOperations;
   readonly onOutcome: (outcome: PublishOutcome) => void;
   readonly palette: readonly PaletteGroup[];

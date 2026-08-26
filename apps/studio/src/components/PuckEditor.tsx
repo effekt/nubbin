@@ -27,6 +27,7 @@ export function PuckEditor(props: StudioEditorProps) {
         apiRef,
         route,
         routes,
+        viewports,
         operations,
         onOutcome,
         palette,
@@ -36,6 +37,7 @@ export function PuckEditor(props: StudioEditorProps) {
         toBridgedOverrides(
           apiRef,
           { route, routes },
+          viewports,
           operations,
           onOutcome,
           palette,

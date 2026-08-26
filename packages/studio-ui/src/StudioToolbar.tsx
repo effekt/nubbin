@@ -2,15 +2,15 @@
 
 import "./studioToolbar.css";
 import type { ReactNode } from "react";
-import { RouteSwitcher } from "./RouteSwitcher";
 import { SidebarToggle } from "./SidebarToggle";
-import { ToolbarDocName } from "./ToolbarDocName";
+import type { StudioViewport } from "./studioConfig.types";
 import { UndoRedo } from "./UndoRedo";
 import { ViewportSeg } from "./ViewportSeg";
 
-interface StudioToolbarProps {
-  route: string;
-  routes: readonly string[];
+export interface StudioToolbarProps {
+  navigation: ReactNode;
+  document: ReactNode;
+  viewports: readonly StudioViewport[];
   /** The right-edge controls Puck hands the header — the studio's own, via `headerActions`. */
   actions: ReactNode;
 }
@@ -20,15 +20,15 @@ interface StudioToolbarProps {
  * spacer — viewport chips, undo and redo, and the publish-side controls. The stock header's
  * sidebar toggles survive as the flanking icon buttons; its mobile menu collapse does not,
  * so at narrow widths the row wraps instead of folding. */
-export function StudioToolbar({ route, routes, actions }: StudioToolbarProps) {
+export function StudioToolbar({ navigation, document, viewports, actions }: StudioToolbarProps) {
   return (
     <section className="nb-toolbar" aria-label="Studio toolbar">
       <SidebarToggle side="left" />
-      <RouteSwitcher route={route} routes={routes} />
+      {navigation}
       <span className="nb-tb-sep" aria-hidden="true" />
-      <ToolbarDocName route={route} />
+      {document}
       <span className="nb-tb-spacer" />
-      <ViewportSeg />
+      <ViewportSeg viewports={viewports} />
       <span className="nb-tb-sep" aria-hidden="true" />
       <UndoRedo />
       <span className="nb-tb-sep" aria-hidden="true" />
