@@ -109,7 +109,7 @@ Compiling denormalizes it into the artifact's nested tree — the trade is
 `roots` lists entry elements in order, and `Artifact.tree` holds one denormalized tree for
 each — see [A document has many roots](../../decisions/a-document-has-many-roots.md).
 
-How a `DocumentVersion` is stored is the authoring store, an open design question of its own — so the examples here construct one as a
+How a `DocumentVersion` is stored belongs to the host, so the examples construct one as a
 literal, the way the package's own tests do. Editing one is
 [`setNodeProp`](#setnodeprop-and-setatpath); composing one is
 [`addNode`, `removeNode` and `moveNode`](#addnode-removenode-and-movenode).

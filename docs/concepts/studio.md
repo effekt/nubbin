@@ -6,7 +6,8 @@ status: stable
 
 # Studio
 
-The editor an author uses. Pulled and run alongside the consumer's app, never hosted by us.
+The editor an author uses. It runs alongside the consumer's app and requires no Nubbin-hosted
+service.
 
 ## Self-hosted, iframe canvas
 

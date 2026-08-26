@@ -25,11 +25,13 @@ packages/
   cli/        @nubbin/cli        — compile, publish, roll back and check, from a terminal
   studio/     @nubbin/studio     — public configuration contract for a self-hosted Studio
 apps/
-  studio/     the editor — pulled and run alongside your app, never a hosted service
+  studio/     the reference host for the packaged editor
 ```
 
-`core` is the contract. Everything else is an adapter around it, and a consumer can
-replace any of them. Bring your own storage, your own auth, your own framework binding.
+`core` is the contract. The other packages supply replaceable adapters and complete local
+surfaces. The repository
+[ships contracts, not operated infrastructure](docs/decisions/the-repository-ships-contracts-not-operated-infrastructure.md):
+consumers provide storage, optional access control, networking, deployment, and framework bindings.
 
 ## The invariants
 
@@ -50,6 +52,9 @@ argued where its name links to.
 7. **[Nubbin knows nothing about the consumer's stack.](docs/decisions/layout-is-ordinary-props-and-nubbin-ships-no-css.md)**
    It ships no CSS and holds no opinion about styling. A feature needing to know what is on the
    other side is the wrong feature.
+8. **[The repository ships contracts, not operated infrastructure.](docs/decisions/the-repository-ships-contracts-not-operated-infrastructure.md)**
+   Complete tools and editor surfaces stop at injected callbacks. The host owns every external
+   effect.
 
 ## Commands
 

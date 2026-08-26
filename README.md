@@ -6,7 +6,7 @@ Nubbin is a page builder that lives inside your codebase. Developers define bloc
 
 [Website](https://nubbin.io) · [Documentation](docs/README.md) · [GitHub](https://github.com/effekt/nubbin)
 
-Nubbin is not a general-purpose content management system (CMS). It gives people who do not write code a way to publish pages from components your application already owns.
+Nubbin is not a general-purpose content management system (CMS). It gives people who do not write code a way to publish pages from components your application already owns. Nubbin supplies the contracts, compiler, command-line tools, and editor; your application supplies every external effect through callbacks and adapters.
 
 ```bash
 npm install @nubbin/core
@@ -67,8 +67,8 @@ page, not an approximation of it. Publish compiles the draft exactly as the comm
 and moves the route pointer through the running application, so a page the compiler refuses is
 one the editor refuses too.
 
-It runs locally, on the machine of whoever is editing, against storage and identity the
-deployment already has. [Running the studio](docs/reference/editing/studio.md) covers the draft
+It runs locally, on the machine of whoever is editing, against storage and any access boundary
+the deployment chooses. [Running the studio](docs/reference/editing/studio.md) covers the draft
 store, the prop kinds, and the seam a consumer replaces to point it at their own application.
 
 ## Why Nubbin
@@ -82,7 +82,7 @@ Nubbin keeps schemas in your repository and content in a store. Code changes fol
 | **Immutable artifacts** | Each publish creates a content-addressed result that can be cached or restored by moving a route pointer. |
 | **No deploy to publish** | Compilation validates and serializes content without invoking a bundler. |
 | **Outside the render path** | Your application serves published artifacts from its own storage. |
-| **Bring your own infrastructure** | Storage, authentication, and framework integration stay behind adapters. |
+| **Host-owned infrastructure** | Storage, optional identity and access policy, networking, deployment, and framework integration stay behind callbacks and adapters. |
 | **Portable core** | `@nubbin/core` depends only on Standard Schema and runs in browsers, workers, servers, and build steps. |
 
 ## Packages

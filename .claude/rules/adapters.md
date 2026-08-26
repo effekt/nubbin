@@ -120,7 +120,7 @@ for (const hash of allArtifacts) if (!isWithinRollbackWindow(hash)) await remove
 
 Retention was scoped only to `DocumentVersion`; pruning artifacts the manifest doesn't reference breaks rollback exactly when it's needed. **Gate:** none — no retention policy exists yet, and nothing enforces one.
 
-### `PresenceAdapter`: polling or SSE by default, realtime is a swap
+### A presence contract does not operate the transport
 
 ```ts
 // WRONG — the interface assumes a persistent connection; nothing that only supports
@@ -136,7 +136,7 @@ interface PresenceAdapter {
 }
 ```
 
-Presence is scoped to "a heartbeat, no conflict resolution" — most of the felt value for a fraction of the cost — and whether it needs a server at all is still open. The flat `{roots, elements}` model also preserved a CRDT sync layer as an *optional* swap rather than a rewrite; `PresenceAdapter` should preserve the same optionality by not requiring a push channel. **Gate:** none.
+Presence is ephemeral integration state, not a service this repository operates. A contract may expose heartbeats, participants, cursors, or selections; the host decides how those values move and where they live. The flat `{roots, elements}` model preserves a synchronization engine as an optional implementation rather than a document-model requirement. **Gate:** none.
 
 ## Checklist
 

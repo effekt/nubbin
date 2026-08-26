@@ -14,12 +14,13 @@ only place it can live without drifting.
 | Concern | Lives in | Why there |
 |---|---|---|
 | **Contract** — what a block accepts | Code | Ships atomically with the component that consumes it. Two environments cannot disagree about it, because there is one commit. |
-| **Content** — which blocks, in what order, with what props | A database | It changes hourly, by people without a checkout, and must publish without a deploy. |
+| **Content** — which blocks, in what order, with what props | A host-owned authoring store | It changes independently of code, and the save contract does not prescribe its destination. |
 | **Published output** — what a request actually renders | An immutable artifact | Content-addressed, so it caches forever and rolls back by pointer. |
 
 Putting the contract in a hosted service is the mistake this project is a reaction to.
 That is what forces schema-reconciliation tooling, environment promotion runbooks, and a
-caching tier to survive the round trip.
+caching tier to survive the round trip. Nubbin also does not replace one mandatory service
+with another: [the repository ends at contracts and injected effects](../decisions/the-repository-ships-contracts-not-operated-infrastructure.md).
 
 ## The pipeline
 
@@ -39,7 +40,7 @@ caching tier to survive the round trip.
    │                   │
    ▼                   ▼
  draft versions   store.write(artifact) → store.publish(route, hash)
- (authoring DB)        │
+ (host callback)       │
                        ▼
                   route pointer            one atomic record per route
                        │

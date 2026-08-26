@@ -21,8 +21,8 @@ npm install -D @nubbin/cli
 ```
 
 [`@nubbin/core`](https://www.npmjs.com/package/@nubbin/core) is the contract and depends on
-nothing. The rest are adapters and any of them can be replaced — bring your own storage, your own
-framework binding: [`@nubbin/react`](https://www.npmjs.com/package/@nubbin/react),
+nothing. The other packages supply replaceable adapters and complete editor surfaces. Your host
+injects every external effect through [the repository's public boundaries](decisions/the-repository-ships-contracts-not-operated-infrastructure.md): [`@nubbin/react`](https://www.npmjs.com/package/@nubbin/react),
 [`@nubbin/next`](https://www.npmjs.com/package/@nubbin/next),
 [`@nubbin/store-fs`](https://www.npmjs.com/package/@nubbin/store-fs), and
 [`@nubbin/cli`](https://www.npmjs.com/package/@nubbin/cli) for the terminal.

@@ -178,6 +178,19 @@ interface AutosaveSlot {
 }
 ```
 
+The identifiers in this model do not imply an account system or a central id service:
+
+| Value | Meaning | Who supplies it |
+|---|---|---|
+| `Document.id` | Stable address for a document | Caller, CLI, or editor; `"home"` is valid |
+| `Node.id` | Stable address inside the authored graph | Caller, CLI, or editor; generated ids are a convenience |
+| Draft revision | Opaque compare-and-save token | Host callback; a content hash is sufficient |
+| `createdBy` | Non-authoritative provenance label | Authoring surface; `"studio"` or `"anonymous"` is sufficient |
+
+None must identify a person or be globally unique. A single-author host can preserve the same
+document and node ids, overwrite one file, and derive its revision from the file contents.
+See [The studio does not own identity](../decisions/the-studio-does-not-own-identity.md).
+
 A tick overwrites `AutosaveSlot` in place and never enters the version log; the slot is
 **promoted** into a new `DocumentVersion` only at the three events above. Undo never touches
 the version log either — reverting a *draft* is distinct from `rollback`, which moves the
@@ -205,7 +218,7 @@ names. Why a page lists entry elements rather than naming one block that contain
 | Debounce | 800ms — losing undo history on reload is an acceptable, bounded trade |
 | Reconnect | Discard the pending diff and re-serialize the working copy from memory, rather than trust a patched diff buffer that may have silently diverged |
 | Second tab / device | Every save compares an opaque revision. A stale writer [reconciles both descendants from their shared base](../decisions/draft-saves-reconcile-from-a-shared-base.md) before retrying; presence and node locks may reduce how often that path is needed. |
-| Crash mid-append | A version row is one atomic insert keyed on `(documentId, version)`; `head` advances only after commit — a crash leaves the log short one entry, never a partial one |
+| Crash during save | The host keeps the prior revision current unless it atomically commits the complete next value. |
 
 Not a required CRDT: `{roots, elements}` maps onto a map-of-records from the flat editing shape.
 The save contract requires revision comparison and three-way reconciliation, not one sync engine.
@@ -333,8 +346,9 @@ pointer; the artifact stays, so republishing is a pointer move rather than a rec
 
 ### ArtifactStore
 
-The output layer's whole IO surface. The authoring store's interface is undesigned. An adapter implements this; `core` only
-ever returns values for it.
+The output layer's whole IO surface. Authoring does not mirror it with one storage interface:
+the CLI config and Studio each inject the callback their workflow needs. The host decides what
+those callbacks persist, as settled by [the infrastructure boundary](../decisions/the-repository-ships-contracts-not-operated-infrastructure.md).
 
 ```ts
 interface ArtifactStore {
@@ -407,7 +421,7 @@ before offering "rollback," and a script can call it from a terminal outside any
 
 ## What this model has not settled
 
-Five things above are deliberately undecided, so they get settled on purpose rather than by
+Three things above are deliberately undecided, so they get settled on purpose rather than by
 whoever implements first:
 
 | Undecided | Cost of deciding late |
@@ -415,5 +429,3 @@ whoever implements first:
 | Layout slot merge: may a page contribute to several layout slots or exactly one? | The choice changes both the document shape and layout composition rules. |
 | Who owns `meta`: the document version or a block placed in the tree? | Ownership determines validation, inheritance, and editing behavior. |
 | Localization: one locale per `DocumentVersion` or many? | The choice affects document identity, routing, and publishing. |
-| Concurrent editing: is a document-wide lock enough? | The answer determines the authoring store's coordination contract. |
-| The authoring store interface: `ArtifactStore` has no counterpart on the content layer. | Every editor and automation client will depend on this boundary. |
