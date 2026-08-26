@@ -1,5 +1,6 @@
 import type { Field } from "@measured/puck";
-import { type HintedFieldNode, isLinkField } from "@nubbin/studio-ui";
+import type { HintedFieldNode } from "./hintedField.types";
+import { isLinkField } from "./isLinkField";
 import { toBoundedTextPuckField } from "./toBoundedTextPuckField";
 import { toLinkPuckField } from "./toLinkPuckField";
 

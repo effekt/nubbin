@@ -54,6 +54,7 @@ export { ToolbarDocument } from "./ToolbarDocument";
 export type { StudioNavigation } from "./toDefaultStudioOverrides";
 export { toDefaultStudioOverrides } from "./toDefaultStudioOverrides";
 export { toHintedFields } from "./toHintedFields";
+export { toPuckConfig } from "./toPuckConfig";
 export { toPuckRender } from "./toPuckRender";
 export { useCloseOnEscape } from "./useCloseOnEscape";
 export { useCloseOnOutsideClick } from "./useCloseOnOutsideClick";

@@ -41,6 +41,7 @@ test("exports exactly the optional UI contract", async () => {
     "selectPuckNode",
     "toDefaultStudioOverrides",
     "toHintedFields",
+    "toPuckConfig",
     "toPuckRender",
     "useCloseOnEscape",
     "useCloseOnOutsideClick",

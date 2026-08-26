@@ -85,6 +85,10 @@ rich-text document without exposing arbitrary HTML or JavaScript. `SubFieldContr
 dispatches nested fields through those controls, while `toHintedFields` folds catalog UI hints onto
 the schema description before a host builds its editor configuration.
 
+`toPuckConfig` derives the complete editor configuration from a Nubbin catalog and registry. It
+maps scalar, enum, object, repeater, rich-text, and slot contracts to the packaged controls, so a
+host does not maintain a parallel Puck field registry. Missing registry entries fail by block name.
+
 Consumers that supply their own presentation do not need the stylesheet or these components.
 
 `StudioEditor` owns draft folding, debounced saves, issue projection, publish outcomes, and Puck's

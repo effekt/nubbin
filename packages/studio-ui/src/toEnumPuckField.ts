@@ -1,6 +1,6 @@
 import type { Field } from "@measured/puck";
 import type { FieldNode } from "@nubbin/core";
-import { SEGMENTED_MAX_MEMBERS } from "@nubbin/studio-ui";
+import { SEGMENTED_MAX_MEMBERS } from "./segmented.constants";
 import { toSegmentedEnumPuckField } from "./toSegmentedEnumPuckField";
 
 /** The Puck field for an enum: up to three members lay flat as the segmented control,

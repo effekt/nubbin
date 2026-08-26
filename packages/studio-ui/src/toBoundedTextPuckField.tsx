@@ -1,6 +1,6 @@
 import type { CustomField } from "@measured/puck";
 import type { FieldNode } from "@nubbin/core";
-import { BoundedTextField } from "@nubbin/studio-ui";
+import { BoundedTextField } from "./BoundedTextField";
 
 /** The Puck field for a string whose schema declares a maximum length: a custom field whose
  * render is the studio's bounded text control — live counter, over-limit line, toned border.

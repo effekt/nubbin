@@ -1,6 +1,6 @@
 import type { CustomField } from "@measured/puck";
 import type { FieldNode } from "@nubbin/core";
-import { RichTextField } from "@nubbin/studio-ui";
+import { RichTextField } from "./RichTextField";
 
 /** The Puck field for a rich-text array: a custom field whose render is the studio's
  * rich-text control — typed blocks and spans behind a fixed toolbar, never markup. The

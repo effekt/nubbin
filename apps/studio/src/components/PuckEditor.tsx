@@ -10,12 +10,12 @@ import {
   type StudioEditorProps,
   StudioStatusBar,
   toDefaultStudioOverrides,
+  toPuckConfig,
 } from "@nubbin/studio-ui";
 import { useMemo } from "react";
 import { goToEditor } from "../nubbin/goToEditor";
 import { prefixedRoute } from "../nubbin/prefixedRoute";
 import { titleFromRoute } from "../nubbin/titleFromRoute";
-import { toPuckConfig } from "../nubbin/toPuckConfig";
 
 /** The Nubbin editor engine composed with this host's current visual chrome. */
 export function PuckEditor(props: StudioEditorProps) {

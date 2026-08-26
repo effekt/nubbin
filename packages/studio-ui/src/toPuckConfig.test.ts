@@ -1,9 +1,28 @@
 import { createRegistry, defineBlock } from "@nubbin/core";
-import { catalog } from "demo/src/nubbin/catalog";
-import { registry } from "demo/src/nubbin/registry";
 import { expect, test } from "vitest";
 import { z } from "zod";
 import { toPuckConfig } from "./toPuckConfig";
+
+const heroSchema = z.object({ eyebrow: z.string(), headline: z.string().max(80) });
+const cardGridSchema = z.object({ heading: z.string() });
+const cardSchema = z.object({ title: z.string() });
+const blocks = [
+  defineBlock({ name: "Hero", schema: heroSchema, component: null, version: 1, slots: {} }),
+  defineBlock({
+    name: "CardGrid",
+    schema: cardGridSchema,
+    component: null,
+    version: 1,
+    slots: { cards: { allow: ["Card"] } },
+  }),
+  defineBlock({ name: "Card", schema: cardSchema, component: null, version: 1, slots: {} }),
+];
+const catalog = {
+  Hero: { schema: heroSchema },
+  CardGrid: { schema: cardGridSchema },
+  Card: { schema: cardSchema },
+};
+const registry = createRegistry(blocks);
 
 test("one Puck component per catalog block", () => {
   const config = toPuckConfig(catalog, registry);
