@@ -8,6 +8,7 @@ test("exports exactly the optional UI contract", async () => {
     "BrokenBlock",
     "CanvasActionBar",
     "ConsumerOriginContext",
+    "DefaultStudioEditor",
     "FieldsWithCallout",
     "FieldsetGroup",
     "FrameLoadedProbe",
