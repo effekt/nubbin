@@ -1,5 +1,12 @@
 # @nubbin/store-fs
 
+## [0.3.0](https://github.com/effekt/nubbin/compare/store-fs-v0.2.0...store-fs-v0.3.0) (2026-08-26)
+
+
+### Features
+
+* **store-fs:** the contract suite is importable ([#569](https://github.com/effekt/nubbin/issues/569)) ([2f18d0c](https://github.com/effekt/nubbin/commit/2f18d0c8a292e4ddae56cb406b0405c94cc47b0e))
+
 ## [0.2.0](https://github.com/effekt/nubbin/compare/store-fs-v0.1.1...store-fs-v0.2.0) (2026-08-24)
 
 
