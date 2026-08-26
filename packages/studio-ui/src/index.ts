@@ -1,9 +1,12 @@
 "use client";
 
 export { ConsumerOriginContext } from "./ConsumerOriginContext";
+export type { OutcomeNoticeProps } from "./OutcomeNotice";
+export { OutcomeNotice } from "./OutcomeNotice";
 export { puckAdapter } from "./puckAdapter";
 export type { AssembledStudioEditorProps } from "./StudioEditor";
 export { StudioEditor } from "./StudioEditor";
+export { StudioStatusBar } from "./StudioStatusBar";
 export type { StudioConfig, StudioEditorConfig, StudioViewport } from "./studioConfig.types";
 export type {
   StudioEditorChromeContext,

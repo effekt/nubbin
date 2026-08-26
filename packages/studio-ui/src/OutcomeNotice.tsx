@@ -1,7 +1,7 @@
 import type { PublishOutcome } from "@nubbin/studio";
 import { PublishNotice } from "./PublishNotice";
 
-interface OutcomeNoticeProps {
+export interface OutcomeNoticeProps {
   outcome: PublishOutcome | undefined;
   onDismiss: () => void;
 }
