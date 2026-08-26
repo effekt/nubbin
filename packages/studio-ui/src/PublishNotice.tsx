@@ -22,10 +22,10 @@ export function PublishNotice({ route, hash, url, onDismiss }: PublishNoticeProp
     return () => clearTimeout(timer);
   }, [onDismiss]);
   return (
-    <p role="status" className="flex items-baseline gap-2 bg-canvas px-4 py-2 text-marine text-sm">
-      <span className="min-w-0">
+    <p role="status" className="nb-publish-notice">
+      <span className="nb-publish-notice-message">
         Rolled back <strong>{route}</strong> to <code>{hash}</code> —{" "}
-        <a className="text-teal underline underline-offset-4" href={url}>
+        <a className="nb-publish-notice-link" href={url}>
           view the live page
         </a>
       </span>
@@ -33,7 +33,7 @@ export function PublishNotice({ route, hash, url, onDismiss }: PublishNoticeProp
         type="button"
         onClick={onDismiss}
         aria-label="Dismiss"
-        className="ml-auto rounded px-1 font-semibold text-marine/70 hover:text-marine focus:outline-none focus-visible:ring-2 focus-visible:ring-teal"
+        className="nb-publish-notice-dismiss"
       >
         ×
       </button>

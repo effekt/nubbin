@@ -50,3 +50,45 @@
 .nb-statusbar-dot-fix {
   background: var(--nb-warn-deep);
 }
+
+.nb-publish-notice {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  margin: 0;
+  padding: 8px 16px;
+  color: var(--nb-ink);
+  background: var(--nb-panel);
+  font-size: 14px;
+}
+
+.nb-publish-notice-message {
+  min-width: 0;
+}
+
+.nb-publish-notice-link {
+  color: var(--nb-teal);
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+.nb-publish-notice-dismiss {
+  margin-left: auto;
+  padding: 0 4px;
+  border: 0;
+  border-radius: 4px;
+  color: color-mix(in srgb, var(--nb-ink) 70%, transparent);
+  background: transparent;
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.nb-publish-notice-dismiss:hover {
+  color: var(--nb-ink);
+}
+
+.nb-publish-notice-dismiss:focus-visible {
+  outline: 2px solid var(--nb-teal);
+  outline-offset: 2px;
+}
