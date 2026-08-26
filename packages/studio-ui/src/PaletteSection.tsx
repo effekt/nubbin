@@ -2,6 +2,7 @@
 
 import { Drawer } from "@measured/puck";
 import type { PaletteBlock, PaletteGroup } from "@nubbin/studio";
+import { DisclosureChevron } from "./DisclosureChevron";
 import { PaletteItem } from "./PaletteItem";
 
 /** One category of the palette: a disclosure header — a real button carrying
@@ -32,15 +33,7 @@ export function PaletteSection({
           aria-expanded={open}
           onClick={onToggle}
         >
-          <svg width="9" height="9" viewBox="0 0 10 10" fill="none" aria-hidden="true">
-            <path
-              d="m2 3.5 3 3 3-3"
-              stroke="currentColor"
-              strokeWidth="1.5"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-          </svg>
+          <DisclosureChevron />
           {group.title}
           <span className="nb-palette-count">{group.blocks.length}</span>
         </button>

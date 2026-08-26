@@ -3,7 +3,7 @@ import { isPuckSlotValue, type PuckComponentData } from "@nubbin/studio";
 import type { OutlineNode } from "./outlineNode.types";
 
 /**
- * The outline's tree, from Puck's data and the registry's slot declarations: each block
+ * The Studio outline's tree, from Puck data and the registry's slot declarations: each block
  * with its declared areas in declaration order, each area with the blocks inside it and
  * the slot's `max` where one is declared. An area the document has not filled still
  * renders — empty, so the author sees the spot exists — and a slot value that does not

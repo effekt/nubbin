@@ -1,6 +1,6 @@
 "use client";
 
-/** The specimen's 9px disclosure chevron, pointing down at rest; the caller's CSS rotates
+/** Nubbin's 9px disclosure chevron, pointing down at rest; the caller's CSS rotates
  * it -90° when its disclosure is closed. Decoration only — the button around it carries
  * `aria-expanded`. */
 export function DisclosureChevron() {

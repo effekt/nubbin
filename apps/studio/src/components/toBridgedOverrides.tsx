@@ -9,6 +9,7 @@ import {
   PublishControl,
   PuckApiBridge,
   RouteSwitcher,
+  StudioOutline,
   StudioToolbar,
   type StudioViewport,
   ToolbarDocument,
@@ -21,7 +22,6 @@ import { CanvasActionBar } from "./CanvasActionBar";
 import { FieldsWithCallout } from "./FieldsWithCallout";
 import { FrameLoadedProbe } from "./FrameLoadedProbe";
 import { IssuesPill } from "./IssuesPill";
-import { StudioOutline } from "./StudioOutline";
 
 /**
  * The studio's Puck overrides. The whole-UI `puck` override renders its children untouched

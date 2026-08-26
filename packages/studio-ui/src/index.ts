@@ -14,9 +14,11 @@ export type { RouteSwitcherProps } from "./RouteSwitcher";
 export { RouteSwitcher } from "./RouteSwitcher";
 export type { AssembledStudioEditorProps } from "./StudioEditor";
 export { StudioEditor } from "./StudioEditor";
+export { StudioOutline } from "./StudioOutline";
 export { StudioStatusBar } from "./StudioStatusBar";
 export type { StudioToolbarProps } from "./StudioToolbar";
 export { StudioToolbar } from "./StudioToolbar";
+export { selectPuckNode } from "./selectPuckNode";
 export type { StudioConfig, StudioEditorConfig, StudioViewport } from "./studioConfig.types";
 export type {
   StudioEditorChromeContext,
