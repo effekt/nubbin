@@ -7,13 +7,13 @@ import { toBlockCount } from "../nubbin/toBlockCount";
 import { toMatchingGroups } from "../nubbin/toMatchingGroups";
 import { withToggled } from "../nubbin/withToggled";
 import "./blockPalette.css";
+import { useCloseOnEscape } from "@nubbin/studio-ui";
 import { BlockPreviewPanel } from "./BlockPreviewPanel";
 import { insertBlockAtSelection } from "./insertBlockAtSelection";
 import { PaletteDetailBar } from "./PaletteDetailBar";
 import { PaletteEmptyState } from "./PaletteEmptyState";
 import { PaletteSearch } from "./PaletteSearch";
 import { PaletteSection } from "./PaletteSection";
-import { useCloseOnEscape } from "./useCloseOnEscape";
 import { useHoverPreview } from "./useHoverPreview";
 
 /** The Blocks card's content, replacing Puck's own list through the `drawer` override: the

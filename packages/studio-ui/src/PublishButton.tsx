@@ -11,11 +11,7 @@ interface PublishButtonProps {
  * the moment earns — `Publish changes` while the draft is ahead, `Published ✓` after. */
 export function PublishButton({ label, onPublish }: PublishButtonProps) {
   return (
-    <button
-      type="button"
-      onClick={onPublish}
-      className="rounded-md border border-orange-deep bg-orange-deep px-4 py-1.5 font-semibold text-white focus:outline-none focus-visible:ring-2"
-    >
+    <button type="button" onClick={onPublish} className="nubbin-publish-button">
       {label}
     </button>
   );

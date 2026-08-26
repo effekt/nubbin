@@ -1,6 +1,7 @@
 "use client";
 
-import { type RefObject, useEffect } from "react";
+import { type RefObject, useCallback } from "react";
+import { useDocumentListener } from "./useDocumentListener";
 
 /** A press outside the referenced element closes whatever is open — the listener exists
  * only while something is open, so a closed control costs nothing and swallows no clicks.
@@ -11,17 +12,12 @@ export function useCloseOnOutsideClick(
   ref: RefObject<HTMLElement | null>,
   close: () => void,
 ): void {
-  useEffect(() => {
-    if (!active) {
-      return undefined;
-    }
-    const onMouseDown = (event: MouseEvent) => {
+  const onMouseDown = useCallback(
+    (event: MouseEvent) => {
       const inside = event.target instanceof Node && ref.current?.contains(event.target) === true;
-      if (!inside) {
-        close();
-      }
-    };
-    document.addEventListener("mousedown", onMouseDown);
-    return () => document.removeEventListener("mousedown", onMouseDown);
-  }, [active, ref, close]);
+      if (!inside) close();
+    },
+    [ref, close],
+  );
+  useDocumentListener(active, "mousedown", onMouseDown);
 }

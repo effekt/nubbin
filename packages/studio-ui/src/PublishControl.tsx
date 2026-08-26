@@ -1,21 +1,18 @@
 "use client";
 
 import "./publishControl.css";
-import type { PublishOutcome, PublishSuccess, StudioOperations } from "@nubbin/studio";
+import type { PublishOutcome, PublishSuccess } from "@nubbin/studio";
 import { patchEditorStatus } from "@nubbin/studio";
-import { useEditorStatus } from "@nubbin/studio-ui";
 import { useCallback, useRef, useState } from "react";
-import { publishLabel } from "../nubbin/publishLabel";
 import { PublishButton } from "./PublishButton";
 import { PublishPanel, type PublishView } from "./PublishPanel";
+import { publishLabel } from "./publishLabel";
+import type { PublishTarget } from "./publishTarget.types";
 import { useCloseOnEscape } from "./useCloseOnEscape";
 import { useCloseOnOutsideClick } from "./useCloseOnOutsideClick";
+import { useEditorStatus } from "./useEditorStatus";
 
-interface PublishControlProps {
-  route: string;
-  operations: StudioOperations;
-  onOutcome: (outcome: PublishOutcome) => void;
-}
+export type PublishControlProps = PublishTarget;
 
 /** The masthead's publish hardware as a split control. The primary button publishes and
  * opens the panel on its report: the three steps pending, then checked with the server's

@@ -1,14 +1,11 @@
 "use client";
 
-import type { HistoryReply, PublishOutcome, StudioOperations } from "@nubbin/studio";
+import type { HistoryReply } from "@nubbin/studio";
 import { useEffect, useState } from "react";
 import { HistoryMoves } from "./HistoryMoves";
+import type { PublishTarget } from "./publishTarget.types";
 
-interface HistoryPanelProps {
-  route: string;
-  operations: StudioOperations;
-  onOutcome: (outcome: PublishOutcome) => void;
-}
+type HistoryPanelProps = PublishTarget;
 
 /** The dropdown's body: the route's history fetched when the panel opens, then the rows —
  * and a rollback posts to the endpoint and hands whatever came back, landed or refused,

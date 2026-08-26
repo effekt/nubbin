@@ -1,11 +1,11 @@
 "use client";
 
 import "./routeSwitcher.css";
+import { useCloseOnEscape } from "@nubbin/studio-ui";
 import { useCallback, useRef, useState } from "react";
 import { goToEditor } from "../nubbin/goToEditor";
 import { prefixedRoute } from "../nubbin/prefixedRoute";
 import { NewRouteForm } from "./NewRouteForm";
-import { useCloseOnEscape } from "./useCloseOnEscape";
 
 interface RouteSwitcherProps {
   route: string;

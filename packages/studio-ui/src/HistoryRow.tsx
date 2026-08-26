@@ -2,9 +2,9 @@
 
 import type { PointerMove } from "@nubbin/core";
 import { useState } from "react";
-import { formatMovedAt } from "../nubbin/formatMovedAt";
-import { rollbackLabel } from "../nubbin/rollbackLabel";
-import { shortHash } from "../nubbin/shortHash";
+import { formatMovedAt } from "./formatMovedAt";
+import { rollbackLabel } from "./rollbackLabel";
+import { shortHash } from "./shortHash";
 
 interface HistoryRowProps {
   move: PointerMove;

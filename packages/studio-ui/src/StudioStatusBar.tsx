@@ -1,7 +1,7 @@
 "use client";
 
 import "./studioStatusBar.css";
-import { StatusItem } from "./StatusItem";
+import { StatusItems } from "./StatusItems";
 import { AUTOSAVE_SETTLE_MS } from "./studioStatusBar.constants";
 import { toStatusSegments } from "./toStatusSegments";
 import { useEditorStatus } from "./useEditorStatus";
@@ -18,13 +18,9 @@ export function StudioStatusBar() {
   const { left, right } = toStatusSegments(status, saveStale);
   return (
     <section className="nb-statusbar" aria-label="Page status">
-      {left.map((segment) => (
-        <StatusItem key={segment.text} segment={segment} />
-      ))}
+      <StatusItems segments={left} />
       <span className="nb-statusbar-right">
-        {right.map((segment) => (
-          <StatusItem key={segment.text} segment={segment} />
-        ))}
+        <StatusItems segments={right} />
       </span>
     </section>
   );
