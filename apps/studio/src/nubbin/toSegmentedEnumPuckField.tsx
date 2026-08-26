@@ -1,6 +1,6 @@
 import type { CustomField } from "@measured/puck";
 import type { FieldNode } from "@nubbin/core";
-import { SegmentedEnumField } from "../components/SegmentedEnumField";
+import { SegmentedEnumField } from "@nubbin/studio-ui";
 
 /** The Puck field for an enum small enough to lay flat: a custom field whose render is the
  * studio's segmented control — real radios under the segment look, one per member. The

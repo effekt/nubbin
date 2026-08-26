@@ -1,4 +1,4 @@
-/* The specimen's segmented control (.seg), over real radio inputs: a bordered row of
+/* The packaged segmented control (.seg), over real radio inputs: a bordered row of
  * segments, the checked one filled teal with white text and a heavier weight — fill plus
  * weight, so the state survives a reader who cannot separate the hues. Tokens cascade from
  * `.nubbin-studio` in puckTheme.css. */

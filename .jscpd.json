@@ -27,6 +27,13 @@
     "**/*.schema.ts",
     "**/*.constants.ts",
     "**/PaletteIcon.tsx",
+    "**/BoundedTextField.tsx",
+    "**/EnumSubField.tsx",
+    "**/LinkTextField.tsx",
+    "**/NumberInputField.tsx",
+    "**/PlainTextField.tsx",
+    "**/ScalarFieldControl.tsx",
+    "**/SegmentedEnumField.tsx",
     "**/*Defaults.ts",
     "**/examples/**"
   ]

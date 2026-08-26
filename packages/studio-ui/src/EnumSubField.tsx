@@ -2,8 +2,8 @@
 
 import "./issuesFlow.css";
 import { FieldLabel } from "@measured/puck";
-import { SEGMENTED_MAX_MEMBERS } from "../nubbin/segmented.constants";
 import { SegmentedEnumField } from "./SegmentedEnumField";
+import { SEGMENTED_MAX_MEMBERS } from "./segmented.constants";
 
 interface EnumSubFieldProps {
   id: string;

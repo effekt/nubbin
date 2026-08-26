@@ -1,6 +1,6 @@
 import type { Field } from "@measured/puck";
+import type { HintedFieldNode } from "@nubbin/studio-ui";
 import { directChildFields } from "./directChildFields";
-import type { HintedFieldNode } from "./hintedField.types";
 import { isRichTextField } from "./isRichTextField";
 import { rowFieldOf } from "./rowFieldOf";
 import { toEnumPuckField } from "./toEnumPuckField";

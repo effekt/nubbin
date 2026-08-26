@@ -2,6 +2,7 @@
 
 import "./repeaterField.css";
 import type { FieldNode } from "@nubbin/core";
+import type { SubFieldRender } from "@nubbin/studio-ui";
 import { blankRowValue } from "../nubbin/blankRowValue";
 import { directChildFields } from "../nubbin/directChildFields";
 import { rowFieldOf } from "../nubbin/rowFieldOf";
@@ -10,7 +11,6 @@ import { withItemMoved } from "../nubbin/withItemMoved";
 import { RepeaterHead } from "./RepeaterHead";
 import { RepeaterRow } from "./RepeaterRow";
 import { RepeaterRowBody } from "./RepeaterRowBody";
-import type { SubFieldRender } from "./subField.types";
 import { useRowKeys } from "./useRowKeys";
 
 interface RepeaterFieldProps {

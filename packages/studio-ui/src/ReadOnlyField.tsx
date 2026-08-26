@@ -1,5 +1,5 @@
 import "./issuesFlow.css";
-import type { InspectorField } from "../nubbin/inspector.types";
+import type { InspectorField } from "./inspector.types";
 
 const JSON_INDENT = 1;
 

@@ -1,8 +1,8 @@
 "use client";
 
 import type { FieldNode } from "@nubbin/core";
+import type { SubFieldRender } from "@nubbin/studio-ui";
 import { FieldsetGroup } from "./FieldsetGroup";
-import type { SubFieldRender } from "./subField.types";
 
 interface RepeaterRowBodyProps {
   id: string;
