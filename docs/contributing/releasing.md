@@ -16,7 +16,11 @@ Which tool derives them, and what it beat, is
 [release-please owns versions](../decisions/release-please-owns-versions.md).
 
 Nothing is recorded at commit time beyond the commit message, whose format `commitlint` already
-enforces. A `fix:` or a `feat:` touching a package is what the next version is computed from.
+enforces. A `fix:`, `feat:`, `perf:` or `refactor:` touching a package is release-driving. The
+repository uses `refactor:` for user-facing architectural work, so it is registered explicitly;
+without that section release-please finds the commits but quietly reports that none are
+user-facing. Documentation, tests, chores, build work and CI remain hidden and do not create a
+release pull request by themselves.
 
 The `release` workflow runs release-please on every push to `main`. It maintains one pull request,
 titled `chore(repo): release main`, carrying every manifest bump and every changelog entry earned
