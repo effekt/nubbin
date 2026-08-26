@@ -7,7 +7,8 @@ status: stable
 # Releasing
 
 The packages that publish from this repository — `@nubbin/core`, `@nubbin/react`,
-`@nubbin/next`, `@nubbin/store-fs` and `@nubbin/cli` — share a version.
+`@nubbin/next`, `@nubbin/store-fs`, `@nubbin/cli`, `@nubbin/studio` and
+`@nubbin/studio-ui` — share a version.
 
 ## Versions are derived, never edited
 
@@ -22,7 +23,7 @@ titled `chore(repo): release main`, carrying every manifest bump and every chang
 since the last release. Merging that pull request is what makes a version real, and it is the only
 thing that edits a `version` field.
 
-Merging it also creates four GitHub releases and four tags. **Those releases are what permit a
+Merging it also creates seven GitHub releases and seven tags. **Those releases are what permit a
 publish**: the publish job is gated on the action's `releases_created` output, which is true only
 on the run that created them, and therefore true once per version.
 
