@@ -10,7 +10,6 @@ test("the published surface exports exactly the documented API", async () => {
     "createRouteRequestHandler",
     "createStatusStore",
     "createStudioHttpClient",
-    "defineStudioConfig",
     "editorStatusStore",
     "foldPuckChange",
     "fromPuckData",

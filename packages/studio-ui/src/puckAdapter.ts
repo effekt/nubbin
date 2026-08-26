@@ -1,7 +1,7 @@
 import type { Config, SlotField } from "@measured/puck";
 import type { SlotConstraint } from "@nubbin/core";
 
-/** Puck-specific config derivation kept behind an optional client-renderer entry. */
+/** Puck-specific config derivation kept inside the optional UI package. */
 export const puckAdapter = {
   rootConfig: (): NonNullable<Config["root"]> => ({
     fields: {

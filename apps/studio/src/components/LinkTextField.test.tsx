@@ -1,4 +1,4 @@
-import { ConsumerOriginContext } from "@nubbin/studio/consumer-origin";
+import { ConsumerOriginContext } from "@nubbin/studio-ui";
 import { fireEvent, render, screen } from "@testing-library/react";
 import { expect, test, vi } from "vitest";
 import { LinkTextField } from "./LinkTextField";

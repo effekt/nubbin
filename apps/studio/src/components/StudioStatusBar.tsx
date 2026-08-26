@@ -1,7 +1,7 @@
 "use client";
 
 import "./studioStatusBar.css";
-import { useEditorStatus } from "@nubbin/studio/react";
+import { useEditorStatus } from "@nubbin/studio-ui";
 import { StatusItem } from "./StatusItem";
 import { AUTOSAVE_SETTLE_MS } from "./studioStatusBar.constants";
 import { toStatusSegments } from "./toStatusSegments";

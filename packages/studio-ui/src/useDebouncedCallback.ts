@@ -1,9 +1,8 @@
+"use client";
+
 import { useEffect, useMemo, useRef } from "react";
 
-/** The trailing-edge debounce the autosave leans on: each call re-arms the timer, and only
- * the last arguments within the window fire. The callback is read through a ref so the
- * debounced identity is stable across renders, and the pending timer is cleared on unmount
- * so nothing fires into an unmounted editor. */
+/** Returns a stable trailing-edge callback and clears its pending timer on unmount. */
 export function useDebouncedCallback<Args extends unknown[]>(
   callback: (...args: Args) => void,
   delayMs: number,

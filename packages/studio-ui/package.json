@@ -1,19 +1,19 @@
 {
-  "name": "@nubbin/studio",
+  "name": "@nubbin/studio-ui",
   "version": "0.2.0",
-  "description": "Headless contracts, transports, and HTTP boundaries for a self-hosted Nubbin Studio.",
+  "description": "The optional React and Puck interface for a self-hosted Nubbin Studio.",
   "keywords": [
     "nubbin",
     "page-builder",
     "cms",
     "visual-editor",
-    "studio"
+    "react"
   ],
   "license": "MIT",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/effekt/nubbin.git",
-    "directory": "packages/studio"
+    "directory": "packages/studio-ui"
   },
   "homepage": "https://effekt.github.io/nubbin/",
   "bugs": "https://github.com/effekt/nubbin/issues",
@@ -23,6 +23,10 @@
     ".": {
       "types": "./dist/index.d.ts",
       "import": "./dist/index.js"
+    },
+    "./config": {
+      "types": "./dist/defineStudioConfig.d.ts",
+      "import": "./dist/defineStudioConfig.js"
     }
   },
   "files": [
@@ -37,12 +41,21 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@nubbin/core": "workspace:*"
+    "@measured/puck": "catalog:",
+    "@nubbin/core": "workspace:*",
+    "@nubbin/react": "workspace:*",
+    "@nubbin/studio": "workspace:*"
+  },
+  "peerDependencies": {
+    "react": ">=19.0.0"
   },
   "devDependencies": {
+    "@testing-library/react": "catalog:",
+    "@types/react": "catalog:",
+    "happy-dom": "catalog:",
+    "react": "catalog:",
     "tsup": "catalog:",
     "typescript": "catalog:",
-    "vitest": "catalog:",
-    "zod": "catalog:"
+    "vitest": "catalog:"
   }
 }

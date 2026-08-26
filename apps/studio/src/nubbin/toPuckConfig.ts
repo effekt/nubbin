@@ -1,6 +1,6 @@
 import type { Config } from "@measured/puck";
 import type { Catalog, Registry } from "@nubbin/core";
-import { puckAdapter } from "@nubbin/studio/puck";
+import { puckAdapter } from "@nubbin/studio-ui";
 import { toPuckComponentConfig } from "./toPuckComponentConfig";
 
 /** The whole Puck config, derived: one component per catalog block, each built by

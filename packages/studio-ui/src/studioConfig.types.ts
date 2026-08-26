@@ -9,7 +9,7 @@ export interface StudioViewport {
   icon?: string;
 }
 
-/** Everything executable or consumer-specific that one Studio deployment is bound to. */
+/** The executable and consumer-specific binding for one Studio UI deployment. */
 export interface StudioConfig {
   catalog: Catalog;
   registry: Registry;
@@ -21,5 +21,5 @@ export interface StudioConfig {
   consumerOrigin: string;
 }
 
-/** The editor-facing portion of a Studio binding used to construct the visual editor. */
+/** The portion of a Studio binding used to construct the visual editor. */
 export type StudioEditorConfig = Pick<StudioConfig, "catalog" | "registry" | "viewports">;

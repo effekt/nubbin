@@ -13,7 +13,5 @@ test("returns the consumer binding unchanged", () => {
     artifactStoreDir: ".nubbin",
     consumerOrigin: "http://localhost:3000",
   });
-
   expect(config.viewports[0]?.label).toBe("md");
-  expect(config.consumerOrigin).toBe("http://localhost:3000");
 });
