@@ -1,14 +1,4 @@
-/* Inspector issue state shared by the host's current custom field controls. */
-.nubbin-inspector-callout {
-  margin: 10px 12px 0;
-  padding: 8px 10px;
-  background: var(--nb-bad-tint);
-  border: 1px solid var(--nb-bad);
-  border-radius: 6px;
-  color: var(--nb-bad-ink);
-  font-size: 12.5px;
-}
-
+/* Issue state shared by the host's current custom field controls. */
 .nubbin-bounded-input {
   width: 100%;
   padding: 8px;

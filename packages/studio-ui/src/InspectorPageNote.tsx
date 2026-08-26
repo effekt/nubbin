@@ -1,6 +1,6 @@
 "use client";
 
-/** The quiet line above the Page panel's fields, shown while nothing is selected: what
+/** The quiet line above the Page panel's fields while nothing is selected: what
  * these fields are, so an author knows the panel edits the page's own head rather than any
  * block. Static prose, not a status — it neither appears nor changes as the author works. */
 export function InspectorPageNote() {

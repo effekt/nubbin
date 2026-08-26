@@ -6,6 +6,7 @@ import type { PaletteGroup, PublishOutcome, StudioOperations } from "@nubbin/stu
 import { toIconByBlock } from "@nubbin/studio";
 import {
   BlockPalette,
+  FieldsWithCallout,
   IssuesPill,
   PublishControl,
   PuckApiBridge,
@@ -20,7 +21,6 @@ import { goToEditor } from "../nubbin/goToEditor";
 import { prefixedRoute } from "../nubbin/prefixedRoute";
 import { titleFromRoute } from "../nubbin/titleFromRoute";
 import { CanvasActionBar } from "./CanvasActionBar";
-import { FieldsWithCallout } from "./FieldsWithCallout";
 import { FrameLoadedProbe } from "./FrameLoadedProbe";
 
 /**

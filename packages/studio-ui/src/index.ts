@@ -3,6 +3,7 @@
 export type { BlockPaletteProps } from "./BlockPalette";
 export { BlockPalette } from "./BlockPalette";
 export { ConsumerOriginContext } from "./ConsumerOriginContext";
+export { FieldsWithCallout } from "./FieldsWithCallout";
 export { focusIssueField } from "./focusIssueField";
 export { IssuesPill } from "./IssuesPill";
 export type { OutcomeNoticeProps } from "./OutcomeNotice";

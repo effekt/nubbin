@@ -1,6 +1,6 @@
 "use client";
 
-import { toDocsLinkLabel } from "../nubbin/toDocsLinkLabel";
+import { toDocsLinkLabel } from "./toDocsLinkLabel";
 import "./inspectorDocs.css";
 
 /** The selected block's docs links, one "Open in {Key}" anchor per entry, in a new tab. The

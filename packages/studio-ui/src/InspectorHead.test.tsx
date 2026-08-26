@@ -1,9 +1,10 @@
 import type { PuckApi } from "@measured/puck";
 import { Puck } from "@measured/puck";
-import { PuckApiBridge, selectPuckNode } from "@nubbin/studio-ui";
 import { act, render, screen, waitFor, within } from "@testing-library/react";
 import { expect, test } from "vitest";
 import { InspectorHead } from "./InspectorHead";
+import { PuckApiBridge } from "./PuckApiBridge";
+import { selectPuckNode } from "./selectPuckNode";
 
 async function renderSelected(nodeId: string | undefined) {
   const apiRef: { current: (() => PuckApi) | undefined } = { current: undefined };

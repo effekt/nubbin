@@ -1,4 +1,4 @@
-/* The inspector's skin, from the canonical specimen: a head naming the selected block, a
+/* The packaged inspector skin: a head naming the selected block, a
  * body that scrolls alone, a quiet foot, and Puck's own fields dressed in the studio's
  * tokens — labels at 12.5/600, inputs on the well, teal focus rings. Structure comes from
  * FieldsWithCallout; nothing here re-implements a field. Same voice and tokens as
@@ -125,4 +125,14 @@
 /* The docs links moved inside the body; its gutter replaces their margins. */
 .nb-insp-body .nubbin-inspector-docs {
   margin: 10px 0 0;
+}
+
+.nubbin-inspector-callout {
+  margin: 10px 12px 0;
+  padding: 8px 10px;
+  background: var(--nb-bad-tint);
+  border: 1px solid var(--nb-bad);
+  border-radius: 6px;
+  color: var(--nb-bad-ink);
+  font-size: 12.5px;
 }
