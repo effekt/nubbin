@@ -3,6 +3,7 @@
 import { ActionBar } from "@measured/puck";
 import { type ReactNode, useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
+import "./canvasOverlay.css";
 import { useMirroredTransform } from "./useMirroredTransform";
 
 const ACTIONS_CONTAINER = '[class^="_DraggableComponent-actions_"]';

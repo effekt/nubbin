@@ -1,5 +1,5 @@
 import { type ComponentType, createElement, type ReactElement } from "react";
-import { BlockBoundary } from "../components/BlockBoundary";
+import { BlockBoundary } from "./BlockBoundary";
 import { toBlockResetKey } from "./toBlockResetKey";
 import { withRenderedSlots } from "./withRenderedSlots";
 

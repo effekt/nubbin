@@ -1,11 +1,10 @@
 import type { ComponentConfig, Field } from "@measured/puck";
 import type { Block, CatalogEntry } from "@nubbin/core";
 import { zodAdapter } from "@nubbin/core";
-import { puckAdapter, toHintedFields } from "@nubbin/studio-ui";
+import { puckAdapter, toHintedFields, toPuckRender } from "@nubbin/studio-ui";
 import type { ComponentType } from "react";
 import { isTopLevelFieldPath } from "./isTopLevelFieldPath";
 import { toPuckField } from "./toPuckField";
-import { toPuckRender } from "./toPuckRender";
 
 /** One catalog block as Puck configures a component: fields read from the same `zodAdapter`
  * description the inspector used — schema stays the single source — one slot-typed field per

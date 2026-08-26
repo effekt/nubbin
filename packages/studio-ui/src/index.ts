@@ -1,12 +1,16 @@
 "use client";
 
+export { BlockBoundary } from "./BlockBoundary";
 export type { BlockPaletteProps } from "./BlockPalette";
 export { BlockPalette } from "./BlockPalette";
 export { BoundedTextField } from "./BoundedTextField";
+export { BrokenBlock } from "./BrokenBlock";
+export { CanvasActionBar } from "./CanvasActionBar";
 export { ConsumerOriginContext } from "./ConsumerOriginContext";
 export { directChildFields } from "./directChildFields";
 export { FieldsetGroup } from "./FieldsetGroup";
 export { FieldsWithCallout } from "./FieldsWithCallout";
+export { FrameLoadedProbe } from "./FrameLoadedProbe";
 export { focusIssueField } from "./focusIssueField";
 export type { HintedFieldNode } from "./hintedField.types";
 export { IssuesPill } from "./IssuesPill";
@@ -48,6 +52,7 @@ export type { StudioDraftSaver, StudioEditorProps } from "./studioEditorProps.ty
 export type { SubFieldProps, SubFieldRender } from "./subField.types";
 export { ToolbarDocument } from "./ToolbarDocument";
 export { toHintedFields } from "./toHintedFields";
+export { toPuckRender } from "./toPuckRender";
 export { useCloseOnEscape } from "./useCloseOnEscape";
 export { useCloseOnOutsideClick } from "./useCloseOnOutsideClick";
 export { useDraftSave } from "./useDraftSave";

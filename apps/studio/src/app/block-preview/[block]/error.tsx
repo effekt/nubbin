@@ -1,7 +1,7 @@
 "use client";
 
+import { BrokenBlock } from "@nubbin/studio-ui";
 import { useParams } from "next/navigation";
-import { BrokenBlock } from "../../../components/BrokenBlock";
 
 /**
  * What the palette's preview iframe shows when a block throws on its own defaults — a

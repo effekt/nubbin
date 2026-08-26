@@ -3,7 +3,6 @@
 import "@measured/puck/puck.css";
 import "@nubbin/studio-ui/styles.css";
 import "./puckTheme.css";
-import "./canvasOverlay.css";
 import {
   OutcomeNotice,
   StudioEditor,
