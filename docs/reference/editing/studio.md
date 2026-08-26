@@ -44,8 +44,13 @@ The reference host composes and publishes pages from the demo's block catalog:
   anything else shows a quiet note, in the muted ink rather than the error tone, because
   the value still saves either way. Every change — a drop, a
   reorder, a delete, a prop edit — folds back into a Nubbin document and saves to the draft
-  store on a debounce; a value the schema refuses still saves, with the compiler's issues in
-  the reply, because publish is the gate rather than save. Resting on a palette row floats
+  store on a debounce. Each save names the opaque revision its working copy descends from.
+  A stale save receives the current draft, merges changes made on only one side, and pauses on
+  same-path conflicts with both values visible until the author chooses. The retry names the
+  returned revision, so neither tab, device, person nor agent silently overwrites the other
+  ([the decision](../../decisions/draft-saves-reconcile-from-a-shared-base.md)). A value the
+  schema refuses still saves, with the compiler's issues in the reply, because publish is the
+  gate rather than save. Resting on a palette row floats
   the block itself beside the card, an iframe of `/block-preview/<name>` — the block
   compiled and rendered server-side from its catalog `defaults`, required slots filled with
   the first block each allows — so the preview is the component as shipped and cannot go
@@ -121,7 +126,9 @@ import { DefaultStudioEditor } from "@nubbin/studio-ui";
 `DefaultStudioEditor` receives the catalog and registry through `StudioEditorProps`, a
 `StudioOperations` implementation for draft and publish requests, and `StudioNavigation` callbacks
 for edit, preview, block-preview, title, and post-create routing. Those injected callbacks are the
-entire routing seam; the package has no knowledge of Next.js or the demo.
+entire routing seam; the package has no knowledge of Next.js or the demo. The host also supplies
+the initial draft revision and a compare-and-save callback. The callback returns either the next
+revision, the current remote draft and revision, or a missing-document outcome.
 
 ## The seam to the consumer
 

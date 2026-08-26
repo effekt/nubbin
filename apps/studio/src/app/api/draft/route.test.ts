@@ -4,6 +4,7 @@ import { join } from "node:path";
 import type { DocumentVersion, NubbinIssue } from "@nubbin/core";
 import { home } from "demo/fixtures/home";
 import { beforeEach, expect, test } from "vitest";
+import { draftRevision } from "../../../nubbin/draftRevision";
 import { readDraft } from "../../../nubbin/readDraft";
 import { POST } from "./route";
 
@@ -29,24 +30,41 @@ beforeEach(() => {
 
 test("a valid save answers ok and persists the version", async () => {
   const version = withHeadline("Saved whole");
-  const response = await post({ route: "/", version });
+  const response = await post({
+    route: "/",
+    version,
+    expectedRevision: draftRevision(home),
+  });
   expect(response.status).toBe(200);
-  expect(await response.json()).toEqual({ ok: true });
+  expect(await response.json()).toEqual({ status: "saved", revision: draftRevision(version) });
   expect(readDraft("/")).toEqual(version);
 });
 
 test("a version the compiler refuses answers its issues, and the draft holds it", async () => {
   const invalid = withHeadline(42);
-  const response = await post({ route: "/", version: invalid });
+  const response = await post({
+    route: "/",
+    version: invalid,
+    expectedRevision: draftRevision(home),
+  });
   expect(response.status).toBe(200);
-  const payload = (await response.json()) as { ok: boolean; issues: NubbinIssue[] };
-  expect(payload.ok).toBe(false);
+  const payload = (await response.json()) as {
+    status: string;
+    revision: string;
+    issues: NubbinIssue[];
+  };
+  expect(payload.status).toBe("saved");
+  expect(payload.revision).toBe(draftRevision(invalid));
   expect(payload.issues[0]?.code).toBe("invalid-props");
   expect(readDraft("/")).toEqual(invalid);
 });
 
 test("an unknown route answers 400", async () => {
-  const response = await post({ route: "/nope", version: home });
+  const response = await post({
+    route: "/nope",
+    version: home,
+    expectedRevision: draftRevision(home),
+  });
   expect(response.status).toBe(400);
   expect(await response.text()).toBe("no draft for /nope");
 });

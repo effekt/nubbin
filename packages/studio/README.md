@@ -7,6 +7,9 @@ depending on React, Puck, or a host framework.
 `createStudioHttpClient()` supplies the draft, route, publish, history, and rollback transport.
 It defaults to same-origin endpoints. Pass `baseUrl` for a separately hosted Studio, or a wrapped
 `fetch` to attach the host's credentials, authorization headers, tracing, and retry policy.
+Draft saves carry an opaque expected revision and their shared base. A host atomically compares
+that revision and returns either the next revision or its current draft; transport choice does not
+change the conflict contract.
 
 ```bash
 npm install @nubbin/studio

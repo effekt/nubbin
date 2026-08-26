@@ -2,17 +2,14 @@
 
 import { type Config, type Data, Puck, type PuckApi } from "@measured/puck";
 import type { PublishOutcome } from "@nubbin/studio";
-import {
-  editorStatusStore,
-  foldPuckChange,
-  patchEditorStatus,
-  toAuthorIssues,
-} from "@nubbin/studio";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { foldPuckChange, patchEditorStatus, toAuthorIssues, toPuckData } from "@nubbin/studio";
+import { useCallback, useRef, useState } from "react";
 import { ConsumerOriginContext } from "./ConsumerOriginContext";
+import { DraftConflictPanel } from "./DraftConflictPanel";
 import type { StudioEditorPresentation } from "./studioEditorPresentation.types";
 import type { StudioEditorProps } from "./studioEditorProps.types";
 import { useDraftSave } from "./useDraftSave";
+import { useResetEditorStatus } from "./useResetEditorStatus";
 import { useStudioEditorProjections } from "./useStudioEditorProjections";
 import { useStudioOverrides } from "./useStudioOverrides";
 
@@ -28,6 +25,7 @@ export function StudioEditor({
   routes,
   initialData,
   initialVersion,
+  initialRevision,
   consumerOrigin,
   saveDraft,
   operations,
@@ -41,17 +39,21 @@ export function StudioEditor({
   const puckApi = useRef<(() => PuckApi) | undefined>(undefined);
   const [data, setData] = useState<Data>(initialData);
   const [outcome, setOutcome] = useState<PublishOutcome | undefined>(undefined);
-  useEffect(() => {
-    editorStatusStore.set({ issues: [], issuesOpen: false, published: false });
+  useResetEditorStatus();
+  const onReconciled = useCallback((version: typeof initialVersion) => {
+    prior.current = version;
+    setData(toPuckData(version));
+    setOutcome(undefined);
+    patchEditorStatus({ published: false, savedAt: undefined });
   }, []);
-  const save = useDraftSave(route, saveDraft);
+  const draft = useDraftSave(route, initialVersion, initialRevision, saveDraft, onReconciled);
   const onChange = (next: Data) => {
     const folded = foldPuckChange(next, prior.current, blockSlots);
     prior.current = folded.version;
     setData(folded.data);
     setOutcome(undefined);
     patchEditorStatus({ published: false, savedAt: undefined });
-    save(folded.version);
+    draft.save(folded.version);
   };
   const dismissOutcome = useCallback(() => setOutcome(undefined), []);
   const onOutcome = useCallback(
@@ -90,6 +92,7 @@ export function StudioEditor({
           overrides={overrides}
           viewports={studioConfig.viewports}
         />
+        <DraftConflictPanel conflicts={draft.conflicts} onResolve={draft.resolve} />
         {presentation.status?.()}
       </div>
     </ConsumerOriginContext.Provider>

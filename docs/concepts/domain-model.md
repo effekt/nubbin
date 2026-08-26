@@ -204,13 +204,12 @@ names. Why a page lists entry elements rather than naming one block that contain
 | Client storage | IndexedDB, not JS memory alone — a tab crash loses at most the last tick |
 | Debounce | 800ms — losing undo history on reload is an acceptable, bounded trade |
 | Reconnect | Discard the pending diff and re-serialize the working copy from memory, rather than trust a patched diff buffer that may have silently diverged |
-| Second tab / device | Undefined — the same gap as two concurrent authors. Presence plus a node lock is expected to cover both; unresolved |
+| Second tab / device | Every save compares an opaque revision. A stale writer [reconciles both descendants from their shared base](../decisions/draft-saves-reconcile-from-a-shared-base.md) before retrying; presence and node locks may reduce how often that path is needed. |
 | Crash mid-append | A version row is one atomic insert keyed on `(documentId, version)`; `head` advances only after commit — a crash leaves the log short one entry, never a partial one |
 
-Not a CRDT: `{roots, elements}` maps onto a CRDT map-of-records incidentally, from the flat
-editing shape, not by choice. Neither Figma nor Linear — both centralized-server collaborative
-systems — uses one as its primary sync mechanism; presence plus node locks covers v1, with a
-CRDT sync layer left as a later swap.
+Not a required CRDT: `{roots, elements}` maps onto a map-of-records from the flat editing shape.
+The save contract requires revision comparison and three-way reconciliation, not one sync engine.
+A host may use a CRDT, a transactional row or another implementation behind that contract.
 
 ### Node — flat while authoring, nested once published
 

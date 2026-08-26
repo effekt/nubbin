@@ -6,6 +6,8 @@ import { publishOutcomeFromResponse } from "./publishOutcomeFromResponse";
 import type { StudioHttpClient } from "./studioHttpClient.types";
 import type { StudioHttpClientOptions } from "./studioHttpClientOptions.types";
 
+const CONFLICT = 409;
+
 /** Builds the browser transport for either a same-origin Studio or a separately hosted one.
  * Authentication remains host-owned: pass a fetch wrapper that adds the desired credentials. */
 export function createStudioHttpClient(options: StudioHttpClientOptions = {}): StudioHttpClient {
@@ -18,11 +20,13 @@ export function createStudioHttpClient(options: StudioHttpClientOptions = {}): S
       const response = await postHttpJson(request, `${baseUrl}/api/routes`, { route });
       return parseRouteCreateHttpReply(response.ok, response.status, await response.text());
     },
-    async saveDraft(route, version) {
-      const response = await postHttpJson(request, `${baseUrl}/api/draft`, { route, version });
+    async saveDraft(save) {
+      const response = await postHttpJson(request, `${baseUrl}/api/draft`, save);
       if (!response.ok) {
         const text = await response.text();
-        return [{ message: text === "" ? `save rejected (${response.status})` : text }];
+        if (response.status !== CONFLICT) {
+          throw new Error(text === "" ? `save rejected (${response.status})` : text);
+        }
       }
       return parseDraftHttpReply(await response.json().catch(() => undefined));
     },

@@ -18,9 +18,13 @@ export function ConfiguredPuckEditor(props: ConfiguredPuckEditorProps) {
       {...props}
       config={studioConfig}
       operations={studioHttpClient}
-      saveDraft={async (route, version) => {
-        const raw = await studioHttpClient.saveDraft(route, version);
-        return raw === undefined ? undefined : toAuthorIssues(raw, studioConfig.catalog, version);
+      saveDraft={async (save) => {
+        const outcome = await studioHttpClient.saveDraft(save);
+        if (outcome.status !== "saved") return outcome;
+        return {
+          ...outcome,
+          issues: toAuthorIssues(outcome.issues ?? [], studioConfig.catalog, save.version),
+        };
       }}
     />
   );
