@@ -6,6 +6,7 @@ import type { PaletteGroup, PublishOutcome, StudioOperations } from "@nubbin/stu
 import { toIconByBlock } from "@nubbin/studio";
 import {
   BlockPalette,
+  IssuesPill,
   PublishControl,
   PuckApiBridge,
   RouteSwitcher,
@@ -21,7 +22,6 @@ import { titleFromRoute } from "../nubbin/titleFromRoute";
 import { CanvasActionBar } from "./CanvasActionBar";
 import { FieldsWithCallout } from "./FieldsWithCallout";
 import { FrameLoadedProbe } from "./FrameLoadedProbe";
-import { IssuesPill } from "./IssuesPill";
 
 /**
  * The studio's Puck overrides. The whole-UI `puck` override renders its children untouched

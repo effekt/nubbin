@@ -8,8 +8,7 @@ import { PublishButton } from "./PublishButton";
 import { PublishPanel, type PublishView } from "./PublishPanel";
 import { publishLabel } from "./publishLabel";
 import type { PublishTarget } from "./publishTarget.types";
-import { useCloseOnEscape } from "./useCloseOnEscape";
-import { useCloseOnOutsideClick } from "./useCloseOnOutsideClick";
+import { useDismissiblePopup } from "./useDismissiblePopup";
 import { useEditorStatus } from "./useEditorStatus";
 
 export type PublishControlProps = PublishTarget;
@@ -27,12 +26,8 @@ export function PublishControl({ route, operations, onOutcome }: PublishControlP
   const [landed, setLanded] = useState<PublishSuccess | undefined>(undefined);
   const rootRef = useRef<HTMLDivElement>(null);
   const toggleRef = useRef<HTMLButtonElement>(null);
-  const close = useCallback(() => {
-    setView("closed");
-    toggleRef.current?.focus();
-  }, []);
-  useCloseOnEscape(view !== "closed", close);
-  useCloseOnOutsideClick(view !== "closed", rootRef, () => setView("closed"));
+  const dismiss = useCallback(() => setView("closed"), []);
+  const close = useDismissiblePopup(view !== "closed", rootRef, toggleRef, dismiss);
   const publish = () => {
     setView("publishing");
     void operations.publish(route).then((outcome) => {

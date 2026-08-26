@@ -1,5 +1,5 @@
 /**
- * The issues dropdown's title: how many things stand between this draft and going live,
+ * The Studio issues dropdown title: how many things stand between this draft and going live,
  * grammatical at one as well as many.
  */
 export function issuesHeading(count: number): string {

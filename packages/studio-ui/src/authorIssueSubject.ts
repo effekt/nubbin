@@ -1,7 +1,7 @@
 import type { AuthorIssue } from "@nubbin/studio";
 
 /**
- * The half of an issue that names where it lives — `Hero — Headline` — for the row that sets
+ * The half of a Studio issue that names where it lives — `Hero — Headline` — for its row
  * the message beside it. A missing block or label just shortens the subject; both missing
  * yields nothing, and the row leans on the message alone.
  */

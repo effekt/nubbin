@@ -4,6 +4,7 @@ test("exports exactly the optional UI contract", async () => {
   expect(Object.keys(await import("./index")).sort()).toEqual([
     "BlockPalette",
     "ConsumerOriginContext",
+    "IssuesPill",
     "OutcomeNotice",
     "PaletteIcon",
     "PublishControl",
@@ -14,6 +15,7 @@ test("exports exactly the optional UI contract", async () => {
     "StudioStatusBar",
     "StudioToolbar",
     "ToolbarDocument",
+    "focusIssueField",
     "puckAdapter",
     "selectPuckNode",
     "useCloseOnEscape",

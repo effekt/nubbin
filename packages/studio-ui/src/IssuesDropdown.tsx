@@ -1,8 +1,8 @@
 "use client";
 
 import type { AuthorIssue } from "@nubbin/studio";
-import { issuesHeading } from "../nubbin/issuesHeading";
 import { IssueRow } from "./IssueRow";
+import { issuesHeading } from "./issuesHeading";
 
 interface IssuesDropdownProps {
   issues: readonly AuthorIssue[];
@@ -13,18 +13,17 @@ interface IssuesDropdownProps {
  * reassurance the design insists on — the work is safe, only publishing waits. It wears the
  * publish panel's floating-card class so the header's two dropdowns are one design. */
 export function IssuesDropdown({ issues, onGoTo }: IssuesDropdownProps) {
+  const rows = issues.map((issue) => (
+    <IssueRow
+      key={`${issue.nodeId ?? ""}:${issue.fieldLabel ?? ""}:${issue.message}`}
+      issue={issue}
+      onGoTo={onGoTo}
+    />
+  ));
   return (
     <div className="nubbin-history">
       <h2>{issuesHeading(issues.length)}</h2>
-      <ul>
-        {issues.map((issue) => (
-          <IssueRow
-            key={`${issue.nodeId ?? ""}:${issue.fieldLabel ?? ""}:${issue.message}`}
-            issue={issue}
-            onGoTo={onGoTo}
-          />
-        ))}
-      </ul>
+      <ul>{rows}</ul>
       <p className="nubbin-issues-footer">
         Your work is saved as-is. Publishing just waits until these are fixed — nothing is lost, and
         nothing goes live by accident.

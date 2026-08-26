@@ -1,7 +1,7 @@
 "use client";
 
 import type { AuthorIssue } from "@nubbin/studio";
-import { authorIssueSubject } from "../nubbin/authorIssueSubject";
+import { authorIssueSubject } from "./authorIssueSubject";
 
 interface IssueRowProps {
   issue: AuthorIssue;

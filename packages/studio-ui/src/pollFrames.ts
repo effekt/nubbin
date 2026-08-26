@@ -1,4 +1,4 @@
-/** Polls a probe once per animation frame until it yields a value, for at most `frames`
+/** Polls a Studio probe once per animation frame until it yields a value, for at most `frames`
  * frames. Puck re-renders the inspector asynchronously after a selection, so a caller
  * waiting for its controls waits render-paced and bounded — never an arbitrary timeout —
  * and receives `undefined` when the budget runs out first. */

@@ -1,4 +1,4 @@
-import { fieldIdMatchesPath } from "../nubbin/fieldIdMatchesPath";
+import { fieldIdMatchesPath } from "./fieldIdMatchesPath";
 
 /** The rendered control for one compiler path on one node, inside a region: the first
  * element whose `id` or `name` the addressing scheme resolves to the path. A leaf input
