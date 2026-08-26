@@ -1,5 +1,18 @@
 # Changelog
 
+## [0.4.1](https://github.com/effekt/nubbin/compare/studio-ui-v0.4.0...studio-ui-v0.4.1) (2026-08-26)
+
+
+### Code Refactoring
+
+* **studio:** package canvas surfaces ([#636](https://github.com/effekt/nubbin/issues/636)) ([f933947](https://github.com/effekt/nubbin/commit/f933947a24a1af28b8500736da5a686297278fc4))
+* **studio:** package complex field controls ([#635](https://github.com/effekt/nubbin/issues/635)) ([3960335](https://github.com/effekt/nubbin/commit/396033504893336aa05368b420c144ef77b7347c))
+* **studio:** package default editor ([#639](https://github.com/effekt/nubbin/issues/639)) ([53fdb23](https://github.com/effekt/nubbin/commit/53fdb235838ed546433233dfd5731769e2183243))
+* **studio:** package default presentation ([#637](https://github.com/effekt/nubbin/issues/637)) ([9cd4b21](https://github.com/effekt/nubbin/commit/9cd4b215eed1406dc5a9e169b92c90fcfc3c706a))
+* **studio:** package inspector shell ([#633](https://github.com/effekt/nubbin/issues/633)) ([32b45d1](https://github.com/effekt/nubbin/commit/32b45d1dab1890d5a23d5e788d82873477567adb))
+* **studio:** package Puck configuration ([#638](https://github.com/effekt/nubbin/issues/638)) ([9828fb4](https://github.com/effekt/nubbin/commit/9828fb44c88b287c3ada2224bf6d7626fae3d9e1))
+* **studio:** package scalar field controls ([#634](https://github.com/effekt/nubbin/issues/634)) ([c73f269](https://github.com/effekt/nubbin/commit/c73f269b077594890ec2262a8d586a62d8ec16fc))
+
 ## [0.4.0](https://github.com/effekt/nubbin/compare/studio-ui-v0.3.0...studio-ui-v0.4.0) (2026-08-26)
 
 
