@@ -1,6 +1,6 @@
-import { ConsumerOriginContext } from "@nubbin/studio-ui";
 import { fireEvent, render, screen } from "@testing-library/react";
 import { expect, test, vi } from "vitest";
+import { ConsumerOriginContext } from "./ConsumerOriginContext";
 import { LinkTextField } from "./LinkTextField";
 
 function renderField(

@@ -2,8 +2,7 @@
 
 import "./repeaterField.css";
 import type { FieldNode } from "@nubbin/core";
-import { leafFieldName } from "../nubbin/leafFieldName";
-import type { SubFieldRender } from "./subField.types";
+import { leafFieldName, type SubFieldRender } from "@nubbin/studio-ui";
 
 interface FieldsetGroupProps {
   id: string;

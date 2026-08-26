@@ -1,6 +1,6 @@
 import type { CustomField } from "@measured/puck";
 import type { FieldNode } from "@nubbin/core";
-import { ReadOnlyField } from "../components/ReadOnlyField";
+import { ReadOnlyField } from "@nubbin/studio-ui";
 
 /** The Puck field for a kind without a single control — `array`, `object`, `union`,
  * `unknown`. A custom field whose render is the inspector's own `ReadOnlyField`, so the

@@ -1,6 +1,6 @@
-import { focusIssueField } from "@nubbin/studio-ui";
 import { render } from "@testing-library/react";
 import { describe, expect, test } from "vitest";
+import { focusIssueField } from "./focusIssueField";
 import { ReadOnlyField } from "./ReadOnlyField";
 
 /** Marine at 60% composites to 4.00:1 on `bg-canvas` and 4.15:1 on the inspector's white panel —

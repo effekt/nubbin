@@ -1,12 +1,12 @@
 "use client";
 
-import { asStringValue } from "../nubbin/asStringValue";
-import { isLinkField } from "../nubbin/isLinkField";
-import { leafFieldName } from "../nubbin/leafFieldName";
+import { asStringValue } from "./asStringValue";
 import { BooleanSubField } from "./BooleanSubField";
 import { BoundedTextField } from "./BoundedTextField";
 import { EnumSubField } from "./EnumSubField";
+import { isLinkField } from "./isLinkField";
 import { LinkTextField } from "./LinkTextField";
+import { leafFieldName } from "./leafFieldName";
 import { NumberInputField } from "./NumberInputField";
 import { PlainTextField } from "./PlainTextField";
 import { ReadOnlyField } from "./ReadOnlyField";

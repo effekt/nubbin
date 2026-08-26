@@ -6,9 +6,9 @@ import {
   type RichTextBlock,
   type RichTextSpan,
 } from "@nubbin/core";
+import { SegmentedEnumField } from "@nubbin/studio-ui";
 import { RepeaterRowActions } from "./RepeaterRowActions";
 import { RichTextSpanList } from "./RichTextSpanList";
-import { SegmentedEnumField } from "./SegmentedEnumField";
 
 interface RichTextBlockRowProps {
   id: string;

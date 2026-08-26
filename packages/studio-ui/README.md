@@ -69,6 +69,10 @@ to understand Puck's generated field identifiers.
 documentation links, issue summaries, page guidance, and autosave reassurance around the host's
 field controls.
 
+The packaged scalar field controls cover plain and bounded text, links, numbers, booleans, enums,
+segmented choices, and read-only fallbacks. `ScalarFieldControl` dispatches from Nubbin's described
+field contract, so hosts do not need to rebuild the default control-selection rules.
+
 Consumers that supply their own presentation do not need the stylesheet or these components.
 
 `StudioEditor` owns draft folding, debounced saves, issue projection, publish outcomes, and Puck's

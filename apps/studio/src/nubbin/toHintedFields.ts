@@ -1,5 +1,5 @@
 import type { BlockUi, FieldNode } from "@nubbin/core";
-import type { HintedFieldNode } from "./hintedField.types";
+import type { HintedFieldNode } from "@nubbin/studio-ui";
 
 /** The described fields with each catalog `control` hint folded onto the node its path
  * names. Hints stay parallel to the schema by decision, so this is the one place the two

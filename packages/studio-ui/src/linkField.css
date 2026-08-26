@@ -1,4 +1,4 @@
-/* The link control's quiet note and Open affordance. The note sits in the muted ink, never
+/* The packaged link control's quiet note and Open affordance. The note sits in the muted ink, never
  * the error tone, because the draft saves either way and the schema judges at publish. The
  * Open link is underlined so the affordance is not signalled by colour alone. */
 .nubbin-link-note {
