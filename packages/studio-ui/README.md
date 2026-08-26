@@ -7,7 +7,7 @@ editor.
 Install it when you want Nubbin's provided editor interface:
 
 ```bash
-pnpm add @nubbin/studio @nubbin/studio-ui
+pnpm add @measured/puck @nubbin/studio @nubbin/studio-ui
 ```
 
 Applications that build their own editor can depend on `@nubbin/studio` alone. That headless
