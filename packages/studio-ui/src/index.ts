@@ -19,6 +19,7 @@ export type {
   StudioEditorPresentation,
 } from "./studioEditorPresentation.types";
 export type { StudioDraftSaver, StudioEditorProps } from "./studioEditorProps.types";
+export { ToolbarDocument } from "./ToolbarDocument";
 export { useCloseOnEscape } from "./useCloseOnEscape";
 export { useCloseOnOutsideClick } from "./useCloseOnOutsideClick";
 export { useDraftSave } from "./useDraftSave";

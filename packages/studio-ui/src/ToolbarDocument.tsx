@@ -1,9 +1,8 @@
 "use client";
 
 import { usePuck } from "@measured/puck";
-import { ConsumerOriginContext } from "@nubbin/studio-ui";
 import { useContext } from "react";
-import { titleFromRoute } from "../nubbin/titleFromRoute";
+import { ConsumerOriginContext } from "./ConsumerOriginContext";
 import { toDocAddress } from "./toDocAddress";
 
 /** The toolbar's document identity, as the specimen writes it: the page's own title
@@ -12,14 +11,20 @@ import { toDocAddress } from "./toDocAddress";
  * the draft's `meta.title` living in Puck's root props, so renaming the page renames the
  * toolbar as the author types; a draft without one falls back to the name the route
  * implies, and a toolbar without an origin shows the bare route and opens nothing. */
-export function ToolbarDocName({ route }: { route: string }) {
+export function ToolbarDocument({
+  route,
+  fallbackTitle,
+}: {
+  route: string;
+  fallbackTitle: string;
+}) {
   const { appState } = usePuck();
   const address = toDocAddress(useContext(ConsumerOriginContext), route);
   const title = appState.data.root.props?.title;
   return (
     <>
       <span className="nb-tb-docname">
-        {typeof title === "string" && title !== "" ? title : titleFromRoute(route)}
+        {typeof title === "string" && title !== "" ? title : fallbackTitle}
       </span>
       {address.href === undefined ? (
         <span className="nb-tb-docaddr">{address.label}</span>
