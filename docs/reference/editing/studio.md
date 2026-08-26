@@ -6,7 +6,17 @@ status: reference
 
 # Studio
 
-A Next.js application for composing and publishing pages from the demo's block catalog:
+Nubbin ships the editor in two layers. `@nubbin/studio` is the headless package: transports,
+request parsing, projections, publishing contracts, and no React or Puck. `@nubbin/studio-ui` is
+the optional visual package: the controlled editor, schema-to-Puck configuration, field controls,
+canvas, inspector, toolbar, outline, publish feedback, and the complete default presentation.
+
+The repository's Next.js Studio is a reference host for those packages. It owns framework routes,
+consumer configuration, HTTP endpoints, filesystem drafts, artifact storage, and navigation—not a
+private copy of the editor. Applications can render `DefaultStudioEditor` for Nubbin's assembled
+interface or compose their own presentation from the lower-level `StudioEditor` contract.
+
+The reference host composes and publishes pages from the demo's block catalog:
 
 - **Parse** — `/` lists every block in the demo's catalog with the fields `zodAdapter`
   derives from each schema: path, kind, presence, enum members.
@@ -93,6 +103,25 @@ pnpm --filter demo dev       # http://localhost:3000 — serves what the studio 
 
 Publish a draft in the studio, then load the same route on the demo: the demo answers with
 the artifact the studio wrote. A route never published is a real 404 there.
+
+## Embedding the packaged editor
+
+Install the headless and visual packages, then load Puck's base stylesheet before Nubbin's theme:
+
+```bash
+pnpm add @measured/puck @nubbin/studio @nubbin/studio-ui
+```
+
+```tsx
+import "@measured/puck/puck.css";
+import "@nubbin/studio-ui/styles.css";
+import { DefaultStudioEditor } from "@nubbin/studio-ui";
+```
+
+`DefaultStudioEditor` receives the catalog and registry through `StudioEditorProps`, a
+`StudioOperations` implementation for draft and publish requests, and `StudioNavigation` callbacks
+for edit, preview, block-preview, title, and post-create routing. Those injected callbacks are the
+entire routing seam; the package has no knowledge of Next.js or the demo.
 
 ## The seam to the consumer
 
