@@ -12,5 +12,5 @@ import { studioStore } from "../../../../nubbin/studioStore";
  */
 export const GET = createHistoryRequestHandler<{ params: Promise<{ slug?: string[] }> }>({
   route: async ({ params }) => routeFromSlug((await params).slug),
-  history: (route) => historyPayload(studioStore(), route),
+  load: (route) => historyPayload(studioStore(), route),
 });

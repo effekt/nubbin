@@ -1,8 +1,8 @@
 import { parseDraftHttpReply } from "./parseDraftHttpReply";
 import { parseHistoryHttpReply } from "./parseHistoryHttpReply";
-import { parsePublishHttpReply } from "./parsePublishHttpReply";
 import { parseRouteCreateHttpReply } from "./parseRouteCreateHttpReply";
 import { postHttpJson } from "./postHttpJson";
+import { publishOutcomeFromResponse } from "./publishOutcomeFromResponse";
 import type { StudioHttpClient } from "./studioHttpClient.types";
 import type { StudioHttpClientOptions } from "./studioHttpClientOptions.types";
 
@@ -32,11 +32,11 @@ export function createStudioHttpClient(options: StudioHttpClientOptions = {}): S
         headers: { accept: "application/json" },
         body: new URLSearchParams({ route }),
       });
-      return parsePublishHttpReply(route, response, await response.text());
+      return publishOutcomeFromResponse(route, response);
     },
     async rollback(route, hash) {
       const response = await postHttpJson(request, `${baseUrl}/api/rollback`, { route, hash });
-      return parsePublishHttpReply(route, response, await response.text());
+      return publishOutcomeFromResponse(route, response);
     },
     async history(route) {
       const suffix = route === "/" ? "" : route;
