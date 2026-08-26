@@ -1,3 +1,4 @@
+import { createStudioHttpClient } from "@nubbin/studio";
 import { fireEvent, render, screen } from "@testing-library/react";
 import { expect, test } from "vitest";
 import { RouteSwitcher } from "./RouteSwitcher";
@@ -5,12 +6,24 @@ import { RouteSwitcher } from "./RouteSwitcher";
 const routes = ["/", "/dispatches", "/spring-sale"];
 
 function open() {
-  render(<RouteSwitcher route="/dispatches" routes={routes} />);
+  renderSwitcher();
   fireEvent.click(screen.getByRole("button", { name: /Pages/ }));
 }
 
+function renderSwitcher() {
+  return render(
+    <RouteSwitcher
+      route="/dispatches"
+      routes={routes}
+      hrefForRoute={(route) => (route === "/" ? "/edit" : `/edit${route}`)}
+      createRoute={createStudioHttpClient().createRoute}
+      onCreated={() => undefined}
+    />,
+  );
+}
+
 test("closed, it is the specimen's one plain Pages disclosure", () => {
-  render(<RouteSwitcher route="/dispatches" routes={routes} />);
+  renderSwitcher();
   const button = screen.getByRole("button", { name: /Pages/ });
   expect(button.getAttribute("aria-expanded")).toBe("false");
   expect(screen.queryByRole("navigation")).toBeNull();

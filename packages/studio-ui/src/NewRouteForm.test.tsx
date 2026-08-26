@@ -1,3 +1,4 @@
+import { createStudioHttpClient } from "@nubbin/studio";
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { afterEach, expect, test, vi } from "vitest";
 import { NewRouteForm } from "./NewRouteForm";
@@ -18,7 +19,7 @@ test("a created page hands its route to the navigation callback", async () => {
     Promise.resolve(Response.json({ ok: true, route: "/spring-sale" }, { status: 201 })),
   );
   const onCreated = vi.fn();
-  render(<NewRouteForm onCreated={onCreated} />);
+  render(<NewRouteForm createRoute={createStudioHttpClient().createRoute} onCreated={onCreated} />);
   fillAndSubmit("/spring-sale");
   await waitFor(() => {
     expect(onCreated).toHaveBeenCalledWith("/spring-sale");
@@ -29,7 +30,9 @@ test("a refusal shows as an alert tied to the field, in the server's words", asy
   vi.stubGlobal("fetch", () =>
     Promise.resolve(new Response("a page already lives at /live", { status: 409 })),
   );
-  render(<NewRouteForm onCreated={() => undefined} />);
+  render(
+    <NewRouteForm createRoute={createStudioHttpClient().createRoute} onCreated={() => undefined} />,
+  );
   fillAndSubmit("/live");
   const alert = await screen.findByRole("alert");
   expect(alert.textContent).toBe("a page already lives at /live");
