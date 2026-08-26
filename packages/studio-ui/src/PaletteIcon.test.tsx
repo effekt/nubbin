@@ -1,7 +1,35 @@
 import { render } from "@testing-library/react";
-import { registry } from "demo/src/nubbin/registry";
 import { expect, test } from "vitest";
 import { PaletteIcon } from "./PaletteIcon";
+
+const registeredIcons = [
+  "hero",
+  "split",
+  "splithero",
+  "header",
+  "masthead",
+  "footer",
+  "prose",
+  "pricelist",
+  "faq",
+  "banner",
+  "card",
+  "grid",
+  "tag",
+  "products",
+  "logos",
+  "features",
+  "band",
+  "stats",
+  "feed",
+  "stack",
+  "video",
+  "megaphone",
+  "clock",
+  "quote",
+  "figure",
+  "gallery",
+];
 
 test("a known icon name renders the studio's monoline SVG, hidden from assistive tech", () => {
   const { container } = render(<PaletteIcon icon="hero" />);
@@ -22,30 +50,21 @@ test("no icon renders nothing", () => {
   expect(container.querySelector("svg")).toBeNull();
 });
 
-test("every icon the demo's registry names has a drawn glyph, not the text fallback", () => {
-  const names = registry
-    .names()
-    .map((name) => registry.get(name)?.icon)
-    .filter((icon): icon is string => icon !== undefined);
-  expect(names.length).toBeGreaterThan(0);
-  for (const name of names) {
+test("every registered icon has a drawn glyph, not the text fallback", () => {
+  for (const name of registeredIcons) {
     const { container, unmount } = render(<PaletteIcon icon={name} />);
     expect(container.querySelector("svg"), name).not.toBeNull();
     unmount();
   }
 });
 
-test("every registered block wears its own glyph — no two share a name or a drawing", () => {
-  const names = registry
-    .names()
-    .map((name) => registry.get(name)?.icon)
-    .filter((icon): icon is string => icon !== undefined);
-  expect(new Set(names).size).toBe(names.length);
-  const drawings = names.map((name) => {
+test("every registered icon has its own name and drawing", () => {
+  expect(new Set(registeredIcons).size).toBe(registeredIcons.length);
+  const drawings = registeredIcons.map((name) => {
     const { container, unmount } = render(<PaletteIcon icon={name} />);
     const markup = container.innerHTML;
     unmount();
     return markup;
   });
-  expect(new Set(drawings).size).toBe(names.length);
+  expect(new Set(drawings).size).toBe(registeredIcons.length);
 });

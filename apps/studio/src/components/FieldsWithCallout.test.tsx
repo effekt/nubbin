@@ -1,10 +1,10 @@
 import type { PuckApi } from "@measured/puck";
 import { Puck } from "@measured/puck";
 import { editorStatusStore } from "@nubbin/studio";
+import { PuckApiBridge } from "@nubbin/studio-ui";
 import { act, render, screen, waitFor } from "@testing-library/react";
 import { afterEach, expect, test } from "vitest";
 import { FieldsWithCallout } from "./FieldsWithCallout";
-import { PuckApiBridge } from "./PuckApiBridge";
 import { selectPuckNode } from "./selectPuckNode";
 
 afterEach(() => {

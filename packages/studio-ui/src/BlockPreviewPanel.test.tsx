@@ -5,6 +5,7 @@ import { BlockPreviewPanel } from "./BlockPreviewPanel";
 
 const hero = { name: "Hero", description: "The opening statement of a page." };
 const split = { name: "Split", description: "Two blocks side by side." };
+const previewHref = (name: string) => `/block-preview/${name}`;
 
 const anchored = () => {
   const anchor = createRef<HTMLElement | null>();
@@ -14,7 +15,7 @@ const anchored = () => {
 };
 
 test("an iframe of the block's preview page, inert and hidden from assistive tech", () => {
-  render(<BlockPreviewPanel block={hero} anchor={anchored()} />);
+  render(<BlockPreviewPanel block={hero} anchor={anchored()} previewHref={previewHref} />);
   const panel = document.querySelector(".nb-palette-preview");
   expect(panel?.closest("[aria-hidden='true']")).not.toBeNull();
   const frame = panel?.querySelector("iframe");
@@ -23,26 +24,28 @@ test("an iframe of the block's preview page, inert and hidden from assistive tec
 });
 
 test("the header carries the block's name and its full description", () => {
-  render(<BlockPreviewPanel block={hero} anchor={anchored()} />);
+  render(<BlockPreviewPanel block={hero} anchor={anchored()} previewHref={previewHref} />);
   const header = document.querySelector(".nb-palette-preview-header");
   expect(header?.querySelector("strong")?.textContent).toBe("Hero");
   expect(header?.querySelector("p")?.textContent).toBe(hero.description);
 });
 
 test("a block without a description gets a header of just the name", () => {
-  render(<BlockPreviewPanel block={{ name: "Hero" }} anchor={anchored()} />);
+  render(
+    <BlockPreviewPanel block={{ name: "Hero" }} anchor={anchored()} previewHref={previewHref} />,
+  );
   const header = document.querySelector(".nb-palette-preview-header");
   expect(header?.querySelector("strong")?.textContent).toBe("Hero");
   expect(header?.querySelector("p")).toBeNull();
 });
 
 test("no block, no panel", () => {
-  render(<BlockPreviewPanel block={undefined} anchor={anchored()} />);
+  render(<BlockPreviewPanel block={undefined} anchor={anchored()} previewHref={previewHref} />);
   expect(document.querySelector(".nb-palette-preview")).toBeNull();
 });
 
 test("opens compact — loading strip shown, iframe invisible — and grows once measured", () => {
-  render(<BlockPreviewPanel block={hero} anchor={anchored()} />);
+  render(<BlockPreviewPanel block={hero} anchor={anchored()} previewHref={previewHref} />);
   const region = document.querySelector<HTMLElement>(".nb-palette-preview-frame");
   const frame = region?.querySelector("iframe");
   expect(region?.style.height).toBe("72px");
@@ -67,9 +70,11 @@ test("opens compact — loading strip shown, iframe invisible — and grows once
 
 test("swapping blocks swaps the iframe's src without replacing the element", () => {
   const anchor = anchored();
-  const { rerender } = render(<BlockPreviewPanel block={hero} anchor={anchor} />);
+  const { rerender } = render(
+    <BlockPreviewPanel block={hero} anchor={anchor} previewHref={previewHref} />,
+  );
   const frame = document.querySelector(".nb-palette-preview iframe");
-  rerender(<BlockPreviewPanel block={split} anchor={anchor} />);
+  rerender(<BlockPreviewPanel block={split} anchor={anchor} previewHref={previewHref} />);
   const after = document.querySelector(".nb-palette-preview iframe");
   expect(after).toBe(frame);
   expect(after?.getAttribute("src")).toBe("/block-preview/Split");

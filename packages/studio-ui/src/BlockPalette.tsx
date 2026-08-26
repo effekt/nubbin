@@ -3,18 +3,24 @@
 import type { PuckApi } from "@measured/puck";
 import type { PaletteBlock, PaletteGroup } from "@nubbin/studio";
 import { type RefObject, useRef, useState } from "react";
-import { toBlockCount } from "../nubbin/toBlockCount";
-import { toMatchingGroups } from "../nubbin/toMatchingGroups";
-import { withToggled } from "../nubbin/withToggled";
 import "./blockPalette.css";
-import { useCloseOnEscape } from "@nubbin/studio-ui";
 import { BlockPreviewPanel } from "./BlockPreviewPanel";
 import { insertBlockAtSelection } from "./insertBlockAtSelection";
 import { PaletteDetailBar } from "./PaletteDetailBar";
 import { PaletteEmptyState } from "./PaletteEmptyState";
 import { PaletteSearch } from "./PaletteSearch";
 import { PaletteSection } from "./PaletteSection";
+import { toBlockCount } from "./toBlockCount";
+import { toMatchingGroups } from "./toMatchingGroups";
+import { useCloseOnEscape } from "./useCloseOnEscape";
 import { useHoverPreview } from "./useHoverPreview";
+import { withToggled } from "./withToggled";
+
+export interface BlockPaletteProps {
+  groups: readonly PaletteGroup[];
+  apiRef: RefObject<(() => PuckApi) | undefined>;
+  previewHref: (blockName: string) => string;
+}
 
 /** The Blocks card's content, replacing Puck's own list through the `drawer` override: the
  * card's title and the search inline in one compact head row, the categories with their
@@ -23,13 +29,7 @@ import { useHoverPreview } from "./useHoverPreview";
  * API the bridge hands over. The component holds its own state, so the overrides object it
  * renders through stays referentially stable — nothing here reaches Puck as a new prop per
  * keystroke. */
-export function BlockPalette({
-  groups,
-  apiRef,
-}: {
-  groups: readonly PaletteGroup[];
-  apiRef: RefObject<(() => PuckApi) | undefined>;
-}) {
+export function BlockPalette({ groups, apiRef, previewHref }: BlockPaletteProps) {
   const [query, setQuery] = useState("");
   const [detail, setDetail] = useState<PaletteBlock | undefined>(undefined);
   // Titles the reader has collapsed. A live search forces every matching section open —
@@ -76,7 +76,7 @@ export function BlockPalette({
         )}
       </div>
       <PaletteDetailBar block={detail} />
-      <BlockPreviewPanel block={preview} anchor={card} />
+      <BlockPreviewPanel block={preview} anchor={card} previewHref={previewHref} />
     </div>
   );
 }

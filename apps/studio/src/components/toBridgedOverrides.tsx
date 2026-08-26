@@ -5,7 +5,9 @@ import type { SlotConstraint } from "@nubbin/core";
 import type { PaletteGroup, PublishOutcome, StudioOperations } from "@nubbin/studio";
 import { toIconByBlock } from "@nubbin/studio";
 import {
+  BlockPalette,
   PublishControl,
+  PuckApiBridge,
   RouteSwitcher,
   StudioToolbar,
   type StudioViewport,
@@ -15,12 +17,10 @@ import type { RefObject } from "react";
 import { goToEditor } from "../nubbin/goToEditor";
 import { prefixedRoute } from "../nubbin/prefixedRoute";
 import { titleFromRoute } from "../nubbin/titleFromRoute";
-import { BlockPalette } from "./BlockPalette";
 import { CanvasActionBar } from "./CanvasActionBar";
 import { FieldsWithCallout } from "./FieldsWithCallout";
 import { FrameLoadedProbe } from "./FrameLoadedProbe";
 import { IssuesPill } from "./IssuesPill";
-import { PuckApiBridge } from "./PuckApiBridge";
 import { StudioOutline } from "./StudioOutline";
 
 /**
@@ -65,7 +65,13 @@ export function toBridgedOverrides(
     iframe: ({ document, children }) => (
       <FrameLoadedProbe document={document}>{children}</FrameLoadedProbe>
     ),
-    drawer: () => <BlockPalette groups={palette} apiRef={apiRef} />,
+    drawer: () => (
+      <BlockPalette
+        groups={palette}
+        apiRef={apiRef}
+        previewHref={(name) => prefixedRoute("/block-preview", `/${name}`)}
+      />
+    ),
     outline: () => <StudioOutline icons={icons} slotsByBlock={slotsByBlock} />,
     header: ({ actions }) => (
       <StudioToolbar
