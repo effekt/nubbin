@@ -45,6 +45,10 @@ application or its authentication model.
 document identity, configured viewports, and right-edge actions as composable slots, so URL and
 routing policy remain outside the package.
 
+`ToolbarDocument` supplies the default document-identity slot. It reads the current draft title
+from Puck, resolves the live address through `ConsumerOriginContext`, and accepts the host's route-
+derived fallback title.
+
 `RouteSwitcher` provides the default navigation slot. Its route-link builder, create operation, and
 post-create navigation callback are injected, keeping framework routing and deployment prefixes in
 the host while retaining Nubbin's accessible page list and creation flow.

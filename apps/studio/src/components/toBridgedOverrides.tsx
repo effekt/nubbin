@@ -9,10 +9,12 @@ import {
   RouteSwitcher,
   StudioToolbar,
   type StudioViewport,
+  ToolbarDocument,
 } from "@nubbin/studio-ui";
 import type { RefObject } from "react";
 import { goToEditor } from "../nubbin/goToEditor";
 import { prefixedRoute } from "../nubbin/prefixedRoute";
+import { titleFromRoute } from "../nubbin/titleFromRoute";
 import { BlockPalette } from "./BlockPalette";
 import { CanvasActionBar } from "./CanvasActionBar";
 import { FieldsWithCallout } from "./FieldsWithCallout";
@@ -20,7 +22,6 @@ import { FrameLoadedProbe } from "./FrameLoadedProbe";
 import { IssuesPill } from "./IssuesPill";
 import { PuckApiBridge } from "./PuckApiBridge";
 import { StudioOutline } from "./StudioOutline";
-import { ToolbarDocName } from "./ToolbarDocName";
 
 /**
  * The studio's Puck overrides. The whole-UI `puck` override renders its children untouched
@@ -77,7 +78,9 @@ export function toBridgedOverrides(
             onCreated={goToEditor}
           />
         }
-        document={<ToolbarDocName route={pages.route} />}
+        document={
+          <ToolbarDocument route={pages.route} fallbackTitle={titleFromRoute(pages.route)} />
+        }
         viewports={viewports}
         actions={actions}
       />
