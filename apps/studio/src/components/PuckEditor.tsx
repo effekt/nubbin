@@ -1,17 +1,18 @@
 "use client";
 
 import "@measured/puck/puck.css";
+import "@nubbin/studio-ui/styles.css";
 import "./puckTheme.css";
 import "./canvasOverlay.css";
 import {
+  OutcomeNotice,
   StudioEditor,
   type StudioEditorPresentation,
   type StudioEditorProps,
+  StudioStatusBar,
 } from "@nubbin/studio-ui";
 import { useMemo } from "react";
 import { toPuckConfig } from "../nubbin/toPuckConfig";
-import { OutcomeNotice } from "./OutcomeNotice";
-import { StudioStatusBar } from "./StudioStatusBar";
 import { toBridgedOverrides } from "./toBridgedOverrides";
 
 /** The Nubbin editor engine composed with this host's current visual chrome. */

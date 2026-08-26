@@ -4,7 +4,7 @@ import { useEffect } from "react";
 
 const AUTO_DISMISS_MS = 6000;
 
-interface PublishNoticeProps {
+export interface PublishNoticeProps {
   route: string;
   hash: string;
   url: string;

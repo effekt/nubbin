@@ -18,7 +18,9 @@
   "homepage": "https://effekt.github.io/nubbin/",
   "bugs": "https://github.com/effekt/nubbin/issues",
   "type": "module",
-  "sideEffects": false,
+  "sideEffects": [
+    "**/*.css"
+  ],
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
@@ -27,7 +29,8 @@
     "./config": {
       "types": "./dist/defineStudioConfig.d.ts",
       "import": "./dist/defineStudioConfig.js"
-    }
+    },
+    "./styles.css": "./dist/index.css"
   },
   "files": [
     "dist"

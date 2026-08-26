@@ -1,10 +1,10 @@
 "use client";
 
 import "./studioStatusBar.css";
-import { useEditorStatus } from "@nubbin/studio-ui";
 import { StatusItem } from "./StatusItem";
 import { AUTOSAVE_SETTLE_MS } from "./studioStatusBar.constants";
 import { toStatusSegments } from "./toStatusSegments";
+import { useEditorStatus } from "./useEditorStatus";
 import { useStaleAfter } from "./useStaleAfter";
 
 /** The strip under the canvas, the specimen's page status: publish state behind its dot,
