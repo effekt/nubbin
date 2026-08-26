@@ -4,24 +4,27 @@ import type { Overrides, PuckApi } from "@measured/puck";
 import type { SlotConstraint } from "@nubbin/core";
 import type { PaletteGroup, PublishOutcome, StudioOperations } from "@nubbin/studio";
 import { toIconByBlock } from "@nubbin/studio";
-import {
-  BlockPalette,
-  CanvasActionBar,
-  FieldsWithCallout,
-  FrameLoadedProbe,
-  IssuesPill,
-  PublishControl,
-  PuckApiBridge,
-  RouteSwitcher,
-  StudioOutline,
-  StudioToolbar,
-  type StudioViewport,
-  ToolbarDocument,
-} from "@nubbin/studio-ui";
 import type { RefObject } from "react";
-import { goToEditor } from "../nubbin/goToEditor";
-import { prefixedRoute } from "../nubbin/prefixedRoute";
-import { titleFromRoute } from "../nubbin/titleFromRoute";
+import { BlockPalette } from "./BlockPalette";
+import { CanvasActionBar } from "./CanvasActionBar";
+import { FieldsWithCallout } from "./FieldsWithCallout";
+import { FrameLoadedProbe } from "./FrameLoadedProbe";
+import { IssuesPill } from "./IssuesPill";
+import { PublishControl } from "./PublishControl";
+import { PuckApiBridge } from "./PuckApiBridge";
+import { RouteSwitcher } from "./RouteSwitcher";
+import { StudioOutline } from "./StudioOutline";
+import { StudioToolbar } from "./StudioToolbar";
+import type { StudioViewport } from "./studioConfig.types";
+import { ToolbarDocument } from "./ToolbarDocument";
+
+export interface StudioNavigation {
+  blockPreviewHref(name: string): string;
+  editHref(route: string): string;
+  previewHref(route: string): string;
+  onRouteCreated(route: string): void;
+  titleForRoute(route: string): string;
+}
 
 /**
  * The studio's Puck overrides. The whole-UI `puck` override renders its children untouched
@@ -45,7 +48,7 @@ import { titleFromRoute } from "../nubbin/titleFromRoute";
  * studio's — the same glyphs as the palette, area rows with fullness chips — selecting
  * through the same store Puck's tree used.
  */
-export function toBridgedOverrides(
+export function toDefaultStudioOverrides(
   apiRef: RefObject<(() => PuckApi) | undefined>,
   pages: { route: string; routes: readonly string[] },
   viewports: readonly StudioViewport[],
@@ -54,6 +57,7 @@ export function toBridgedOverrides(
   palette: readonly PaletteGroup[],
   docsByBlock: Record<string, Record<string, string>>,
   slotsByBlock: Record<string, Record<string, SlotConstraint>>,
+  navigation: StudioNavigation,
 ): Partial<Overrides> {
   const icons = toIconByBlock(palette);
   return {
@@ -66,11 +70,7 @@ export function toBridgedOverrides(
       <FrameLoadedProbe document={document}>{children}</FrameLoadedProbe>
     ),
     drawer: () => (
-      <BlockPalette
-        groups={palette}
-        apiRef={apiRef}
-        previewHref={(name) => prefixedRoute("/block-preview", `/${name}`)}
-      />
+      <BlockPalette groups={palette} apiRef={apiRef} previewHref={navigation.blockPreviewHref} />
     ),
     outline: () => <StudioOutline icons={icons} slotsByBlock={slotsByBlock} />,
     header: ({ actions }) => (
@@ -79,13 +79,16 @@ export function toBridgedOverrides(
           <RouteSwitcher
             route={pages.route}
             routes={pages.routes}
-            hrefForRoute={(route) => prefixedRoute("/edit", route)}
+            hrefForRoute={navigation.editHref}
             createRoute={operations.createRoute}
-            onCreated={goToEditor}
+            onCreated={navigation.onRouteCreated}
           />
         }
         document={
-          <ToolbarDocument route={pages.route} fallbackTitle={titleFromRoute(pages.route)} />
+          <ToolbarDocument
+            route={pages.route}
+            fallbackTitle={navigation.titleForRoute(pages.route)}
+          />
         }
         viewports={viewports}
         actions={actions}
@@ -93,7 +96,7 @@ export function toBridgedOverrides(
     ),
     headerActions: () => (
       <>
-        <a className="nb-toolbar-preview" href={prefixedRoute("/preview", pages.route)}>
+        <a className="nb-toolbar-preview" href={navigation.previewHref(pages.route)}>
           Preview
         </a>
         <IssuesPill apiRef={apiRef} />

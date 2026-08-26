@@ -39,6 +39,7 @@ test("exports exactly the optional UI contract", async () => {
     "richTextFieldNodes",
     "rowFieldOf",
     "selectPuckNode",
+    "toDefaultStudioOverrides",
     "toHintedFields",
     "toPuckRender",
     "useCloseOnEscape",

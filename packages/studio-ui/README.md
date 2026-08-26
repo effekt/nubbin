@@ -90,3 +90,7 @@ Consumers that supply their own presentation do not need the stylesheet or these
 `StudioEditor` owns draft folding, debounced saves, issue projection, publish outcomes, and Puck's
 controlled state. Its `presentation` contract lets the supplied Nubbin chrome—or a custom editor—
 compose around that lifecycle without replacing it. MIT.
+
+`toDefaultStudioOverrides` assembles all supplied chrome into Puck's extension points. Hosts inject
+only route, preview, and title navigation through `StudioNavigation`; framework routing remains
+outside the package while Nubbin's complete default editor presentation remains reusable.

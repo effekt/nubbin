@@ -3,8 +3,8 @@ import { Puck } from "@measured/puck";
 import { editorStatusStore } from "@nubbin/studio";
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { afterEach, expect, test, vi } from "vitest";
-import { testStudioOperations } from "../testing/testStudioOperations";
-import { toBridgedOverrides } from "./toBridgedOverrides";
+import { testStudioOperations } from "./testing/testStudioOperations.fixture";
+import { toDefaultStudioOverrides } from "./toDefaultStudioOverrides";
 
 afterEach(() => {
   vi.unstubAllGlobals();
@@ -16,7 +16,7 @@ function renderPuck(apiRef: { current: (() => PuckApi) | undefined }) {
     <Puck
       config={{ components: { Hero: { fields: {}, render: () => <div /> } } }}
       data={{ content: [{ type: "Hero", props: { id: "hero" } }], root: { props: {} } }}
-      overrides={toBridgedOverrides(
+      overrides={toDefaultStudioOverrides(
         apiRef,
         { route: "/", routes: ["/", "/live"] },
         [
@@ -31,6 +31,13 @@ function renderPuck(apiRef: { current: (() => PuckApi) | undefined }) {
         [{ title: "Content", blocks: [{ name: "Hero", description: "The opening statement." }] }],
         {},
         {},
+        {
+          blockPreviewHref: (name) => `/block-preview/${name}`,
+          editHref: (route) => `/edit${route === "/" ? "" : route}`,
+          previewHref: (route) => `/preview${route === "/" ? "" : route}`,
+          onRouteCreated: () => undefined,
+          titleForRoute: (route) => (route === "/" ? "Home" : route),
+        },
       )}
     />,
   );

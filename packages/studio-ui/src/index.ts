@@ -51,6 +51,8 @@ export type {
 export type { StudioDraftSaver, StudioEditorProps } from "./studioEditorProps.types";
 export type { SubFieldProps, SubFieldRender } from "./subField.types";
 export { ToolbarDocument } from "./ToolbarDocument";
+export type { StudioNavigation } from "./toDefaultStudioOverrides";
+export { toDefaultStudioOverrides } from "./toDefaultStudioOverrides";
 export { toHintedFields } from "./toHintedFields";
 export { toPuckRender } from "./toPuckRender";
 export { useCloseOnEscape } from "./useCloseOnEscape";
