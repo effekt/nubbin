@@ -3,6 +3,8 @@
 export type { BlockPaletteProps } from "./BlockPalette";
 export { BlockPalette } from "./BlockPalette";
 export { ConsumerOriginContext } from "./ConsumerOriginContext";
+export { focusIssueField } from "./focusIssueField";
+export { IssuesPill } from "./IssuesPill";
 export type { OutcomeNoticeProps } from "./OutcomeNotice";
 export { OutcomeNotice } from "./OutcomeNotice";
 export { PaletteIcon } from "./PaletteIcon";

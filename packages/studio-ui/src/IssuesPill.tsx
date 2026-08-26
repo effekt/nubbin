@@ -1,23 +1,20 @@
 "use client";
 
-import "./issuesFlow.css";
 import type { PuckApi } from "@measured/puck";
 import { type AuthorIssue, patchEditorStatus } from "@nubbin/studio";
-import {
-  selectPuckNode,
-  useCloseOnEscape,
-  useCloseOnOutsideClick,
-  useEditorStatus,
-} from "@nubbin/studio-ui";
 import type { RefObject } from "react";
 import { useCallback, useRef } from "react";
+import "./issuesFlow.css";
 import { focusIssueField } from "./focusIssueField";
 import { IssuesDropdown } from "./IssuesDropdown";
 import { inspectorBody } from "./inspectorBody";
+import { selectPuckNode } from "./selectPuckNode";
+import { useDismissiblePopup } from "./useDismissiblePopup";
+import { useEditorStatus } from "./useEditorStatus";
 
-interface IssuesPillProps {
+type IssuesPillProps = {
   apiRef: RefObject<(() => PuckApi) | undefined>;
-}
+};
 
 /** The header's amber pill, present exactly while the draft has issues: `Fix N issues` with
  * the count badged, toggling the dropdown that lists them. It reads everything through the
@@ -29,12 +26,8 @@ export function IssuesPill({ apiRef }: IssuesPillProps) {
   const { issues, issuesOpen } = useEditorStatus();
   const rootRef = useRef<HTMLDivElement>(null);
   const pillRef = useRef<HTMLButtonElement>(null);
-  const close = useCallback(() => {
-    patchEditorStatus({ issuesOpen: false });
-    pillRef.current?.focus();
-  }, []);
-  useCloseOnEscape(issuesOpen, close);
-  useCloseOnOutsideClick(issuesOpen, rootRef, () => patchEditorStatus({ issuesOpen: false }));
+  const dismiss = useCallback(() => patchEditorStatus({ issuesOpen: false }), []);
+  useDismissiblePopup(issuesOpen, rootRef, pillRef, dismiss);
   if (issues.length === 0) {
     return null;
   }

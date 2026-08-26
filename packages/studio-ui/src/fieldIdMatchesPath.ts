@@ -1,4 +1,4 @@
-/** Whether one rendered control's `id` or `name` attribute addresses a compiler path on a
+/** Whether one Studio control's `id` or `name` attribute addresses a compiler path on a
  * node. Puck hands a field's control `${nodeId}_${fieldType}_${fieldName}`, and the
  * studio's nested controls append `_${segment}` per row index or child key — so the
  * attribute names a dotted path exactly when what follows the type segment is the path

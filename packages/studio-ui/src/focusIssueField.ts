@@ -1,4 +1,4 @@
-import { fieldPathPrefixes } from "../nubbin/fieldPathPrefixes";
+import { fieldPathPrefixes } from "./fieldPathPrefixes";
 import { findDeepestFieldElement } from "./findDeepestFieldElement";
 import { focusFieldElement } from "./focusFieldElement";
 import { openRepeaterRowFor } from "./openRepeaterRowFor";

@@ -61,6 +61,10 @@ experience without assuming a framework route or deployment prefix.
 icons. It accepts the registry-derived icon and slot maps, keeping the visual tree independent of
 the host application's catalog location.
 
+`IssuesPill` provides publish-blocking issue presentation and navigation. It selects the affected
+block and resolves nested field paths—including collapsed repeater rows—without requiring the host
+to understand Puck's generated field identifiers.
+
 Consumers that supply their own presentation do not need the stylesheet or these components.
 
 `StudioEditor` owns draft folding, debounced saves, issue projection, publish outcomes, and Puck's

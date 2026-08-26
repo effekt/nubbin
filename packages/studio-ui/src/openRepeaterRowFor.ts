@@ -1,6 +1,6 @@
 import type { FoundField } from "./foundField.types";
 
-/** From a repeater a path prefix landed on, the disclosure of the row the full path
+/** From a Studio repeater a path prefix landed on, the disclosure of the row the full path
  * descends into — clicked open when it is closed, so the row's own controls render.
  * Comes back `undefined` when the landing is not a repeater or the next path segment
  * names no row it holds, which tells the caller this is as deep as the DOM goes. */
