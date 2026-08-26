@@ -1,9 +1,9 @@
 {
-  "packages/cli": "0.3.0",
-  "packages/core": "0.3.0",
-  "packages/next": "0.3.0",
-  "packages/react": "0.3.0",
-  "packages/store-fs": "0.3.0",
-  "packages/studio": "0.3.0",
-  "packages/studio-ui": "0.3.0"
+  "packages/cli": "0.4.0",
+  "packages/core": "0.4.0",
+  "packages/next": "0.4.0",
+  "packages/react": "0.4.0",
+  "packages/store-fs": "0.4.0",
+  "packages/studio": "0.4.0",
+  "packages/studio-ui": "0.4.0"
 }
