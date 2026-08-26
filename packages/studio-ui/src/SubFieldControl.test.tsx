@@ -1,11 +1,11 @@
 import { type FieldNode, zodAdapter } from "@nubbin/core";
-import { ConsumerOriginContext } from "@nubbin/studio-ui";
 import { render, screen } from "@testing-library/react";
 import { expect, test } from "vitest";
 import { z } from "zod";
-import { richTextFieldNodes } from "../nubbin/richTextFieldNodes";
-import { toHintedFields } from "../nubbin/toHintedFields";
+import { ConsumerOriginContext } from "./ConsumerOriginContext";
+import { richTextFieldNodes } from "./richTextFieldNodes";
 import { SubFieldControl } from "./SubFieldControl";
+import { toHintedFields } from "./toHintedFields";
 
 const schema = z.object({
   items: z.array(

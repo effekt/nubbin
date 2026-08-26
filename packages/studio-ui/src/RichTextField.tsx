@@ -2,17 +2,17 @@
 
 import "./richTextField.css";
 import type { FieldNode, RichTextSpan } from "@nubbin/core";
-import { ReadOnlyField } from "@nubbin/studio-ui";
 import { useState } from "react";
-import { asRichTextValue } from "../nubbin/asRichTextValue";
-import { withRichTextBlockAdded } from "../nubbin/withRichTextBlockAdded";
-import { withRichTextSpan } from "../nubbin/withRichTextSpan";
-import { withSpanLinkToggled } from "../nubbin/withSpanLinkToggled";
-import { withSpanMarkToggled } from "../nubbin/withSpanMarkToggled";
+import { asRichTextValue } from "./asRichTextValue";
+import { ReadOnlyField } from "./ReadOnlyField";
 import { RichTextAddBlock } from "./RichTextAddBlock";
 import { RichTextBlockList } from "./RichTextBlockList";
 import { RichTextToolbar } from "./RichTextToolbar";
 import type { RichTextSelection } from "./richTextSelection.types";
+import { withRichTextBlockAdded } from "./withRichTextBlockAdded";
+import { withRichTextSpan } from "./withRichTextSpan";
+import { withSpanLinkToggled } from "./withSpanLinkToggled";
+import { withSpanMarkToggled } from "./withSpanMarkToggled";
 
 interface RichTextFieldProps {
   id: string;

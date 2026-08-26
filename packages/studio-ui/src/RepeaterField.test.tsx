@@ -125,7 +125,7 @@ test("an undescribed row shape renders nothing rather than guessing", () => {
 });
 
 test("the repeater container Go-to-it lands on carries an explicit :focus ring", () => {
-  const css = readFileSync("src/components/repeaterField.css", "utf8");
+  const css = readFileSync("src/repeaterField.css", "utf8");
   const rule = css.match(/^\.nb-repeater:focus,\n\.nb-fieldset:focus \{[^}]*\}/m);
   expect(rule?.[0]).toContain("outline: 2px solid var(--nb-teal)");
 });

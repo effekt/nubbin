@@ -1,6 +1,6 @@
 "use client";
 
-import { holdsAtMostLine } from "../nubbin/holdsAtMostLine";
+import { holdsAtMostLine } from "./holdsAtMostLine";
 
 interface RepeaterHeadProps {
   label: string;

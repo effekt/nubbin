@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { withItemMoved } from "../nubbin/withItemMoved";
+import { withItemMoved } from "./withItemMoved";
 
 export interface RowKeys {
   keys: readonly string[];

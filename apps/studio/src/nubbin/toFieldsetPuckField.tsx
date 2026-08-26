@@ -1,8 +1,6 @@
 import type { CustomField } from "@measured/puck";
 import type { FieldNode } from "@nubbin/core";
-import { FieldsetGroup } from "../components/FieldsetGroup";
-import { SubFieldControl } from "../components/SubFieldControl";
-import { directChildFields } from "./directChildFields";
+import { directChildFields, FieldsetGroup, SubFieldControl } from "@nubbin/studio-ui";
 
 /** The Puck field for an object whose fields the description reaches: a custom field
  * whose render is the studio's fieldset group, recursing per sub-field through the same

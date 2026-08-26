@@ -1,11 +1,13 @@
 "use client";
 
-import { leafFieldName, ScalarFieldControl, type SubFieldProps } from "@nubbin/studio-ui";
-import { directChildFields } from "../nubbin/directChildFields";
-import { isRichTextField } from "../nubbin/isRichTextField";
+import { directChildFields } from "./directChildFields";
 import { FieldsetGroup } from "./FieldsetGroup";
+import { isRichTextField } from "./isRichTextField";
+import { leafFieldName } from "./leafFieldName";
 import { RepeaterField } from "./RepeaterField";
 import { RichTextField } from "./RichTextField";
+import { ScalarFieldControl } from "./ScalarFieldControl";
+import type { SubFieldProps } from "./subField.types";
 
 /** The recursion the repeater and fieldset render each child through: an object becomes a
  * labelled fieldset, an array a nested repeater, and everything else a scalar control —

@@ -1,5 +1,5 @@
 import type { RichText, RichTextBlockKind, RichTextSpan } from "@nubbin/core";
-import type { RichTextSelection } from "../components/richTextSelection.types";
+import type { RichTextSelection } from "./richTextSelection.types";
 import { withItemMoved } from "./withItemMoved";
 import { withoutRichTextBlock } from "./withoutRichTextBlock";
 import { withoutRichTextSpan } from "./withoutRichTextSpan";

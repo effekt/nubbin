@@ -1,4 +1,4 @@
-/* The wireframes' repeater and fieldset, in puckTheme.css's voice: rows as bordered cards
+/* The packaged repeater and fieldset use rows as bordered cards
  * under a count-and-add header, a fieldset as an indented group. Every control keeps a
  * visible focus ring, disabled states keep their border, and the untitled row speaks in a
  * glyph plus words — never a hue alone. Tokens cascade from `.nubbin-studio`. */

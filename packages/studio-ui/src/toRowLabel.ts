@@ -1,4 +1,6 @@
-import { type HintedFieldNode, isLinkField, leafFieldName } from "@nubbin/studio-ui";
+import type { HintedFieldNode } from "./hintedField.types";
+import { isLinkField } from "./isLinkField";
+import { leafFieldName } from "./leafFieldName";
 
 /** A repeater row's label, read from the row itself: a scalar row is its own value, an
  * object row shows the value of its first string field the catalog did not hint as a

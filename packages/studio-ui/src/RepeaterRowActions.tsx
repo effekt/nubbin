@@ -1,6 +1,6 @@
 "use client";
 
-import { needsAtLeastLine } from "../nubbin/needsAtLeastLine";
+import { needsAtLeastLine } from "./needsAtLeastLine";
 
 interface RepeaterRowActionsProps {
   index: number;
