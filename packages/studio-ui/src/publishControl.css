@@ -10,6 +10,26 @@
   align-items: stretch;
 }
 
+.nubbin-publish-button {
+  padding: 6px 16px;
+  border: 1px solid #bf411d;
+  border-radius: 6px;
+  color: #ffffff;
+  background: #bf411d;
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.nubbin-publish-button:focus {
+  outline: none;
+}
+
+.nubbin-publish-button:focus-visible {
+  outline: 2px solid var(--nb-teal);
+  outline-offset: 2px;
+}
+
 .nubbin-publish > button:first-child {
   border-top-right-radius: 0;
   border-bottom-right-radius: 0;
