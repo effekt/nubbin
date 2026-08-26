@@ -3,6 +3,7 @@ import { toPuckData } from "@nubbin/studio";
 import { notFound } from "next/navigation";
 import { ConfiguredPuckEditor } from "../../../components/ConfiguredPuckEditor";
 import { consumerOrigin } from "../../../nubbin/consumerOrigin";
+import { draftRevision } from "../../../nubbin/draftRevision";
 import { listEditableRoutes } from "../../../nubbin/listEditableRoutes";
 import { readDraft } from "../../../nubbin/readDraft";
 
@@ -30,6 +31,7 @@ export default async function Page({ params }: { params: Promise<{ slug?: string
         routes={listEditableRoutes()}
         initialData={toPuckData(draft)}
         initialVersion={draft}
+        initialRevision={draftRevision(draft)}
         consumerOrigin={consumerOrigin()}
       />
     </>

@@ -1,7 +1,4 @@
-import type { DocumentVersion } from "@nubbin/core";
+import type { DraftSave, DraftSaveOutcome } from "./draftSave.types";
 
 /** Host-owned draft persistence and validation behind Studio's HTTP boundary. */
-export type SaveDraftOperation = (
-  route: string,
-  version: DocumentVersion,
-) => "saved" | "missing" | Promise<"saved" | "missing">;
+export type SaveDraftOperation = (save: DraftSave) => DraftSaveOutcome | Promise<DraftSaveOutcome>;

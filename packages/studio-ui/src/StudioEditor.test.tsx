@@ -29,8 +29,9 @@ test("assembles the controlled editor engine with replaceable host chrome", () =
       routes={["/"]}
       initialData={{ content: [], root: { props: {} } }}
       initialVersion={version}
+      initialRevision="revision-1"
       consumerOrigin="http://localhost:3000"
-      saveDraft={() => Promise.resolve(undefined)}
+      saveDraft={() => Promise.resolve({ status: "saved", revision: "revision-2", issues: [] })}
       operations={createStudioHttpClient()}
       puckConfig={{ components: {} } as Config}
       presentation={{ overrides: () => ({}), status: () => <p>Draft ready</p> }}

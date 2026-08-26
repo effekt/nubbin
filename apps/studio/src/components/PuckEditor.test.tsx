@@ -40,8 +40,9 @@ function renderEditor() {
         root: { props: { title: "home" } },
       }}
       initialVersion={version}
+      initialRevision="revision-1"
       consumerOrigin="http://localhost:3100"
-      saveDraft={() => Promise.resolve(undefined)}
+      saveDraft={() => Promise.resolve({ status: "saved", revision: "revision-2", issues: [] })}
       operations={testStudioOperations}
     />,
   );

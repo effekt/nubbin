@@ -9,6 +9,8 @@ export { CanvasActionBar } from "./CanvasActionBar";
 export { ConsumerOriginContext } from "./ConsumerOriginContext";
 export type { DefaultStudioEditorProps } from "./DefaultStudioEditor";
 export { DefaultStudioEditor } from "./DefaultStudioEditor";
+export type { DraftConflictPanelProps } from "./DraftConflictPanel";
+export { DraftConflictPanel } from "./DraftConflictPanel";
 export { directChildFields } from "./directChildFields";
 export { FieldsetGroup } from "./FieldsetGroup";
 export { FieldsWithCallout } from "./FieldsWithCallout";

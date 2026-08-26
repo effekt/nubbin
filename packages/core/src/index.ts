@@ -40,9 +40,16 @@ export { NubbinError } from "./NubbinError";
 export { NubbinIssueCode } from "./NubbinIssueCode";
 export type { NubbinIssue } from "./nubbinIssue.types";
 export { parseMatchKind } from "./parseMatchKind";
+export { reconcileDocumentVersion } from "./reconcileDocumentVersion";
+export type {
+  DocumentConflict,
+  DocumentReconciliation,
+  ReconciliationValue,
+} from "./reconciliation.types";
 export { refuse } from "./refuse";
 export type { Registry } from "./registry.types";
 export { removeNode } from "./removeNode";
+export { resolveDocumentConflict } from "./resolveDocumentConflict";
 export { richText } from "./richText";
 export { RICH_TEXT_BLOCK_KINDS, RICH_TEXT_MARKS } from "./richText.constants";
 export type {

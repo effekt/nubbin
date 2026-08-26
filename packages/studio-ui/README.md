@@ -92,9 +92,12 @@ host does not maintain a parallel Puck field registry. Missing registry entries 
 
 Consumers that supply their own presentation do not need the stylesheet or these components.
 
-`StudioEditor` owns draft folding, debounced saves, issue projection, publish outcomes, and Puck's
-controlled state. Its `presentation` contract lets the supplied Nubbin chrome—or a custom editor—
-compose around that lifecycle without replacing it. MIT.
+`StudioEditor` owns draft folding, serialized debounced saves, three-way reconciliation, issue
+projection, publish outcomes, and Puck's controlled state. Non-overlapping concurrent changes
+merge automatically. `DraftConflictPanel` keeps both values of every same-path conflict available
+until the author chooses, then Studio retries against the returned revision. Its `presentation`
+contract lets the supplied Nubbin chrome—or a custom editor—compose around that lifecycle without
+replacing it. MIT.
 
 `toDefaultStudioOverrides` assembles all supplied chrome into Puck's extension points. Hosts inject
 only route, preview, and title navigation through `StudioNavigation`; framework routing remains

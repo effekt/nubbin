@@ -5,10 +5,17 @@ import { parseDraftSaveRequest } from "./parseDraftSaveRequest";
 import { parseRollbackRequest } from "./parseRollbackRequest";
 import { parseRouteCreateRequest } from "./parseRouteCreateRequest";
 
-test("accepts document-shaped draft saves without judging node validity", () => {
-  expect(parseDraftSaveRequest({ route: "/", version: home })).toEqual({
+test("accepts revision-aware draft saves without judging node validity", () => {
+  expect(
+    parseDraftSaveRequest({
+      route: "/",
+      version: home,
+      expectedRevision: "revision-1",
+    }),
+  ).toEqual({
     route: "/",
     version: home,
+    expectedRevision: "revision-1",
   });
   expect(isDocumentVersionShape({ ...home, elements: { hero: { id: "hero" } } })).toBe(true);
 });
@@ -42,15 +49,27 @@ test.each([
   expect(isDocumentVersionShape({ ...home, [field]: value })).toBe(false);
 });
 
-test.each([null, "text", 7, [], { route: "/" }, { version: home }, { route: 1, version: home }])(
-  "refuses the malformed save envelope %j",
-  (body) => {
-    expect(parseDraftSaveRequest(body)).toBeUndefined();
-  },
-);
+test.each([
+  null,
+  "text",
+  7,
+  [],
+  { route: "/" },
+  { version: home },
+  { route: 1, version: home },
+  { route: "/", version: home },
+])("refuses the malformed save envelope %j", (body) => {
+  expect(parseDraftSaveRequest(body)).toBeUndefined();
+});
 
 test("refuses a save whose version is not document-shaped", () => {
-  expect(parseDraftSaveRequest({ route: "/", version: { documentId: "home" } })).toBeUndefined();
+  expect(
+    parseDraftSaveRequest({
+      route: "/",
+      version: { documentId: "home" },
+      expectedRevision: "revision-1",
+    }),
+  ).toBeUndefined();
 });
 
 test("parses route creation without duplicating core's route judgment", () => {

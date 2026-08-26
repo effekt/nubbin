@@ -13,13 +13,23 @@ const version: DocumentVersion = {
 };
 
 test("uses a configured origin and host-owned fetch for draft saves", async () => {
-  const request = vi.fn<typeof fetch>(() => Promise.resolve(Response.json({ ok: true })));
+  const request = vi.fn<typeof fetch>(() =>
+    Promise.resolve(Response.json({ status: "saved", revision: "revision-2" })),
+  );
   const client = createStudioHttpClient({ baseUrl: "https://studio.example/", fetch: request });
 
-  await expect(client.saveDraft("/about", version)).resolves.toBeUndefined();
+  const save = {
+    route: "/about",
+    version,
+    expectedRevision: "revision-1",
+  };
+  await expect(client.saveDraft(save)).resolves.toEqual({
+    status: "saved",
+    revision: "revision-2",
+  });
   expect(request).toHaveBeenCalledWith(
     "https://studio.example/api/draft",
-    expect.objectContaining({ method: "POST", body: JSON.stringify({ route: "/about", version }) }),
+    expect.objectContaining({ method: "POST", body: JSON.stringify(save) }),
   );
 });
 
