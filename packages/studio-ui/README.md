@@ -57,6 +57,12 @@ the host while retaining Nubbin's accessible page list and creation flow.
 and hover previews. The host injects the preview URL builder, so the package owns the editor
 experience without assuming a framework route or deployment prefix.
 
+The canvas layer is packaged too. `CanvasActionBar` supplies Nubbin's selection overlay and
+zoom-stable block label, `FrameLoadedProbe` reports the real preview connection, and
+`toPuckRender` resolves slots while containing a failed component inside `BlockBoundary`. A bad
+draft therefore degrades one block to `BrokenBlock` without taking down the editor or binding the
+behavior to the reference application.
+
 `StudioOutline` provides the recursive page tree, slot fullness, folding, selection, and palette
 icons. It accepts the registry-derived icon and slot maps, keeping the visual tree independent of
 the host application's catalog location.

@@ -2,11 +2,15 @@ import { expect, test } from "vitest";
 
 test("exports exactly the optional UI contract", async () => {
   expect(Object.keys(await import("./index")).sort()).toEqual([
+    "BlockBoundary",
     "BlockPalette",
     "BoundedTextField",
+    "BrokenBlock",
+    "CanvasActionBar",
     "ConsumerOriginContext",
     "FieldsWithCallout",
     "FieldsetGroup",
+    "FrameLoadedProbe",
     "IssuesPill",
     "LinkTextField",
     "OutcomeNotice",
@@ -36,6 +40,7 @@ test("exports exactly the optional UI contract", async () => {
     "rowFieldOf",
     "selectPuckNode",
     "toHintedFields",
+    "toPuckRender",
     "useCloseOnEscape",
     "useCloseOnOutsideClick",
     "useDraftSave",
