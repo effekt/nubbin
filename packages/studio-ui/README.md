@@ -28,6 +28,7 @@ provide Nubbin's default editor chrome, publishing workflow, and feedback. Impor
 once in the host application:
 
 ```tsx
+import "@measured/puck/puck.css";
 import "@nubbin/studio-ui/styles.css";
 import {
   OutcomeNotice,

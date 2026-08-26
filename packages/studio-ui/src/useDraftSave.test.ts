@@ -1,8 +1,20 @@
+import type { DocumentVersion } from "@nubbin/core";
 import { type AuthorIssue, editorStatusStore } from "@nubbin/studio";
-import { useDraftSave } from "@nubbin/studio-ui";
 import { renderHook, waitFor } from "@testing-library/react";
 import { afterEach, expect, test, vi } from "vitest";
-import { blankDraft } from "../nubbin/blankDraft";
+import { useDraftSave } from "./useDraftSave";
+
+function draft(): DocumentVersion {
+  return {
+    documentId: "draft",
+    version: 1,
+    roots: [],
+    elements: {},
+    meta: { title: "Draft" },
+    createdAt: "2026-01-01T00:00:00.000Z",
+    createdBy: "test",
+  };
+}
 
 afterEach(() => {
   vi.useRealTimers();
@@ -13,22 +25,22 @@ test("a save that lands stamps the status with issues and the save's own time", 
   vi.useFakeTimers();
   const saveDraft = vi.fn(() => Promise.resolve(undefined));
   const { result } = renderHook(() => useDraftSave("/", saveDraft));
-  const draft = blankDraft("/");
-  result.current(draft);
+  const version = draft();
+  result.current(version);
   vi.advanceTimersByTime(600);
   vi.useRealTimers();
   await waitFor(() => {
     expect(editorStatusStore.get().savedAt).toBeDefined();
   });
   expect(editorStatusStore.get().issues).toEqual([]);
-  expect(saveDraft).toHaveBeenCalledWith("/", draft);
+  expect(saveDraft).toHaveBeenCalledWith("/", version);
 });
 
 test("a refused save carries the endpoint's words as an issue, and still stamps the time", async () => {
   vi.useFakeTimers();
   const issues: readonly AuthorIssue[] = [{ message: "the store is read-only" }];
   const { result } = renderHook(() => useDraftSave("/", () => Promise.resolve(issues)));
-  result.current(blankDraft("/"));
+  result.current(draft());
   vi.advanceTimersByTime(600);
   vi.useRealTimers();
   await waitFor(() => {
@@ -44,7 +56,7 @@ test("a save that never reaches the endpoint marks the round trip failed, not sa
   const { result } = renderHook(() =>
     useDraftSave("/", () => Promise.reject(new Error("connection refused"))),
   );
-  result.current(blankDraft("/"));
+  result.current(draft());
   vi.advanceTimersByTime(600);
   vi.useRealTimers();
   await waitFor(() => {
@@ -57,7 +69,7 @@ test("a save that lands clears a failure the round trip before it left", async (
   vi.useFakeTimers();
   editorStatusStore.set({ issues: [], issuesOpen: false, published: false, saveFailed: true });
   const { result } = renderHook(() => useDraftSave("/", () => Promise.resolve(undefined)));
-  result.current(blankDraft("/"));
+  result.current(draft());
   vi.advanceTimersByTime(600);
   vi.useRealTimers();
   await waitFor(() => {
