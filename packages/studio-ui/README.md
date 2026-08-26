@@ -1,7 +1,8 @@
 # @nubbin/studio-ui
 
-The optional React editor layer for Nubbin Studio. It contains the Puck adapter, editor hooks,
-configuration helper, and browser-side context used by the assembled visual editor.
+The optional React editor layer for Nubbin Studio. It contains the controlled editor engine,
+Puck adapter, editor hooks, configuration helper, and browser-side context used by the visual
+editor.
 
 Install it when you want Nubbin's provided editor interface:
 
@@ -20,4 +21,8 @@ import { defineStudioConfig } from "@nubbin/studio-ui/config";
 ```
 
 The default entry is a client module and exports the React hooks and Puck adapter. The consuming
-application continues to own its host framework, routing, authentication, and storage. MIT.
+application continues to own its host framework, routing, authentication, and storage.
+
+`StudioEditor` owns draft folding, debounced saves, issue projection, publish outcomes, and Puck's
+controlled state. Its `presentation` contract lets the supplied Nubbin chrome—or a custom editor—
+compose around that lifecycle without replacing it. MIT.
