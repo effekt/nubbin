@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.4.1](https://github.com/effekt/nubbin/compare/cli-v0.4.0...cli-v0.4.1) (2026-08-26)
+
+
+### Miscellaneous Chores
+
+* **cli:** Synchronize nubbin versions
+
 ## [0.4.0](https://github.com/effekt/nubbin/compare/cli-v0.3.0...cli-v0.4.0) (2026-08-26)
 
 
