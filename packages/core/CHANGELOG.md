@@ -1,5 +1,19 @@
 # @nubbin/core
 
+## [0.3.0](https://github.com/effekt/nubbin/compare/core-v0.2.0...core-v0.3.0) (2026-08-26)
+
+
+### Features
+
+* **store-fs:** the contract suite is importable ([#569](https://github.com/effekt/nubbin/issues/569)) ([2f18d0c](https://github.com/effekt/nubbin/commit/2f18d0c8a292e4ddae56cb406b0405c94cc47b0e))
+* **studio:** blocks wear icons and link their docs ([#571](https://github.com/effekt/nubbin/issues/571)) ([49bfdb9](https://github.com/effekt/nubbin/commit/49bfdb93f8f528e71a83bf67d6d91b93d6d9f8a3))
+* **studio:** issues wear a pill, fields count their bounds ([#564](https://github.com/effekt/nubbin/issues/564)) ([24ba0b4](https://github.com/effekt/nubbin/commit/24ba0b429b5bf6051507a02f06e60be044928445))
+* **studio:** links check their format and open when valid ([#580](https://github.com/effekt/nubbin/issues/580)) ([6c4e424](https://github.com/effekt/nubbin/commit/6c4e42496c97dd723e6da4a9e1a13bf19c0e0334))
+* **studio:** lists and objects open in the inspector ([#578](https://github.com/effekt/nubbin/issues/578)) ([385248e](https://github.com/effekt/nubbin/commit/385248ee971eaa49d7c4dd22a7347aceb854f36a))
+* **studio:** rich text edits as the typed data it is ([#579](https://github.com/effekt/nubbin/issues/579)) ([0f49a13](https://github.com/effekt/nubbin/commit/0f49a13da2601df091adfd12219f5c2f245c638e))
+* **studio:** the palette searches and says what each block is for ([#568](https://github.com/effekt/nubbin/issues/568)) ([76d6961](https://github.com/effekt/nubbin/commit/76d69610e189ac9de89784960c97488742428c73))
+* **studio:** the palette speaks the consumer's taxonomy ([#589](https://github.com/effekt/nubbin/issues/589)) ([7f60a08](https://github.com/effekt/nubbin/commit/7f60a08a0c92b7b635a7bbbe9ca8eb3a472b4761))
+
 ## [0.2.0](https://github.com/effekt/nubbin/compare/core-v0.1.1...core-v0.2.0) (2026-08-24)
 
 
