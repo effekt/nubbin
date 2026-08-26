@@ -1,5 +1,12 @@
 # @nubbin/studio
 
+## [0.4.0](https://github.com/effekt/nubbin/compare/studio-v0.3.0...studio-v0.4.0) (2026-08-26)
+
+
+### Miscellaneous Chores
+
+* **studio:** Synchronize nubbin versions
+
 ## [0.3.0](https://github.com/effekt/nubbin/compare/studio-v0.2.0...studio-v0.3.0) (2026-08-26)
 
 

@@ -1,5 +1,12 @@
 # @nubbin/core
 
+## [0.4.0](https://github.com/effekt/nubbin/compare/core-v0.3.0...core-v0.4.0) (2026-08-26)
+
+
+### Miscellaneous Chores
+
+* **core:** Synchronize nubbin versions
+
 ## [0.3.0](https://github.com/effekt/nubbin/compare/core-v0.2.0...core-v0.3.0) (2026-08-26)
 
 

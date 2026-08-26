@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.4.0](https://github.com/effekt/nubbin/compare/studio-ui-v0.3.0...studio-ui-v0.4.0) (2026-08-26)
+
+
+### Features
+
+* **studio:** package block palette ([#629](https://github.com/effekt/nubbin/issues/629)) ([8f57339](https://github.com/effekt/nubbin/commit/8f5733925d71e4c6b7ba2340c8041b528f78dad8))
+
 ## [0.3.0](https://github.com/effekt/nubbin/compare/studio-ui-v0.2.0...studio-ui-v0.3.0) (2026-08-26)
 
 
