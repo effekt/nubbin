@@ -24,6 +24,11 @@ const version: DocumentVersion = {
   createdBy: "test",
 };
 
+// These exercise Puck, the iframe bridge and an async HTTP outcome together. Workspace CI runs
+// every package concurrently, so they need an integration-test ceiling rather than Vitest's 5s
+// unit-test default; assertions still use Testing Library's short polling timeout.
+const EDITOR_INTEGRATION_TIMEOUT_MS = 15_000;
+
 function renderEditor() {
   return render(
     <PuckEditor
@@ -53,47 +58,55 @@ test("hosts Puck's editor shell around the draft, assuming changes on first load
   expect(screen.queryByRole("button", { name: /Fix .* issue/ })).toBeNull();
 });
 
-test("a refused publish fills the pill and opens its dropdown on the issues", async () => {
-  const issues = [
-    { code: "invalid-props", message: "maximum 60 characters", at: "hero", path: "headline" },
-  ];
-  vi.stubGlobal("fetch", () =>
-    Promise.resolve(Response.json({ ok: false, issues }, { status: 422 })),
-  );
-  renderEditor();
-  fireEvent.click(screen.getByRole("button", { name: "Publish changes" }));
-  expect(await screen.findByRole("button", { name: "Fix 1 issue" })).toBeDefined();
-  expect(
-    screen.getByRole("heading", { name: "1 thing needs fixing before this can go live" }),
-  ).toBeDefined();
-  expect(screen.getByText("Hero — Headline:")).toBeDefined();
-  expect(screen.getByText("maximum 60 characters")).toBeDefined();
-  // Going to the issue closes the panel; the canvas is out of reach here, so the click only
-  // proves the button is wired without throwing. The dev-server check covers the selection.
-  fireEvent.click(screen.getByRole("button", { name: "Go to it →" }));
-  expect(editorStatusStore.get().issuesOpen).toBe(false);
-});
+test(
+  "a refused publish fills the pill and opens its dropdown on the issues",
+  async () => {
+    const issues = [
+      { code: "invalid-props", message: "maximum 60 characters", at: "hero", path: "headline" },
+    ];
+    vi.stubGlobal("fetch", () =>
+      Promise.resolve(Response.json({ ok: false, issues }, { status: 422 })),
+    );
+    renderEditor();
+    fireEvent.click(screen.getByRole("button", { name: "Publish changes" }));
+    expect(await screen.findByRole("button", { name: "Fix 1 issue" })).toBeDefined();
+    expect(
+      screen.getByRole("heading", { name: "1 thing needs fixing before this can go live" }),
+    ).toBeDefined();
+    expect(screen.getByText("Hero — Headline:")).toBeDefined();
+    expect(screen.getByText("maximum 60 characters")).toBeDefined();
+    // Going to the issue closes the panel; the canvas is out of reach here, so the click only
+    // proves the button is wired without throwing. The dev-server check covers the selection.
+    fireEvent.click(screen.getByRole("button", { name: "Go to it →" }));
+    expect(editorStatusStore.get().issuesOpen).toBe(false);
+  },
+  EDITOR_INTEGRATION_TIMEOUT_MS,
+);
 
-test("a publish that lands reports inside the header's panel and flips the label", async () => {
-  vi.stubGlobal("fetch", () =>
-    Promise.resolve(
-      Response.json({
-        ok: true,
-        hash: "abc123",
-        url: "http://localhost:3000/",
-        timings: { compileMs: 12, writeMs: 3, moveMs: 285 },
-      }),
-    ),
-  );
-  renderEditor();
-  fireEvent.click(screen.getByRole("button", { name: "Publish changes" }));
-  await screen.findByText("Switched the live page over");
-  expect(screen.getByText("0.3s")).toBeDefined();
-  expect(screen.getByRole("link", { name: "View live ↗" }).getAttribute("href")).toBe(
-    "http://localhost:3000/",
-  );
-  expect(screen.getByRole("button", { name: "Published ✓" })).toBeDefined();
-});
+test(
+  "a publish that lands reports inside the header's panel and flips the label",
+  async () => {
+    vi.stubGlobal("fetch", () =>
+      Promise.resolve(
+        Response.json({
+          ok: true,
+          hash: "abc123",
+          url: "http://localhost:3000/",
+          timings: { compileMs: 12, writeMs: 3, moveMs: 285 },
+        }),
+      ),
+    );
+    renderEditor();
+    fireEvent.click(screen.getByRole("button", { name: "Publish changes" }));
+    await screen.findByText("Switched the live page over");
+    expect(screen.getByText("0.3s")).toBeDefined();
+    expect(screen.getByRole("link", { name: "View live ↗" }).getAttribute("href")).toBe(
+      "http://localhost:3000/",
+    );
+    expect(screen.getByRole("button", { name: "Published ✓" })).toBeDefined();
+  },
+  EDITOR_INTEGRATION_TIMEOUT_MS,
+);
 
 test("the viewport chips are the consumer's breakpoints, not Puck's invented three", () => {
   vi.stubGlobal("fetch", () => Promise.resolve(Response.json({ ok: true })));
