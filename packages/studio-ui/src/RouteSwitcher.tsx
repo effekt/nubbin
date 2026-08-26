@@ -1,15 +1,15 @@
 "use client";
 
 import "./routeSwitcher.css";
-import { useCloseOnEscape } from "@nubbin/studio-ui";
 import { useCallback, useRef, useState } from "react";
-import { goToEditor } from "../nubbin/goToEditor";
-import { prefixedRoute } from "../nubbin/prefixedRoute";
 import { NewRouteForm } from "./NewRouteForm";
+import type { RouteCreation } from "./routeCreation.types";
+import { useCloseOnEscape } from "./useCloseOnEscape";
 
-interface RouteSwitcherProps {
+export interface RouteSwitcherProps extends RouteCreation {
   route: string;
   routes: readonly string[];
+  hrefForRoute: (route: string) => string;
 }
 
 /** The toolbar's Pages control: a disclosure button opening the list of every editable
@@ -18,7 +18,13 @@ interface RouteSwitcherProps {
  * button itself stays the specimen's plain "Pages". Real links do the switching, so the
  * keyboard, middle-click and the address bar all behave; Escape closes and hands focus
  * back to the button. */
-export function RouteSwitcher({ route, routes }: RouteSwitcherProps) {
+export function RouteSwitcher({
+  route,
+  routes,
+  hrefForRoute,
+  createRoute,
+  onCreated,
+}: RouteSwitcherProps) {
   const [open, setOpen] = useState(false);
   const [naming, setNaming] = useState(false);
   const buttonRef = useRef<HTMLButtonElement>(null);
@@ -46,17 +52,14 @@ export function RouteSwitcher({ route, routes }: RouteSwitcherProps) {
           <ul>
             {routes.map((entry) => (
               <li key={entry}>
-                <a
-                  href={prefixedRoute("/edit", entry)}
-                  aria-current={entry === route ? "page" : undefined}
-                >
+                <a href={hrefForRoute(entry)} aria-current={entry === route ? "page" : undefined}>
                   {entry}
                 </a>
               </li>
             ))}
           </ul>
           {naming ? (
-            <NewRouteForm onCreated={goToEditor} />
+            <NewRouteForm createRoute={createRoute} onCreated={onCreated} />
           ) : (
             <button type="button" onClick={() => setNaming(true)}>
               New page…

@@ -5,6 +5,7 @@ test("exports exactly the optional UI contract", async () => {
     "ConsumerOriginContext",
     "OutcomeNotice",
     "PublishControl",
+    "RouteSwitcher",
     "StudioEditor",
     "StudioStatusBar",
     "StudioToolbar",

@@ -4,8 +4,14 @@ import type { Overrides, PuckApi } from "@measured/puck";
 import type { SlotConstraint } from "@nubbin/core";
 import type { PaletteGroup, PublishOutcome, StudioOperations } from "@nubbin/studio";
 import { toIconByBlock } from "@nubbin/studio";
-import { PublishControl, StudioToolbar, type StudioViewport } from "@nubbin/studio-ui";
+import {
+  PublishControl,
+  RouteSwitcher,
+  StudioToolbar,
+  type StudioViewport,
+} from "@nubbin/studio-ui";
 import type { RefObject } from "react";
+import { goToEditor } from "../nubbin/goToEditor";
 import { prefixedRoute } from "../nubbin/prefixedRoute";
 import { BlockPalette } from "./BlockPalette";
 import { CanvasActionBar } from "./CanvasActionBar";
@@ -13,7 +19,6 @@ import { FieldsWithCallout } from "./FieldsWithCallout";
 import { FrameLoadedProbe } from "./FrameLoadedProbe";
 import { IssuesPill } from "./IssuesPill";
 import { PuckApiBridge } from "./PuckApiBridge";
-import { RouteSwitcher } from "./RouteSwitcher";
 import { StudioOutline } from "./StudioOutline";
 import { ToolbarDocName } from "./ToolbarDocName";
 
@@ -63,7 +68,15 @@ export function toBridgedOverrides(
     outline: () => <StudioOutline icons={icons} slotsByBlock={slotsByBlock} />,
     header: ({ actions }) => (
       <StudioToolbar
-        navigation={<RouteSwitcher route={pages.route} routes={pages.routes} />}
+        navigation={
+          <RouteSwitcher
+            route={pages.route}
+            routes={pages.routes}
+            hrefForRoute={(route) => prefixedRoute("/edit", route)}
+            createRoute={operations.createRoute}
+            onCreated={goToEditor}
+          />
+        }
         document={<ToolbarDocName route={pages.route} />}
         viewports={viewports}
         actions={actions}

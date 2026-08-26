@@ -6,6 +6,8 @@ export { OutcomeNotice } from "./OutcomeNotice";
 export type { PublishControlProps } from "./PublishControl";
 export { PublishControl } from "./PublishControl";
 export { puckAdapter } from "./puckAdapter";
+export type { RouteSwitcherProps } from "./RouteSwitcher";
+export { RouteSwitcher } from "./RouteSwitcher";
 export type { AssembledStudioEditorProps } from "./StudioEditor";
 export { StudioEditor } from "./StudioEditor";
 export { StudioStatusBar } from "./StudioStatusBar";

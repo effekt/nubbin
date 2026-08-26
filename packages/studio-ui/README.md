@@ -45,6 +45,10 @@ application or its authentication model.
 document identity, configured viewports, and right-edge actions as composable slots, so URL and
 routing policy remain outside the package.
 
+`RouteSwitcher` provides the default navigation slot. Its route-link builder, create operation, and
+post-create navigation callback are injected, keeping framework routing and deployment prefixes in
+the host while retaining Nubbin's accessible page list and creation flow.
+
 Consumers that supply their own presentation do not need the stylesheet or these components.
 
 `StudioEditor` owns draft folding, debounced saves, issue projection, publish outcomes, and Puck's
