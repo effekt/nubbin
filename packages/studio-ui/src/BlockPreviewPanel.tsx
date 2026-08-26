@@ -28,9 +28,11 @@ import { toPreviewFrameHeight } from "./toPreviewFrameHeight";
 export function BlockPreviewPanel({
   block,
   anchor,
+  previewHref,
 }: {
   block: PaletteBlock | undefined;
   anchor: RefObject<HTMLElement | null>;
+  previewHref: (blockName: string) => string;
 }) {
   const [contentHeight, setContentHeight] = useState<number | undefined>(undefined);
   // The last fitted height, held across row swaps so the region transitions from one real
@@ -78,7 +80,7 @@ export function BlockPreviewPanel({
         </header>
         <div className="nb-palette-preview-frame" style={{ height: frameHeight }}>
           <iframe
-            src={`/block-preview/${block.name}`}
+            src={previewHref(block.name)}
             title={`Preview of the ${block.name} block`}
             tabIndex={-1}
             onLoad={(event) => setContentHeight(frameContentHeight(event.currentTarget))}

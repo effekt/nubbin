@@ -1,10 +1,14 @@
 "use client";
 
+export type { BlockPaletteProps } from "./BlockPalette";
+export { BlockPalette } from "./BlockPalette";
 export { ConsumerOriginContext } from "./ConsumerOriginContext";
 export type { OutcomeNoticeProps } from "./OutcomeNotice";
 export { OutcomeNotice } from "./OutcomeNotice";
+export { PaletteIcon } from "./PaletteIcon";
 export type { PublishControlProps } from "./PublishControl";
 export { PublishControl } from "./PublishControl";
+export { PuckApiBridge } from "./PuckApiBridge";
 export { puckAdapter } from "./puckAdapter";
 export type { RouteSwitcherProps } from "./RouteSwitcher";
 export { RouteSwitcher } from "./RouteSwitcher";

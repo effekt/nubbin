@@ -50,15 +50,19 @@
     "@nubbin/studio": "workspace:*"
   },
   "peerDependencies": {
-    "react": ">=19.0.0"
+    "react": ">=19.0.0",
+    "react-dom": ">=19.0.0"
   },
   "devDependencies": {
     "@testing-library/react": "catalog:",
     "@types/react": "catalog:",
+    "@types/react-dom": "catalog:",
     "happy-dom": "catalog:",
     "react": "catalog:",
+    "react-dom": "catalog:",
     "tsup": "catalog:",
     "typescript": "catalog:",
-    "vitest": "catalog:"
+    "vitest": "catalog:",
+    "zod": "catalog:"
   }
 }

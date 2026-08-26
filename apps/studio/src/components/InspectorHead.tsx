@@ -1,10 +1,10 @@
 "use client";
 
 import { usePuck } from "@measured/puck";
+import { PaletteIcon } from "@nubbin/studio-ui";
 import { parseZoneCompound } from "../nubbin/parseZoneCompound";
 import { toAreaLabel } from "../nubbin/toAreaLabel";
 import { toPositionLine } from "../nubbin/toPositionLine";
-import { PaletteIcon } from "./PaletteIcon";
 
 /** Puck's own id for the document root in a zone compound. */
 const ROOT_PARENT_ID = "root";

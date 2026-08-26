@@ -9,6 +9,8 @@ import { BlockPalette } from "./BlockPalette";
 import { PREVIEW_SHOW_DELAY_MS } from "./hoverPreview.constants";
 import { PuckApiBridge } from "./PuckApiBridge";
 
+const previewHref = (name: string) => `/block-preview/${name}`;
+
 // Rendered inside a real Puck, because the rows are Puck's own Drawer.Item and need its
 // provider — the same tree the drawer override mounts the palette into. The api ref is
 // bridged the way the editor bridges it, so Enter inserts through the real store.
@@ -36,7 +38,7 @@ function renderPalette() {
       config={config}
       data={{ content: [], root: { props: {} } }}
       overrides={{
-        drawer: () => <BlockPalette groups={groups} apiRef={apiRef} />,
+        drawer: () => <BlockPalette groups={groups} apiRef={apiRef} previewHref={previewHref} />,
         puck: ({ children }) => (
           <>
             <PuckApiBridge apiRef={apiRef} />
@@ -182,7 +184,9 @@ test("a mixed catalog renders declared sections in catalog order, derived ones a
         },
       }}
       data={{ content: [], root: { props: {} } }}
-      overrides={{ drawer: () => <BlockPalette groups={groups} apiRef={apiRef} /> }}
+      overrides={{
+        drawer: () => <BlockPalette groups={groups} apiRef={apiRef} previewHref={previewHref} />,
+      }}
     />,
   );
   const headings = [...container.querySelectorAll(".nb-palette-heading-toggle")].map(

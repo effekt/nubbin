@@ -1,8 +1,8 @@
 "use client";
 
+import { PaletteIcon } from "@nubbin/studio-ui";
 import type { OutlineNode } from "../nubbin/outlineNode.types";
 import { DisclosureChevron } from "./DisclosureChevron";
-import { PaletteIcon } from "./PaletteIcon";
 
 /** One block's row in the outline: the same glyph the palette draws for it, its name, and
  * — where the block declares areas — the disclosure chevron that folds them. Clicking

@@ -1,10 +1,6 @@
 import type { PaletteBlock } from "@nubbin/studio";
 
-/**
- * Whether one palette block survives the search: a case-insensitive substring match against
- * its name or its description. A blank query — empty or whitespace — keeps every block, so
- * the palette at rest is the full list.
- */
+/** Whether a palette block matches a case-insensitive name or description query. */
 export function isBlockMatch(query: string, block: PaletteBlock): boolean {
   const needle = query.trim().toLowerCase();
   if (needle === "") {
