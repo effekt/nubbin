@@ -9,6 +9,8 @@ export { puckAdapter } from "./puckAdapter";
 export type { AssembledStudioEditorProps } from "./StudioEditor";
 export { StudioEditor } from "./StudioEditor";
 export { StudioStatusBar } from "./StudioStatusBar";
+export type { StudioToolbarProps } from "./StudioToolbar";
+export { StudioToolbar } from "./StudioToolbar";
 export type { StudioConfig, StudioEditorConfig, StudioViewport } from "./studioConfig.types";
 export type {
   StudioEditorChromeContext,

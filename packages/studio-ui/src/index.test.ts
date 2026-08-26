@@ -7,6 +7,7 @@ test("exports exactly the optional UI contract", async () => {
     "PublishControl",
     "StudioEditor",
     "StudioStatusBar",
+    "StudioToolbar",
     "puckAdapter",
     "useCloseOnEscape",
     "useCloseOnOutsideClick",

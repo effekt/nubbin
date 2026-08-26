@@ -4,7 +4,7 @@ import type { Overrides, PuckApi } from "@measured/puck";
 import type { SlotConstraint } from "@nubbin/core";
 import type { PaletteGroup, PublishOutcome, StudioOperations } from "@nubbin/studio";
 import { toIconByBlock } from "@nubbin/studio";
-import { PublishControl } from "@nubbin/studio-ui";
+import { PublishControl, StudioToolbar, type StudioViewport } from "@nubbin/studio-ui";
 import type { RefObject } from "react";
 import { prefixedRoute } from "../nubbin/prefixedRoute";
 import { BlockPalette } from "./BlockPalette";
@@ -13,8 +13,9 @@ import { FieldsWithCallout } from "./FieldsWithCallout";
 import { FrameLoadedProbe } from "./FrameLoadedProbe";
 import { IssuesPill } from "./IssuesPill";
 import { PuckApiBridge } from "./PuckApiBridge";
+import { RouteSwitcher } from "./RouteSwitcher";
 import { StudioOutline } from "./StudioOutline";
-import { StudioToolbar } from "./StudioToolbar";
+import { ToolbarDocName } from "./ToolbarDocName";
 
 /**
  * The studio's Puck overrides. The whole-UI `puck` override renders its children untouched
@@ -41,6 +42,7 @@ import { StudioToolbar } from "./StudioToolbar";
 export function toBridgedOverrides(
   apiRef: RefObject<(() => PuckApi) | undefined>,
   pages: { route: string; routes: readonly string[] },
+  viewports: readonly StudioViewport[],
   operations: StudioOperations,
   onOutcome: (outcome: PublishOutcome) => void,
   palette: readonly PaletteGroup[],
@@ -60,7 +62,12 @@ export function toBridgedOverrides(
     drawer: () => <BlockPalette groups={palette} apiRef={apiRef} />,
     outline: () => <StudioOutline icons={icons} slotsByBlock={slotsByBlock} />,
     header: ({ actions }) => (
-      <StudioToolbar route={pages.route} routes={pages.routes} actions={actions} />
+      <StudioToolbar
+        navigation={<RouteSwitcher route={pages.route} routes={pages.routes} />}
+        document={<ToolbarDocName route={pages.route} />}
+        viewports={viewports}
+        actions={actions}
+      />
     ),
     headerActions: () => (
       <>

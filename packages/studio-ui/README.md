@@ -23,17 +23,27 @@ import { defineStudioConfig } from "@nubbin/studio-ui/config";
 The default entry is a client module and exports the React hooks and Puck adapter. The consuming
 application continues to own its host framework, routing, authentication, and storage.
 
-The optional `PublishControl`, `OutcomeNotice`, and `StudioStatusBar` components provide Nubbin's
-default publishing workflow and feedback. Import their stylesheet once in the host application:
+The optional `StudioToolbar`, `PublishControl`, `OutcomeNotice`, and `StudioStatusBar` components
+provide Nubbin's default editor chrome, publishing workflow, and feedback. Import their stylesheet
+once in the host application:
 
 ```tsx
 import "@nubbin/studio-ui/styles.css";
-import { OutcomeNotice, PublishControl, StudioStatusBar } from "@nubbin/studio-ui";
+import {
+  OutcomeNotice,
+  PublishControl,
+  StudioStatusBar,
+  StudioToolbar,
+} from "@nubbin/studio-ui";
 ```
 
 `PublishControl` accepts the active route, a headless `StudioOperations` client, and an outcome
 callback. It owns publish, history, rollback, and restore presentation without knowing the host
 application or its authentication model.
+
+`StudioToolbar` owns Puck's sidebar, history, and viewport controls. The host supplies navigation,
+document identity, configured viewports, and right-edge actions as composable slots, so URL and
+routing policy remain outside the package.
 
 Consumers that supply their own presentation do not need the stylesheet or these components.
 

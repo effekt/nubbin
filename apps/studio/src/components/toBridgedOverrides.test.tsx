@@ -19,6 +19,13 @@ function renderPuck(apiRef: { current: (() => PuckApi) | undefined }) {
       overrides={toBridgedOverrides(
         apiRef,
         { route: "/", routes: ["/", "/live"] },
+        [
+          { width: 390, height: "auto", label: "sm" },
+          { width: 768, height: "auto", label: "md" },
+          { width: 1024, height: "auto", label: "lg" },
+          { width: 1280, height: "auto", label: "xl" },
+          { width: 1536, height: "auto", label: "2xl" },
+        ],
         testStudioOperations,
         () => undefined,
         [{ title: "Content", blocks: [{ name: "Hero", description: "The opening statement." }] }],
