@@ -98,3 +98,7 @@ compose around that lifecycle without replacing it. MIT.
 `toDefaultStudioOverrides` assembles all supplied chrome into Puck's extension points. Hosts inject
 only route, preview, and title navigation through `StudioNavigation`; framework routing remains
 outside the package while Nubbin's complete default editor presentation remains reusable.
+
+`DefaultStudioEditor` is that complete presentation assembled with the derived Puck configuration,
+outcome notice, status bar, and default overrides. A host supplies `StudioNavigation`, its Nubbin
+config, and the transport operations; it does not rebuild the editor composition.

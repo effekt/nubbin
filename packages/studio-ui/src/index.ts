@@ -7,6 +7,8 @@ export { BoundedTextField } from "./BoundedTextField";
 export { BrokenBlock } from "./BrokenBlock";
 export { CanvasActionBar } from "./CanvasActionBar";
 export { ConsumerOriginContext } from "./ConsumerOriginContext";
+export type { DefaultStudioEditorProps } from "./DefaultStudioEditor";
+export { DefaultStudioEditor } from "./DefaultStudioEditor";
 export { directChildFields } from "./directChildFields";
 export { FieldsetGroup } from "./FieldsetGroup";
 export { FieldsWithCallout } from "./FieldsWithCallout";
