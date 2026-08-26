@@ -1,8 +1,8 @@
 import type { FieldNode } from "@nubbin/core";
+import { richTextFieldNodes } from "@nubbin/studio-ui";
 import { render, screen } from "@testing-library/react";
 import { createElement } from "react";
 import { expect, test } from "vitest";
-import { richTextFieldNodes } from "./richTextFieldNodes";
 import { toPuckField } from "./toPuckField";
 
 const node = (kind: FieldNode["kind"], members?: readonly string[]): FieldNode =>

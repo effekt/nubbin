@@ -1,6 +1,6 @@
 import type { FieldNode } from "@nubbin/core";
-import type { HintedFieldNode } from "@nubbin/studio-ui";
 import { expect, test } from "vitest";
+import type { HintedFieldNode } from "./hintedField.types";
 import { toRowLabel } from "./toRowLabel";
 
 const statChildren: FieldNode[] = [

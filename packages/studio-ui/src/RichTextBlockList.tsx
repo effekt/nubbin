@@ -1,9 +1,9 @@
 "use client";
 
 import type { RichText } from "@nubbin/core";
-import { toRichTextRowHandlers } from "../nubbin/toRichTextRowHandlers";
 import { RichTextBlockRow } from "./RichTextBlockRow";
 import type { RichTextSelection } from "./richTextSelection.types";
+import { toRichTextRowHandlers } from "./toRichTextRowHandlers";
 import { useRowKeys } from "./useRowKeys";
 
 interface RichTextBlockListProps {

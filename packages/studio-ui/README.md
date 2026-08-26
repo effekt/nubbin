@@ -73,6 +73,12 @@ The packaged scalar field controls cover plain and bounded text, links, numbers,
 segmented choices, and read-only fallbacks. `ScalarFieldControl` dispatches from Nubbin's described
 field contract, so hosts do not need to rebuild the default control-selection rules.
 
+The same package owns Nubbin's structured controls. `RepeaterField`, `FieldsetGroup`, and
+`RichTextField` render nested object and array schemas, reorderable rows, and Nubbin's constrained
+rich-text document without exposing arbitrary HTML or JavaScript. `SubFieldControl` recursively
+dispatches nested fields through those controls, while `toHintedFields` folds catalog UI hints onto
+the schema description before a host builds its editor configuration.
+
 Consumers that supply their own presentation do not need the stylesheet or these components.
 
 `StudioEditor` owns draft folding, debounced saves, issue projection, publish outcomes, and Puck's

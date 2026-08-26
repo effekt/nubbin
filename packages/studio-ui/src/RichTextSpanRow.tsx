@@ -1,7 +1,7 @@
 "use client";
 
 import type { RichTextSpan } from "@nubbin/core";
-import { pastedLines } from "../nubbin/pastedLines";
+import { pastedLines } from "./pastedLines";
 
 interface RichTextSpanRowProps {
   id: string;

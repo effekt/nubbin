@@ -1,4 +1,4 @@
-/* The wireframes' RichTextControl in puckTheme.css's voice: a fixed toolbar of mark
+/* The packaged RichText control uses a fixed toolbar of mark
  * toggles over blocks rendered as bordered cards, spans as rows within them. A pressed
  * toggle is told by fill, border and weight together — never hue alone — and every
  * control keeps a visible focus ring. Tokens cascade from `.nubbin-studio`. */

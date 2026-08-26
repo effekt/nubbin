@@ -1,6 +1,6 @@
 import type { FieldNode } from "@nubbin/core";
-import { leafFieldName } from "@nubbin/studio-ui";
 import { directChildFields } from "./directChildFields";
+import { leafFieldName } from "./leafFieldName";
 
 const BLANK_BY_KIND: Readonly<Partial<Record<FieldNode["kind"], unknown>>> = {
   string: "",
