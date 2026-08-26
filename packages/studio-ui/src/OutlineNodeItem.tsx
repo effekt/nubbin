@@ -1,8 +1,8 @@
 "use client";
 
-import type { OutlineNode } from "../nubbin/outlineNode.types";
 import { OutlineAreaRow } from "./OutlineAreaRow";
 import { OutlineBlockRow } from "./OutlineBlockRow";
+import type { OutlineNode } from "./outlineNode.types";
 
 export interface OutlineTreeState {
   icons: Record<string, string>;

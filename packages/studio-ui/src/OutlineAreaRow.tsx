@@ -1,21 +1,19 @@
 "use client";
 
-import { areaChipLabel } from "../nubbin/areaChipLabel";
-import type { OutlineArea } from "../nubbin/outlineNode.types";
+import { areaChipLabel } from "./areaChipLabel";
 import { DisclosureChevron } from "./DisclosureChevron";
+import type { OutlineArea } from "./outlineNode.types";
+
+interface OutlineAreaRowProps {
+  area: OutlineArea;
+  isOpen: boolean;
+  onToggle: () => void;
+}
 
 /** One area's row in the outline: the slot's name in the small-caps voice behind the brass
  * bracket glyph, with the fullness chip — how many blocks it holds, against the bound the
  * schema declares where there is one. The row is the disclosure for the blocks inside. */
-export function OutlineAreaRow({
-  area,
-  isOpen,
-  onToggle,
-}: {
-  area: OutlineArea;
-  isOpen: boolean;
-  onToggle: () => void;
-}) {
+export function OutlineAreaRow({ area, isOpen, onToggle }: OutlineAreaRowProps) {
   return (
     <div className="nb-outline-row nb-outline-area">
       <button

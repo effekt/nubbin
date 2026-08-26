@@ -3,9 +3,9 @@
 import { usePuck } from "@measured/puck";
 import type { SlotConstraint } from "@nubbin/core";
 import { useState } from "react";
-import { countOutlineBlocks } from "../nubbin/countOutlineBlocks";
-import { toOutlineNodes } from "../nubbin/toOutlineNodes";
-import { withToggled } from "../nubbin/withToggled";
+import { countOutlineBlocks } from "./countOutlineBlocks";
+import { toOutlineNodes } from "./toOutlineNodes";
+import { withToggled } from "./withToggled";
 import "./studioOutline.css";
 import { OutlineNodeItem } from "./OutlineNodeItem";
 import { selectPuckNode } from "./selectPuckNode";
@@ -24,7 +24,7 @@ export function StudioOutline({
   slotsByBlock: Record<string, Record<string, SlotConstraint>>;
 }) {
   const { appState, dispatch, getSelectorForId, selectedItem } = usePuck();
-  const [collapsed, setCollapsed] = useState<ReadonlySet<string>>(new Set());
+  const [collapsed, setCollapsed] = useState<ReadonlySet<string>>(() => new Set());
   const nodes = toOutlineNodes(appState.data.content, slotsByBlock);
   return (
     <div className="nb-outline">

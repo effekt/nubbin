@@ -1,7 +1,7 @@
 import { Puck, type PuckApi } from "@measured/puck";
-import { PuckApiBridge } from "@nubbin/studio-ui";
 import { fireEvent, render, screen } from "@testing-library/react";
 import { expect, test } from "vitest";
+import { PuckApiBridge } from "./PuckApiBridge";
 import { StudioOutline } from "./StudioOutline";
 
 // A real Puck carries the store the outline reads and selects through — the same tree the

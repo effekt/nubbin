@@ -57,6 +57,10 @@ the host while retaining Nubbin's accessible page list and creation flow.
 and hover previews. The host injects the preview URL builder, so the package owns the editor
 experience without assuming a framework route or deployment prefix.
 
+`StudioOutline` provides the recursive page tree, slot fullness, folding, selection, and palette
+icons. It accepts the registry-derived icon and slot maps, keeping the visual tree independent of
+the host application's catalog location.
+
 Consumers that supply their own presentation do not need the stylesheet or these components.
 
 `StudioEditor` owns draft folding, debounced saves, issue projection, publish outcomes, and Puck's

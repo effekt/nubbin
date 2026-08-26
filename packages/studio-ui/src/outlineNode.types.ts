@@ -1,4 +1,4 @@
-/** One block as the outline lists it: the node's id and type, and its declared areas —
+/** One block as Studio's outline lists it: the node's id and type, and its declared areas —
  * named slots holding other blocks — in declaration order. */
 export interface OutlineNode {
   id: string;
