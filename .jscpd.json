@@ -48,6 +48,7 @@
     "**/RichTextSpanRow.tsx",
     "**/RichTextToolbar.tsx",
     "**/SubFieldControl.tsx",
+    "**/to*PuckField.tsx",
     "**/*Defaults.ts",
     "**/examples/**"
   ]

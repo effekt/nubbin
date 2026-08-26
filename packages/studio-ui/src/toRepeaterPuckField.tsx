@@ -1,6 +1,7 @@
 import type { CustomField } from "@measured/puck";
 import type { FieldNode } from "@nubbin/core";
-import { RepeaterField, SubFieldControl } from "@nubbin/studio-ui";
+import { RepeaterField } from "./RepeaterField";
+import { SubFieldControl } from "./SubFieldControl";
 
 /** The Puck field for an array whose rows the description reaches: a custom field whose
  * render is the studio's repeater, carrying the whole description so the rows recurse

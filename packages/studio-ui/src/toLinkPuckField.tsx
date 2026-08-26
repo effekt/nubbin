@@ -1,5 +1,6 @@
 import type { CustomField } from "@measured/puck";
-import { type HintedFieldNode, LinkTextField } from "@nubbin/studio-ui";
+import type { HintedFieldNode } from "./hintedField.types";
+import { LinkTextField } from "./LinkTextField";
 
 /** The Puck field for a string the catalog hints as a link: a custom field whose render is
  * the studio's link control — live format check, quiet note, Open when valid, and the
