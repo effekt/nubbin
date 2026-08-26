@@ -103,6 +103,37 @@ module.exports = {
       to: { path: "^packages/(react|next)/" },
     },
     {
+      name: "studio-headless-imports-no-ui-runtime",
+      severity: "error",
+      comment:
+        "@nubbin/studio is the headless transport and server-handler package. React, Puck, " +
+        "Next, and the assembled UI belong in @nubbin/studio-ui.",
+      from: { path: "^packages/studio/src" },
+      to: {
+        path:
+          "(^|/)node_modules/(react|react-dom|next|@measured/puck)(/|$)|" +
+          "^(react|react-dom|next|@measured/puck)(/|$)|^packages/(react|studio-ui)/",
+      },
+    },
+    {
+      name: "studio-ui-imports-no-node-builtins",
+      severity: "error",
+      comment:
+        "@nubbin/studio-ui is a portable React editor package. Server IO remains behind " +
+        "@nubbin/studio contracts.",
+      from: { path: "^packages/studio-ui/src" },
+      to: { dependencyTypes: ["core"] },
+    },
+    {
+      name: "studio-ui-imports-no-host-framework",
+      severity: "error",
+      comment:
+        "@nubbin/studio-ui is portable across React hosts; host-framework behavior belongs " +
+        "in the consuming application.",
+      from: { path: "^packages/studio-ui/src" },
+      to: { path: "(^|/)node_modules/next(/|$)|^next(/|$)" },
+    },
+    {
       name: "no-deep-package-imports",
       severity: "error",
       comment:

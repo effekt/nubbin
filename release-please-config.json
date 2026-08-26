@@ -24,13 +24,16 @@
     },
     "packages/studio": {
       "component": "studio"
+    },
+    "packages/studio-ui": {
+      "component": "studio-ui"
     }
   },
   "plugins": [
     {
       "type": "linked-versions",
       "groupName": "nubbin",
-      "components": ["cli", "core", "next", "react", "store-fs", "studio"],
+      "components": ["cli", "core", "next", "react", "store-fs", "studio", "studio-ui"],
       "merge": false
     }
   ]

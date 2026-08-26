@@ -3,7 +3,7 @@
 import "./issuesFlow.css";
 import type { PuckApi } from "@measured/puck";
 import { type AuthorIssue, patchEditorStatus } from "@nubbin/studio";
-import { useEditorStatus } from "@nubbin/studio/react";
+import { useEditorStatus } from "@nubbin/studio-ui";
 import type { RefObject } from "react";
 import { useCallback, useRef } from "react";
 import { focusIssueField } from "./focusIssueField";

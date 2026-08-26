@@ -1,5 +1,5 @@
 import { type FieldNode, zodAdapter } from "@nubbin/core";
-import { ConsumerOriginContext } from "@nubbin/studio/consumer-origin";
+import { ConsumerOriginContext } from "@nubbin/studio-ui";
 import { render, screen } from "@testing-library/react";
 import { expect, test } from "vitest";
 import { z } from "zod";

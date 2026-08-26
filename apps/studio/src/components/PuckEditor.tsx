@@ -4,7 +4,7 @@ import { type Data, Puck, type PuckApi } from "@measured/puck";
 import "@measured/puck/puck.css";
 import "./puckTheme.css";
 import "./canvasOverlay.css";
-import type { PublishOutcome, StudioEditorProps } from "@nubbin/studio";
+import type { PublishOutcome } from "@nubbin/studio";
 import {
   editorStatusStore,
   foldPuckChange,
@@ -15,8 +15,7 @@ import {
   toSlotConstraintsByBlock,
   toSlotNamesByBlock,
 } from "@nubbin/studio";
-import { ConsumerOriginContext } from "@nubbin/studio/consumer-origin";
-import { useDraftSave } from "@nubbin/studio/draft-save";
+import { ConsumerOriginContext, type StudioEditorProps, useDraftSave } from "@nubbin/studio-ui";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { toPuckConfig } from "../nubbin/toPuckConfig";
 import { OutcomeNotice } from "./OutcomeNotice";

@@ -1,5 +1,5 @@
 import { join } from "node:path";
-import { defineStudioConfig } from "@nubbin/studio";
+import { defineStudioConfig } from "@nubbin/studio-ui/config";
 import { fixtureRoutes } from "demo/fixtures/fixtureRoutes";
 import { blockRegistry } from "demo/src/nubbin/blockRegistry";
 import { catalog } from "demo/src/nubbin/catalog";

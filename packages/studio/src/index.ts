@@ -1,9 +1,6 @@
 export type { ArtifactOperation } from "./artifactOperation.types";
 export type { ArtifactRequestHandlerOptions } from "./artifactRequestHandlerOptions.types";
 export type { AuthorIssue } from "./authorIssue.types";
-/** The React context type exposed by the optional consumer-origin entry. */
-export type ConsumerOriginContextType =
-  typeof import("./ConsumerOriginContext").ConsumerOriginContext;
 export { createArtifactRequestHandler } from "./createArtifactRequestHandler";
 export { createDraftSaveRequestHandler } from "./createDraftSaveRequestHandler";
 export { createHistoryRequestHandler } from "./createHistoryRequestHandler";
@@ -14,7 +11,6 @@ export { createRouteRequestHandler } from "./createRouteRequestHandler";
 export type { StatusStore } from "./createStatusStore";
 export { createStatusStore } from "./createStatusStore";
 export { createStudioHttpClient } from "./createStudioHttpClient";
-export { defineStudioConfig } from "./defineStudioConfig";
 export type { DraftSave } from "./draftSave.types";
 export type { EditorStatus } from "./editorStatus.types";
 export { editorStatusStore } from "./editorStatusStore";
@@ -37,16 +33,11 @@ export type { PublishedDraft, PublishOperation } from "./publishOperation.types"
 export type { PublishOutcome, PublishSuccess } from "./publishOutcome.types";
 export type { PublishRequestHandlerOptions } from "./publishRequestHandlerOptions.types";
 export type { PublishTimings } from "./publishTimings.types";
+export type { PuckComponentData, PuckData } from "./puckData.types";
 export type { RollbackOperation } from "./rollbackOperation.types";
 export type { RollbackOutcome } from "./rollbackOutcome.types";
 export type { RouteCreateOutcome } from "./routeCreateOutcome.types";
 export type { SaveDraftOperation } from "./saveDraftOperation.types";
-/** The adapter type exposed by the optional Puck entry; this type-only edge keeps the default
- * runtime entry free of Puck while making every published source entry visible to graph checks. */
-export type PuckAdapter = typeof import("./puckAdapter").puckAdapter;
-export type { PuckComponentData, PuckData } from "./puckData.types";
-export type { StudioConfig, StudioEditorConfig, StudioViewport } from "./studioConfig.types";
-export type { StudioDraftSaver, StudioEditorProps } from "./studioEditorProps.types";
 export type { StudioHttpClient } from "./studioHttpClient.types";
 export type { StudioHttpClientOptions } from "./studioHttpClientOptions.types";
 export type { StudioOperations } from "./studioOperations.types";

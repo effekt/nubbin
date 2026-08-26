@@ -3,7 +3,7 @@
 import "./publishControl.css";
 import type { PublishOutcome, PublishSuccess, StudioOperations } from "@nubbin/studio";
 import { patchEditorStatus } from "@nubbin/studio";
-import { useEditorStatus } from "@nubbin/studio/react";
+import { useEditorStatus } from "@nubbin/studio-ui";
 import { useCallback, useRef, useState } from "react";
 import { publishLabel } from "../nubbin/publishLabel";
 import { PublishButton } from "./PublishButton";

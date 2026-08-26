@@ -3,7 +3,7 @@
 import "./issuesFlow.css";
 import "./linkField.css";
 import { FieldLabel } from "@measured/puck";
-import { ConsumerOriginContext } from "@nubbin/studio/consumer-origin";
+import { ConsumerOriginContext } from "@nubbin/studio-ui";
 import { useContext } from "react";
 import { linkNoteLine } from "../nubbin/linkNoteLine";
 import { openLinkLabel } from "../nubbin/openLinkLabel";

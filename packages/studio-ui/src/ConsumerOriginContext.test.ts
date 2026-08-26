@@ -1,5 +1,5 @@
 import { expect, test } from "vitest";
 
-test("the consumer-origin entry exports exactly its context", async () => {
+test("exports the consumer origin context", async () => {
   expect(Object.keys(await import("./ConsumerOriginContext"))).toEqual(["ConsumerOriginContext"]);
 });

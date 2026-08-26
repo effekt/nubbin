@@ -2,7 +2,7 @@
 
 import "./inspectorSkin.css";
 import { usePuck } from "@measured/puck";
-import { useEditorStatus } from "@nubbin/studio/react";
+import { useEditorStatus } from "@nubbin/studio-ui";
 import type { ReactNode } from "react";
 import { InspectorCallout } from "./InspectorCallout";
 import { InspectorDocsLinks } from "./InspectorDocsLinks";

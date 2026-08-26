@@ -210,6 +210,9 @@ importers:
       '@nubbin/studio':
         specifier: workspace:*
         version: link:../../packages/studio
+      '@nubbin/studio-ui':
+        specifier: workspace:*
+        version: link:../../packages/studio-ui
       demo:
         specifier: workspace:*
         version: link:../../examples/demo
@@ -433,6 +436,25 @@ importers:
 
   packages/studio:
     dependencies:
+      '@nubbin/core':
+        specifier: workspace:*
+        version: link:../core
+    devDependencies:
+      tsup:
+        specifier: 'catalog:'
+        version: 8.5.1(jiti@2.7.0)(postcss@8.5.26)(supports-color@8.1.1)(tsx@4.23.12)(typescript@6.0.3)(yaml@2.9.0)
+      typescript:
+        specifier: 'catalog:'
+        version: 6.0.3
+      vitest:
+        specifier: 'catalog:'
+        version: 4.1.10(@types/node@25.9.2)(happy-dom@20.11.2)(vite@8.2.1(@types/node@25.9.2)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.50.0)(tsx@4.23.12)(yaml@2.9.0))
+      zod:
+        specifier: 'catalog:'
+        version: 4.4.3
+
+  packages/studio-ui:
+    dependencies:
       '@measured/puck':
         specifier: 'catalog:'
         version: 0.20.2(@types/react@19.2.17)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
@@ -442,6 +464,9 @@ importers:
       '@nubbin/react':
         specifier: workspace:*
         version: link:../react
+      '@nubbin/studio':
+        specifier: workspace:*
+        version: link:../studio
     devDependencies:
       '@testing-library/react':
         specifier: 'catalog:'
@@ -464,10 +489,6 @@ importers:
       vitest:
         specifier: 'catalog:'
         version: 4.1.10(@types/node@25.9.2)(happy-dom@20.11.2)(vite@8.2.1(@types/node@25.9.2)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.50.0)(tsx@4.23.12)(yaml@2.9.0))
-      zod:
-        specifier: 'catalog:'
-        version: 4.4.3
-
 packages:
 
   '@11ty/gray-matter@1.0.0':

@@ -1,7 +1,7 @@
 import type { ComponentConfig, Field } from "@measured/puck";
 import type { Block, CatalogEntry } from "@nubbin/core";
 import { zodAdapter } from "@nubbin/core";
-import { puckAdapter } from "@nubbin/studio/puck";
+import { puckAdapter } from "@nubbin/studio-ui";
 import type { ComponentType } from "react";
 import { isTopLevelFieldPath } from "./isTopLevelFieldPath";
 import { toHintedFields } from "./toHintedFields";
