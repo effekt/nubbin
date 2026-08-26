@@ -1,6 +1,6 @@
 "use client";
 
-import { blockCalloutLine } from "../nubbin/blockCalloutLine";
+import { blockCalloutLine } from "./blockCalloutLine";
 
 interface InspectorCalloutProps {
   blockName: string;

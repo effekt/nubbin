@@ -1,4 +1,4 @@
-/* The selected block's docs links, a quiet row at the top of the fields panel. Tokens come
+/* The selected block's docs links form a quiet row at the top of the fields panel. Tokens come
  * from `.nubbin-studio` in puckTheme.css. */
 .nubbin-inspector-docs {
   display: flex;

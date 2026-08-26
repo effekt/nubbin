@@ -2,13 +2,13 @@
 
 import "./inspectorSkin.css";
 import { usePuck } from "@measured/puck";
-import { useEditorStatus } from "@nubbin/studio-ui";
 import type { ReactNode } from "react";
 import { InspectorCallout } from "./InspectorCallout";
 import { InspectorDocsLinks } from "./InspectorDocsLinks";
 import { InspectorFoot } from "./InspectorFoot";
 import { InspectorHead } from "./InspectorHead";
 import { InspectorPageNote } from "./InspectorPageNote";
+import { useEditorStatus } from "./useEditorStatus";
 
 interface FieldsWithCalloutProps {
   children: ReactNode;

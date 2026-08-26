@@ -65,6 +65,10 @@ the host application's catalog location.
 block and resolves nested field paths—including collapsed repeater rows—without requiring the host
 to understand Puck's generated field identifiers.
 
+`FieldsWithCallout` packages the inspector shell: selected-block identity and position, optional
+documentation links, issue summaries, page guidance, and autosave reassurance around the host's
+field controls.
+
 Consumers that supply their own presentation do not need the stylesheet or these components.
 
 `StudioEditor` owns draft folding, debounced saves, issue projection, publish outcomes, and Puck's
