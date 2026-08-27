@@ -44,6 +44,19 @@ twelve memberships, and installing the command line does not install a validator
 topology, and they earn their place by changing what is installed and what the first step says.
 Detecting either of them is behaviour a command can have over a plan, not a field of one.
 
+## Rendering a questionnaire
+
+The field order and the values each field accepts are exported as `PLAN_FIELDS`; the words somebody
+reads while choosing are `PLAN_PROMPTS`, a question per field and a label per value. An interface
+walks the first and renders the second, and keeps no list of its own.
+
+Both are published rather than kept private for the reason the object is. A form declaring its own
+fields holds the copy the table exists to be the only one of, and a form writing its own wording
+asks a different question from the terminal about the same answer — which is three wizards again,
+arrived at through the vocabulary rather than through the model. `PLAN_PROMPTS` is a mapped type
+over `PLAN_FIELDS`, so a field added to the table does not compile until it has a question, and a
+value added to a field does not compile until it has a label.
+
 ## Identity
 
 A plan encodes to `v1-` and one character per field, in the order of the table above. An enum

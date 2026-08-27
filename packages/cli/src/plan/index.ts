@@ -18,7 +18,9 @@ export type {
 } from "./diagram.types";
 export { encodePlan } from "./encodePlan";
 export { planSchema } from "./plan.schema";
-export type { Plan } from "./plan.types";
+export type { Plan, PlanFields, PlanPrompts } from "./plan.types";
+export { PLAN_FIELDS } from "./planFields.constants";
 export type { PlanIssue } from "./planIssue.types";
 export { planIssues } from "./planIssues";
+export { PLAN_PROMPTS } from "./planPrompts.constants";
 export type { Step } from "./step.types";
