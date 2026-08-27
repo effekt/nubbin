@@ -2,6 +2,7 @@ import { addCommand } from "./addCommand";
 import { checkCommand } from "./checkCommand";
 import type { CommandEntry } from "./command.types";
 import { compileCommand } from "./compileCommand";
+import { doctorCommand } from "./doctorCommand";
 import { historyCommand } from "./historyCommand";
 import { moveCommand } from "./moveCommand";
 import { publishCommand } from "./publishCommand";
@@ -22,6 +23,7 @@ export const COMMANDS: Record<string, CommandEntry> = {
   add: { run: addCommand, takes: 2, places: true },
   check: { run: checkCommand, takes: 0 },
   compile: { run: compileCommand, takes: 1 },
+  doctor: { run: doctorCommand, takes: 0 },
   history: { run: historyCommand, takes: 1 },
   move: { run: moveCommand, takes: 2, places: true },
   publish: { run: publishCommand, takes: 1, moves: true },

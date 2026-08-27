@@ -13,6 +13,7 @@ export const USAGE = `nubbin <command> [arguments]
   set <route> <id> <path> <value>   set one prop; JSON when it parses, the string otherwise
   status [route]             what is live, everywhere or at one route
   check                      every live route against the registry as it is now
+  doctor                     diagnose catalog, registry, pointer, and artifact contracts
   help                       this text, as an answer rather than a complaint
 
   --config <path>            a config file, instead of searching upward for one

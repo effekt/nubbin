@@ -57,6 +57,7 @@ nubbin set /pricing 4f9d… title Spring      # set one prop; JSON when it parse
 nubbin history /pricing                     # what the route has pointed at, newest first
 nubbin status                               # every live route, or one of them
 nubbin check                                # every live route against the registry as it is now
+nubbin doctor                               # diagnose Nubbin's project and live-state contracts
 nubbin help                                 # this list, as an answer rather than an error
 ```
 
@@ -110,5 +111,11 @@ hash, never a warning beside it, and never a complaint about why there is not on
 `nubbin check` reads every route pointer, compares each artifact against the registry it was
 compiled with, and exits `1` when a page that is live depends on a block that changed version or
 left the registry. That makes it a required check on a pull request, not a report someone reads.
+
+`nubbin doctor` is the wider, still read-only diagnostic. It checks that catalog and registry
+names agree; that the manifest contains one valid pointer per route; that each pointer resolves
+to an artifact for the same hash and route; and that those artifacts fit the current registry.
+It does not prescribe or inspect authentication, hosting, databases, caches, or any other
+consumer-owned implementation behind the callbacks.
 
 Read the [Nubbin documentation](https://nubbin.io) for the complete command reference. MIT.
