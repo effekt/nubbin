@@ -1,5 +1,5 @@
 import { createDraftSaveRequestHandler } from "@nubbin/studio";
-import { saveDraft } from "../../../nubbin/saveDraft";
+import { saveDraftOperation } from "../../../nubbin/saveDraftOperation";
 
 /**
  * One whole-document save. The editor is controlled, so the draft must hold exactly what
@@ -11,19 +11,4 @@ import { saveDraft } from "../../../nubbin/saveDraft";
  * An unknown route is 400 like a malformed body — the same client fault, a save naming a
  * route the drafts do not hold.
  */
-export const POST = createDraftSaveRequestHandler(({ route, version, expectedRevision }) => {
-  const result = saveDraft(route, version, expectedRevision);
-  if ("missing" in result) return { status: "missing" };
-  if ("conflict" in result) {
-    return {
-      status: "conflict",
-      revision: result.revision,
-      version: result.version,
-    };
-  }
-  return {
-    status: "saved",
-    revision: result.revision,
-    ...(result.issues === undefined ? {} : { issues: result.issues }),
-  };
-});
+export const POST = createDraftSaveRequestHandler(saveDraftOperation);

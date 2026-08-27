@@ -131,6 +131,27 @@ entire routing seam; the package has no knowledge of Next.js or the demo. The ho
 the initial draft revision and a compare-and-save callback. The callback returns either the next
 revision, the current remote draft and revision, or a missing-document outcome.
 
+### Test the save contract
+
+`@nubbin/studio/testing` exports `runDraftSaveContract`, the same executable suite the
+reference filesystem host passes. Give it a factory for isolated host state:
+
+```ts
+import { runDraftSaveContract } from "@nubbin/studio/testing";
+
+runDraftSaveContract("my host", () => ({
+  saveDraft,
+  route: "/pricing",
+  missingRoute: "/not-held",
+  version: initialVersion,
+  revision: initialRevision,
+}));
+```
+
+The suite verifies the observable boundary: a current revision chains, a stale revision
+returns the remote draft, a missing route is explicit, and two writers racing from one revision
+produce one save and one conflict. Storage technology and actor identity remain host choices.
+
 ## The seam to the consumer
 
 `nubbin.config.ts` is the deployment boundary. It supplies the catalog, compile registry,
