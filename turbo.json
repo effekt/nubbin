@@ -25,6 +25,7 @@
         "@nubbin/store-fs#build",
         "@nubbin/studio#build"
       ],
+      "env": ["NUBBIN_DOCS_BASE_URL", "NUBBIN_DOCS_URL"],
       "inputs": ["$TURBO_DEFAULT$", "$TURBO_ROOT$/docs/**"],
       "outputs": ["dist/**", ".next/**", "!.next/cache/**"]
     },

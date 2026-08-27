@@ -21,12 +21,11 @@ renders — the strongest demo this project can have is a page on this site buil
 Nubbin blocks, and a static generator forecloses it. That argument is the deciding one; the
 rest is quality of life.
 
-The site serves at `effekt.github.io/nubbin`, which is where GitHub Pages serves the
-artifact CI deploys, and the repository is the only thing that address depends on. Rejected:
-a path on [the canonical origin](one-origin-serves-both-audiences.md) — that origin serves
-one hand-written file today, so the documentation would reach it through a second host and a
-rewrite, buying a nicer address at the cost of a hop nobody asked for and a deploy path that
-can fail on its own. It moves there when the origin has something to serve it from.
+The zero-configuration build serves at `effekt.github.io/nubbin`, where GitHub Pages deploys the
+artifact. Its URL and base path are inputs rather than private dependencies, so
+[the developer origin](each-audience-has-its-own-origin.md) can mount the same application while
+the public repository remains sufficient to build it. Rejected: moving the build into the company
+site. That would make a public fork depend on infrastructure it cannot access.
 
 Rejected: staying on a static generator and accepting a patch per theme defect. Right while
 the site was a handful of documents nobody styled; the defect list is what ended it.

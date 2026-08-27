@@ -1,17 +1,20 @@
+import process from "node:process";
 import type { Config } from "@docusaurus/types";
 
 import { codeTheme } from "./codeTheme";
+
+const siteUrl = process.env.NUBBIN_DOCS_URL ?? "https://effekt.github.io";
+const baseUrl = process.env.NUBBIN_DOCS_BASE_URL ?? "/nubbin/";
 
 // The site renders `docs/` in place — the documents' one home on `main` — so the content
 // root points up and out of this workspace rather than at a copy of anything.
 const config: Config = {
   title: "Nubbin",
   tagline: "Your components. Their pages. A page builder that lives inside your codebase.",
-  // Where GitHub Pages serves the artifact CI deploys, recorded in docs/decisions/
-  // ("The design site runs Docusaurus"). The address is the repository's own, so it moves
-  // when the decision does and not when a domain is bought.
-  url: "https://effekt.github.io",
-  baseUrl: "/nubbin/",
+  // GitHub Pages remains the zero-configuration deployment. Another host supplies both values
+  // when it mounts the same independently built application at a different origin or path.
+  url: siteUrl,
+  baseUrl,
   organizationName: "effekt",
   projectName: "nubbin",
   onBrokenLinks: "throw",
