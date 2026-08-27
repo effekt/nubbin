@@ -10,7 +10,7 @@ const baseUrl = process.env.NUBBIN_DOCS_BASE_URL ?? "/nubbin/";
 // root points up and out of this workspace rather than at a copy of anything.
 const config: Config = {
   title: "Nubbin",
-  tagline: "Your components. Their pages. A page builder that lives inside your codebase.",
+  tagline: "Your code. Their pages. A page builder that lives inside your codebase.",
   // GitHub Pages remains the zero-configuration deployment. Another host supplies both values
   // when it mounts the same independently built application at a different origin or path.
   url: siteUrl,
@@ -52,7 +52,7 @@ const config: Config = {
     navbar: {
       title: "Nubbin",
       items: [
-        { href: "https://nubbin.io", label: "Site", position: "right" },
+        { href: "https://nubbin.dev", label: "Developers", position: "right" },
         { href: "https://www.npmjs.com/org/nubbin", label: "npm", position: "right" },
         { href: "https://github.com/effekt/nubbin", label: "GitHub", position: "right" },
       ],
@@ -90,7 +90,7 @@ const config: Config = {
           ],
         },
       ],
-      copyright: "MIT licensed. Your components. Their pages.",
+      copyright: "MIT licensed. Your code. Their pages.",
     },
   },
 };

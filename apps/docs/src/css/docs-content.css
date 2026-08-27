@@ -1,0 +1,101 @@
+.theme-doc-markdown {
+  max-width: 52rem;
+}
+.theme-doc-markdown p,
+.theme-doc-markdown li {
+  line-height: 1.75;
+}
+.theme-doc-markdown > header + p,
+.theme-doc-markdown > h1 + p {
+  color: var(--ifm-color-content-secondary);
+  font-size: 1.1rem;
+  line-height: 1.7;
+}
+.theme-doc-markdown h1 {
+  max-width: 18ch;
+  font-size: clamp(2.8rem, 5vw, 4.6rem);
+  line-height: 1;
+}
+.theme-doc-markdown h2 {
+  margin-top: 3.75rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--nubbin-line);
+  font-size: clamp(1.9rem, 3vw, 2.65rem);
+}
+.theme-doc-markdown h3 {
+  margin-top: 2.5rem;
+  font-size: 1.55rem;
+}
+.theme-doc-markdown a {
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+}
+.theme-code-block {
+  overflow: hidden;
+  border: 1px solid var(--nubbin-line);
+  border-radius: 0.25rem;
+  box-shadow: 0.45rem 0.45rem 0 rgb(201 82 34 / 0.12);
+}
+.theme-code-block pre {
+  border-radius: 0;
+}
+code {
+  font-size: 0.88em;
+}
+.table-of-contents {
+  font-size: 0.78rem;
+}
+.table-of-contents__link--active {
+  color: var(--ifm-color-primary);
+  font-weight: 600;
+}
+table {
+  display: table;
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+}
+table th {
+  color: var(--ifm-color-content-secondary);
+  font-family: var(--ifm-font-family-monospace);
+  font-size: 0.7rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+table th,
+table td {
+  padding: 0.8rem 0.9rem;
+  border-color: var(--nubbin-line);
+}
+blockquote {
+  margin-inline: 0;
+  padding: 1.25rem 1.5rem;
+  border: 1px solid var(--nubbin-line);
+  border-left: 3px solid var(--nubbin-rust);
+  color: var(--ifm-font-color-base);
+  background: var(--ifm-background-surface-color);
+}
+.pagination-nav__link {
+  border-color: var(--nubbin-line);
+  border-radius: 0.25rem;
+  transition:
+    border-color 160ms ease,
+    transform 160ms ease;
+}
+.pagination-nav__link:hover {
+  border-color: var(--ifm-color-primary);
+  transform: translateY(-2px);
+}
+@media (max-width: 996px) {
+  .theme-doc-markdown {
+    max-width: none;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .pagination-nav__link {
+    transition: none;
+  }
+  .pagination-nav__link:hover {
+    transform: none;
+  }
+}
