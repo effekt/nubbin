@@ -84,6 +84,7 @@ is the better failure.
 | `set <route> <id> <path> <value>` | set one prop on one node. The value is JSON when it parses as any, and the string as given otherwise |
 | `status [route]` | what is live, everywhere or at one route |
 | `check` | every live route against the registry as it is now |
+| `doctor` | diagnose catalog, registry, pointer, artifact, and compatibility contracts without writing |
 | `help` | the usage text, on stdout and exiting `0` — asking for it succeeds |
 
 A command refuses an argument it does not read. `check` takes no route; `--origin` is refused
@@ -157,6 +158,17 @@ Reads every pointer, reads each artifact, and runs `checkCompatibility` over the
 compiles nothing and writes nothing, and it exits non-zero when a page that is live depends on a
 block that changed version or left the registry — which is what makes it a required check on a
 pull request rather than a report someone reads.
+
+### `doctor`
+
+Reads the catalog, registry, manifest, and artifacts and checks only the boundaries Nubbin
+defines: catalog and registry names agree, routes are unique and valid, pointer match kinds are
+derived correctly, hashes resolve to the artifact they name, artifacts belong to their pointer's
+route, and live block versions remain compatible. It never writes or moves a pointer.
+
+The command deliberately does not diagnose authentication, authorization, deployment topology,
+databases, caches, or hosting. Those remain behind consumer callbacks and adapters; an error
+thrown by one is passed through instead of being reinterpreted as a Nubbin contract problem.
 
 ## Publishing through a running application
 

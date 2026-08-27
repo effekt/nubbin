@@ -1,6 +1,7 @@
-import { checkCompatibility, formatCompatibilityReport, type LiveRoute } from "@nubbin/core";
+import { checkCompatibility, formatCompatibilityReport } from "@nubbin/core";
 import type { Command } from "./command.types";
 import { ExitCode } from "./exitCode.constants";
+import { loadLiveRoutes } from "./loadLiveRoutes";
 
 /**
  * The CI gate: every pointer against the registry as the code has it now, exiting Refused when
@@ -10,13 +11,7 @@ import { ExitCode } from "./exitCode.constants";
  * nothing is exactly the breakage this command exists to catch.
  */
 export const checkCommand: Command = async (config) => {
-  const manifest = await config.store.manifest();
-  const live: LiveRoute[] = await Promise.all(
-    manifest.routes.map(async (pointer) => ({
-      pointer,
-      artifact: await config.store.read(pointer.hash),
-    })),
-  );
+  const { live } = await loadLiveRoutes(config.store);
   const report = checkCompatibility(live, config.registry);
   return {
     lines: formatCompatibilityReport(report).split("\n"),
