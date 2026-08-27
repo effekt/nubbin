@@ -90,13 +90,14 @@ carries instead is where the generated ones are:
 |---|---|
 | What a package exports, and what each unit is for | The `CATALOG.md` beside it — `packages/core/CATALOG.md` and its siblings |
 | Which rules, agents and skills exist, and when each applies | `.claude/CATALOG.md` |
+| Which document covers a topic — every page's title, summary and keywords, by directory | `docs/CATALOG.md` |
 
 The `paths` frontmatter under `.claude/rules/` is routing, not catalog metadata. Before editing,
 match every candidate path against it and read each matching rule completely.
 
-`scripts/catalog.mjs` writes both from the declarations and frontmatter they describe, and
+`scripts/catalog.mjs` writes all three from the declarations and frontmatter they describe, and
 `pnpm install` runs it — so they are on disk after the install any checkout already performs,
-and gitignored, so they never conflict. They are files to open, not context that arrives: no
+and gitignored, so they never conflict. If one is missing, the tree was never installed: run `pnpm install`. They are files to open, not context that arrives: no
 agent is given one, and a read-only agent receives no rule file either unless an edit matches
 its glob. Open one before writing a helper; the thing you are about to add is often there.
 

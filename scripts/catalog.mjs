@@ -37,7 +37,14 @@ export const CATALOGS = [
   { dir: "packages/store-fs", kind: "package" },
   { dir: "apps/studio", kind: "package" },
   { dir: ".claude", kind: "claude" },
+  { dir: "docs", kind: "docs" },
 ];
+
+/**
+ * Not indexed: the API reference is written by the docs build and gitignored, so a row for it
+ * would name a page that exists only after a build; `media/` holds no document.
+ */
+const NOT_A_DOC = /^(reference\/generated|media)(\/|$)|(?:^|\/)CATALOG\.md$/;
 
 const UNIT = /\.tsx?$/;
 const NOT_A_UNIT = /\.test\.tsx?$|(?:^|\/)index\.ts$/;
@@ -183,6 +190,29 @@ export function renderClaude({ rules, agents, skills }) {
   ].join("\n");
 }
 
+/**
+ * One table per directory, in path order, so a reader looking for a topic scans a section rather
+ * than the corpus. Every cell is the document's own frontmatter; `keywords` is optional and an
+ * absent one is an empty cell, for the reason a missing doc comment is.
+ */
+export function renderDocs(rows) {
+  const sections = new Map();
+  for (const row of rows) {
+    const dir = dirname(row.path);
+    if (!sections.has(dir)) sections.set(dir, []);
+    sections.get(dir).push(row);
+  }
+  const out = ["# docs", ""];
+  for (const [dir, docs] of sections) {
+    const body = docs.map(
+      (doc) =>
+        `| [${escapeCell(doc.title ?? basename(doc.path))}](${doc.path}) | ${escapeCell(doc.summary ?? "")} | ${escapeCell(doc.keywords ?? "")} |`,
+    );
+    out.push(`## ${dir}`, "", table(["Document", "Summary", "Keywords"], body), "");
+  }
+  return out.join("\n");
+}
+
 async function walk(dir, found = []) {
   let entries;
   try {
@@ -240,11 +270,24 @@ async function claudeCatalog(root, dir) {
   return renderClaude({ rules, agents, skills });
 }
 
+async function docsCatalog(root, dir) {
+  const base = join(root, dir);
+  const files = (await walk(base))
+    .map((file) => posix(relative(base, file)))
+    .filter((file) => file.endsWith(".md") && !NOT_A_DOC.test(file))
+    .sort((a, b) => a.localeCompare(b, "en", { sensitivity: "base" }));
+  const rows = [];
+  for (const path of files) rows.push(await frontmatterOf(base, path));
+  return renderDocs(rows);
+}
+
+const BUILDERS = { claude: claudeCatalog, docs: docsCatalog, package: packageCatalog };
+
 /** Every catalog this repository has, keyed by the path it is written to. */
 export async function generate(root) {
   const written = new Map();
   for (const { dir, kind } of CATALOGS) {
-    const build = kind === "claude" ? claudeCatalog : packageCatalog;
+    const build = BUILDERS[kind];
     written.set(`${dir}/CATALOG.md`, await build(root, dir));
   }
   return written;
