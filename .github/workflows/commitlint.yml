@@ -7,6 +7,13 @@ name: commit messages
 on:
   pull_request:
     types: [opened, edited, synchronize, reopened]
+  # And what actually landed. The merge settings that make the title the commit are admin-only
+  # and invisible to the workflow token — asserting them from here returned four empty fields —
+  # so the gate reads the outcome instead: the commit on main has one parent and a conventional
+  # subject, which is all release-please ever sees. It fails after the merge, which is late, and
+  # is the earliest anything unprivileged can know.
+  push:
+    branches: [main]
 
 permissions:
   contents: read
@@ -17,7 +24,7 @@ jobs:
     # Dependabot's subject line is fixed by the tool ("Bump x from 4 to 7") and trips
     # config-conventional's subject-case rule. Its scope is already constrained by the
     # commit-message prefix in dependabot.yml, so there is nothing left here to check.
-    if: github.actor != 'dependabot[bot]'
+    if: github.event_name == 'pull_request' && github.actor != 'dependabot[bot]'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
@@ -37,22 +44,6 @@ jobs:
       - name: Install
         run: pnpm install --no-frozen-lockfile --ignore-scripts
 
-      # The title lint below only means something while the title is what gets merged. That is a
-      # repository setting, set by hand and visible to nobody reading the tree, so it is asserted
-      # here: squash only, and the squash subject is the pull request title — not the commit
-      # message a single-commit pull request would otherwise fall back to.
-      - name: Assert the squash merge takes the pull request title
-        env:
-          GH_TOKEN: ${{ github.token }}
-        run: |
-          settings=$(gh api "repos/${{ github.repository }}" \
-            -q '[.allow_merge_commit, .allow_rebase_merge, .allow_squash_merge, .squash_merge_commit_title] | @tsv')
-          expected=$(printf 'false\tfalse\ttrue\tPR_TITLE')
-          if [ "$settings" != "$expected" ]; then
-            echo "::error::merge settings drifted (merge, rebase, squash, squash title): $settings — expected $expected"
-            exit 1
-          fi
-
       - name: Lint the pull request title
         env:
           TITLE: ${{ github.event.pull_request.title }}
@@ -64,3 +55,26 @@ jobs:
           --from ${{ github.event.pull_request.base.sha }}
           --to ${{ github.event.pull_request.head.sha }}
           --verbose
+
+  landed:
+    if: github.event_name == 'push'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile --ignore-scripts
+
+      - name: The landed commit is a squash with a conventional subject
+        run: |
+          parents=$(git rev-list --parents -n 1 HEAD | wc -w)
+          if [ "$parents" -ne 2 ]; then
+            echo "::error::$(git log -1 --format=%h) has $((parents - 1)) parents — a merge commit landed on main; the repository must be squash-only"
+            exit 1
+          fi
+          git log -1 --format=%B | pnpm exec commitlint --verbose
