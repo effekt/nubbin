@@ -1,6 +1,6 @@
 {
   "name": "@nubbin/studio",
-  "version": "0.4.1",
+  "version": "0.5.0",
   "description": "Headless contracts, transports, and HTTP boundaries for a self-hosted Nubbin Studio.",
   "keywords": [
     "nubbin",

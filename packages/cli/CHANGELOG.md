@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.5.0](https://github.com/effekt/nubbin/compare/cli-v0.4.1...cli-v0.5.0) (2026-08-27)
+
+
+### Features
+
+* **cli:** add contract doctor ([#649](https://github.com/effekt/nubbin/issues/649)) ([4bedc92](https://github.com/effekt/nubbin/commit/4bedc920383da5879a5aa8deb8a7d812629052a2))
+
 ## [0.4.1](https://github.com/effekt/nubbin/compare/cli-v0.4.0...cli-v0.4.1) (2026-08-26)
 
 
