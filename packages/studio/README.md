@@ -19,3 +19,27 @@ Use this package alone to build a custom interface. Install `@nubbin/studio-ui` 
 Nubbin's supplied React editor layer. The application hosting Studio owns whether and how to
 add authentication and authorization, plus networking, storage, and deployment. Nubbin owns
 the editor contract and compile-and-publish behavior. MIT.
+
+## Prove a draft host
+
+Import the executable contract from the optional testing entry in a Vitest file. The factory
+returns fresh host state for every case; Nubbin does not need to know where that state lives.
+
+```ts
+import { runDraftSaveContract } from "@nubbin/studio/testing";
+
+runDraftSaveContract("postgres", async () => {
+  const seeded = await seedDraft();
+  return {
+    saveDraft,
+    route: seeded.route,
+    missingRoute: "/not-held",
+    version: seeded.version,
+    revision: seeded.revision,
+  };
+});
+```
+
+The suite checks revision chaining, stale-write refusal, missing-document outcomes, and atomic
+competition between two writers. It tests the behavior of the callback, not its database,
+transport, identity model, or deployment.
