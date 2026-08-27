@@ -1,13 +1,30 @@
 name: commit messages
 
-on: pull_request
+# `edited` as well: a squash merge takes the pull request title as the commit subject
+# (`squash_merge_commit_title: COMMIT_OR_PR_TITLE`), and release-please reads that subject to
+# decide the version bump — so a title that is not conventional is a release that does not
+# happen, however clean the commits under it were. A retitle has to re-run this.
+on:
+  pull_request:
+    types: [opened, edited, synchronize, reopened]
+  # And what actually landed. The merge settings that make the title the commit are admin-only
+  # and invisible to the workflow token — asserting them from here returned four empty fields —
+  # so the gate reads the outcome instead: the commit on main has one parent and a conventional
+  # subject, which is all release-please ever sees. It fails after the merge, which is late, and
+  # is the earliest anything unprivileged can know.
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+  pull-requests: read
 
 jobs:
   commitlint:
     # Dependabot's subject line is fixed by the tool ("Bump x from 4 to 7") and trips
     # config-conventional's subject-case rule. Its scope is already constrained by the
     # commit-message prefix in dependabot.yml, so there is nothing left here to check.
-    if: github.actor != 'dependabot[bot]'
+    if: github.event_name == 'pull_request' && github.actor != 'dependabot[bot]'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
@@ -27,9 +44,35 @@ jobs:
       - name: Install
         run: pnpm install --no-frozen-lockfile --ignore-scripts
 
+      - name: Lint the pull request title
+        env:
+          TITLE: ${{ github.event.pull_request.title }}
+        run: printf '%s\n' "$TITLE" | pnpm exec commitlint --verbose
+
       - name: Lint commits in this PR
         run: >
           pnpm exec commitlint
           --from ${{ github.event.pull_request.base.sha }}
           --to ${{ github.event.pull_request.head.sha }}
           --verbose
+
+  landed:
+    if: github.event_name == 'push'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 2
+      - uses: pnpm/setup@v2
+        with:
+          install: false
+      - run: pnpm install --no-frozen-lockfile --ignore-scripts
+
+      - name: The landed commit is a squash with a conventional subject
+        run: |
+          parents=$(git rev-list --parents -n 1 HEAD | wc -w)
+          if [ "$parents" -ne 2 ]; then
+            echo "::error::$(git log -1 --format=%h) has $((parents - 1)) parents — a merge commit landed on main; the repository must be squash-only"
+            exit 1
+          fi
+          git log -1 --format=%B | pnpm exec commitlint --verbose

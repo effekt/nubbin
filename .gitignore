@@ -29,6 +29,7 @@ coverage/
 /packages/*/CATALOG.md
 /apps/*/CATALOG.md
 /.claude/CATALOG.md
+/docs/CATALOG.md
 
 # jscpd report output
 report/

@@ -104,13 +104,16 @@ hyphens. **Gate:** `tests/documentationStructure.test.mjs`.
 title: Domain Model
 summary: Every entity, what owns it, and where it lives across the three layers
 status: draft | stable | reference
+keywords: entity, ownership, layer   # optional — terms a reader would search for and the summary lacks
 ---
 ```
 
 The summary is the only thing a reader sees about a document they have not opened, so it says
 what the document is *for*, never restating the title. It is also what a generated index
-quotes: `.claude/CATALOG.md` renders every rule's `paths` and `summary` as a row, so a rule
-that describes itself badly reads badly everywhere.
+quotes: `.claude/CATALOG.md` renders every rule's `paths` and `summary` as a row, and
+`docs/CATALOG.md` renders every page's `title`, `summary` and `keywords`, so a document that
+describes itself badly reads badly everywhere. **Gate:** `tests/docFrontmatter.test.mjs` for the
+presence of `title` and `summary`; nothing for whether they say anything.
 
 The `docs/README.md` table is a separate, hand-written reading order — **gate:**
 `tests/documentationStructure.test.mjs` verifies every file appears in it; the accuracy of a

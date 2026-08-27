@@ -6,8 +6,8 @@ status: stable
 
 # No committed catalog of the codebase
 
-`scripts/catalog.mjs` writes one `CATALOG.md` per package and one for `.claude`, quoting every
-cell from the declaration or the frontmatter beside it. `pnpm install` runs it, and `.gitignore` holds a bare
+`scripts/catalog.mjs` writes one `CATALOG.md` per package, one for `.claude`, and one for `docs/`,
+quoting every cell from the declaration or the frontmatter beside it. `pnpm install` runs it, and `.gitignore` holds a bare
 `CATALOG.md` — the name is reserved for a generated index, so a new package's catalog is ignored
 without anyone adding a line.
 
@@ -29,3 +29,10 @@ files collided even when the code did not.
 
 Rejected: a JSON sidecar beside the markdown. A second serialization of the same facts is a
 second thing to drift, and nothing reads it that cannot read a table.
+
+The `docs/` index is the same decision applied to prose. `AGENTS.md` stays committed and short —
+it is what an agent reads with the hooks disabled or before an install — and points at
+`docs/CATALOG.md` for the page-by-page map, which is derived from each document's `title`,
+`summary` and optional `keywords`. Routing by frontmatter rather than by a hand-written table
+means a new page is findable the moment it has a summary, which `tests/docFrontmatter.test.mjs`
+requires of every page.

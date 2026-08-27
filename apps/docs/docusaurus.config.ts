@@ -34,6 +34,9 @@ const config: Config = {
       {
         docs: {
           path: "../../docs",
+          // Generated on install and gitignored, so it is on one machine and not another; a
+          // site built from it would differ by who built it.
+          exclude: ["CATALOG.md"],
           routeBasePath: "/",
           sidebarPath: "./sidebars.config.ts",
           // The function form: the string form is joined to the doc's path relative to this

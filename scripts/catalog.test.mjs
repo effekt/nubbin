@@ -9,6 +9,7 @@ import {
   primaryOf,
   readFrontmatter,
   renderClaude,
+  renderDocs,
   renderPackage,
 } from "./catalog.mjs";
 
@@ -256,6 +257,38 @@ describe("renderClaude", () => {
   });
 });
 
+describe("renderDocs", () => {
+  const rendered = renderDocs([
+    {
+      path: "concepts/api.md",
+      title: "API",
+      summary: "The surface.",
+      keywords: "compile, publish",
+    },
+    {
+      path: "decisions/core-depends-on-nothing.md",
+      title: "Core depends on nothing",
+      summary: "Why.",
+    },
+  ]);
+
+  it("groups documents by directory, one table each", () => {
+    expect(rendered).toContain("## concepts\n\n| Document | Summary | Keywords |");
+    expect(rendered).toContain("## decisions\n\n| Document | Summary | Keywords |");
+  });
+
+  it("quotes title, summary and keywords from the frontmatter", () => {
+    expect(rendered).toContain("| [API](concepts/api.md) | The surface. | compile, publish |");
+  });
+
+  it("leaves absent keywords as an empty cell, never filler", () => {
+    expect(rendered).toContain(
+      "| [Core depends on nothing](decisions/core-depends-on-nothing.md) | Why. |  |",
+    );
+    expect(rendered).not.toMatch(/TODO|none/);
+  });
+});
+
 describe("generate", () => {
   it("emits one catalog per package and top-level surface, and nothing else", async () => {
     const written = await generate(ROOT);
@@ -263,6 +296,7 @@ describe("generate", () => {
       [
         ".claude/CATALOG.md",
         "apps/studio/CATALOG.md",
+        "docs/CATALOG.md",
         "packages/cli/CATALOG.md",
         "packages/core/CATALOG.md",
         "packages/next/CATALOG.md",
@@ -288,6 +322,14 @@ describe("generate", () => {
     expect(paths.indexOf("src/NubbinError.ts")).toBeGreaterThan(
       paths.indexOf("src/catalog.types.ts"),
     );
+  });
+
+  it("indexes the documents git holds and not the generated reference", async () => {
+    const docs = (await generate(ROOT)).get("docs/CATALOG.md");
+    expect(docs).toContain("(decisions/core-depends-on-nothing.md)");
+    expect(docs).toContain("(contributing/gates.md)");
+    expect(docs).not.toContain("reference/generated/");
+    expect(docs).not.toContain("CATALOG.md)");
   });
 
   it("has no row for a test file or a re-export barrel", async () => {
