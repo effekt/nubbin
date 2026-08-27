@@ -15,6 +15,14 @@ pre-commit:
       run: pnpm exec biome check --write --no-errors-on-unmatched {staged_files}
       stage_fixed: true
 
+    # The whole tree, read-only, after the staged files were fixed. `fix` above sees only what is
+    # staged, so a config change, an override that stopped matching, or a rule that reads across
+    # files passes it and fails `pnpm verify` in CI — three Biome errors reached a pull request
+    # that way. No glob, deliberately: lefthook skips a globbed command when nothing staged
+    # matches, and this has to run on every commit. Milliseconds over the corpus.
+    lint:
+      run: pnpm exec biome check .
+
     # The whole repository suite, not `vitest related`. These assertions read files as *data*
     # rather than importing them, so `related` selects none of them for any staged file — the
     # selection would be empty and the run would be a tick over nothing. The `repo` project is
