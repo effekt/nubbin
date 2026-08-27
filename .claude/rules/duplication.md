@@ -31,8 +31,10 @@ pnpm dupes                     # before: 0.71%
 pnpm dupes                     # after:  0.71% or lower — anything higher is yours to remove
 ```
 
-A rise is the finding, wherever it lands relative to the threshold. **Gate:** `jscpd` at the
-threshold only — nothing measures the delta, which is why this rule exists.
+A rise is the finding, wherever it lands relative to the threshold. **Gate:**
+`tests/duplicationRatchet.test.mjs` holds the clone count and the exclusion count to
+`duplication.baseline.json`, in both directions — `pnpm dupes:baseline` records a drop, and
+nothing records a rise.
 
 ### Two similar blocks are one unit and a parameter
 
@@ -61,12 +63,14 @@ excluded because extracting the shared part was inconvenient is duplication with
 detector turned off, and the next similar file is excluded on the precedent.
 
 Do not add a file to `ignore`. Do not raise `threshold`. Do not lower `minTokens` for one
-change and restore it for the next. **Gate:** none — the config is editable, and a review
-that reads `.jscpd.json` in the diff is the only thing that sees it.
+change and restore it for the next. **Gate:** the ratchet above counts `ignore` entries;
+`threshold` and `minTokens` are editable, and a review that reads `.jscpd.json` in the diff is
+the only thing that sees them.
 
 ## Checklist
 
 - [ ] `pnpm dupes` before and after, and the after number is not higher
+- [ ] `duplication.baseline.json` moved down or not at all
 - [ ] Anything jscpd names is extracted, not excluded
 - [ ] `.jscpd.json` is untouched, or the diff explains a reason that is not similarity
 - [ ] The shared unit has a name that says what it is, per `source-layout.md`

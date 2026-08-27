@@ -42,6 +42,7 @@
     "a11y": "node scripts/check-a11y.mjs --check",
     "pinned-deps": "syncpack lint",
     "dupes": "jscpd packages",
+    "dupes:baseline": "node scripts/duplicationBaseline.mjs",
     "knip": "knip",
     "boundaries": "node -e \"const{existsSync}=require('node:fs');const d=['packages','apps','examples'].filter(existsSync);if(!d.length){console.log('no source directories yet');process.exit(0)}require('node:child_process').execFileSync('pnpm',['exec','depcruise',...d,'--config','.dependency-cruiser.cjs'],{stdio:'inherit'})\"",
     "guardrail": "turbo run build --filter=demo^... && pnpm --filter demo run guardrail",

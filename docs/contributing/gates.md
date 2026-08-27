@@ -53,6 +53,7 @@ porting them into the suite first would be a rewrite thrown away twice.
 | `tests/gettingStarted.test.mjs` | the first page installs every `@nubbin/*` package the demo consumes and no other, and shows every field the demo's simplest block declares |
 | `tests/proseDuplication.test.mjs` | one claim, one home — a run of 12 words written twice across `docs/`, `AGENTS.md`, the rules and the skills, measured after fences, comments and tables are stripped out |
 | `tests/planFiles.test.mjs` | no plan-shaped file under `docs/` — a `plans/` directory, a date-stamped filename, or a stem that is the word itself |
+| `tests/duplicationRatchet.test.mjs` | the clone count jscpd reports and the number of files `.jscpd.json` excludes never exceed `duplication.baseline.json`, and the baseline never exceeds them — `pnpm dupes:baseline` records a drop |
 | `tests/docFrontmatter.test.mjs` | every document beneath `docs/` carries a `title` and a `summary`, and a `keywords` line, where present, is a comma-separated list — the fields `docs/CATALOG.md` quotes |
 | `tests/ruleFiles.test.mjs` | rule files carry `paths`, stay under 150 lines, end in a checklist, declare a gate, and glob at least one tracked file |
 | `tests/rulesCiteRealGates.test.mjs` | a rule naming a `check-*.mjs` or a skill names one that exists |
