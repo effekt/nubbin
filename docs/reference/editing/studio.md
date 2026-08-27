@@ -93,10 +93,11 @@ consumer's stylesheet actually breaks at.
 
 Drafts start as the demo's committed fixtures. A committed edit writes to a gitignored
 `.drafts/` directory beside the app, with one file per route. Drafts survive a restart, while
-a checkout without draft files serves the fixtures unchanged. This directory is an autosave
-slot rather than the authoring store; the
-[domain model](../../concepts/domain-model.md#what-this-model-has-not-settled) leaves the
-authoring-store contract open. The studio
+a checkout without draft files serves the fixtures unchanged. This directory is the reference
+host's autosave implementation. Packaged Studio has no storage destination: the consuming
+application injects the compare-and-save callback described below. That is the same
+[host-owned infrastructure boundary](../../decisions/the-repository-ships-contracts-not-operated-infrastructure.md)
+used by every external effect. The studio
 [runs unauthenticated behind whatever gate the deployment provides](../../decisions/the-studio-does-not-own-identity.md).
 
 ## Running it

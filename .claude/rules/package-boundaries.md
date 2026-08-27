@@ -32,10 +32,13 @@ export async function compile(document: Document, catalog: Catalog): Promise<Art
 Component types reach `core` as a generic parameter, never as an import. That keeps
 `defineBlock` type-safe in React without `core` knowing React exists.
 
-### IO lives behind an adapter interface
+### IO lives behind an injected contract
 
-Storage, auth, and asset handling are interfaces declared in `core` and implemented in an
-adapter package. `core` never calls one; it returns a value the caller persists.
+Storage, optional identity and access policy, assets, networking, and collaboration enter
+through a public interface or callback. A domain-wide contract belongs in `core`; a
+surface-specific effect belongs in that surface's headless package. Implementations live in
+adapter packages or the consuming host. `core` never performs IO; it returns a value the
+caller persists.
 
 ```ts
 // CORRECT — the contract lives in core, the implementation does not
@@ -79,7 +82,8 @@ hashing rather than importing it passes every structural check, which is why
 ## Checklist
 
 - [ ] `packages/core/src/**` imports only `@standard-schema/spec` and its own modules
-- [ ] New IO is an interface in `core` plus an implementation in an adapter package
+- [ ] New IO is an injected public contract at the narrowest package boundary
+- [ ] Implementations live in an adapter package or the consuming host
 - [ ] `react` / `react-dom` / `next` appear in `peerDependencies`, not `dependencies`
 - [ ] Anything a consumer needs is exported from the package's `src/index.ts`
 - [ ] No package imports a sibling adapter

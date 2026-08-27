@@ -21,7 +21,7 @@ import { defineStudioConfig } from "@nubbin/studio-ui/config";
 ```
 
 The default entry is a client module and exports the React hooks and Puck adapter. The consuming
-application continues to own its host framework, routing, authentication, and storage.
+application continues to own its host framework, routing, optional access boundary, and storage.
 
 The optional `StudioToolbar`, `PublishControl`, `OutcomeNotice`, and `StudioStatusBar` components
 provide Nubbin's default editor chrome, publishing workflow, and feedback. Import their stylesheet

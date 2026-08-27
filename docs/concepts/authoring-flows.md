@@ -169,19 +169,24 @@ Either way, `Artifact` needs to record a layout dependency the way it already re
 
 **Trigger:** a second author opens a document already open elsewhere.
 
-The minimum viable answer is a pessimistic lock per `Document`, explicitly unconfirmed as
-sufficient. Nothing below is designed yet —
-no lock entity, no lock/unlock call on `ArtifactStore`, no session heartbeat. Minimally it
-needs a lock owner, an acquired-at timestamp, and a release condition (explicit close, or a
-heartbeat/TTL for a crashed tab). The second author sees the canvas and inspector render
-normally, but every commit is refused and an indicator names who holds the document — they
-can read and preview, not edit.
+Every save carries the revision from the last successful read. The host callback performs an
+atomic compare-and-save. On a stale revision it returns the remote document, and the studio
+reconciles the shared base, local draft, and remote draft. Non-overlapping edits merge;
+overlapping edits remain explicit conflicts until the author chooses a value. This protects
+work without requiring accounts, locks, sockets, or a Nubbin-operated service.
+
+Presence, cursors, selections, and a shared event ledger are optional host integrations. A
+host may connect emitted editor events to polling, SSE, WebSockets, a synchronization engine,
+or nothing. Presence improves awareness; the compare-and-save boundary remains responsible
+for correctness. See
+[The repository ships contracts, not operated infrastructure](../decisions/the-repository-ships-contracts-not-operated-infrastructure.md).
 
 **Failure modes:**
 
 | Mode | Consequence |
 |---|---|
-| Stale lock | First author's tab crashes without releasing. No TTL/heartbeat is specified, so the document can be locked out indefinitely with no defined "break glass" unlock. |
-| Granularity | A document-wide lock blocks two authors editing unrelated nodes in the same page (a hero and a footer) even though the flat `{roots, elements}` model doesn't require that granularity — node-level locking or per-node merge is deferred, not ruled out. |
-| Direct API writes bypass the lock | Nothing gates `elements[id] = …` behind lock ownership — the lock is a studio-UI convention unless a server enforces it, and that enforcement isn't specified. |
-| Interacts with layout propagation | Locking the layout document doesn't stop a page depending on it from publishing mid-edit under the render-time-resolution candidate above — the lock's blast radius is one document, the propagation's is every dependent page. |
+| Host save is not atomic | Two accepted writes can overwrite one another. The callback implementation, not presence UI, must enforce the expected revision. |
+| Both authors change the same value | The studio preserves both candidates and requires an explicit choice; it does not silently use last-write-wins. |
+| Authors change different values | The three-way merge accepts both changes and retries against the latest remote revision. |
+| Tab reconnects after being offline | Its next save follows the same stale-revision path; no separate offline protocol is required. |
+| Presence transport fails | Awareness becomes stale, but save correctness does not change. |

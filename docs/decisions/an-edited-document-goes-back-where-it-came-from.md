@@ -54,10 +54,9 @@ visible. Refusing by name is the only outcome that tells the truth.
 
 ## What it beat
 
-**A store interface in `core` for documents.** The authoring store is genuinely undecided, and
-deciding it here — in the package furthest from where a document lives — is how a contract gets
-set by whichever caller needed it first. `save` is deliberately a hook on a config rather than an
-interface with a name, so replacing it later costs a consumer one function.
+**A store interface in `core` for documents.** A document store would prescribe an infrastructure
+shape where the architecture needs one effect. `save` is deliberately a host callback: a file,
+database, API, ledger, or synchronization engine can implement it without entering `core`.
 
 **Editing and publishing in one shot, persisting nothing.** `set … --publish` would work once and
 lie afterwards: the document on disk still holds the old value, so the next publish silently

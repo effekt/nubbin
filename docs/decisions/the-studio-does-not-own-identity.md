@@ -1,30 +1,30 @@
 ---
 title: "The studio does not own identity"
-summary: Auth is an adapter where the studio must know its caller, and none behind your own gate is supported
+summary: Caller identity is optional host input, separate from the structural identifiers Nubbin uses
 status: stable
 ---
 
 # The studio does not own identity
 
-The studio writes drafts and moves the production pointer for a route, and nothing said who
-may open it — a question that gets expensive late, because a session boundary retrofitted
-after the studio exists runs through the publish path.
+The studio writes drafts and can request publication, but that does not imply an account
+system. A personal site may have one operator, overwrite one file, and label every change
+`"studio"`. A larger deployment may need authentication, authorization, audit identity, and
+presence. Both must fit the same editor contract.
 
-Two deployments are supported. Behind the consumer's own gate — a VPN, a reverse proxy, the
-application's existing auth — the studio carries no authentication of its own, and that is a
-supported deployment rather than a misconfiguration: self-hosting makes it a complete answer
-for a large share of installs, provided the need for the gate is documented rather than
-assumed. Where the studio itself must know the caller, the boundary is an `IdentityProvider`
-adapter the consumer implements. That shape is reserved, not invented here:
-[`adapters.md`](https://github.com/effekt/nubbin/blob/main/.claude/rules/adapters.md) already
-scopes itself to `packages/auth-*`, and
-[`package-boundaries.md`](https://github.com/effekt/nubbin/blob/main/.claude/rules/package-boundaries.md)
-already places auth among the interfaces `core` declares and an adapter implements. No
-`IdentityProvider` interface is declared yet; the publish and edit routes state in their own
-comments that they are unauthenticated on purpose.
+Nubbin therefore requires no user account, globally unique author id, session, or identity
+provider. If a host needs an access boundary, it puts one in front of the studio or enforces
+it inside the callbacks it supplies. If it needs attribution, it supplies a provenance label
+such as an email address, internal user id, `"anonymous"`, `"cli"`, or `"studio"`.
+`DocumentVersion.createdBy` records that label; it is not an authentication credential or
+proof of identity.
 
-Built-in users and sessions in the authoring store were rejected: they make Nubbin the owner
-of an account system, a kind of data ownership the architecture refuses for everything that
-is not a page. The live question was narrower — whether an unauthenticated default is
-tolerable in a product whose job is publishing to production — and self-hosting answers it:
-the operator who deploys the studio is the operator who controls what stands in front of it.
+Document ids, node ids, and draft revisions are a different concern. They address content so
+edits, references, and reconciliation remain deterministic. The CLI and reference studio can
+mint them, while callers may provide readable values such as `"home"` and `"hero"`. They need
+only be stable in the scope where they are referenced; Nubbin does not require a central id
+service. A host may overwrite the same document in the same file on every save.
+
+Built-in users, sessions, and a mandatory `IdentityProvider` were rejected. They would turn
+an optional host policy into operated infrastructure and make the simplest file-backed setup
+pay for a multi-user concern. Presence and audit integrations may carry host-supplied actor or
+connection labels, but those labels do not change the identity boundary.
