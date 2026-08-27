@@ -1,5 +1,12 @@
 # @nubbin/core
 
+## [0.5.0](https://github.com/effekt/nubbin/compare/core-v0.4.1...core-v0.5.0) (2026-08-27)
+
+
+### Features
+
+* **studio:** reconcile concurrent draft saves ([#645](https://github.com/effekt/nubbin/issues/645)) ([407e705](https://github.com/effekt/nubbin/commit/407e705d1094207de523e503e76ad51061ce3e2c))
+
 ## [0.4.1](https://github.com/effekt/nubbin/compare/core-v0.4.0...core-v0.4.1) (2026-08-26)
 
 
