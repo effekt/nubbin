@@ -1,43 +1,124 @@
-/**
- * The palette is the colour system artifact, which carries the measured contrast for
- * every pair used here — values are transcribed from it, never chosen here:
- * https://claude.ai/code/artifact/93952615-c490-4fa2-9427-ab6b92cac765
- */
+@import url("https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400..700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap");
+@import "./docs-content.css";
+
 :root {
-  /* Nubbin Teal carries the interface; the shade ramp stays within its hue. */
-  --ifm-color-primary: #0e5a6b;
-  --ifm-color-primary-dark: #0d515f;
-  --ifm-color-primary-darker: #0c4c5a;
-  --ifm-color-primary-darkest: #0a3f4a;
-  --ifm-color-primary-light: #106377;
-  --ifm-color-primary-lighter: #10687c;
-  --ifm-color-primary-lightest: #137591;
-  /* Canvas ground, Deep Marine ink, and the light text-dim. */
-  --ifm-background-color: #f1f4f3;
-  --ifm-font-color-base: #0b2b33;
-  --ifm-color-content-secondary: #55696e;
+  --ifm-color-primary: #873518;
+  --ifm-color-primary-dark: #792f16;
+  --ifm-color-primary-darker: #722d14;
+  --ifm-color-primary-darkest: #59291b;
+  --ifm-color-primary-light: #a9421a;
+  --ifm-color-primary-lighter: #b8461c;
+  --ifm-color-primary-lightest: #c95222;
+  --ifm-background-color: #fffdf8;
+  --ifm-background-surface-color: #faf7ef;
+  --ifm-font-color-base: #10202c;
+  --ifm-color-content-secondary: #456173;
+  --ifm-font-family-base: "IBM Plex Sans", system-ui, sans-serif;
+  --ifm-font-family-monospace: "IBM Plex Mono", ui-monospace, monospace;
+  --ifm-heading-font-family: "Fraunces", Georgia, serif;
+  --ifm-heading-font-weight: 550;
+  --ifm-navbar-background-color: rgb(255 253 248 / 0.94);
+  --ifm-navbar-shadow: 0 1px 0 rgb(16 32 44 / 0.16);
+  --ifm-footer-background-color: #10202c;
+  --ifm-code-background: #f4efe5;
+  --ifm-toc-border-color: #d9cbb6;
+  --ifm-global-radius: 0.25rem;
+  --nubbin-line: rgb(16 32 44 / 0.16);
+  --nubbin-rust: #c95222;
 }
-
 html[data-theme="dark"] {
-  /* Teal Light is Nubbin Teal's functional twin on dark grounds. */
-  --ifm-color-primary: #4fb3c7;
-  --ifm-color-primary-dark: #3aaabf;
-  --ifm-color-primary-darker: #37a1b5;
-  --ifm-color-primary-darkest: #2d8595;
-  --ifm-color-primary-light: #64bccd;
-  --ifm-color-primary-lighter: #6fc0d0;
-  --ifm-color-primary-lightest: #8fcedb;
-  /* The artifact's dark ground and surface, with its dark text-dim. */
-  --ifm-background-color: #071f25;
-  --ifm-background-surface-color: #0b2b33;
-  /* Inline code sits on the surface colour: Teal Light measures 6.11 on it, where the
-     default translucent chip lightened the ground below AA for link-coloured code. */
-  --ifm-code-background: #0b2b33;
-  --ifm-font-color-base: #f1f4f3;
-  --ifm-color-content-secondary: #9db4b9;
+  color-scheme: dark;
+  --ifm-color-primary: #fa9d76;
+  --ifm-color-primary-dark: #e87345;
+  --ifm-color-primary-darker: #dc673c;
+  --ifm-color-primary-darkest: #c95222;
+  --ifm-color-primary-light: #ffc4a8;
+  --ifm-color-primary-lighter: #ffd0ba;
+  --ifm-color-primary-lightest: #ffe1d2;
+  --ifm-background-color: #09141c;
+  --ifm-background-surface-color: #10202c;
+  --ifm-font-color-base: #f4efe5;
+  --ifm-color-content-secondary: #c7b69c;
+  --ifm-navbar-background-color: rgb(9 20 28 / 0.94);
+  --ifm-navbar-shadow: 0 1px 0 rgb(244 239 229 / 0.14);
+  --ifm-code-background: #172c39;
+  --ifm-toc-border-color: #324b5c;
+  --nubbin-line: rgb(244 239 229 / 0.14);
 }
-
-/* A link in running text is marked by more than colour alone (WCAG 1.4.1). */
-article a {
-  text-decoration: underline;
+html {
+  scroll-behavior: smooth;
+}
+body {
+  text-rendering: optimizeLegibility;
+}
+h1,
+h2,
+h3 {
+  letter-spacing: -0.025em;
+  text-wrap: balance;
+}
+h2,
+h3 {
+  scroll-margin-top: 6rem;
+}
+.navbar {
+  min-height: 4.5rem;
+  backdrop-filter: blur(14px);
+}
+.navbar__inner {
+  margin-inline: auto;
+  max-width: 88rem;
+}
+.navbar__brand {
+  margin-right: 2rem;
+}
+.navbar__title {
+  position: relative;
+  font-family: var(--ifm-heading-font-family);
+  font-size: 1.55rem;
+  letter-spacing: -0.055em;
+}
+.navbar__title::after {
+  position: absolute;
+  width: 0.34rem;
+  height: 0.34rem;
+  border-radius: 50%;
+  background: var(--nubbin-rust);
+  content: "";
+  inset: -0.04rem -0.36rem auto auto;
+}
+.navbar__link {
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+.theme-doc-sidebar-container.theme-doc-sidebar-container {
+  border-right-color: var(--nubbin-line);
+}
+.menu {
+  padding: 1.25rem 1rem;
+  font-size: 0.875rem;
+}
+.menu__link {
+  border-radius: 0.25rem;
+}
+.menu__link--active:not(.menu__link--sublist) {
+  border-left: 2px solid var(--nubbin-rust);
+}
+.footer {
+  border-top: 1px solid rgb(244 239 229 / 0.14);
+}
+.footer__title {
+  color: #fa9d76;
+  font-family: var(--ifm-font-family-monospace);
+  font-size: 0.7rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+.footer__link-item {
+  color: #d9cbb6;
+}
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
 }
