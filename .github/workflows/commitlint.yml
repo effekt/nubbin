@@ -1,6 +1,12 @@
 name: commit messages
 
-on: pull_request
+# `edited` as well: a squash merge takes the pull request title as the commit subject
+# (`squash_merge_commit_title: COMMIT_OR_PR_TITLE`), and release-please reads that subject to
+# decide the version bump — so a title that is not conventional is a release that does not
+# happen, however clean the commits under it were. A retitle has to re-run this.
+on:
+  pull_request:
+    types: [opened, edited, synchronize, reopened]
 
 jobs:
   commitlint:
@@ -26,6 +32,11 @@ jobs:
       # .claude/rules/dependencies.md exists to keep small.
       - name: Install
         run: pnpm install --no-frozen-lockfile --ignore-scripts
+
+      - name: Lint the pull request title
+        env:
+          TITLE: ${{ github.event.pull_request.title }}
+        run: printf '%s\n' "$TITLE" | pnpm exec commitlint --verbose
 
       - name: Lint commits in this PR
         run: >

@@ -71,6 +71,10 @@ bypasses turbo and runs against whatever is in `dist/` — which produces failur
 
 Node 22+ (24 in `.nvmrc`) and pnpm are required; `packageManager` pins the version.
 
+A pull request title is a conventional commit subject: the squash merge takes it as the
+commit, and release-please reads that commit for the version bump, so `commitlint.yml`
+lints the title as well as the commits.
+
 Neither a commit message nor a pull request body carries agent attribution: `commitlint.config.mjs`
 rejects the trailers and the footer, and a pull request body is checked by nobody but you.
 
