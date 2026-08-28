@@ -1,5 +1,12 @@
 # @nubbin/store-fs
 
+## [0.6.0](https://github.com/effekt/nubbin/compare/store-fs-v0.5.0...store-fs-v0.6.0) (2026-08-28)
+
+
+### Miscellaneous Chores
+
+* **store-fs:** Synchronize nubbin versions
+
 ## [0.5.0](https://github.com/effekt/nubbin/compare/store-fs-v0.4.1...store-fs-v0.5.0) (2026-08-27)
 
 
