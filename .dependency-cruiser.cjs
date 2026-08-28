@@ -134,6 +134,22 @@ module.exports = {
       to: { path: "(^|/)node_modules/next(/|$)|^next(/|$)" },
     },
     {
+      name: "cli-plan-imports-no-node-builtins",
+      severity: "error",
+      // `dependencyTypes`, not a path, for the reason the react rule above gives.
+      comment:
+        "@nubbin/cli/plan is bundled by a browser; a builtin in its graph breaks that bundle.",
+      from: { path: "^packages/cli/src/plan/" },
+      to: { dependencyTypes: ["core"] },
+    },
+    {
+      name: "cli-plan-is-self-contained",
+      severity: "error",
+      comment: "Reaching past the plan entry's own modules pulls the config loader into a bundle.",
+      from: { path: "^packages/cli/src/plan/" },
+      to: { pathNot: ["^packages/cli/src/plan/", "(^|/)@standard-schema/spec(/|$)"] },
+    },
+    {
       name: "no-deep-package-imports",
       severity: "error",
       comment:

@@ -1,10 +1,11 @@
 import { defineConfig } from "tsup";
 
-// Two entries: the library half a config file imports, and the executable the `bin` field names.
-// Types are emitted for the library only — nothing imports the executable.
+// Three entries: the library half a config file imports, the executable the `bin` field names, and
+// the plan contract a browser imports. Types are emitted for the two libraries — nothing imports
+// the executable.
 export default defineConfig({
-  entry: ["src/index.ts", "src/bin.ts"],
+  entry: ["src/index.ts", "src/bin.ts", "src/plan/index.ts"],
   format: ["esm"],
-  dts: { entry: "src/index.ts" },
+  dts: { entry: ["src/index.ts", "src/plan/index.ts"] },
   clean: true,
 });

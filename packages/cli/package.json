@@ -23,6 +23,10 @@
     ".": {
       "types": "./dist/index.d.ts",
       "import": "./dist/index.js"
+    },
+    "./plan": {
+      "types": "./dist/plan/index.d.ts",
+      "import": "./dist/plan/index.js"
     }
   },
   "bin": {
@@ -41,6 +45,7 @@
   },
   "dependencies": {
     "@nubbin/core": "workspace:*",
+    "@standard-schema/spec": "catalog:",
     "jiti": "catalog:"
   },
   "devDependencies": {

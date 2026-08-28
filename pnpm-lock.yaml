@@ -326,6 +326,9 @@ importers:
       '@nubbin/core':
         specifier: workspace:*
         version: link:../core
+      '@standard-schema/spec':
+        specifier: 'catalog:'
+        version: 1.1.0
       jiti:
         specifier: 'catalog:'
         version: 2.7.0
