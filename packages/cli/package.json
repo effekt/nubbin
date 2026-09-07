@@ -1,6 +1,6 @@
 {
   "name": "@nubbin/cli",
-  "version": "0.5.0",
+  "version": "0.6.0",
   "description": "The terminal driver for Nubbin's publish path: compile a document, publish an artifact, roll a route back, and check what is live against the blocks in code.",
   "keywords": [
     "nubbin",

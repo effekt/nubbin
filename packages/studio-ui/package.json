@@ -1,6 +1,6 @@
 {
   "name": "@nubbin/studio-ui",
-  "version": "0.5.0",
+  "version": "0.6.0",
   "description": "The optional React and Puck interface for a self-hosted Nubbin Studio.",
   "keywords": [
     "nubbin",

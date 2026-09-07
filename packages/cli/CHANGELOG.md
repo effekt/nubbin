@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.6.0](https://github.com/effekt/nubbin/compare/cli-v0.5.0...cli-v0.6.0) (2026-08-28)
+
+
+### Features
+
+* **cli:** architecture plan contract as @nubbin/cli/plan ([#659](https://github.com/effekt/nubbin/issues/659)) ([dc92695](https://github.com/effekt/nubbin/commit/dc92695478398775f4ab0fb45ca04e67a96bb69f))
+
 ## [0.5.0](https://github.com/effekt/nubbin/compare/cli-v0.4.1...cli-v0.5.0) (2026-08-27)
 
 
