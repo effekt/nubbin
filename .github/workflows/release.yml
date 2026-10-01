@@ -132,7 +132,7 @@ jobs:
             sleep 20
           done
 
-      - uses: pnpm/setup@v2
+      - uses: pnpm/setup@v3
         with:
           cache: true
           install: false
