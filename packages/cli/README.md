@@ -41,9 +41,15 @@ so a project that only publishes fixtures carries nothing it does not use.
 The file is loaded through [jiti](https://github.com/unjs/jiti), so it may import the way the
 rest of your application does — extensionless specifiers, path aliases, TypeScript throughout.
 
+`nubbin init` writes a first one for you from an architecture plan — the code the website's
+questionnaire ends in, or a plan saved as JSON — when drafts, publishing and artifacts are all
+yours to run. It prints the plan either way, never overwrites a config that is already there,
+and ends with the plan's code so it can be pasted back.
+
 ## The commands
 
 ```bash
+nubbin init v1-aaaaaaaa000aaa               # print an architecture plan and write nubbin.config.ts from it
 nubbin compile /pricing                     # would it publish, and as what hash — writes nothing
 nubbin publish /pricing                     # compile, write the artifact, then move the pointer
 nubbin unpublish /pricing                   # drop the pointer; the artifact stays where it is

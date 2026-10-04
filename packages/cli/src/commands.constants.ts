@@ -4,6 +4,7 @@ import type { CommandEntry } from "./command.types";
 import { compileCommand } from "./compileCommand";
 import { doctorCommand } from "./doctorCommand";
 import { historyCommand } from "./historyCommand";
+import { initCommand } from "./initCommand";
 import { moveCommand } from "./moveCommand";
 import { publishCommand } from "./publishCommand";
 import { removeCommand } from "./removeCommand";
@@ -18,6 +19,9 @@ import { unpublishCommand } from "./unpublishCommand";
  * count lives here rather than inside the command because it is what lets an argument nothing
  * reads be refused: `check /pricing` asks for something this release does not do, and answering
  * it by checking everything would be a lie told quietly.
+ *
+ * `init` is the one configless entry: it writes the config the others read, so the bin hands it
+ * the working directory and resolves nothing first.
  */
 export const COMMANDS: Record<string, CommandEntry> = {
   add: { run: addCommand, takes: 2, places: true },
@@ -25,6 +29,7 @@ export const COMMANDS: Record<string, CommandEntry> = {
   compile: { run: compileCommand, takes: 1 },
   doctor: { run: doctorCommand, takes: 0 },
   history: { run: historyCommand, takes: 1 },
+  init: { run: initCommand, takes: 1, configless: true },
   move: { run: moveCommand, takes: 2, places: true },
   publish: { run: publishCommand, takes: 1, moves: true },
   remove: { run: removeCommand, takes: 2 },

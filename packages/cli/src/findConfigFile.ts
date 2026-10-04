@@ -1,12 +1,6 @@
 import { dirname, join } from "node:path";
-import { pathExists } from "./pathExists";
+import { existingConfigIn } from "./existingConfigIn";
 import { repositoryRootAbove } from "./repositoryRootAbove";
-
-/**
- * TypeScript first: where both are present the `.js` is compiled output beside its own source,
- * and loading it would run a copy of the config that is one build behind.
- */
-const CONFIG_FILENAMES = ["nubbin.config.ts", "nubbin.config.js"];
 
 /**
  * The config lives beside the application it configures, so the search starts where the command
@@ -21,10 +15,8 @@ const CONFIG_FILENAMES = ["nubbin.config.ts", "nubbin.config.js"];
 export async function findConfigFile(from: string): Promise<string | null> {
   const ceiling = (await repositoryRootAbove(from)) ?? from;
   for (let dir = from; ; dir = dirname(dir)) {
-    for (const filename of CONFIG_FILENAMES) {
-      const candidate = join(dir, filename);
-      if (await pathExists(candidate)) return candidate;
-    }
+    const found = await existingConfigIn(dir);
+    if (found !== null) return join(dir, found);
     if (dir === ceiling || dirname(dir) === dir) return null;
   }
 }

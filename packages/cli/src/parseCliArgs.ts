@@ -1,4 +1,5 @@
 import { parseArgs } from "node:util";
+import { messageOf } from "./messageOf";
 import type { ParsedCli } from "./parsedCli.types";
 import { parseIndexFlag } from "./parseIndexFlag";
 import { UsageError } from "./UsageError";
@@ -43,6 +44,6 @@ export function parseCliArgs(argv: readonly string[]): ParsedCli {
       },
     };
   } catch (error) {
-    throw new UsageError(error instanceof Error ? error.message : String(error));
+    throw new UsageError(messageOf(error));
   }
 }

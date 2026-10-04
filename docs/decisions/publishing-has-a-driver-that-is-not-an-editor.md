@@ -6,11 +6,11 @@ status: stable
 
 # Publishing has a driver that is not an editor
 
-`@nubbin/cli` ships a `nubbin` executable and a `defineConfig` for the file it reads. Six
-commands drive the published surface — compile, publish, unpublish, rollback, status, check —
-and the package holds no rules of its own. Legality belongs to `compile`, cascade to
-`removeNode`, compatibility to `checkRollback`. A terminal, a CI job and an editor are three
-callers of one contract rather than three implementations of one behaviour.
+`@nubbin/cli` ships a `nubbin` executable and a `defineConfig` for the file it reads. Its
+commands drive the published surface, and the package holds no rules of its own. Legality
+belongs to `compile`, cascade to `removeNode`, compatibility to `checkRollback`. A terminal, a
+CI job and an editor are three callers of one contract rather than three implementations of one
+behaviour.
 
 Composition is the product and an editor is one way to drive it, but the only shipped way to put
 a page live was a script written against one repository's layout. Every further caller would
@@ -28,9 +28,12 @@ already does. It loses on portability: every consumer writes their own entry scr
 invocation differs in each repository, no argument is documented once, and there is nothing for a
 CI job to call by name.
 
-**A CLI that also composes documents** — `init`, and verbs that add, move or remove nodes — was
-rejected for the first release. Those verbs need somewhere to read and write documents, and
-[the authoring store has no settled
-interface](../concepts/domain-model.md#what-this-model-has-not-settled). A command minting node ids against an
-unsettled store would be deciding that contract rather than driving it, and the deciding would
-happen in the package furthest from where the contract lives.
+**A CLI that composes documents** was the close call, and it shipped on the consumer's terms
+rather than the package's. The write verbs — `add`, `remove`, `move`, `set` — read and write
+through the config's `document` and `save` callbacks, so the package drives a document store
+without defining one; the shape is
+[an edited document goes back where it came from](an-edited-document-goes-back-where-it-came-from.md).
+`init` writes configuration, never documents: a `nubbin.config.ts` derived from an architecture
+plan, which the other commands then read. A command that minted a document contract of its own
+would be deciding that contract rather than driving it, in the package furthest from where the
+contract lives, and nothing in this one does.

@@ -137,10 +137,14 @@ behind it imports a Node builtin or the config loader, so a browser bundle carri
 questionnaire runs the schema, the code and the projections that the publish path runs, rather
 than a copy of them written for the web.
 
-The terminal is the second consumer, and the reason the contract lives in this package rather than
-in the website's repository. A command handed a code has to read it under the rules the
-questionnaire wrote it under, and a decision model held only by the website is one the terminal
-would derive again from the same document — the outcome the single model exists to prevent.
+`nubbin init` is the second consumer, and the reason the contract lives in this package rather
+than in the website's repository. Handed a code or a plan file, it reads the plan under the rules
+the questionnaire wrote it under — the same schema, the same consistency rules, the same
+projections — then prints it and, where the publish path is the customer's, writes the
+`nubbin.config.ts` the other commands read; [the command line](../reference/publishing/cli.md#init)
+has what it writes and when it refuses. A decision model held only by the website is one the
+terminal would derive again from the same document — the outcome the single model exists to
+prevent.
 
 A subpath export beat widening the root entry. The root is what a `nubbin.config.ts` imports, and
 that file is loaded under Node through a TypeScript loader; folding the browser-safe surface into

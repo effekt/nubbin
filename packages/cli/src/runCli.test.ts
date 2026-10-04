@@ -1,4 +1,4 @@
-import { mkdtemp } from "node:fs/promises";
+import { mkdtemp, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { describe, expect, test } from "vitest";
@@ -60,5 +60,36 @@ describe("runCli", () => {
   test("an unknown flag stops the run before any config is loaded", async () => {
     const outcome = await runCli(["publish", "/pricing", "--orgin", "x"], await nowhere());
     expect(outcome.code).toBe(2);
+  });
+
+  test("init runs where there is no config, because it is the command that writes one", async () => {
+    const outcome = await runCli(["init", "v1-aaaaaaaa000aaa"], await nowhere());
+    expect(outcome.code).toBe(0);
+    expect(outcome.lines.at(-1)).toBe("Plan: v1-aaaaaaaa000aaa");
+  });
+
+  test("refuses --config on init, which has no config to read", async () => {
+    const argv = ["init", "v1-aaaaaaaa000aaa", "--config", "nubbin.config.ts"];
+    const outcome = await runCli(argv, await nowhere());
+    expect(outcome.lines).toEqual(["init runs before a config exists, so it reads no --config"]);
+    expect(outcome.code).toBe(2);
+  });
+
+  test("refuses a second argument to init, as for any command", async () => {
+    const outcome = await runCli(["init", "v1-aaaaaaaa000aaa", "plan.json"], await nowhere());
+    expect(outcome.lines.join("\n")).toMatch(/init reads 1 argument/);
+    expect(outcome.code).toBe(2);
+  });
+
+  test("a schema-rejected plan file prints the heading, then one indented line per issue", async () => {
+    const cwd = await nowhere();
+    await writeFile(join(cwd, "plan.json"), JSON.stringify({ framework: "vue" }));
+    const outcome = await runCli(["init", "plan.json"], cwd);
+    expect(outcome.code).toBe(2);
+    expect(outcome.lines[0]).toBe("plan.json is not a plan:");
+    expect(outcome.lines[1]).toBe("  framework: Expected one of: next, react, other.");
+    expect(outcome.lines.slice(1).every((line) => /^ {2}\w+: Expected one of: /.test(line))).toBe(
+      true,
+    );
   });
 });

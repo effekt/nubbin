@@ -33,9 +33,14 @@ export interface CommandOutcome {
 
 export type Command = (config: NubbinConfig, args: CommandArgs) => Promise<CommandOutcome>;
 
-/** One command as the bin holds it: what to run, what it reads, and whether it can publish. */
-export interface CommandEntry {
-  run: Command;
+/**
+ * A command that runs before any config exists — `init`, which writes one — so it is handed the
+ * working directory in the config's place.
+ */
+export type ConfiglessCommand = (cwd: string, args: CommandArgs) => Promise<CommandOutcome>;
+
+/** What every entry says about the arguments it reads, whichever kind of command it runs. */
+interface CommandReads {
   takes: number;
   /** Whether `--origin` means anything here — only a command that moves a pointer can use one. */
   moves?: boolean;
@@ -44,3 +49,18 @@ export interface CommandEntry {
   /** Whether `--parent`, `--slot` and `--index` mean anything here — only a command that places a node in a slot reads them. */
   places?: boolean;
 }
+
+/** The ordinary entry: the bin resolves a config, then runs the command against it. */
+interface ConfiguredCommandEntry extends CommandReads {
+  run: Command;
+  configless?: false;
+}
+
+/** An entry the bin runs with no config resolved, and refuses `--config` for. */
+interface ConfiglessCommandEntry extends CommandReads {
+  run: ConfiglessCommand;
+  configless: true;
+}
+
+/** One command as the bin holds it: what to run, what it reads, and whether it needs a config. */
+export type CommandEntry = ConfiguredCommandEntry | ConfiglessCommandEntry;
