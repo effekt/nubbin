@@ -54,6 +54,18 @@ describe("initCommand", () => {
     expect(await readFile(join(cwd, "nubbin.config.ts"), "utf8")).toBe(INIT_CONFIG_SOURCE);
   });
 
+  test("a plan file saved with a byte order mark reads as the plain one does", async () => {
+    const cwd = await directory();
+    await writeFile(join(cwd, "plan.json"), `﻿${JSON.stringify(defaultPlan)}`);
+    const outcome = await init(cwd, "plan.json");
+    expect(outcome.lines).toEqual([
+      ...DEFAULT_PRINTOUT,
+      "wrote nubbin.config.ts",
+      `Plan: ${DEFAULT_CODE}`,
+    ]);
+    expect(outcome.code).toBe(0);
+  });
+
   test("an inconsistent plan prints only its issues, writes nothing, and is refused", async () => {
     const cwd = await directory();
     const outcome = await init(cwd, "v1-aaaaaaba000aaa");

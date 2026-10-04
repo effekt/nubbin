@@ -133,7 +133,12 @@ The written file is one `nubbin.config.ts` importing `@nubbin/core`, `@nubbin/cl
 `createFsArtifactStore` over `.nubbin`, and `document` and `save` as one JSON file per route under
 `.nubbin-drafts`. Both directories resolve against the config file's own directory rather than
 the working directory, because the config search climbs: a run from a subdirectory finds this
-file, and a path relative to where the command ran would make it read a second store there.
+file, and a path relative to where the command ran would make it read a second store there. That
+resolution is `import.meta.dirname`, which makes the file an ES module. The command line loads it
+through jiti whatever your `package.json` says, but a tsconfig of yours that compiles it under
+`module: NodeNext` reports TS1470 unless the package declares `"type": "module"` — or leaves the
+config out of that tsconfig, since nothing of Nubbin's compiles it with `tsc`. Renaming it is not
+an option: the search looks for `nubbin.config.ts` and `nubbin.config.js` only.
 
 No package in this repository implements a stage Nubbin runs — [it ships contracts, not operated
 infrastructure](../../decisions/the-repository-ships-contracts-not-operated-infrastructure.md) —

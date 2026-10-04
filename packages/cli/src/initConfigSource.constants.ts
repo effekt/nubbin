@@ -21,7 +21,9 @@ import { createFsArtifactStore } from "@nubbin/store-fs";
 
 // Paths resolve against this file rather than the working directory: the command line finds
 // this config by climbing from wherever it was run, and a run from a subdirectory would
-// otherwise read and write a second store there.
+// otherwise read and write a second store there. This makes the file an ES module; the command
+// line loads it as one whatever your package's "type", but a tsconfig of yours that compiles it
+// under module "NodeNext" needs "type": "module" in package.json, or this file left out of it.
 const here = import.meta.dirname;
 
 // One JSON file per route, with the route encoded so its slashes cannot become directories.

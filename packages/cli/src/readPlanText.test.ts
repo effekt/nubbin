@@ -21,6 +21,12 @@ describe("readPlanText", () => {
     expect(await readPlanText(cwd, join(elsewhere, "plan.json"))).toBe("[]");
   });
 
+  test("a byte order mark, as PowerShell's redirection writes one, is not part of the text", async () => {
+    const cwd = await directory();
+    await writeFile(join(cwd, "plan.json"), "﻿{}");
+    expect(await readPlanText(cwd, "plan.json")).toBe("{}");
+  });
+
   test("a missing file is named as missing, as the argument was typed", async () => {
     const attempt = readPlanText(await directory(), "./plans/plan.json");
     await expect(attempt).rejects.toThrow(UsageError);
