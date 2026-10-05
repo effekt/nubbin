@@ -1,6 +1,7 @@
 /** What a person sees when the command line could not be run as given, or when they ask. */
 export const USAGE = `nubbin <command> [arguments]
 
+  init <code | file>         print an architecture plan and write nubbin.config.ts from it
   compile <route>            compile the route's document and report what it would publish as
   publish <route>            compile, write the artifact, then point the route at it
   unpublish <route>          drop the route's pointer; the artifact stays where it is

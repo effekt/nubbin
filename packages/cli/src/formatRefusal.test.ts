@@ -1,6 +1,7 @@
 import { NubbinError, NubbinIssueCode } from "@nubbin/core";
 import { describe, expect, test } from "vitest";
 import { formatRefusal } from "./formatRefusal";
+import { UsageError } from "./UsageError";
 
 describe("formatRefusal", () => {
   test("prints one line per cause, so six problems read as six", () => {
@@ -23,5 +24,17 @@ describe("formatRefusal", () => {
     expect(formatRefusal(new Error("EACCES: permission denied"))).toEqual([
       "EACCES: permission denied",
     ]);
+  });
+
+  test("a usage error's detail lines follow its message, one line each", () => {
+    const error = new UsageError("plan.json is not a plan:", ["  drafts: Expected one of: self."]);
+    expect(formatRefusal(error)).toEqual([
+      "plan.json is not a plan:",
+      "  drafts: Expected one of: self.",
+    ]);
+  });
+
+  test("a usage error with no details is its message alone", () => {
+    expect(formatRefusal(new UsageError("no config at x"))).toEqual(["no config at x"]);
   });
 });

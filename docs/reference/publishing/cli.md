@@ -11,8 +11,10 @@ commands, and the codes the process exits with. Why the publish path ships as a
 command line at all, and what this package is not allowed to decide, is
 [its own decision](../../decisions/publishing-has-a-driver-that-is-not-an-editor.md).
 
-The package installs a `nubbin` executable and exports `defineConfig`. Nothing else in the
-repository imports it.
+The package installs a `nubbin` executable and has two entry points. The root exports
+`defineConfig`, and is what a `nubbin.config.ts` imports. `@nubbin/cli/plan` publishes the
+[architecture plan contract](../../concepts/architecture-plan-contract.md), and is what the
+website's questionnaire and the `init` command below both read.
 
 ## `defineConfig`
 
@@ -49,6 +51,10 @@ and the refusal says to name anything further away with `--config`.
 `--config <path>` names one instead, and a named path that is not there is an error rather than
 the start of a search.
 
+[`init`](#init) is the one command this does not apply to. It runs before a config exists —
+it is what writes one — so it searches for nothing, refuses `--config`, and is handed the
+working directory in a config's place.
+
 The file is imported through [jiti](https://github.com/unjs/jiti). A config that lives beside an
 application imports the way that application does — extensionless specifiers, path aliases,
 TypeScript throughout — and none of that resolves under bare Node.
@@ -72,6 +78,7 @@ is the better failure.
 
 | Command | Effect |
 |---|---|
+| `init <code \| file>` | reads an architecture plan, prints it, and writes `nubbin.config.ts` where the plan's publish path is yours. Needs no config |
 | `compile <route>` | compiles and reports the hash the route would publish as. Writes nothing |
 | `publish <route>` | compiles, writes the artifact, then moves the pointer |
 | `unpublish <route>` | drops the pointer. The artifact stays readable |
@@ -92,7 +99,59 @@ by `compile`, `status` and `check` — none of them moves a pointer, so `status 
 would answer from the local store while looking like it asked the server — and `--to` is refused
 by everything but `rollback`, the one command that resolves a document version through history.
 The placement flags — `--parent`, `--slot`, `--index` — belong to `add` and `move`, the two
-commands that place a node in a slot, and are refused everywhere else the same way.
+commands that place a node in a slot, and are refused everywhere else the same way. `init` reads
+no flag at all, and `--config` is refused for it as well: there is no config for it to read.
+
+### `init`
+
+One argument, and no questions: a plan code is the whole set of answers. An argument shaped
+`v1-…` is a code, decoded under the rules the website's questionnaire encoded it with. Anything
+else is a path to a plan saved as JSON, resolved against the working directory and judged by the
+plan schema — a file the schema refuses lists each issue beneath a line naming the file, and exits
+`2` like every other argument error.
+
+A plan the schema accepts but [the consistency rules](../../concepts/architecture-plan-contract.md#consistency)
+refuse prints one `<field>: <message>` line per issue, writes nothing, and exits `1`: it is not a
+plan anybody can act on, so it is not printed as one.
+
+A consistent plan is printed in full. Its two-sentence description comes first, then `You run:`
+and `Nubbin runs:` each followed by the labels of what that party runs — `nothing` where the list
+is empty — then the numbered steps, each title followed by its command where it has one. One
+outcome line follows, and `Plan: <code>` is always the last line, so a plan that arrived as a
+file leaves with the code it can be pasted back into the website or into another `init`.
+
+The outcome line is one of three:
+
+| Plan | Outcome | Exit |
+|---|---|---|
+| `drafts`, `publishing` and `artifacts` are all yours | `wrote nubbin.config.ts` | `0` |
+| any of the three is Nubbin's | `wrote nothing: …`, naming the first such field in that order | `0` |
+| a `nubbin.config.ts` or `nubbin.config.js` is already in the working directory | `wrote nothing: <file> already exists` | `1` |
+
+The written file is one `nubbin.config.ts` importing `@nubbin/core`, `@nubbin/cli` and
+`@nubbin/store-fs`: an empty catalog and registry for the blocks to be registered into,
+`createFsArtifactStore` over `.nubbin`, and `document` and `save` as one JSON file per route under
+`.nubbin-drafts`. Both directories resolve against the config file's own directory rather than
+the working directory, because the config search climbs: a run from a subdirectory finds this
+file, and a path relative to where the command ran would make it read a second store there. That
+resolution is `import.meta.dirname`, which makes the file an ES module. The command line loads it
+through jiti whatever your `package.json` says, but a tsconfig of yours that compiles it under
+`module: NodeNext` reports TS1470 unless the package declares `"type": "module"` — or leaves the
+config out of that tsconfig, since nothing of Nubbin's compiles it with `tsc`. Renaming it is not
+an option: the search looks for `nubbin.config.ts` and `nubbin.config.js` only.
+
+No package in this repository implements a stage Nubbin runs — [it ships contracts, not operated
+infrastructure](../../decisions/the-repository-ships-contracts-not-operated-infrastructure.md) —
+so a config naming one could not typecheck, and writing nothing is the truthful outcome for such
+a plan. The existing-config check looks in the working directory alone and never climbs, since
+that is where the file would be written; it is also made after the ownership check, because
+nothing would be written for a Nubbin-run stage whether or not a config is there.
+
+One file, and nothing beside it. Where a catalog, a registry or a drafts module lives is your
+layout, and `framework: other` gives no hint of where `src/` is, so a generated tree would be
+placed wrong for most repositories; a single file can be split by its owner. The plan is not
+saved beside the config either: it is an input to configuring, and a file describing what the
+config was meant to be drifts from what the config does. The printed code is the record.
 
 ### `publish`
 
@@ -185,7 +244,7 @@ until it restarts.
 | Code | Meaning | Stream |
 |---|---|---|
 | `0` | it happened. Warnings may have been printed | stdout |
-| `1` | refused: the document, the rollback, or a page already live | stderr |
+| `1` | refused: the document, the rollback, a page already live, a plan that cannot be delivered, or a config `init` will not overwrite | stderr |
 | `2` | the command could not be run as given | stderr |
 
 Stdout carries the answer or carries nothing, so `HASH=$(nubbin compile /pricing)` captures a hash
@@ -195,6 +254,10 @@ survived, like `unknown-prop`, goes to stderr even though the exit is `0`.
 The split that matters is between `1` and `2`: a usage error means nothing was attempted, and a
 refusal means what was attempted is not legal. They are fixed in different files.
 
-A refusal prints one line per cause, each led by its
+A refusal from a command that compiles prints one line per cause, each led by its
 [issue code](compile.md#every-code) — `compile` collects, so an author with six problems is
-shown six rather than the first.
+shown six rather than the first. `init` refusing a plan prints `<field>: <message>` per issue
+instead, since a combination of answers has no code to lead with; and a `1` from an existing
+config carries the whole printout on stderr, so a script capturing stdout captures nothing. A
+usage error is one line, except a plan file the schema refuses, which lists its issues beneath
+the line naming the file.

@@ -3,7 +3,7 @@ import { mkdtemp, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join, resolve } from "node:path";
 import { promisify } from "node:util";
-import { beforeAll, describe, expect, test } from "vitest";
+import { describe, expect, test } from "vitest";
 
 const run = promisify(execFile);
 
@@ -39,10 +39,9 @@ const project = async (): Promise<string> => {
 };
 
 // The built binary, not the source: what a consumer installs is what these assertions read.
-beforeAll(async () => {
-  await run("pnpm", ["exec", "tsup"], { cwd: PACKAGE_ROOT });
-}, 120_000);
-
+// `turbo.json` builds this package before its suite runs — `@nubbin/cli#test` depends on
+// `build` — rather than this file building it, because a second suite reads the same `dist`
+// through a consumer's `node_modules` and a rebuild here cleans the directory from under it.
 describe("the nubbin binary", () => {
   test("publishes a route, finding the config beside where it was run", async () => {
     const ran = await nubbin(await project(), "publish", "/pricing");

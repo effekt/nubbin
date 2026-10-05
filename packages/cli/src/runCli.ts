@@ -3,6 +3,7 @@ import { COMMANDS } from "./commands.constants";
 import { exitCodeFor } from "./exitCodeFor";
 import { formatRefusal } from "./formatRefusal";
 import { parseCliArgs } from "./parseCliArgs";
+import { refuseUnreadConfig } from "./refuseUnreadConfig";
 import { refuseUnreadFlags } from "./refuseUnreadFlags";
 import { resolveConfig } from "./resolveConfig";
 import { UsageError } from "./UsageError";
@@ -14,7 +15,9 @@ import { usageOutcome } from "./usageOutcome";
  * place, the bin, that writes to a stream.
  *
  * The config is resolved after the command is recognised, so a typo is answered by the usage
- * text rather than by a complaint about a missing config file.
+ * text rather than by a complaint about a missing config file. A configless entry resolves none
+ * at all: `init` is the command that writes the config, so it is handed the working directory
+ * instead, and `--config` is refused for it the way any other unread flag is.
  */
 export async function runCli(argv: readonly string[], cwd: string): Promise<CommandOutcome> {
   try {
@@ -26,6 +29,8 @@ export async function runCli(argv: readonly string[], cwd: string): Promise<Comm
       throw new UsageError(`${command} reads ${entry.takes} argument(s), and was given more`);
     }
     refuseUnreadFlags(command, entry, args);
+    refuseUnreadConfig(command, entry, configPath);
+    if (entry.configless === true) return await entry.run(cwd, args);
     return await entry.run(await resolveConfig(cwd, configPath), args);
   } catch (error) {
     return { lines: formatRefusal(error), code: exitCodeFor(error) };
