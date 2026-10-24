@@ -27,7 +27,7 @@ jobs:
 
       # These scripts import nothing, so there is no install — but the runtime still comes from
       # `devEngines.runtime` like every other job, rather than from a second source.
-      - uses: pnpm/setup@v2
+      - uses: pnpm/setup@v3
         with:
           install: false
 
@@ -65,7 +65,7 @@ jobs:
           # keep the shallow clone.
           fetch-depth: ${{ github.event_name == 'pull_request' && '0' || '1' }}
 
-      - uses: pnpm/setup@v2
+      - uses: pnpm/setup@v3
         with:
           cache: true
           install: false
