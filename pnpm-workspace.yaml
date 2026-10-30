@@ -60,7 +60,7 @@ catalog:
 
   # Rendering under test — the studio and the demo both render components in vitest, so a
   # DOM implementation and the render helpers are shared and pinned here like any other pair
-  happy-dom: 20.11.2
+  happy-dom: 21.0.4
   "@testing-library/react": 16.3.2
   "@testing-library/dom": 10.4.1
 
